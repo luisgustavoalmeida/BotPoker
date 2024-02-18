@@ -7,7 +7,7 @@ import pygetwindow as gw
 import pywinauto
 import requests
 
-conexao_x = 930
+conexao_x = 850
 conexao_y = 710
 
 # Título e nome da classe da janela que você deseja verificar
@@ -19,25 +19,47 @@ precisao = 0.9
 nome_usuario = os.getlogin()
 print('nome de ususario: ', nome_usuario)
 
+# # Vero
+# telefone = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\telefone.png"
+# regiao_telefone = (conexao_x + 22, conexao_y + 109, 59, 56)
+# desconectar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\desconectar.png"
+# regiao_desconectar = (conexao_x + 361, conexao_y + 185, 109, 36)
+# conectar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\conectar.png"
+# regiao_conectar = (conexao_x + 124, conexao_y + 185, 92, 34)
+# conectado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\conectado.png"
+# regiao_conectado = (conexao_x + 70, conexao_y + 133, 92, 34)
+# fechar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\fechar.png"
+# regiao_fechar = (conexao_x + 380, conexao_y + 236, 91, 80)
+# cancelar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\cancelar.png"
+# regiao_cancelar = (conexao_x + 358, conexao_y + 204, 111, 36)
+#
+# # Modem
+# celular = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\celular.png"
+# regiao_celular = (conexao_x + 19, conexao_y + 261, 55, 22)
+# ativado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\ativado.png"
+# desativado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\desativado.png"
+# regiao_ativado_desativado = (conexao_x + 75, conexao_y + 292, 73, 22)
+
+
 # Vero
-telefone = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\telefone.png"
+telefone = r"Imagens\Conexao\telefone.png"
 regiao_telefone = (conexao_x + 22, conexao_y + 109, 59, 56)
-desconectar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\desconectar.png"
+desconectar = r"Imagens\Conexao\desconectar.png"
 regiao_desconectar = (conexao_x + 361, conexao_y + 185, 109, 36)
-conectar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\conectar.png"
+conectar = r"Imagens\Conexao\conectar.png"
 regiao_conectar = (conexao_x + 124, conexao_y + 185, 92, 34)
-conectado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\conectado.png"
+conectado = r"Imagens\Conexao\conectado.png"
 regiao_conectado = (conexao_x + 70, conexao_y + 133, 92, 34)
-fechar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\fechar.png"
+fechar = r"Imagens\Conexao\fechar.png"
 regiao_fechar = (conexao_x + 380, conexao_y + 236, 91, 80)
-cancelar = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\cancelar.png"
+cancelar = r"Imagens\Conexao\cancelar.png"
 regiao_cancelar = (conexao_x + 358, conexao_y + 204, 111, 36)
 
 # Modem
-celular = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\celular.png"
+celular = r"Imagens\Conexao\celular.png"
 regiao_celular = (conexao_x + 19, conexao_y + 261, 55, 22)
-ativado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\ativado.png"
-desativado = fr"C:\Users\{nome_usuario}\PycharmProjects\CodigoPoker\Imagens\Conexao\desativado.png"
+ativado = r"Imagens\Conexao\ativado.png"
+desativado = r"Imagens\Conexao\desativado.png"
 regiao_ativado_desativado = (conexao_x + 75, conexao_y + 292, 73, 22)
 
 tipo_conexao = "modem"
