@@ -6,6 +6,10 @@ echo Bem vindo!
 
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
+
+echo Pressione qualquer tecla para iniciar...
+pause >nul
+
 echo Iniciando em:
 REM Pausa por 1 segundo
 timeout /t 1 /nobreak >nul
@@ -25,8 +29,7 @@ echo 1
 REM Pausa por 1 segundo
 timeout /t 1 /nobreak >nul
 
-REM echo Pressione qualquer tecla para iniciar...
-Rem pause >nul
+
 
 REM Inicia o script Python
 python main.py
