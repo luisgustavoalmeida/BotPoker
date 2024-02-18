@@ -6,7 +6,7 @@ SysGet, screenHeight, 1
 
 ; Define as dimensões desejadas para a janela do prompt de comando
 novoWidth := 560
-novoHeight := 1050
+novoHeight := 1045
 
 ; Calcula a posição x para a janela (à direita da tela)
 posX := screenWidth - novoWidth
