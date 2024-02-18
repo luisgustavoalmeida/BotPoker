@@ -9,6 +9,7 @@ start "" "move_janela.bat.ahk"
 
 echo Pressione qualquer tecla para iniciar...
 pause >nul
+echo Iniciando...
 
 REM Pausa por 1 segundo
 timeout /t 1 /nobreak >nul
