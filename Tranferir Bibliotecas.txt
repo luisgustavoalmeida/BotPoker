@@ -1,0 +1,30 @@
+Crie um arquivo requirements.txt: No computador onde o projeto original está localizado,
+abra o terminal e navegue até o diretório raiz do projeto. Em seguida, execute o seguinte
+comando para gerar um arquivo requirements.txt que lista todas as bibliotecas e suas versões:
+
+pip freeze > requirements.txt
+
+Isso criará um arquivo requirements.txt no diretório atual contendo todas as bibliotecas
+instaladas e suas versões correspondentes.
+
+Copie o arquivo requirements.txt para o novo computador: Copie o arquivo requirements.txt
+para o novo computador usando um dispositivo de armazenamento externo, transferência de
+arquivos pela rede ou qualquer outro método conveniente.
+
+Instale as bibliotecas no novo computador: No novo computador, abra o terminal e navegue
+até o diretório onde o projeto será criado. Certifique-se de que o Python e o pip estejam
+instalados corretamente. Em seguida, execute o seguinte comando para instalar as bibliotecas
+listadas no arquivo requirements.txt:
+
+pip install -r requirements.txt
+
+para atualizar
+
+python.exe -m pip install --upgrade pip
+
+
+NÃO ATUALIZAR
+
+PyScreeze==0.1.29
+requests-toolbelt==0.9.1
+urllib3==1.26.16
