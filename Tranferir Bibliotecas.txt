@@ -18,7 +18,13 @@ listadas no arquivo requirements.txt:
 
 pip install -r requirements.txt
 
-para atualizar
+para remover todas as bibliotecas instaladas
+pip freeze > packages.txt && for /F "delims=" %i in (packages.txt) do pip uninstall -y "%i"
+
+pip uninstall -r requirements.txt -y
+
+
+para atualizar o instalador
 
 python.exe -m pip install --upgrade pip
 
