@@ -29,8 +29,6 @@ echo 1
 REM Pausa por 1 segundo
 timeout /t 1 /nobreak >nul
 
-
-
 REM Inicia o script Python
 python main.py
 
