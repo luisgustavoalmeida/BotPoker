@@ -16,9 +16,9 @@ timeout /t 1 /nobreak >nul
 REM Opções
 echo **             O que voce deseja fazer hoje?                **
 echo.
-echo    1. Iniciar o Script Principal (main.py)
-echo    2. Remover o Poker (RemoverPK.py)
-echo    3. Recolher (ExecutaComando.py)
+echo        1. Iniciar o Script Principal (main.py)
+echo        2. Remover o Poker (RemoverPK.py)
+echo        3. Recolher (ExecutaComando.py)
 echo.
 
 
@@ -26,26 +26,29 @@ REM Define o tempo de espera em segundos
 set "tempo_espera=15"
 timeout /t 1 /nobreak >nul
 REM Pergunta ao usuário
-echo Aguardando resposta.
-echo Voce tem %tempo_espera% segundos para escolher ou sera iniciado o Script Principal.
-choice /c 123 /t %tempo_espera% /d 1 /m "Escolha: "
+echo    Aguardando resposta.
+echo.
+echo    Voce tem %tempo_espera% segundos para escolher ou sera iniciado o
+echo    Script Principal.
+echo.
+choice /c 123 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
 if errorlevel 3 (
     echo.
-    echo Recolher selecionado.
+    echo    Recolher selecionado.
     echo.
     timeout /t 1 /nobreak >nul
     python ExecutaComando.py
 ) else if errorlevel 2 (
     echo.
-    echo Remover Poker selecionado.
+    echo    Remover Poker selecionado.
     echo.
     timeout /t 1 /nobreak >nul
     python RemoverPK.py
 ) else if errorlevel 1 (
     echo.
-    echo Executando python main.py.
+    echo    Script Principal selecionado.
     echo.
     timeout /t 1 /nobreak >nul
     python main.py
