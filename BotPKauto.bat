@@ -1,4 +1,3 @@
-
 @echo off
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
@@ -8,7 +7,8 @@ timeout /t 1 /nobreak >nul
 echo.
 echo **************************************************************
 echo **                                                          **
-echo **             Bem-vindo a Spectro Solution                 **
+echo **                     Bem-vindo a                          **
+echo **            S P E C T R O   S O L U T I O N               **
 echo **                                                          **
 echo **************************************************************
 echo.
