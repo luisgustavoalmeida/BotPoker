@@ -19,6 +19,7 @@ echo.
 echo        1. Iniciar o Script Principal (main.py)
 echo        2. Remover o Poker (RemoverPK.py)
 echo        3. Recolher (ExecutaComando.py)
+echo        4. Interface de comando e controle (Tela.py)
 echo.
 
 
@@ -34,7 +35,13 @@ echo.
 choice /c 123 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
-if errorlevel 3 (
+if errorlevel 4 (
+    echo.
+    echo    Interface de comando selecionado.
+    echo.
+    timeout /t 1 /nobreak >nul
+    python Tela.py
+) else if errorlevel 3 (
     echo.
     echo    Recolher selecionado.
     echo.
