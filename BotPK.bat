@@ -12,7 +12,7 @@ echo **            S P E C T R O   S O L U T I O N               **
 echo **                                                          **
 echo **************************************************************
 echo.
-
+timeout /t 1 /nobreak >nul
 REM Opções
 echo **             O que voce deseja fazer hoje?                **
 echo.
