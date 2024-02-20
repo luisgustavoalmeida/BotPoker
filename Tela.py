@@ -11,7 +11,6 @@ dicionario_comandos = {0: 'Senta', 1: 'Levanta', 2: 'Aposta', 3: 'Sair', 4: '500
 lugar_anterior = 9
 posicao_anterio = 0
 
-
 # Função que será chamada quando um botão for pressionado
 def button_name(text):
     print(text)
