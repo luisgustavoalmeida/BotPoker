@@ -4,6 +4,8 @@ import socket
 import threading
 import time
 
+import Aneis
+import Cofre
 import Firebase
 import Google
 import IP
@@ -11,11 +13,9 @@ import Limpa
 import Mesa
 import OCR_tela
 import Origem_pg
+import Recolher
 import Seleniun
 import Tarefas
-import Aneis
-import Recolher
-import Cofre
 
 # from Variaveis_Globais import alterar_global_aviso_sistema
 #
@@ -36,7 +36,8 @@ linha = ""
 cont_IP = 10
 guia = ""
 guia_recebida = ""
-
+blind = ""
+lugares = ""
 ja_fez_tutorial = True
 
 # Variáveis globais para as variáveis e controle da tarefa independente
@@ -47,7 +48,6 @@ fichas_novo = ""
 linha_novo = ""
 cont_IP_novo = ""
 continuar_tarefa = False
-
 posi_lista = 0
 
 # Semaphore para iniciar a tarefa independente
@@ -231,20 +231,26 @@ while True:
                 valor_fichas = 0
                 parar_tarefas = False
                 lista_tarefas_fazer = []
-                blind = '2K/4K'
-                lugares = 9
+
+                if blind == '':
+                    blind = '1k/2k'
+                if lugares == '':
+                    lugares = 9
+
                 sorte = True
 
                 if Limpa.ja_esta_logado(x_origem, y_origem) == "sair da conta":
                     parar_tarefas = True
                     break
-                if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
-                    parar_tarefas = True
-                    break
 
-                for i in range(7):
-                    Limpa.limpa_total(x_origem, y_origem)
+                for i in range(4):
+                    if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
+                        parar_tarefas = True
+                        break
                     time.sleep(2)
+
+                if parar_tarefas:
+                    break
 
                 Firebase.confirmacao_comando_resposta('Terminou de limpa')
 
@@ -317,18 +323,21 @@ while True:
                             posi_lista = 0
                         elif comando == 'Posi_1':
                             posi_lista = 1
-                        elif comando == 'Posi_2':
-                            posi_lista = 2
+                        else:
+                            posi_lista = 0
+                        comando = 'Executado'
 
+                    elif 'Lugar_' in comando:
+                        if comando == 'Lugares_9':
+                            lugares = 9
+                        elif comando == 'Lugares_5':
+                            lugares = 5
+                        else:
+                            lugares = 9
                         comando = 'Executado'
 
                     elif '/' in comando:
                         blind = comando
-                        lugares = 9
-                        # if blind == '20K/40K':
-                        #     lugares = 5
-                        # else:
-                        #     lugares = 9
                         comando = 'Executado'
                         Limpa.limpa_total(x_origem, y_origem)
                         status_comando = Mesa.escolher_blind(x_origem, y_origem, blind, lugares, posi_lista)
@@ -432,4 +441,3 @@ while True:
 
             Google.escrever_valores_lote(valores, guia, linha)  # escreve as informaçoes na planilha apartir da coluna E
             id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
-

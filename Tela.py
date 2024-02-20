@@ -5,15 +5,17 @@ from tkinter import scrolledtext
 import Firebase
 from Firebase import global_variables
 
-dicionario_comandos = \
-    {0: 'Senta', 1: 'Levanta', 2: 'Senta2', 3: 'Aposta', 4: 'Sair', 5: '1K/2K',
-     6: '2K/4K', 7: '5K/10K', 8: '10K/20K', 9: '20K/40K', 10: 'Limpa',
-     11: 'Senta3', 12: 'Posi_0', 13: 'Posi_1', 14: 'Posi_2', 15: 'Cofre'}
+dicionario_comandos = {0: 'Senta', 1: 'Levanta', 2: 'Aposta', 3: 'Sair', 4: '500/1k', 5: '1K/2K', 6: '2K/4K', 7: '5K/10K', 8: '10K/20K', 9: '20K/40K',
+                       10: 'Limpa', 11: 'Senta3', 12: 'Posicao', 13: 'Lugar', 14: 'Cofre'}
+
+lugar_anterior = 9
+posicao_anterio = 0
 
 
 # Função que será chamada quando um botão for pressionado
 def button_name(text):
     print(text)
+    global lugar_anterior, posicao_anterio
 
     # Divide a string em três partes com base no hífen
     partes = text.split("-")
@@ -28,6 +30,27 @@ def button_name(text):
             # Verifique se o item3 existe no dicionário de comandos
             if item3 in dicionario_comandos:
                 comando = dicionario_comandos[item3]
+                # Verifica se a variável "comando" contém "Posi_"
+                if "Posicao" == comando:
+                    # Itera sobre os números de 0 a 2
+                    if posicao_anterio == 0:
+                        posicao_anterio = 1
+                        comando = "Posi_1"
+                    else:
+                        posicao_anterio = 0
+                        comando = "Posi_0"
+
+                if "Lugar" == comando:
+                    # Itera sobre os números de 0 a 2
+                    if lugar_anterior == 9:
+                        lugar_anterior = 5
+                        comando = "Lugar_5"
+                    else:
+                        lugar_anterior = 9
+                        comando = "Lugar_9"
+
+                print(comando)
+
                 # Verifica o valor de item1 (primeira parte da string)
                 if item1 == "A":
                     if item2 == "0":
@@ -122,7 +145,7 @@ janela.state('zoomed')
 
 # Defina o número de colunas e linhas
 numero_colunas = 12
-numero_linhas = 16
+numero_linhas = 15
 
 # Crie as áreas de informações
 info_labels = []
