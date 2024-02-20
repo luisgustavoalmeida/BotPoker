@@ -7,26 +7,28 @@ timeout /t 1 /nobreak >nul
 
 echo.
 echo **************************************************************
+echo **                                                          **
 echo **             Bem-vindo a Spectro Solution                 **
+echo **                                                          **
 echo **************************************************************
 echo.
 
 REM Opções
-echo **O que voce deseja fazer hoje?**
+echo **             O que voce deseja fazer hoje?                **
 echo.
-echo 1. Iniciar o Script Principal (main.py)
-echo 2. Remover o Poker (RemoverPK.py)
-echo 3. Recolher (ExecutaComando.py)
+echo    1. Iniciar o Script Principal (main.py)
+echo    2. Remover o Poker (RemoverPK.py)
+echo    3. Recolher (ExecutaComando.py)
 echo.
 
 
 REM Define o tempo de espera em segundos
-set "tempo_espera=10"
+set "tempo_espera=15"
 
 REM Pergunta ao usuário
 echo Aguardando resposta.
 echo Voce tem %tempo_espera% segundos para escolher ou sera iniciado o main.
-choice /c 123 /t %tempo_espera% /d 1 /m "Escolha: (1) para main, (2) Remover Poker, (3) Recolher."
+choice /c 123 /t %tempo_espera% /d 1 /m "Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
 if errorlevel 3 (
