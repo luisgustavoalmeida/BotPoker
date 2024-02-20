@@ -5,12 +5,12 @@ start "" "move_janela.bat.ahk"
 timeout /t 1 /nobreak >nul
 
 echo.
-echo  **************************************************************
-echo  **                                                          **
-echo  **                     Bem-vindo a                          **
-echo  **            S P E C T R O   S O L U T I O N               **
-echo  **                                                          **
-echo  **************************************************************
+echo   **************************************************************
+echo   **                                                          **
+echo   **                     Bem-vindo a                          **
+echo   **            S P E C T R O   S O L U T I O N               **
+echo   **                                                          **
+echo   **************************************************************
 echo.
 timeout /t 1 /nobreak >nul
 REM Opções
