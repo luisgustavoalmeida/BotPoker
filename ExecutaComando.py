@@ -233,7 +233,7 @@ while True:
                 lista_tarefas_fazer = []
 
                 if blind == '':
-                    blind = '1k/2k'
+                    blind = '1K/2K'
                 if lugares == '':
                     lugares = 9
 
