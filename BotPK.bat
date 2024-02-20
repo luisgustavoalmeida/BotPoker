@@ -24,7 +24,7 @@ echo.
 
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
-
+timeout /t 1 /nobreak >nul
 REM Pergunta ao usuário
 echo Aguardando resposta.
 echo Voce tem %tempo_espera% segundos para escolher ou sera iniciado o Script Principal.
