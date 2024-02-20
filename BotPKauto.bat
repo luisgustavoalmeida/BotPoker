@@ -1,10 +1,24 @@
-@echo off
 
+@echo off
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
 
 timeout /t 1 /nobreak >nul
-echo Bem vindo!
+
+echo.
+echo **************************************************************
+echo **             Bem-vindo a Spectro Solution                 **
+echo **************************************************************
+echo.
+
+REM Opções
+echo **O que voce deseja fazer hoje?**
+echo.
+echo 1. Iniciar o Script Principal (main.py)
+echo 2. Remover o Poker (RemoverPK.py)
+echo 3. Recolher (ExecutaComando.py)
+echo.
+
 
 REM Define o tempo de espera em segundos
 set "tempo_espera=10"
