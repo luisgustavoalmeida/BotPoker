@@ -16,6 +16,8 @@ até o diretório onde o projeto será criado. Certifique-se de que o Python e o
 instalados corretamente. Em seguida, execute o seguinte comando para instalar as bibliotecas
 listadas no arquivo requirements.txt:
 
+python -V
+
 pip install -r requirements.txt
 
 para remover todas as bibliotecas instaladas
