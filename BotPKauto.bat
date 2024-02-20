@@ -32,7 +32,7 @@ echo.
 echo    Voce tem %tempo_espera% segundos para escolher ou sera iniciado o
 echo    Script Principal.
 echo.
-choice /c 123 /t %tempo_espera% /d 1 /m "   Escolha: "
+choice /c 1234 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
 if errorlevel 4 (
