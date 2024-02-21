@@ -254,10 +254,6 @@ while True:
 
                 Firebase.confirmacao_comando_resposta('Terminou de limpa')
 
-                # codigo deve ser escrito aqui dentro ...
-                # status_comando = xp2.pega_2xp(x_origem, y_origem)
-                # Firebase.confirmacao_comando_resposta(status_comando)
-
                 recebido1 = "padrao"
                 recebido2 = "padrao"
                 comando = None
@@ -267,20 +263,11 @@ while True:
                 status_comando = 'Valor ficha: ' + str(valor_fichas)
                 Firebase.confirmacao_comando_resposta(status_comando)
 
-                # if valor_fichas < 300000:
-                #     habilitado = False
-                # else:
-                #     habilitado = True
-                #     # status_comando = 'Aguardando comando'
-                #     status_comando = Mesa.escolher_blind(x_origem, y_origem, blind, lugares, posi_lista)
-                #     Firebase.confirmacao_comando_resposta(status_comando)
-
-                habilitado = True
                 # status_comando = 'Aguardando comando'
                 status_comando = Mesa.escolher_blind(x_origem, y_origem, blind, lugares, posi_lista)
                 Firebase.confirmacao_comando_resposta(status_comando)
 
-                while habilitado:
+                while True:
                     time.sleep(1)
                     # Limpa.limpa_total(x_origem, y_origem)
 
@@ -288,6 +275,7 @@ while True:
                     if (recebido1 != recebido2) and (recebido1 is not None):
                         recebido2 = recebido1
                         comando = recebido1.strip().title()  # remove espaços vasiao e coloca a primeira letra amiusculo
+                        Firebase.confirmacao_comando_resposta(comando)
                     print('comando :', comando)
 
                     Tarefas.recolher_tarefa_upando(x_origem, y_origem)
@@ -295,31 +283,26 @@ while True:
                     if comando == "Sair":
                         status_comando = "Saindo"
                         comando = 'Executado'
-                        Firebase.confirmacao_escravo('Saindo')  # troca o ultimo comando enviado
                         break
 
                     if comando == "TrocarIP":
                         status_comando = "Trocando ip"
-                        comando = 'Executado'
                         IP.ip_troca_agora()
 
                     elif comando == "Limpa":
                         status_comando = "Limpando"
                         comando = 'Executado'
-                        for i in range(5):
+                        for i in range(3):
                             Limpa.limpa_total(x_origem, y_origem)
+                            time.sleep(1)
 
                     elif comando == 'Levanta':
-                        # status_comando = "levantando"
-                        comando = 'Executado'
-                        Firebase.confirmacao_comando_resposta("Levantando")
                         Mesa.levantar_mesa(x_origem, y_origem)
                         Limpa.limpa_jogando(x_origem, y_origem)
                         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
                         status_comando = 'Valor ficha: ' + str(valor_fichas)
 
                     elif comando == 'Cofre':
-                        comando = 'Executado'
                         Cofre.cofre_abrir(x_origem, y_origem)
                         Cofre.cofre_sacar(x_origem, y_origem)
 
@@ -331,7 +314,6 @@ while True:
                         else:
                             posi_lista = 0
                         status_comando = 'Posição ' + str(posi_lista)
-                        comando = 'Executado'
 
                     elif 'Lugar_' in comando:
                         if comando == 'Lugar_9':
@@ -341,11 +323,9 @@ while True:
                         else:
                             lugares = 9
                         status_comando = "Escolhido " + str(lugares)
-                        comando = 'Executado'
 
                     elif '/' in comando:
                         blind = comando
-                        comando = 'Executado'
                         Limpa.limpa_total(x_origem, y_origem)
                         status_comando = Mesa.escolher_blind(x_origem, y_origem, blind, lugares, posi_lista)
 
@@ -385,6 +365,8 @@ while True:
                     elif comando == "Senta3":
                         print('Vai perder')
                         sorte = False
+
+                    if comando != 'Executado':
                         comando = 'Executado'
 
                     if status_comando_anterior != status_comando:
@@ -430,19 +412,16 @@ while True:
             Google.marca_caida(stataus_facebook, guia, linha)
             id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
-
         elif status_poker == 'Banida':
 
             print("Conta não entou, o Statos é: ", status_poker)
             Google.marca_caida(status_poker, guia, linha)
             id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
-
         elif status_poker == 'Atualizar':
 
             print("Conta não entou, o Statos é: ", status_poker)
             id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
-
 
         elif entrou_corretamente:  # se nao entrou no face
 
