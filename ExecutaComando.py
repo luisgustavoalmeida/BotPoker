@@ -329,9 +329,9 @@ while True:
                         comando = 'Executado'
 
                     elif 'Lugar_' in comando:
-                        if comando == 'Lugares_9':
+                        if comando == 'Lugar_9':
                             lugares = 9
-                        elif comando == 'Lugares_5':
+                        elif comando == 'Lugar_5':
                             lugares = 5
                         else:
                             lugares = 9

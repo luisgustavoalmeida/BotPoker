@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import os
 import os.path
+import random
 import socket
 import time
 
@@ -390,7 +391,7 @@ def reservar_linha(guia, endereco, salta_linhas=True):
                 if salta_linhas:
                     linha_vazia_anterior += 40
                 else:
-                    linha_vazia_anterior += 10
+                    linha_vazia_anterior += random.randint(5, 30)
                 return False, id, senha, fichas, linha, contagem_ip
             # print("values :",values)
         except:

@@ -487,13 +487,13 @@ def escolher_blind(x_origem, y_origem, blind, lugares=9, posi_lista=0):
     pyautogui.doubleClick(200 + x_origem, posicao_lista + y_origem, button='left')  # clica no valor dentro da lista
     time.sleep(0.2)
 
-    for _ in range(30):  # Marcar apenas as salas de 9 lugares
+    for _ in range(30):  # Marcar apenas as salas de 9 lugares ou 5 lugares
         if pyautogui.pixelMatchesColor((x_origem + 139), (y_origem + 492), (201, 201, 201), tolerance=2):
             if lugares == 9:
                 print('Sala de 9 lugares marcada')
                 break
             else:
-                pyautogui.click(x_origem + 139, y_origem + 492)  # Marcar sala de nove
+                pyautogui.click(x_origem + 139, y_origem + 492)
                 time.sleep(0.3)
                 print("Desmarca sala de 9 lugares")
         else:
