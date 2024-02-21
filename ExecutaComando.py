@@ -325,6 +325,7 @@ while True:
                             posi_lista = 1
                         else:
                             posi_lista = 0
+                        status_comando = 'Posição ' + str(posi_lista)
                         comando = 'Executado'
 
                     elif 'Lugar_' in comando:
@@ -334,6 +335,7 @@ while True:
                             lugares = 5
                         else:
                             lugares = 9
+                        status_comando = "Escolhido " + str(lugares)
                         comando = 'Executado'
 
                     elif '/' in comando:
