@@ -442,16 +442,16 @@ while True:
                         print("--------------parte 8---------------")
                         if parar_tarefas:
                             break
-
-                Aneis.recolhe_aneis(x_origem, y_origem)
                 hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
-
-                print('valor_fichas', valor_fichas)
-                print('pontuacao_tarefas', pontuacao_tarefas)
-                print('hora_que_rodou', hora_que_rodou)
 
                 roda = False
                 break
+
+            Tarefas.recolher_tarefa_upando(x_origem, y_origem)
+
+            Aneis.recolhe_aneis(x_origem, y_origem)
+
+            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
 
         ip, com_internet = IP.meu_ip()  # obtem meu endereço de IP
         valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
