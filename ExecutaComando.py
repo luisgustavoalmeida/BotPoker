@@ -298,6 +298,11 @@ while True:
                         Firebase.confirmacao_escravo('Saindo')  # troca o ultimo comando enviado
                         break
 
+                    if comando == "TrocarIP":
+                        status_comando = "Trocando ip"
+                        comando = 'Executado'
+                        IP.ip_troca_agora()
+
                     elif comando == "Limpa":
                         status_comando = "Limpando"
                         comando = 'Executado'

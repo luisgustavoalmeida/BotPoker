@@ -257,7 +257,6 @@ def nao_tem_internet():
             falhou = True
 
 
-
 def ip_troca_agora():
     while True:
         # com_internete = tem_internet()

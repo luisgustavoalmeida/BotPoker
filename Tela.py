@@ -6,7 +6,7 @@ import Firebase
 from Firebase import global_variables
 
 dicionario_comandos = {0: 'Senta', 1: 'Levanta', 2: 'Aposta', 3: 'Sair', 4: '500/1K', 5: '1K/2K', 6: '2K/4K', 7: '5K/10K', 8: '10K/20K', 9: '20K/40K',
-                       10: 'Limpa', 11: 'Senta3', 12: 'Posicao', 13: 'Lugar', 14: 'Cofre'}
+                       10: 'Limpa', 11: 'Senta3', 12: 'Posicao', 13: 'Lugar', 14: 'Cofre', 15: 'TrocarIP'}
 
 lugar_anterior = 9
 posicao_anterio = 0
@@ -144,7 +144,7 @@ janela.state('zoomed')
 
 # Defina o número de colunas e linhas
 numero_colunas = 12
-numero_linhas = 15
+numero_linhas = 16
 
 # Crie as áreas de informações
 info_labels = []
