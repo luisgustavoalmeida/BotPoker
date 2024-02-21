@@ -39,7 +39,7 @@ def button_name(text):
                         posicao_anterio = 0
                         comando = "Posi_0"
 
-                if "Lugar" == comando:
+                elif "Lugar" == comando:
                     # Itera sobre os números de 0 a 2
                     if lugar_anterior == 9:
                         lugar_anterior = 5
