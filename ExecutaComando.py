@@ -212,7 +212,6 @@ while True:
 
             entrou_corretamente, stataus_facebook = Seleniun.teste_logado()
             if entrou_corretamente is False:  # se nao entrou no face
-                # Google.marca_caida(stataus_facebook, guia, linha)
                 break
 
             if Limpa.ja_esta_logado(x_origem, y_origem) == "sair da conta":
@@ -285,7 +284,7 @@ while True:
                         comando = 'Executado'
                         break
 
-                    if comando == "TrocarIP":
+                    if comando == 'TrocarIP':
                         status_comando = "Trocando ip"
                         IP.ip_troca_agora()
 

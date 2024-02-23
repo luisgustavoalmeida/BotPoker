@@ -96,26 +96,9 @@ lista_negra_ip = []
 cont_lista_negra = 0
 
 
-# def usuario_IP_nao():
-#     # nome_usuario = os.getlogin()
-#     if nome_usuario != "PokerIP":
-#         ip(LIMITE_IP)
-#         return
-
-
-# def usuario_IP_sim():
-#     # nome_usuario = os.getlogin()
-#     if nome_usuario == "PokerIP":
-#         ip(LIMITE_IP)
-#         return
-
-
 def testa_trocar_IP():
-    if (nome_usuario == "PokerIP") and (
-            nome_computador != "PC-I7-9700KF"):  # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-        ip(LIMITE_IP)
-        return
-    elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
+    if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+        # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
         ip(LIMITE_IP)
         return
     else:
@@ -180,10 +163,8 @@ def tem_internet():
             if cont_erro >= 5:
                 cont_erro = 0
                 cont_erro2 = 0
-                if nome_usuario == "PokerIP":  # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-                    print("Vai par a função de trocar ip")
-                    conexao()  # chama a função que troca ip
-                elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
+                if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+                    # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                     print("Vai par a função de trocar ip")
                     conexao()  # chama a função que troca ip
             continue
@@ -191,10 +172,8 @@ def tem_internet():
         if cont_erro2 >= 20:
             cont_erro = 0
             cont_erro2 = 0
-            if nome_usuario == "PokerIP":  # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-                print("Vai par a função de trocar ip")
-                conexao()  # chama a função que troca ip
-            elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
+            if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+                # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                 print("Vai par a função de trocar ip")
                 conexao()  # chama a função que troca ip
             continue
@@ -259,20 +238,9 @@ def nao_tem_internet():
 
 def ip_troca_agora():
     while True:
-        # com_internete = tem_internet()
-        # if com_internete:
-        if nome_usuario == "PokerIP":  # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-            print("Vai par a função de trocar ip")
-            conexao()  # chama a função que troca ip
-            print('espera a internete estar estavel')
-            tem_internet()  # testa ate que internete esteja estavel
-            meu_ip_agora, teste = meu_ip()
-            if testa_lista_negra_ip(meu_ip_agora):
-                if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                    print("Vai para a função que zera a contagem")
-                    Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
-                    return
-        elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
+        print('Troca IP imediatamente')
+        if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+            # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
             print("Vai par a função de trocar ip")
             conexao()  # chama a função que troca ip
             print('espera a internete estar estavel')
@@ -284,25 +252,12 @@ def ip_troca_agora():
                     Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
                     return
         else:
+            print('Troca IP imediatamente não é um computador principal')
             return
 
 
-# def contagem_IP():
-#     while True:
-#         try:
-#             cont_IP = int(Google.pega_valor('IP', celula))  # pega o valor de contas que ja rodaram no IP atual
-#             print("A contagem atual de IP é:", cont_IP)
-#             return cont_IP
-#         except Exception as e:
-#             print(e)
-#             continue
-
-
-def ip(LIMITE_IP):
-    # LIMITE_IP = 5
-
+def ip(LIMITE_IP=6):
     while True:
-
         com_internete = tem_internet()
         # tem_internet() # testa se tem internete ativa
         cont_IP = int(Google.pega_valor('IP', celula))  # pega o valor de contas que ja rodaram no IP atual
@@ -311,7 +266,7 @@ def ip(LIMITE_IP):
 
             if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
 
-                if nome_usuario == "PokerIP":  # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
+                if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
                     print("Vai par a função de trocar ip")
                     conexao()  # chama a função que troca ip
                     print('espera a internete estar estavel')
@@ -322,19 +277,6 @@ def ip(LIMITE_IP):
                             print("Vai para a função que zera a contagem")
                             Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
                             return
-
-                elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
-                    print("Vai par a função de trocar ip")
-                    conexao()  # chama a função que troca ip
-                    print('espera a internete estar estavel')
-                    tem_internet()  # testa ate que internete esteja estavel
-                    meu_ip_agora, teste = meu_ip()
-                    if testa_lista_negra_ip(meu_ip_agora):
-                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                            print("Vai para a função que zera a contagem")
-                            Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
-                            return
-
                 else:
                     print("Espera liberar IP")
                     nao_tem_internet()

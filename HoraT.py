@@ -31,7 +31,7 @@ def mudar_guia(id, guia):
         hora_atual = datetime.datetime.now().time()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
-    if (guia == "R1") or (guia == "R2") or (guia == "R3") or (guia == "R4") or (guia == "R5"):
+    if guia in ["R1", "R2", "R3", "R4", "R5"]:
         if id == "":  # se a cabou o R vai para tarefa
             if tempo_tarefa > 0:  # se tem algim tempo destinado as tarefas
                 print('Fim do R, vai para as tarefas')

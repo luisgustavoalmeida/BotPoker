@@ -52,13 +52,13 @@ arranjo3_pc = (
 )
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
-lista_PC_meste = ('PC-I7-9700KF', 'PC-i3-8145U', 'Thiago-PC')
+lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'Thiago-PC')
 
 teve_atualizacao = False
 comando_escravo = None
 
 nome_computador = socket.gethostname()
-print('nome_computador', nome_computador)
+# print('nome_computador', nome_computador)
 nome_usuario = os.getlogin()
 
 nome_completo = nome_computador + "_" + nome_usuario
@@ -81,25 +81,25 @@ def cria_caminho_resposta_fb():
     # Verifique se o nome completo existe no dicionário
     if nome_completo in dicionari_pc:
         conteudo = dicionari_pc[nome_completo]
-        print(f"Conteúdo para {nome_completo}: {conteudo}")
+        # print(f"Conteúdo para {nome_completo}: {conteudo}")
 
         # Verifique em qual grupo o conteúdo está
         for grupo, membros in global_variables.items():
-            print(grupo)
-            print(membros)
+            # print(grupo)
+            # print(membros)
             if conteudo in membros:
                 # Use uma expressão regular para extrair o número após 'group'
                 numero_grupo = re.search(r'group(\d+)', grupo).group(1)
                 # Use re.sub para substituir "group" por "Comandos"
                 grupo_modificado = re.sub(r'group', r'Comandos', grupo)
-                print(f"{conteudo} está no grupo {grupo_modificado} ({numero_grupo})")
+                # print(f"{conteudo} está no grupo {grupo_modificado} ({numero_grupo})")
                 caminho_resposta = f'{grupo_modificado}/{conteudo}'
-                print("caminho_resposta :", caminho_resposta)  # Comandos2/PC23
+                # print("caminho_resposta :", caminho_resposta)  # Comandos2/PC23
                 caminho_resposta1 = f'Resposta1/{conteudo}'
-                print("caminho_resposta1 :", caminho_resposta1)  # Comandos2/PC23
+                # print("caminho_resposta1 :", caminho_resposta1)  # Comandos2/PC23
                 return caminho_resposta, caminho_resposta1
         else:
-            print(f"{conteudo} não está em nenhum dos grupos")
+            # print(f"{conteudo} não está em nenhum dos grupos")
             return caminho_resposta, caminho_resposta1
 
     else:
@@ -219,7 +219,7 @@ def alterar_dado_global(nome_variavel, valor):
     grupo = None
     nome_variavel = nome_variavel.replace('/', '')
 
-    print('nome_variavel:', nome_variavel)
+    # print('nome_variavel:', nome_variavel)
 
     if "PC" in nome_variavel:
         # Verifique em qual grupo colocar a variável com base no nome_variavel

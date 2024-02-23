@@ -286,7 +286,7 @@ def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         parar_tarefas = True
-        return (parar_tarefas, valor_fichas, conta_upada, meta_atingida, pontuacao_tarefas, lista_tarefas_fazer, pontos_disponiveis, hora_fim_tarefa)
+        return parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer, hora_fim_tarefa
 
     valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem)
     Aneis.recolhe_aneis(x_origem, y_origem)
@@ -323,7 +323,7 @@ def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):
     elif valor_fichas < 40000:  # se a conta tem menos de 110K vai para a proxima
         print('Quantidade de fichas insuficiente para jogar')
         parar_tarefas = True
-    elif (len(lista_tarefas_fazer) <= 0):
+    elif not lista_tarefas_fazer:
         print("Lista de trarefas vazia")
         parar_tarefas = True
     elif meta_atingida:
@@ -344,8 +344,7 @@ def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):
                 pontuacao_tarefas + pontos_disponiveis)
             parar_tarefas = True
 
-    return (parar_tarefas, valor_fichas, conta_upada, meta_atingida, pontuacao_tarefas, lista_tarefas_fazer,
-            pontos_disponiveis, hora_fim_tarefa)
+    return parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer, hora_fim_tarefa
 
 
 def recolher_tarefa_upando(x_origem, y_origem):
