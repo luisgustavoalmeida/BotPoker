@@ -125,10 +125,10 @@ def inicializar_firebase():
             except ConnectionError as e:
                 print(f"Erro de conexão com o Firebase: {e}")
                 print("Tentando reconectar em 5 segundos...")
-                time.sleep(5)
+                time.sleep(1)
         else:
             print('firebase sem internete')
-            time.sleep(5)
+            time.sleep(1)
 
 
 def enviar_comando_coletivo(arranjo, comando):
