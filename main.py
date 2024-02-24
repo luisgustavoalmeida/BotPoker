@@ -399,7 +399,7 @@ def recolher():
         if comando == "Sair":
             break
 
-        if comando == 'TrocarIP':
+        if comando == 'Trocarip':
             status_comando = "Trocando ip"
             IP.ip_troca_agora()
 
