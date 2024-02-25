@@ -23,6 +23,8 @@ import Roletas
 import Seleniun
 import Slot
 import Tarefas
+import Telegran
+from Firebase import ler_configuracao
 
 global aviso_sistema_global
 
@@ -30,21 +32,32 @@ global aviso_sistema_global
 nome_usuario = os.getlogin()
 # Obter o nome do computador
 nome_computador = socket.gethostname()
+
+# hora_atual = datetime.datetime.now()
+# hora_formatada = hora_atual.strftime("%H:%M:%S")
+
+
+Telegran.monta_mensagem('iniciou o código.  ⚡🤑')
+
 LIMITE_IP = 6
 
 x_origem = 4
 y_origem = 266
 
 id = "x"
+guia = ""
+loga_pk = True
+guia_automatico = True
+confg_funcao_anterior = ''
+
 senha = ""
 fichas = ""
 linha = ""
 cont_IP = 10
-guia = ""
 blind = ""
 lugares = ""
-guia_recebida = ""
-ja_fez_tutorial = True
+guia_anterior = ""
+# ja_fez_tutorial = True
 posi_lista = 0
 
 # Variáveis globais para as variáveis e controle da tarefa independente
@@ -57,7 +70,6 @@ cont_IP_novo = ""
 continuar_tarefa = False
 
 url = str(Google.pega_valor('Dados', 'F1'))
-pega_url = False
 
 navegador = Seleniun.cria_nevegador()
 
@@ -100,7 +112,7 @@ tarefa.start()
 
 
 def logar_carregar():
-    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker, ja_fez_tutorial
+    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker, ja_fez_tutorial, loga_pk, url
 
     time_atual = time.perf_counter()
     time_decorrido_id = time_atual - time_id
@@ -110,7 +122,18 @@ def logar_carregar():
     if (2 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
-    entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url)
+    if loga_pk:
+        # loga nomamente no jogo
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True)
+    else:
+        print('\n iInicia o remover poker Brasil\n')
+        url_remove_app = 'https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Fsettings%3Ftab%3Dapplications%26ref%3Dsettings'
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False)
+        if stataus_facebook == 'Remover Poker não ok':
+            while True:
+                print('Olhar manualmente')
+                # colocar um alarme no telegram
+                time.sleep(30)
 
     print('\n Manda iniciar a tarefa independete\n ')
     # Comando para iniciar a tarefa independente
@@ -141,7 +164,7 @@ def logar_carregar():
             print("Conta Temporariamente bloqueado tem que marcar na plinilha")
             return False
         elif status_poker == 'Tutorial':
-            ja_fez_tutorial = False
+            # ja_fez_tutorial = False
             print('Vai fazer tutorial')
             entrou_corretamente, stataus_facebook = Seleniun.teste_logado()
             if entrou_corretamente is False:  # se nao entrou no face
@@ -165,11 +188,11 @@ def logar_carregar():
 
 
 def roletas():
-    global x_origem, y_origem, roleta, hora_que_rodou,  entrou_corretamente, stataus_facebook, conta_upada, pontuacao_tarefas
+    global x_origem, y_origem, roleta, hora_que_rodou, entrou_corretamente, stataus_facebook, conta_upada, pontuacao_tarefas
     global level_conta, valor_fichas_perfil, dia_da_semana
 
     roleta, hora_que_rodou, time_rodou = Roletas.roletas(x_origem, y_origem)
-    print("roleta: ", roleta)
+    print("Esta fazendo a roleta: ", roleta)
 
     if hora_que_rodou is None:
         hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
@@ -490,26 +513,41 @@ def recolher():
     print('\nValor_fichas', valor_fichas, '\n')
 
 
-# alterar_global_aviso_sistema(False)
+def identifica_funcao():
+    global guia_anterior, id, guia, loga_pk, guia_automatico, confg_funcao_anterior
+    confg_funcao, config_tempo_roleta = ler_configuracao()
 
-guia = HoraT.mudar_guia(id, guia)
+    # print(confg_funcao, config_tempo_roleta)
 
-if pega_url:
-    url = str(Google.pega_valor('Dados', 'F1'))
-pega_url = True
+    if confg_funcao == 'roleta_auto':
+        guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
+        guia_automatico = True
+    else:
+        guia = confg_funcao
+        guia_automatico = False
+        guia_anterior = ''
 
-print("guia:", guia)
+    if confg_funcao == 'Remover':
+        loga_pk = False
+    else:
+        loga_pk = True
 
-if id == id_novo or id == "":
-    id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
+    if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':
+        Telegran.monta_mensagem_silenciosa('código alterado para modo' + str(confg_funcao) + '.  ⚙️')
+    confg_funcao_anterior = confg_funcao
 
-    if id == "":
-        Seleniun.sair_face(url)
-        guia = HoraT.mudar_guia(id, guia)
-        id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 
-else:
-    id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
+    # return guia, guia_automatico, loga_pk
+
+
+# Obter a guia a ser utilizada
+identifica_funcao()
+print('guia', guia)
+guia_anterior = guia
+# Obter as credenciais da conta do facebook
+id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
+
+Telegran.monta_mensagem('código iniciado com sucesso no modo ' + str(guia) + '.  🚀')
 
 while True:
     ip = ""
@@ -526,11 +564,11 @@ while True:
     entrou_corretamente = True
     stataus_facebook = 'Carregada'
     hora_fim_tarefa = False
-    ja_fez_tutorial = True
+    # ja_fez_tutorial = True
 
     dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sabado,6 domingo
     print('dia_da_semana: ', dia_da_semana)
-
+    # ################################################################################################################################################
     if logar_carregar():
         # Roletas
         if guia in ["R1", "R2", "R3", "R4", "R5"]:
@@ -542,17 +580,22 @@ while True:
             print('Inicia a execução das Tarefas')
             tarefas()
 
-        # Tarefas
-        elif guia == "Up":
+        # Recolher
+        elif guia == "Recolher":
             print('Inicia a execução do recolher')
             recolher()
+
+        # Remover
+        elif guia == 'Remover':
+            print('Inicia a execução do remover Poker')
+            roletas()
 
         Tarefas.recolher_tarefa_upando(x_origem, y_origem)
         Aneis.recolhe_aneis(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
 
         print('\nTerminou as atividades\n')
-
+    # ################################################################################################################################################
     ip, com_internet = IP.meu_ip()  # obtem meu endereço de IP
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     Seleniun.sair_face(url)
@@ -599,9 +642,10 @@ while True:
             Google.escrever_valores_lote(valores, guia, linha)  # escreve as informaçoes na planilha apartir da coluna E
             id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
-    guia_recebida = HoraT.mudar_guia(id, guia)
+    identifica_funcao()
 
-    if guia != guia_recebida:
+    if guia != guia_anterior and guia_automatico:
+        Telegran.monta_mensagem_silenciosa('mudou para a guia' + str(guia) + '.  🗂️')
 
         if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
             Seleniun.busca_link()
@@ -609,6 +653,5 @@ while True:
             Seleniun.busca_link()
 
         url = str(Google.pega_valor('Dados', 'F1'))
-        guia = guia_recebida
+        guia_anterior = guia
         id, senha, fichas, linha, cont_IP = Google.credenciais(guia)  # pega id e senha par o proximo login
-    guia = guia_recebida

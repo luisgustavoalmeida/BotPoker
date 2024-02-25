@@ -103,7 +103,8 @@ while True:
             if stataus_facebook == 'Remover Poker não ok':
                 while True:
                     print('Olhar manualmente')
-                    time.sleep(10)
+                    # colocar um alarme no telegram
+                    time.sleep(30)
 
             # print('Loga no RL')
             # time.sleep(5)

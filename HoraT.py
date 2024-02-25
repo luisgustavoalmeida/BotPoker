@@ -3,31 +3,44 @@ import time
 
 import IP
 
-hora_roleta = 4  # defina o tempo disponivel para a roleta em horas
-
-minutos_roleta = 40  # defina o tempo disponivel para a roleta em minutos
-
-tempo_roletas = (hora_roleta * 3600) + (minutos_roleta * 60)  # 4h
-
-tempo_total = 18000  # 5 horas em segudos
-
-tempo_tarefa = tempo_total - tempo_roletas  # tempo tarefa em segundos # tempo total menos tempo não usado nas roletas
-
-faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
-
 guias = ["R1", "R2", "R3", "R4", "R5"]
 
+faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
+tempo_total = 18000
+tempo_tarefa = 1200
 
-def mudar_guia(id, guia):
-    print('mudar_guia')
+
+def mudar_guia(id, guia, config_tempo_roleta='4:40:5'):
+    global tempo_total, tempo_tarefa
+    print('mudar_guia', config_tempo_roleta)
+
+    # Atribuindo os valores da lista às variáveis
+    if config_tempo_roleta.count(":") == 2:
+        # Dividindo a string nos ":"
+        tempo_separado = config_tempo_roleta.split(':')
+        # print("A string tem 3 partes separadas por ':'")
+        hora_roleta = int(tempo_separado[0])
+        minutos_roleta = int(tempo_separado[1])
+        tempo_total_ciclo = int(tempo_separado[2])
+    else:
+        # print("A string não tem 3 partes separadas por ':'")
+        hora_roleta = 4
+        minutos_roleta = 40
+        tempo_total_ciclo = 5
+
+    tempo_roletas = (hora_roleta * 3600) + (minutos_roleta * 60)  # 4h
+
+    tempo_total = 3600 * tempo_total_ciclo  # 5 horas em segudos
+
+    tempo_tarefa = tempo_total - tempo_roletas  # tempo tarefa em segundos # tempo total menos tempo não usado nas roletas
+
     hora_atual = datetime.datetime.now().time()
-    # print(hora_atual)
+
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-    print('tempo_atual :', tempo_atual)
 
     while tempo_atual > 86100:  # se maior que 23:55:00
-        print('espera virar 0h')
-        time.sleep(15)
+        print('Espera virar 0h')
+        time.sleep(30)
         hora_atual = datetime.datetime.now().time()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 

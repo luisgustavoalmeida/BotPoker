@@ -8,7 +8,8 @@ import pyrebase
 import requests
 from requests.exceptions import ConnectionError
 
-from Google import dicionari_token_credencial_n
+from Google import dicionari_token_credencial_n, numero_pc
+
 
 # importa o dicionário com os nomes dos computadores e o námero referete a cada um
 # from Parametros import dicionari_token_credencial_n
@@ -33,6 +34,46 @@ orderem_chave = {
     'group1': ['PC07', 'PC10', 'PC13', 'PC16', 'PC19', 'PC22', 'PC25', 'PC28', 'PC31'],
     'group2': ['PC08', 'PC11', 'PC14', 'PC17', 'PC20', 'PC23', 'PC26', 'PC29', 'PC32'],
     'group3': ['PC09', 'PC12', 'PC15', 'PC18', 'PC21', 'PC24', 'PC27', 'PC30', 'PC33']
+}
+
+# Dados padrões de configuração a serem escritos
+dados_config = {
+    'PC01': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},  # confg_funcao= 'roleta_auto', 'T1', 'R1','Recolher', 'Remover'
+    'PC02': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC03': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC04': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC05': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC06': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC07': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC08': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC09': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC10': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC11': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC12': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC13': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC14': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC15': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC16': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC17': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC18': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC19': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC20': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC21': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC22': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC23': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC24': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC25': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC26': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC27': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC28': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC29': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC30': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC31': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC32': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC33': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC34': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC35': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC36': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
 }
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
@@ -62,6 +103,9 @@ nome_computador = socket.gethostname()
 nome_usuario = os.getlogin()
 
 nome_completo = nome_computador + "_" + nome_usuario
+
+# # Acessar o terceiro item da tupla associada à chave 'PC-I7-9700KF_lgagu'
+# numero_pc = f"PC{dicionari_token_credencial_n[nome_completo][2] :02d}"
 
 
 def cria_caminho_resposta_fb():
@@ -201,17 +245,6 @@ def comando_escravo():
         print("Erro ao obter dados:", str(e))
 
 
-# Função para reconectar ao Firebase
-# def reconectar_firebase():
-#     global firebase, db, ref, caminho_resposta
-#     print("Tentando reconectar ao Firebase...")
-#     firebase = inicializar_firebase()
-#     db = firebase.database()
-#     ref = firebase.database().child(caminho_resposta)  # colocar o caminho de onde vem os comandos
-#     ref.stream(on_update)
-# reconectar_firebase()
-
-
 def alterar_dado_global(nome_variavel, valor):
     global global_variables
     global teve_atualizacao
@@ -278,6 +311,17 @@ def escreve_resposta_escravo(resposta_escravo):
         print(f"Ocorreu um erro ao escrever a informação: {str(e)}")
 
 
+def escreve_configuracao(dados_config):
+    ''' da a resposta do estado do computador '''
+    global firebase, db
+    try:
+        # Escreva a informação aleatória no banco de dados Firebase
+        db.child('Ajustes').set(dados_config)
+        # print(f"Informação {resposta_escravo} escrita com sucesso em {caminho_resposta1}")
+    except Exception as e:
+        print(f"Ocorreu um erro ao escrever a informação: {str(e)}")
+
+
 resposta_anterior = None
 
 
@@ -303,22 +347,6 @@ def confirmacao_comando_resposta(resposta_escravo):
     '''Esta função escreve no banco onde é destinado a receber comando, com o intuito de deixar um comando não aplicável'''
 
     if resposta_anterior != resposta_escravo:
-        # # Crie um dicionário com os caminhos de resposta e seus valores correspondentes
-        # dados_para_atualizar = {
-        #     caminho_resposta1: resposta_escravo,
-        #     caminho_resposta: resposta_escravo
-        # }
-        # try:
-        #     # Use a função update() para atualizar ambos os caminhos com os respectivos valores
-        #     db.update(dados_para_atualizar)
-        #
-        #     resposta_anterior = resposta_escravo
-        #
-        #     print(f"Informação: {resposta_escravo}, escrita com sucesso em: {caminho_resposta} e {caminho_resposta1}")
-        #     time.sleep(2)
-        # except Exception as e:
-        #     resposta_anterior = None
-        #     print(f"Ocorreu um erro ao escrever a informação: {str(e)}")
         if resposta_escravo == "Sair":
             confirmacao_escravo('Saindo')
 
@@ -341,6 +369,57 @@ def comando_coleetivo_escravo_escravo(comando):
         enviar_comando_coletivo(arranjo3_pc, comando)
     else:
         print("nome de usuario não configurado")
+
+
+def escreve_configuracao(dados_config):
+    ''' Escreve os dados de configuração no banco de dados Firebase '''
+    global firebase, db
+    try:
+        # Escreve os dados de configuração no nó 'Ajustes' do banco de dados Firebase
+        db.child('Ajustes').set(dados_config)
+        print(dados_config)
+        print("\nDados de configuração escritos com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao escrever os dados de configuração: {str(e)}")
+
+
+def ler_configuracao():
+    ''' Lê os dados de configuração do banco de dados Firebase '''
+    global firebase, db, numero_pc
+    try:
+        # Lê os dados de configuração do nó 'Ajustes' do banco de dados Firebase
+        dados_config = db.child('Ajustes').child(numero_pc).get().val()
+        if dados_config:
+            # print("Dados de configuração lidos com sucesso:")
+            # print(dados_config)
+
+            # Separa os dados em variáveis individuais
+            confg_funcao = dados_config.get('confg_funcao', None)
+            config_tempo_roleta = dados_config.get('config_tempo_roleta', None)
+
+            return confg_funcao, config_tempo_roleta
+        else:
+            print("Nenhum dado de configuração encontrado.")
+            return None, None
+    except Exception as e:
+        print(f"Ocorreu um erro ao ler os dados de configuração: {str(e)}")
+        return None, None
+
+
+# Chama a função para escrever os dados de configuração no banco de dados Firebase
+# escreve_configuracao(dados_config)
+
+# ler_configuracao()
+#
+# # Imprimir o terceiro item
+# print("Numero computador:", numero_pc)
+#
+# # Chama a função para ler os dados de configuração do banco de dados Firebase
+# confg_funcao, campo2 = ler_configuracao()
+#
+# print(confg_funcao, campo2)
+
+# print(dados_lidos)
 
 # caminho = "Resposta1/PC01"
 #

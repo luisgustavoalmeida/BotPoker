@@ -5,15 +5,17 @@ import time
 
 import pyautogui
 
-# Desabilitar o fail-safe
-pyautogui.FAILSAFE = False
-pyautogui.PAUSE = 0
+import HoraT
+import IP
 import Limpa
 import OCR_tela
-import IP
 import Tarefas
-import HoraT
 import xp2
+import Telegran
+
+pyautogui.FAILSAFE = False
+pyautogui.PAUSE = 0
+
 from UparAuto import upar
 
 # import Firebase
@@ -1203,8 +1205,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_pe
         mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
 
     elif 4 <= level_conta < 10:
+        Telegran.monta_mensagem_silenciosa('vai upar uma conta level ' + str(level_conta) + '.  🆙')
         mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+        Telegran.monta_mensagem_silenciosa('terminou de upar conta level ' + str(level_conta) + '.  📈⬆️')
 
     elif 1 <= level_conta < 4:
         print('conta para jogar mesa')
