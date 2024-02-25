@@ -4,6 +4,7 @@ from telegram import Bot
 
 from Google import numero_pc
 
+
 # Site para encontar os emojes https://emojipedia.org/pt   https://emojipedia.org/pt/google
 
 async def enviar_mensagem(mensagem, token='6446494638:AAE5lkb9s74m_5R8DE-z2uDqt5PrYEQUTo8', chat_id='-1001971264843', ):
@@ -16,6 +17,7 @@ async def enviar_mensagem(mensagem, token='6446494638:AAE5lkb9s74m_5R8DE-z2uDqt5
     except Exception as e:
         # Registra o erro e a mensagem
         print(f"Erro ao enviar mensagem: {e}")
+
 
 def monta_mensagem(mensagem):
     mensagem_montada = '🤖  ' + numero_pc + ': ' + str(mensagem)
@@ -33,7 +35,6 @@ async def enviar_mensagem_silenciosa(mensagem, token='6446494638:AAE5lkb9s74m_5R
     except Exception as e:
         # Registra o erro e a mensagem
         print(f"Erro ao enviar mensagem: {e}")
-
 
 
 def monta_mensagem_silenciosa(mensagem):
