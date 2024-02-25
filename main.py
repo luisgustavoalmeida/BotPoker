@@ -37,7 +37,7 @@ nome_computador = socket.gethostname()
 # hora_formatada = hora_atual.strftime("%H:%M:%S")
 
 
-Telegran.monta_mensagem('iniciou o código.  ⚡🤑')
+Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', True)
 
 LIMITE_IP = 6
 
@@ -536,7 +536,7 @@ def identifica_funcao():
         loga_pk = True
 
     if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':
-        Telegran.monta_mensagem_silenciosa('código alterado para modo' + str(confg_funcao) + '.  ⚙️')
+        Telegran.monta_mensagem(f'código alterado para modo {str(confg_funcao)}.  ⚙️', True)
     confg_funcao_anterior = confg_funcao
 
 
@@ -550,7 +550,7 @@ guia_anterior = guia
 # Obter as credenciais da conta do facebook
 id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 
-Telegran.monta_mensagem('código iniciado com sucesso no modo ' + str(guia) + '.  🚀')
+Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
 while True:
     ip = ""
@@ -648,7 +648,7 @@ while True:
     identifica_funcao()
 
     if guia != guia_anterior and guia_automatico:
-        Telegran.monta_mensagem_silenciosa('mudou para a guia' + str(guia) + '.  🗂️')
+        Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', False)
 
         if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
             Seleniun.busca_link()

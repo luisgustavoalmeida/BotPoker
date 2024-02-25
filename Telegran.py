@@ -24,23 +24,15 @@ async def enviar_mensagem(mensagem, disable_notification=False):
     Returns:
         True se a mensagem foi enviada com sucesso, False caso contrário.
     """
-
-    tentativas = 0
-    while tentativas < MAX_TENTATIVAS:
-        try:
-            # Inicializa o bot com o token fornecido
-            bot = Bot(token)
-            # Envia a mensagem para o chat especificado
-            await bot.send_message(chat_id=chat_id, text=mensagem, disable_notification=disable_notification)
-            return True
-        except Exception as e:
-            print(f"Erro ao enviar mensagem (tentativa {tentativas + 1}/{MAX_TENTATIVAS}): {e}")
-            await asyncio.sleep(DELAY_ENTRE_TENTATIVAS)
-            tentativas += 1
-    else:
-        print(f"Falha ao enviar mensagem após {MAX_TENTATIVAS} tentativas.")
-        # logger.error(f"Falha ao enviar mensagem após {MAX_TENTATIVAS} tentativas.")
-        return False
+    try:
+        # Inicializa o bot com o token fornecido
+        bot = Bot(token)
+        # Envia a mensagem para o chat especificado
+        await bot.send_message(chat_id=chat_id, text=mensagem, disable_notification=disable_notification)
+        return True
+    except Exception as e:
+        print(f"Erro ao enviar mensagem: {e}")
+        await asyncio.sleep(DELAY_ENTRE_TENTATIVAS)
 
 
 async def enviar_mensagem_com_reenvio(mensagem, disable_notification=False):
@@ -70,25 +62,14 @@ async def enviar_mensagem_com_reenvio(mensagem, disable_notification=False):
         return False
 
 
-def monta_mensagem(mensagem):
-    mensagem_montada = '🤖  ' + numero_pc + ': ' + str(mensagem)
+def monta_mensagem(mensagem, disabilitar_notificacao=False):
+    if disabilitar_notificacao:
+        icone_som = '🔊'
+    else:
+        icone_som = '🔇'
+    mensagem_montada = f'🤖   {numero_pc}: {str(mensagem)}. {icone_som}'
     # Executa a função de envio de mensagem assíncrona
     # asyncio.run(enviar_mensagem(mensagem_montada, False))
-    asyncio.run(enviar_mensagem_com_reenvio(mensagem_montada, False))
+    asyncio.run(enviar_mensagem_com_reenvio(mensagem_montada, disabilitar_notificacao))
 
-
-def monta_mensagem_silenciosa(mensagem):
-    mensagem_montada = '🤖  ' + numero_pc + ': ' + str(mensagem) + '  🔇'
-    # Executa a função de envio de mensagem silenciosa assíncrona
-    # asyncio.run(enviar_mensagem(mensagem_montada, True))
-    asyncio.run(enviar_mensagem_com_reenvio(mensagem_montada, True))
-
-
-# Exemplo de envio de mensagem silenciosa
-# monta_mensagem("Esta é uma mensagem de teste.")
-# print('foi')
-
-#
-# # monta_mensagem('ta ligado. \U0001F4BB')
-# # monta_mensagem('Codigi iniciado \U0001F680')
-# monta_mensagem('Codigi iniciado ⚡')
+monta_mensagem("Esta é uma mensagem de teste.", True)

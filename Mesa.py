@@ -1205,10 +1205,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_pe
         mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
 
     elif 4 <= level_conta < 10:
-        Telegran.monta_mensagem_silenciosa('vai upar uma conta level ' + str(level_conta) + '.  🆙')
+        Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
         mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        Telegran.monta_mensagem_silenciosa('terminou de upar conta level ' + str(level_conta) + '.  📈⬆️')
+        Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
     elif 1 <= level_conta < 4:
         print('conta para jogar mesa')
