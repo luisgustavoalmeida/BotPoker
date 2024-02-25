@@ -522,10 +522,13 @@ def identifica_funcao():
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
         guia_automatico = True
-    else:
+    elif confg_funcao in ('Recolher', 'Remover', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         guia = confg_funcao
         guia_automatico = False
         guia_anterior = ''
+    else:
+        guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
+        guia_automatico = True
 
     if confg_funcao == 'Remover':
         loga_pk = False
@@ -581,7 +584,7 @@ while True:
             tarefas()
 
         # Recolher
-        elif guia == "Recolher":
+        elif guia == 'Recolher':
             print('Inicia a execução do recolher')
             recolher()
 
