@@ -43,7 +43,7 @@ if errorlevel 6 (
     echo    Atualizar código com GitHub selecionado.
     echo.
     timeout /t 1 /nobreak >nul
-    git pull origin master
+    git pull origin main
     echo.
     echo    Código atualizado com sucesso!
     echo.
