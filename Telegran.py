@@ -85,8 +85,8 @@ def monta_mensagem_silenciosa(mensagem):
 
 
 # Exemplo de envio de mensagem silenciosa
-monta_mensagem("Esta é uma mensagem de teste.")
-print('foi')
+# monta_mensagem("Esta é uma mensagem de teste.")
+# print('foi')
 
 #
 # # monta_mensagem('ta ligado. \U0001F4BB')
