@@ -539,7 +539,6 @@ def identifica_funcao():
         Telegran.monta_mensagem(f'código alterado para modo {str(confg_funcao)}.  ⚙️', True)
     confg_funcao_anterior = confg_funcao
 
-
     # return guia, guia_automatico, loga_pk
 
 
@@ -551,7 +550,6 @@ guia_anterior = guia
 id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
-
 
 while True:
     ip = ""
