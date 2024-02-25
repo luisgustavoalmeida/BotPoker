@@ -2,6 +2,9 @@
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
 
+REM Adiciona exceção para o diretório BotGit
+git config --global --add safe.directory C:/GitHub/BotGit
+
 timeout /t 1 /nobreak >nul
 
 echo.
