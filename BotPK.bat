@@ -22,6 +22,7 @@ echo        2. Remover o Poker (RemoverPK.py)
 echo        3. Recolher (ExecutaComando.py)
 echo        4. Interface de comando e controle (Tela.py)
 echo        5. Instalar bibliotecas Python (pip install -r requirements.txt)
+echo        6. Atualizar código com GitHub
 echo.
 
 
@@ -37,7 +38,19 @@ echo.
 choice /c 12345 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
-if errorlevel 5 (
+if errorlevel 6 (
+    echo.
+    echo    Atualizar código com GitHub selecionado.
+    echo.
+    timeout /t 1 /nobreak >nul
+    git pull origin master
+    echo.
+    echo    Código atualizado com sucesso!
+    echo.
+    pause
+    echo.
+    goto :inicio
+) else if errorlevel 5 (
     echo.
     echo    Instalar bibliotecas Python selecionado.
     echo.

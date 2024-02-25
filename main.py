@@ -585,7 +585,7 @@ while True:
 
         # Recolher
         elif guia == 'Recolher':
-            print('Inicia a execução do recolher')
+            print('Inicia a execução do Recolher')
             recolher()
 
         # Remover
