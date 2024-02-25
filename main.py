@@ -552,6 +552,7 @@ id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
+
 while True:
     ip = ""
     hora_que_rodou = 0
