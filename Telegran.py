@@ -72,4 +72,4 @@ def monta_mensagem(mensagem, disabilitar_notificacao=False):
     # asyncio.run(enviar_mensagem(mensagem_montada, False))
     asyncio.run(enviar_mensagem_com_reenvio(mensagem_montada, disabilitar_notificacao))
 
-monta_mensagem("Esta é uma mensagem de teste.", True)
+# monta_mensagem("Esta é uma mensagem de teste.", True)
