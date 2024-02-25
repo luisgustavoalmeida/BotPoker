@@ -21,11 +21,9 @@ echo        1. Iniciar o Script Principal (main.py)
 echo        2. Remover o Poker (RemoverPK.py)
 echo        3. Recolher (ExecutaComando.py)
 echo        4. Interface de comando e controle (Tela.py)
-echo        5. Instalar bibliotecas Python (pip install -r requirements.txt)
+echo        5. Instalar bibliotecas Python
 echo        6. Atualizar código com GitHub
 echo.
-
-
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
 timeout /t 1 /nobreak >nul
