@@ -11,15 +11,17 @@ echo   **                     Bem-vindo a                          **
 echo   **            S P E C T R O   S O L U T I O N               **
 echo   **                                                          **
 echo   **************************************************************
+:inicio
 echo.
 timeout /t 1 /nobreak >nul
 REM Opções
-echo **             O que voce deseja fazer hoje?                **
+echo   **                 O que voce deseja fazer?                 **
 echo.
 echo        1. Iniciar o Script Principal (main.py)
 echo        2. Remover o Poker (RemoverPK.py)
 echo        3. Recolher (ExecutaComando.py)
 echo        4. Interface de comando e controle (Tela.py)
+echo        5. Instalar bibliotecas Python (pip install -r requirements.txt)
 echo.
 
 
@@ -32,10 +34,23 @@ echo.
 echo    Voce tem %tempo_espera% segundos para escolher ou sera iniciado o
 echo    Script Principal.
 echo.
-choice /c 1234 /t %tempo_espera% /d 1 /m "   Escolha: "
+choice /c 12345 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
-if errorlevel 4 (
+if errorlevel 5 (
+    echo.
+    echo    Instalar bibliotecas Python selecionado.
+    echo.
+    timeout /t 1 /nobreak >nul
+    pip install -r requirements.txt
+    echo.
+    echo.
+    echo    Bibliotecas instaladas / atualizadas.
+    echo.
+    pause
+    echo.
+    goto :inicio
+) else if errorlevel 4 (
     echo.
     echo    Interface de comando selecionado.
     echo.
@@ -60,6 +75,8 @@ if errorlevel 4 (
     timeout /t 1 /nobreak >nul
     python main.py
 )
-
+pause
+REM goto :inicio
 pause
 exit /b
+
