@@ -3,7 +3,7 @@ REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prom
 start "" "move_janela.bat.ahk"
 
 REM Adiciona exceção para o diretório BotGit
-git config --global --add safe.directory C:/GitHub/BotGit
+git config --global --add safe.directory C:/GitHub/BotPoker
 
 timeout /t 1 /nobreak >nul
 
