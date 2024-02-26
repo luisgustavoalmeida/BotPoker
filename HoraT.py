@@ -9,39 +9,38 @@ faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
 hora_roleta = 4
-tempo_total_ciclo = 40
+minutos_roleta = 40
 tempo_total_ciclo = 5
 
 
 def mudar_guia(id, guia, config_tempo_roleta='4:40:5'):
-    global tempo_total, tempo_tarefa, tempo_total_ciclo, tempo_total_ciclo, hora_roleta
+    global tempo_total, tempo_tarefa, tempo_total_ciclo, hora_roleta, minutos_roleta
     print('mudar_guia', config_tempo_roleta)
 
     # Atribuindo os valores da lista às variáveis
-    if config_tempo_roleta.count(":") == 2:
-        tempo_separado = config_tempo_roleta.split(':')
-        try:
-            hora_roleta = int(tempo_separado[0])
-        except ValueError:
-            print("Erro: A hora não é um número válido")
-            hora_roleta = 4
+    if isinstance(config_tempo_roleta, str) and ':' in config_tempo_roleta:
+        if config_tempo_roleta.count(":") == 2:
+            try:
+                tempo_separado = config_tempo_roleta.split(':')
+                try:
+                    hora_roleta = int(tempo_separado[0])
+                except ValueError:
+                    print("Erro: A hora não é um número válido")
+                    hora_roleta = 4
 
-        try:
-            minutos_roleta = int(tempo_separado[1])
-        except ValueError:
-            print("Erro: Os minutos não são um número válido")
-            minutos_roleta = 40
+                try:
+                    minutos_roleta = int(tempo_separado[1])
+                except ValueError:
+                    print("Erro: Os minutos não são um número válido")
+                    minutos_roleta = 40
 
-        try:
-            tempo_total_ciclo = int(tempo_separado[2])
-        except ValueError:
-            print("Erro: O tempo total do ciclo não é um número válido")
-            tempo_total_ciclo = 5
-    else:
-        # print("A string não tem 3 partes separadas por ':'")
-        hora_roleta = 4
-        minutos_roleta = 40
-        tempo_total_ciclo = 5
+                try:
+                    tempo_total_ciclo = int(tempo_separado[2])
+                except ValueError:
+                    print("Erro: O tempo total do ciclo não é um número válido")
+                    tempo_total_ciclo = 5
+            except TypeError as e:
+                print(e)
 
     tempo_roletas = (hora_roleta * 3600) + (minutos_roleta * 60)  # 4h
 
