@@ -8,20 +8,35 @@ guias = ["R1", "R2", "R3", "R4", "R5"]
 faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
+hora_roleta = 4
+tempo_total_ciclo = 40
+tempo_total_ciclo = 5
 
 
 def mudar_guia(id, guia, config_tempo_roleta='4:40:5'):
-    global tempo_total, tempo_tarefa
+    global tempo_total, tempo_tarefa, tempo_total_ciclo, tempo_total_ciclo, hora_roleta
     print('mudar_guia', config_tempo_roleta)
 
     # Atribuindo os valores da lista às variáveis
     if config_tempo_roleta.count(":") == 2:
-        # Dividindo a string nos ":"
         tempo_separado = config_tempo_roleta.split(':')
-        # print("A string tem 3 partes separadas por ':'")
-        hora_roleta = int(tempo_separado[0])
-        minutos_roleta = int(tempo_separado[1])
-        tempo_total_ciclo = int(tempo_separado[2])
+        try:
+            hora_roleta = int(tempo_separado[0])
+        except ValueError:
+            print("Erro: A hora não é um número válido")
+            hora_roleta = 4
+
+        try:
+            minutos_roleta = int(tempo_separado[1])
+        except ValueError:
+            print("Erro: Os minutos não são um número válido")
+            minutos_roleta = 40
+
+        try:
+            tempo_total_ciclo = int(tempo_separado[2])
+        except ValueError:
+            print("Erro: O tempo total do ciclo não é um número válido")
+            tempo_total_ciclo = 5
     else:
         # print("A string não tem 3 partes separadas por ':'")
         hora_roleta = 4
