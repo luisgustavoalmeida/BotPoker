@@ -1280,12 +1280,15 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         # se tem a barra de ajustar a aposta
         # cliaca no final da barra para ela ir ate o final
         pyautogui.click((x_origem + 660), (y_origem + 647))
-        time.sleep(0.5)
+        print('ajustou no final da barra')
+        time.sleep(0.3)
         # escolhe um valor de ajuste para a barra
         numero_aleatorio = random.randint(540, 600)
-        print('NÂO é a ultima carta')
+
         # clicar no meio da barra de ajuste
         pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
+        print('Posição de valor aleatorio')
+        time.sleep(0.3)
 
         for _ in range(100):
             #  teste se a barra foi deslocada, nao esta mais na posição inicial
