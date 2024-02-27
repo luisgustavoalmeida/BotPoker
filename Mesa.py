@@ -1173,18 +1173,18 @@ def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_pe
     if dia_da_semana in [3]:
         print("O dia da semana é 100/200.")
         blind_mesa = '100200'
-        num_vezes_maximo = 5
+        num_vezes_maximo = 4
         num_vezes_minimo = 2
 
     elif dia_da_semana in [0, 2, 5]:
         print("O dia da semana é 50/100.")
         blind_mesa = '50100'
-        num_vezes_maximo = 5
+        num_vezes_maximo = 4
         num_vezes_minimo = 2
     else:
         print("O dia da semana é 25/50.")
         blind_mesa = '2550'
-        num_vezes_maximo = 5
+        num_vezes_maximo = 4
         num_vezes_minimo = 2
 
     Limpa.fecha_tarefa(x_origem, y_origem)
@@ -1280,7 +1280,7 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         # se tem a barra de ajustar a aposta
         # cliaca no final da barra para ela ir ate o final
         pyautogui.click((x_origem + 660), (y_origem + 647))
-        time.sleep(0.3)
+        time.sleep(0.5)
         # escolhe um valor de ajuste para a barra
         numero_aleatorio = random.randint(540, 600)
         print('NÂO é a ultima carta')
