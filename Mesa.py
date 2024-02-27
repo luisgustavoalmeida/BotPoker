@@ -1294,7 +1294,7 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         # clicar no meio da barra de ajuste
         pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
         print('Posição de valor aleatorio')
-        time.sleep(0.3)
+        time.sleep(0.4)
 
         pyautogui.click((x_origem + 380), (y_origem + 650))
         # clica no apostar
