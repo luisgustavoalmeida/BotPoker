@@ -239,8 +239,8 @@ def roletas():
 
         level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta, valor_fichas_perfil, conta_upada,
                                                                   dia_da_semana)
-        print('level_conta', level_conta)
-        print('valor_fichas_perfil', valor_fichas_perfil)
+        # print('level_conta', level_conta)
+        # print('valor_fichas_perfil', valor_fichas_perfil)
 
     elif roleta == 'roleta_2':
         for i in range(20):
