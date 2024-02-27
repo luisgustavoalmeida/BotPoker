@@ -57,8 +57,8 @@ def limpa_jogando(x_origem, y_origem):
         print("Voce ganhou 2500")
 
     # Subiu de nivel
-    elif pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (25, 118, 188), tolerance=6) \
-            or pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (29, 139, 200), tolerance=6):
+    elif (pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (25, 118, 188), tolerance=6)
+          or pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (29, 139, 200), tolerance=6)):
         pyautogui.click(x_origem + 492, y_origem + 443)
         print("Subiu de nivel")
 

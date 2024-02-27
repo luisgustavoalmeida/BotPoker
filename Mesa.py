@@ -1276,32 +1276,44 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
     jogou_uma_vez = False
     # quando se tem que apostar, testa se tem a barra de ajustar a aposta
     if pyautogui.pixelMatchesColor((x_origem + 513), (y_origem + 647), (180, 202, 224), 5):
-        print('barra de ajustar valor')
         # se tem a barra de ajustar a aposta
-        # cliaca no final da barra para ela ir ate o final
-        pyautogui.click((x_origem + 660), (y_origem + 647))
-        print('ajustou no final da barra')
-        # time.sleep(0.3)
-        # escolhe um valor de ajuste para a barra
-        numero_aleatorio = random.randint(540, 600)
+        print('Barra de ajustar valor')
 
-        for _ in range(100):
-            #  teste se a barra foi deslocada, nao esta mais na posição inicial
-            if not pyautogui.pixelMatchesColor((x_origem + 515), (y_origem + 647), (184, 212, 237), 5):
-                break
-            time.sleep(0.01)
+        passa_paga_aposta = random.randint(1, 3)
 
-        # clicar no meio da barra de ajuste
-        pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
-        print('Posição de valor aleatorio')
-        time.sleep(0.4)
+        match passa_paga_aposta:
+            case 1:
+                pyautogui.click((x_origem + 380), (y_origem + 603))
+                print('Passou')
+                jogou_uma_vez = True
+                return jogou_uma_vez
+            case 2:
+                pyautogui.click((x_origem + 380), (y_origem + 650))
+                print('Apostou valor padrão')
+                jogou_uma_vez = True
+                return jogou_uma_vez
+            case 3:
+                # cliaca no final da barra para ela ir ate o final
+                pyautogui.click((x_origem + 660), (y_origem + 647))
+                print('ajustou no final da barra')
 
-        pyautogui.click((x_origem + 380), (y_origem + 650))
-        # clica no apostar
-        print('tem que aposta')
+                numero_aleatorio = random.randint(540, 600)
 
-        jogou_uma_vez = True
-        return jogou_uma_vez
+                for _ in range(100):
+                    #  teste se a barra foi deslocada, nao esta mais na posição inicial
+                    if not pyautogui.pixelMatchesColor((x_origem + 515), (y_origem + 647), (184, 212, 237), 5):
+                        break
+                    time.sleep(0.01)
+
+                # clicar em uma posição aleatoria da barra
+                pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
+                print('Posição de valor aleatorio')
+                time.sleep(0.4)
+
+                pyautogui.click((x_origem + 380), (y_origem + 650))
+                print('Apostou valor maior')
+                jogou_uma_vez = True
+                return jogou_uma_vez
 
     elif pyautogui.pixelMatchesColor((x_origem + 342), (y_origem + 601), (255, 255, 255), 5):
         # branco de interceção de pagar e passar sem o quadrado brando
@@ -1310,6 +1322,7 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         print('clicou no Passar ou no Pagar')
         jogou_uma_vez = True
         return jogou_uma_vez
+
     return jogou_uma_vez
 
 

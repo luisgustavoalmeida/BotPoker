@@ -155,19 +155,23 @@ def roletas(x_origem, y_origem):
             if (pyautogui.pixelMatchesColor((x_origem + 702), (y_origem + 41), (161, 6, 93), tolerance=20)) or \
                     (pyautogui.pixelMatchesColor((x_origem + 673), (y_origem + 41), (253, 195, 44), tolerance=20)):
                 print("Jarodou a roleta 1 esta com barra vermelha ou amarela")
+                roleta = "sem_roleta"
                 break
             elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248), tolerance=20):
                 print("Jarodou a roleta 1 esta com icone cinza")
+                roleta = "sem_roleta"
                 break
             # se fez todas as roletas do dia
-            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248),
-                                             tolerance=20):  # testa se o icone da roleta ta branco
+            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248),tolerance=20):
+                # testa se o icone da roleta ta branco
                 print("Jarodou todas as roletas do dia")
+                roleta = "sem_roleta"
                 break
             # se fez todas as roletas do dia
-            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (146, 172, 208),
-                                             tolerance=20):  # testa se o icone da roleta ta branco
+            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (146, 172, 208), tolerance=20):
+                # testa se o icone da roleta ta branco
                 print("Jarodou todas as roletas do dia")
+                roleta = "sem_roleta"
                 break
 
         entrou_corretamente, stataus = Seleniun.teste_logado()

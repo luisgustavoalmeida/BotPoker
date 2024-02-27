@@ -41,6 +41,7 @@ def localizar_imagem(imagem, regiao, precisao):
 def carregado_origem():  # navegador
     status_conta = None
     cont_erro = 0
+    cont_erro_fundo_preto = 0
 
     for i in range(3):
 
@@ -55,9 +56,7 @@ def carregado_origem():  # navegador
         for i in range(60):
 
             # Procura a imagem na região definida com 99,5% de tolerância, em escala de cinza e retorna a posição
-            # posicao = pyautogui.locateOnScreen(origem, region=regiao_busca, confidence=0.997, grayscale=True) #limite maximo de precisao é 0.997
-            # precisao = 0.997
-            # precisao = 0.935
+
             posicao = localizar_imagem(origem, regiao_busca, precisao_origem)
             if posicao is not None:  # Verifica se a imagem foi encontrada
                 x_origem, y_origem = posicao.left, posicao.top
@@ -79,9 +78,7 @@ def carregado_origem():  # navegador
                     status_conta = 'Carregada'
                 return x_origem, y_origem, status_conta
             else:
-                # imagem = r'Imagens\Aceite.png'
-                # regiao = (380, 400, 250, 350)
-                # precisao = 0.8
+
                 localizado = localizar_imagem(imagem=r'Imagens\Aceite.png', regiao=(380, 400, 250, 350), precisao=0.8)
                 if localizado is not None:
                     centro = pyautogui.center(localizado)
@@ -90,18 +87,12 @@ def carregado_origem():  # navegador
                     status_conta = 'Tutorial'
                     time.sleep(2)
 
-                # regiao = (250, 400, 300, 300)
-                # imagem = r'Imagens\Banida.png'
-                # precisao = 0.8
                 localizado = localizar_imagem(imagem=r'Imagens\Banida.png', regiao=(250, 400, 300, 300), precisao=0.8)
                 if localizado is not None:
                     print("comta banida para o poker")
                     status_conta = 'Banida'
                     return 0, 0, status_conta
 
-                # regiao = (540, 180, 200, 80)
-                # imagem = r'Imagens\Temporariamente.png'
-                # precisao = 0.8
                 localizado = localizar_imagem(imagem=r'Imagens\Temporariamente.png', regiao=(540, 180, 200, 80), precisao=0.8)
                 if localizado is not None:
                     print("Você está bloquadao temporariamente imagem reconhecida")
@@ -115,10 +106,6 @@ def carregado_origem():  # navegador
                     status_conta = 'Bloqueado Temporariamente'
                     return 0, 0, status_conta
 
-                # tutorial
-                # regiao = (440, 480, 330, 270)
-                # imagem = r'Imagens\Continuar2.png'
-                # precisao = 0.8
                 localizado = localizar_imagem(imagem=r'Imagens\Continuar2.png', regiao=(440, 480, 330, 270), precisao=0.8)
                 if localizado is not None:
                     centro = pyautogui.center(localizado)
@@ -126,9 +113,6 @@ def carregado_origem():  # navegador
                     print("clica no continuar")
                     time.sleep(2)
 
-                # regiao = (620, 640, 360, 170)
-                # imagem = r'Imagens\Continuar3.png'
-                # precisao = 0.8
                 localizado = localizar_imagem(imagem=r'Imagens\Continuar3.png', regiao=(620, 640, 360, 170), precisao=0.8)
                 if localizado is not None:
                     centro = pyautogui.center(localizado)
@@ -136,24 +120,16 @@ def carregado_origem():  # navegador
                     print("clica no continuar")
                     time.sleep(2)
 
-                # regiao = (410, 400, 580, 300)
-                # imagem = r'Imagens\Atualizar.png'
-                # precisao = 0.8
                 localizado = localizar_imagem(imagem=r'Imagens\Atualizar.png', regiao=(410, 400, 580, 300), precisao=0.8)
                 if localizado is not None:
-                    # centro = pyautogui.center(localizado)
-                    # pyautogui.doubleClick(centro.x, centro.y, button='left')
+
                     print("Erro ao entrar no Lobby, tente atualizar a pagina")
                     status_conta = 'Atualizar'
                     return 0, 0, status_conta
 
-                # regiao = (340, 800, 385, 105)
-                # imagem = r'Imagens\CarosJogadores.png'
-                # precisao = 0.995
                 localizado = localizar_imagem(imagem=r'Imagens\CarosJogadores.png', regiao=(340, 800, 385, 105), precisao=0.995)
                 if localizado is not None:
-                    # centro = pyautogui.center(localizado)
-                    # pyautogui.doubleClick(centro.x, centro.y, button='left')
+
                     print("\n\nCaros jogadores, para garantir um ambiente de jogo mais estável e melhor, o servidor esta em "
                           "manutenção. Durante esse período, talvez voçê não consiga acessar o jogo. Pedimos desculpas "
                           "por qualquer inconveniente. E obrigado pelo seu apoio e compreensão!\n")
@@ -178,6 +154,15 @@ def carregado_origem():  # navegador
                     continue
 
                 recolhe_fan()
+                
+                cont_erro_fundo_preto += 1
+                if cont_erro_fundo_preto > 4:
+                    cont_erro_fundo_preto = 0
+                    if pyautogui.pixelMatchesColor(493, 602, (17, 16, 16), tolerance=2):
+                        print('Esta com fundo preto da um F5')
+                        pyautogui.click(86, 59)  # clica no atualizar
+                    else:
+                        print('Pagina esta carregando')
 
             # Espera x segundos antes da próxima tentativa
             # time.sleep(1)
