@@ -10,8 +10,8 @@ import IP
 import Limpa
 import OCR_tela
 import Tarefas
-import xp2
 import Telegran
+import xp2
 
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
@@ -1063,7 +1063,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
         if sentou:
             # print("esta sentado")
-            (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+            # (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+            jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
             if jogou:
                 jogou_uma_vez = True
 
@@ -1160,8 +1161,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
 
 def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0):
-    if roleta != 'roleta_1':
-        return level_conta, valor_fichas_perfil
+    # if roleta != 'roleta_1':
+    #     return level_conta, valor_fichas_perfil
 
     if datetime.datetime.now().time() < datetime.time(23, 0, 0):
         if level_conta == "":
@@ -1268,6 +1269,43 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80):  #
         jogou_uma_vez = True, True
         return jogou_uma_vez
 
+    return jogou_uma_vez
+
+
+def apostar_pagar_jogar_mesa(x_origem, y_origem):
+    jogou_uma_vez = False
+    # quando se tem que apostar, testa se tem a barra de ajustar a aposta
+    if pyautogui.pixelMatchesColor((x_origem + 513), (y_origem + 647), (180, 202, 224), 5):
+        print('barra de ajustar valor')
+        # se tem a barra de ajustar a aposta
+        # cliaca no final da barra para ela ir ate o final
+        pyautogui.click((x_origem + 660), (y_origem + 647))
+        time.sleep(0.3)
+        # escolhe um valor de ajuste para a barra
+        numero_aleatorio = random.randint(540, 600)
+        print('NÂO é a ultima carta')
+        # clicar no meio da barra de ajuste
+        pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
+
+        for _ in range(100):
+            #  teste se a barra foi deslocada, nao esta mais na posição inicial
+            if not pyautogui.pixelMatchesColor((x_origem + 515), (y_origem + 647), (184, 212, 237), 5):
+                break
+            time.sleep(0.01)
+        # clica no apostar
+        print('tem que aposta')
+        pyautogui.click((x_origem + 380), (y_origem + 650))
+
+        jogou_uma_vez = True
+        return jogou_uma_vez
+
+    elif pyautogui.pixelMatchesColor((x_origem + 342), (y_origem + 601), (255, 255, 255), 5):
+        # branco de interceção de pagar e passar sem o quadrado brando
+        # se nao tem a barra de ajusta a posta e se tem o pagar
+        pyautogui.click((x_origem + 380), (y_origem + 604))
+        print('clicou no Passar ou no Pagar')
+        jogou_uma_vez = True
+        return jogou_uma_vez
     return jogou_uma_vez
 
 
