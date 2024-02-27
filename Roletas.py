@@ -15,7 +15,7 @@ pyautogui.PAUSE = 0
 
 def roletas(x_origem, y_origem):
     cont_roleta1 = 0
-    TEMPO_ESPERA = 1200  # tempo de tolerancia para esperar em, segundos
+    TEMPO_ESPERA = 3600  # tempo de tolerancia para esperar em, segundos
     roleta = "sem_roleta"
     tempo2 = 1200
     while True:
