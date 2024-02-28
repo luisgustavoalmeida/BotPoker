@@ -248,12 +248,10 @@ def roletas():
             print('tempo que ja clicou no rodou', tempo_total)
             if tempo_total >= 0.5:
                 print('ja pode sair do r2')
-                # return
                 break
             time.sleep(0.3)
 
-    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta, valor_fichas_perfil, conta_upada,
-                                                              dia_da_semana)
+    # level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta, valor_fichas_perfil, conta_upada,dia_da_semana)
     return
 
 

@@ -1284,12 +1284,12 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         match passa_paga_aposta:
             case 1:
                 pyautogui.click((x_origem + 380), (y_origem + 603))
-                print('Passou')
+                print('***Passou')
                 jogou_uma_vez = True
                 return jogou_uma_vez
             case 2:
                 pyautogui.click((x_origem + 380), (y_origem + 650))
-                print('Apostou valor padrão')
+                print('***Apostou valor padrão')
                 jogou_uma_vez = True
                 return jogou_uma_vez
             case 3:
@@ -1311,7 +1311,7 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
                 time.sleep(0.4)
 
                 pyautogui.click((x_origem + 380), (y_origem + 650))
-                print('Apostou valor maior')
+                print('***Apostou valor maior')
                 jogou_uma_vez = True
                 return jogou_uma_vez
 
@@ -1319,7 +1319,7 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         # branco de interceção de pagar e passar sem o quadrado brando
         # se nao tem a barra de ajusta a posta e se tem o pagar
         pyautogui.click((x_origem + 380), (y_origem + 604))
-        print('clicou no Passar ou no Pagar')
+        print('Clicou no Passar ou no Pagar')
         jogou_uma_vez = True
         return jogou_uma_vez
 
