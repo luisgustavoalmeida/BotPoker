@@ -14,6 +14,7 @@ pyautogui.PAUSE = 0
 
 
 def roletas(x_origem, y_origem):
+    time_entrou_na_funcao = time.perf_counter()
     cont_roleta1 = 0
     TEMPO_ESPERA = 3600  # tempo de tolerancia para esperar em, segundos
     roleta = "sem_roleta"
@@ -109,8 +110,11 @@ def roletas(x_origem, y_origem):
 
                 else:
                     print("esperando pela roleta 2")
-                    IP.testa_trocar_IP()
-                    time.sleep(5)
+                    if (time_entrou_na_funcao + 300) < time.perf_counter():
+                        print('Esperando pela roleta 2, verifica se tem que trocar ip para liberar outros computadores')
+                        IP.testa_trocar_IP()
+                        time_entrou_na_funcao = time.perf_counter() - 150
+                    time.sleep(15)
 
         # faz roleta 1 # se tem roleta 1 tem que ta com o icone da roleta amarelo e nao pode ter barra vermelha nem amarela nem amerela mio cinza
         else:
@@ -162,7 +166,7 @@ def roletas(x_origem, y_origem):
                 roleta = "sem_roleta"
                 break
             # se fez todas as roletas do dia
-            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248),tolerance=20):
+            elif pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248), tolerance=20):
                 # testa se o icone da roleta ta branco
                 print("Jarodou todas as roletas do dia")
                 roleta = "sem_roleta"
