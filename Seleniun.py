@@ -176,7 +176,7 @@ def teste_logado():
         return entrou, status
 
 
-def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True):
+def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     global navegador, url, id, senha
 
     if url != url_novo and url_novo != '':
@@ -185,6 +185,10 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True):
     if id_novo != '':
         id = id_novo
         senha = senha_novo
+
+    if loga_pk is False:
+        navegador.get(url)
+        time.sleep(2)
 
     while True:
 
@@ -196,7 +200,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True):
         # print('continua login')
         url_atual = pega_url()
 
-        # print(url_atual)
+        print(url_atual)
 
         if (("/login/" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')
@@ -311,26 +315,33 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True):
                                         break
                                     time.sleep(1)
 
-                            if status == 'Remover Poker não ok':
-                                while True:
-                                    print('\n\nOlhar manualmente o poker pode nao ter sido removido\n\n')
-                                    time.sleep(20)
+                            if loga_face:
+                                entrou = True
+                                status = "Logou so face"
+                                return entrou, status
 
-                            print('Terminou de remover')
-                            url_atual = pega_url()
-                            print(url_atual)
+                            else:
 
-                            time.sleep(1)
-                            urlpkrl = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
-                            url = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
-                            navegador.get(urlpkrl)
-                            print('Loga no RL e espera 5 segundos')
-                            time.sleep(2)
-                            url_atual = pega_url()
-                            print(url_atual)
-                            time.sleep(3)
-                            print('Continua os testes')
-                            # return entrou, status
+                                if status == 'Remover Poker não ok':
+                                    while True:
+                                        print('\n\nOlhar manualmente o poker pode nao ter sido removido\n\n')
+                                        time.sleep(20)
+
+                                print('Terminou de remover')
+                                url_atual = pega_url()
+                                print(url_atual)
+
+                                time.sleep(1)
+                                urlpkrl = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
+                                url = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
+                                navegador.get(urlpkrl)
+                                print('Loga no RL e espera 5 segundos')
+                                time.sleep(2)
+                                url_atual = pega_url()
+                                print(url_atual)
+                                time.sleep(3)
+                                print('Continua os testes')
+                                # return entrou, status
 
                         elif "/checkpoint/" in url_atual:
                             # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
