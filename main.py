@@ -382,7 +382,7 @@ def tarefas():
 
 
 def recolher():
-    global blind, lugares, valor_fichas, posi_lista, hora_que_rodou
+    global blind, lugares, valor_fichas, posi_lista, hora_que_rodou, valor_fichas_perfil
 
     recebido1 = "padrao"
     recebido2 = "padrao"
@@ -520,7 +520,10 @@ def recolher():
 
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
 
+    valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
+
     print('\nValor_fichas', valor_fichas, '\n')
+    return
 
 
 def identifica_funcao():
