@@ -393,14 +393,14 @@ def reservar_linha(guia, endereco, salta_linhas=True):
             else:
                 print("Pego por outro computador")
                 if salta_linhas:
-                    linha_vazia_anterior += random.randint(20, 45)
+                    linha_vazia_anterior += random.randint(20, 40)
                 else:
                     linha_vazia_anterior += random.randint(5, 30)
                 return False, id, senha, fichas, linha, contagem_ip
             # print("values :",values)
         except:
             if salta_linhas:
-                linha_vazia_anterior += random.randint(20, 45)
+                linha_vazia_anterior += random.randint(20, 40)
             else:
                 linha_vazia_anterior += random.randint(5, 30)
             return False, id, senha, fichas, linha, contagem_ip
@@ -410,15 +410,12 @@ def reservar_linha(guia, endereco, salta_linhas=True):
 
 
 def lote_valor(guia, linha):
-    global cred
-    global service
+    global cred, service
     regiao1 = f"{guia}!B{linha}:E{linha}"  # regiao com a informação id senha e numero computador
     # print(regiao1)
     regiao2 = f"{dicionari_PC_IP[nome_computador]}"  # pega a contagem de ip
     # print(regiao2)
     regiao = [regiao1, regiao2]
-
-    # print(regiao)
 
     while True:
 
@@ -436,15 +433,21 @@ def lote_valor(guia, linha):
                 if range_values:
                     values.extend(range_values[0])
 
-            print("Os valores são:", values)
+            # print("Os valores são:", values)
 
-            if len(values) >= 4:
+            if len(values) == 5:
                 id = values[0]
                 senha = values[1]
                 valor = values[2]
                 fichas = values[3]
-                cont_IP = values[4]
-                # print(cont_IP)
+                cont_IP = values[-1]
+                return valor, id, senha, fichas, cont_IP
+            elif len(values) == 4:
+                id = values[0]
+                senha = values[1]
+                valor = values[2]
+                fichas = 0
+                cont_IP = values[-1]
                 return valor, id, senha, fichas, cont_IP
 
         except Exception as error:

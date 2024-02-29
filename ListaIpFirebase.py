@@ -67,15 +67,15 @@ def escolher_configuracao_e_db():
     global configuracao_banco
     dia_atual = datetime.datetime.now().day
 
-    if dia_atual < 8:
+    if dia_atual < 6:
         configuracao = config1
         print('Sera usado o banco 1')
 
-    elif 8 <= dia_atual < 16:
+    elif 6 <= dia_atual < 14:
         configuracao = config2
         print('Sera usado o banco 2')
 
-    elif 16 <= dia_atual < 24:
+    elif 14 <= dia_atual < 22:
         configuracao = config3
         print('Sera usado o banco 3')
 
