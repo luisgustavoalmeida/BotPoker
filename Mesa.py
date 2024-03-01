@@ -1194,31 +1194,33 @@ def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_pe
     time.sleep(2)
     Limpa.limpa_total(x_origem, y_origem)
 
+    LIMITE_FICHAS = 10000
+
     if not conta_upada:
         upar(x_origem, y_origem)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
         Limpa.limpa_total(x_origem, y_origem)
 
-    if level_conta >= 10:
+    if (level_conta >= 10) and (valor_fichas_perfil > LIMITE_FICHAS):
         print('conta para jogar mesa')
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
         print('Joga vezes: ', numero_aleatorio)
         mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
 
-    elif 5 <= level_conta < 10:
+    elif (5 <= level_conta < 10) and (valor_fichas_perfil > LIMITE_FICHAS * 4):
         Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
         mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
         Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
-    elif 1 <= level_conta < 4:
+    elif (1 <= level_conta < 4) and (valor_fichas_perfil > LIMITE_FICHAS):
         print('conta para jogar mesa')
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
         print('Joga vezes: ', numero_aleatorio)
         mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
-    else:
+    elif valor_fichas_perfil > LIMITE_FICHAS:
         print('conta para jogar mesa')
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
         print('Joga vezes: ', numero_aleatorio)
