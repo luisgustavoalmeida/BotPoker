@@ -41,7 +41,7 @@ if errorlevel 6 (
     echo    Atualizar repositorio local com GitHub selecionado.
     echo.
     timeout /t 1 /nobreak >nul
-    git pull origin main --verbose
+    git pull origin main
     echo.
     echo    Repositorio atualizado com sucesso!
     echo.
