@@ -13,7 +13,7 @@ echo   **                                                          **
 echo   **************************************************************
 :inicio
 echo.
-timeout /t 1 /nobreak >nul
+timeout /t 0.3 /nobreak >nul
 REM Opções
 echo   **                 O que voce deseja fazer?                 **
 echo.
@@ -26,7 +26,7 @@ echo        6. Atualizar repositorio local com GitHub.
 echo.
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
-timeout /t 1 /nobreak >nul
+timeout /t 0.3 /nobreak >nul
 REM Pergunta ao usuário
 echo    Aguardando resposta.
 echo.

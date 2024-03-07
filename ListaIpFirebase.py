@@ -1,54 +1,74 @@
 # Importa a biblioteca necessária
 import datetime  # Adicionado para manipulação de datas
-import time
 import json
 import os
+import time
+
 import pyrebase
 
 # Configuração dos bancos de dados
 
+# config2 = {
+#     "apiKey": "AIzaSyBWJEh-hD6UIkpMz8J4V2Es4mP2AtuHx9k",
+#     "authDomain": "poker-dados.firebaseapp.com",
+#     "databaseURL": "https://poker-dados-default-rtdb.firebaseio.com",
+#     "projectId": "poker-dados",
+#     "storageBucket": "poker-dados.appspot.com",
+#     "messagingSenderId": "968238353891",
+#     "appId": "1:968238353891:web:b0026783a590efa99c24d6"
+# }
+#
+# # lga.gustavo.a@gmail.com
+# config3 = {
+#     "apiKey": "AIzaSyBMhul_wFoi-7LFtS6PP22vCi8Op3RYIlE",
+#     "authDomain": "poker-dados-2.firebaseapp.com",
+#     "databaseURL": "https://poker-dados-2-default-rtdb.firebaseio.com",
+#     "projectId": "poker-dados-2",
+#     "storageBucket": "poker-dados-2.appspot.com",
+#     "messagingSenderId": "712512083103",
+#     "appId": "1:712512083103:web:6afab600554fdf1287beaa"
+# }
+#
+# # luis.gustavo@engenharia.ufjf.br
+# config4 = firebaseConfig = {
+#     "apiKey": "AIzaSyD0OgT6l5HcMVM4HKPFRD7BGbKbCRgDeaM",
+#     "authDomain": "poker-dados-3-3e7cc.firebaseapp.com",
+#     "databaseURL": "https://poker-dados-3-3e7cc-default-rtdb.firebaseio.com",
+#     "projectId": "poker-dados-3-3e7cc",
+#     "storageBucket": "poker-dados-3-3e7cc.appspot.com",
+#     "messagingSenderId": "370013391029",
+#     "appId": "1:370013391029:web:acaa0cfbe3e53d269116fc"
+# }
+
+
 # gayaluisaalmeida@gmail.com
-config1 = {
-    "apiKey": "AIzaSyDDzQMVxpKKqBZrDlhA9E4sInXB5toVRT8",
-    "authDomain": "pokerdados-6884e.firebaseapp.com",
-    "databaseURL": "https://pokerdados-6884e-default-rtdb.firebaseio.com",
-    "projectId": "pokerdados-6884e",
-    "storageBucket": "pokerdados-6884e.appspot.com",
-    "messagingSenderId": "240019464920",
-    "appId": "1:240019464920:web:a746cddaf41f43642aadad"
-}
-# luis.almeida@estudante.ufjf.br
-config2 = {
-    "apiKey": "AIzaSyBWJEh-hD6UIkpMz8J4V2Es4mP2AtuHx9k",
-    "authDomain": "poker-dados.firebaseapp.com",
-    "databaseURL": "https://poker-dados-default-rtdb.firebaseio.com",
-    "projectId": "poker-dados",
-    "storageBucket": "poker-dados.appspot.com",
-    "messagingSenderId": "968238353891",
-    "appId": "1:968238353891:web:b0026783a590efa99c24d6"
-}
+config1 = {"apiKey": "AIzaSyAejgpCgHmBFyESI1cvOJ0nzUX3gQ3k4h8", "authDomain": "config1-f0277.firebaseapp.com",
+           "databaseURL": "https://config1-f0277-default-rtdb.firebaseio.com", "projectId": "config1-f0277",
+           "storageBucket": "config1-f0277.appspot.com", "messagingSenderId": "547584039775", "appId": "1:547584039775:web:1c675dda6cf5da01caf4ea"}
 
-# lga.gustavo.a@gmail.com
-config3 = {
-    "apiKey": "AIzaSyBMhul_wFoi-7LFtS6PP22vCi8Op3RYIlE",
-    "authDomain": "poker-dados-2.firebaseapp.com",
-    "databaseURL": "https://poker-dados-2-default-rtdb.firebaseio.com",
-    "projectId": "poker-dados-2",
-    "storageBucket": "poker-dados-2.appspot.com",
-    "messagingSenderId": "712512083103",
-    "appId": "1:712512083103:web:6afab600554fdf1287beaa"
-}
+config2 = {"apiKey": "AIzaSyALRmZR-_VcHS0GPsm41Pk_zQn47a8uq44", "authDomain": "config2-7f437.firebaseapp.com",
+           "databaseURL": "https://config2-7f437-default-rtdb.firebaseio.com", "projectId": "config2-7f437",
+           "storageBucket": "config2-7f437.appspot.com", "messagingSenderId": "589089564888", "appId": "1:589089564888:web:e6816ec8a1b4ddb0764fad"}
 
-# luis.gustavo@engenharia.ufjf.br
-config4 = firebaseConfig = {
-    "apiKey": "AIzaSyD0OgT6l5HcMVM4HKPFRD7BGbKbCRgDeaM",
-    "authDomain": "poker-dados-3-3e7cc.firebaseapp.com",
-    "databaseURL": "https://poker-dados-3-3e7cc-default-rtdb.firebaseio.com",
-    "projectId": "poker-dados-3-3e7cc",
-    "storageBucket": "poker-dados-3-3e7cc.appspot.com",
-    "messagingSenderId": "370013391029",
-    "appId": "1:370013391029:web:acaa0cfbe3e53d269116fc"
-}
+config3 = {"apiKey": "AIzaSyBIJ-Z7Z6Mim2CEJB3vNDBMld8ZKqkt7HY", "authDomain": "config3-db30a.firebaseapp.com",
+           "databaseURL": "https://config3-db30a-default-rtdb.firebaseio.com", "projectId": "config3-db30a",
+           "storageBucket": "config3-db30a.appspot.com", "messagingSenderId": "428851296907", "appId": "1:428851296907:web:259d26ef77d050cf51f28e"}
+
+config4 = {"apiKey": "AIzaSyBDjQDvYKWh8bEgKTTHCJnMc9O8lUDaSFU", "authDomain": "config4-eeca6.firebaseapp.com",
+           "databaseURL": "https://config4-eeca6-default-rtdb.firebaseio.com", "projectId": "config4-eeca6",
+           "storageBucket": "config4-eeca6.appspot.com", "messagingSenderId": "178010237452", "appId": "1:178010237452:web:9b30673b9dd802c4471c29"}
+
+config5 = {"apiKey": "AIzaSyB8EN2_FrdORLdr7hRFqdJ5eNM_vW2T_jA", "authDomain": "config4-62427.firebaseapp.com",
+           "databaseURL": "https://config4-62427-default-rtdb.firebaseio.com", "projectId": "config4-62427",
+           "storageBucket": "config4-62427.appspot.com", "messagingSenderId": "706824343416", "appId": "1:706824343416:web:47ad80d993b89037bac28d"}
+
+config6 = {"apiKey": "AIzaSyCVizFSlEEwAUpUrGZRjTVu7LKPgvlR-vs", "authDomain": "config6-5760a.firebaseapp.com",
+           "databaseURL": "https://config6-5760a-default-rtdb.firebaseio.com", "projectId": "config6-5760a",
+           "storageBucket": "config6-5760a.appspot.com", "messagingSenderId": "652300196188", "appId": "1:652300196188:web:089fabbd85d34136860999"}
+
+config7 = {"apiKey": "AIzaSyA7ol3mz6E36vEvEnUbCzeASTLhZYgyrVQ", "authDomain": "config7-f487a.firebaseapp.com",
+           "databaseURL": "https://config7-f487a-default-rtdb.firebaseio.com", "projectId": "config7-f487a",
+           "storageBucket": "config7-f487a.appspot.com", "messagingSenderId": "702319895919", "appId": "1:702319895919:web:df25fdca2ecfe75fb3b49a"}
 
 # Variável para armazenar a última data de acesso
 ultima_data_acesso = None
@@ -71,17 +91,29 @@ def escolher_configuracao_e_db():
         configuracao = config1
         print('Sera usado o banco 1')
 
-    elif 6 <= dia_atual < 14:
+    elif 6 <= dia_atual < 11:
         configuracao = config2
         print('Sera usado o banco 2')
 
-    elif 14 <= dia_atual < 22:
+    elif 11 <= dia_atual < 15:
         configuracao = config3
         print('Sera usado o banco 3')
 
-    else:
+    elif 15 <= dia_atual < 18:
         configuracao = config4
         print('Sera usado o banco 4')
+
+    elif 18 <= dia_atual < 22:
+        configuracao = config6
+        print('Sera usado o banco 6')
+
+    elif 22 <= dia_atual < 26:
+        configuracao = config6
+        print('Sera usado o banco 6')
+
+    else:
+        configuracao = config7
+        print('Sera usado o banco 7')
 
     # Inicializa o Firebase com a configuração escolhida
     firebase = pyrebase.initialize_app(configuracao)
@@ -96,16 +128,22 @@ configuracao_banco, db = escolher_configuracao_e_db()
 
 def unir_e_atualizar_dados():
     # Inicializa os bancos de dados
-    firebase_4 = pyrebase.initialize_app(config4)
-    firebase_3 = pyrebase.initialize_app(config3)
-    firebase_2 = pyrebase.initialize_app(config2)
     firebase_1 = pyrebase.initialize_app(config1)
+    firebase_2 = pyrebase.initialize_app(config2)
+    firebase_3 = pyrebase.initialize_app(config3)
+    firebase_4 = pyrebase.initialize_app(config4)
+    firebase_5 = pyrebase.initialize_app(config5)
+    firebase_6 = pyrebase.initialize_app(config6)
+    firebase_7 = pyrebase.initialize_app(config7)
 
     # Obtém referências para os bancos de dados
     db_1 = firebase_1.database()
     db_2 = firebase_2.database()
     db_3 = firebase_3.database()
     db_4 = firebase_4.database()
+    db_5 = firebase_5.database()
+    db_6 = firebase_6.database()
+    db_7 = firebase_7.database()
 
     try:
         # Obtém os dados da referência 'ips' em ambos os bancos
@@ -113,11 +151,17 @@ def unir_e_atualizar_dados():
         dados_2 = db_2.child('ips').get().val()
         dados_3 = db_3.child('ips').get().val()
         dados_4 = db_4.child('ips').get().val()
+        dados_5 = db_5.child('ips').get().val()
+        dados_6 = db_6.child('ips').get().val()
+        dados_7 = db_7.child('ips').get().val()
 
         dados_1_banidos = db_1.child('ips_banidos').get().val()
         dados_2_banidos = db_2.child('ips_banidos').get().val()
         dados_3_banidos = db_3.child('ips_banidos').get().val()
         dados_4_banidos = db_4.child('ips_banidos').get().val()
+        dados_5_banidos = db_5.child('ips_banidos').get().val()
+        dados_6_banidos = db_6.child('ips_banidos').get().val()
+        dados_7_banidos = db_7.child('ips_banidos').get().val()
 
         # Se as listas de IPs estão vazias ou não existem, inicializa listas vazias
         if dados_1 is None:
@@ -128,6 +172,12 @@ def unir_e_atualizar_dados():
             dados_3 = []
         if dados_4 is None:
             dados_4 = []
+        if dados_5 is None:
+            dados_5 = []
+        if dados_6 is None:
+            dados_6 = []
+        if dados_7 is None:
+            dados_7 = []
 
         if dados_1_banidos is None:
             dados_1_banidos = []
@@ -137,11 +187,18 @@ def unir_e_atualizar_dados():
             dados_3_banidos = []
         if dados_4_banidos is None:
             dados_4_banidos = []
+        if dados_5_banidos is None:
+            dados_5_banidos = []
+        if dados_6_banidos is None:
+            dados_6_banidos = []
+        if dados_7_banidos is None:
+            dados_7_banidos = []
 
         # Combina os dados de ambos os bancos
-        dados_combinados = dados_1 + dados_2 + dados_3 + dados_4
+        dados_combinados = dados_1 + dados_2 + dados_3 + dados_4 + dados_5 + dados_6 + dados_7
 
-        dados_combinados_banidos = dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos
+        dados_combinados_banidos = (
+                    dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos + dados_5_banidos + dados_6_banidos + dados_7_banidos)
 
         # Remove IPs duplicados
         dados_combinados = [dict(t) for t in {tuple(d.items()) for d in dados_combinados}]
@@ -162,11 +219,17 @@ def unir_e_atualizar_dados():
         db_2.child('ips').set(dados_combinados)
         db_3.child('ips').set(dados_combinados)
         db_4.child('ips').set(dados_combinados)
+        db_5.child('ips').set(dados_combinados)
+        db_6.child('ips').set(dados_combinados)
+        db_7.child('ips').set(dados_combinados)
 
         db_1.child('ips_banidos').set(dados_combinados_banidos)
         db_2.child('ips_banidos').set(dados_combinados_banidos)
         db_3.child('ips_banidos').set(dados_combinados_banidos)
         db_4.child('ips_banidos').set(dados_combinados_banidos)
+        db_5.child('ips_banidos').set(dados_combinados_banidos)
+        db_6.child('ips_banidos').set(dados_combinados_banidos)
+        db_7.child('ips_banidos').set(dados_combinados_banidos)
 
         print("Dados unidos, duplicatas removidas e IPs antigos removidos. Atualização concluída!")
 
@@ -233,10 +296,7 @@ def verifica_e_adiciona_ip(ip):
                     return False  # O IP já está na lista, retorna False
 
             # Adiciona o IP à lista com o timestamp atual
-            lista_ips.append({
-                'ip': ip,
-                'timestamp': time.time()
-            })
+            lista_ips.append({'ip': ip, 'timestamp': time.time()})
 
             # Atualiza a lista de IPs no Firebase
             db.child('ips').set(lista_ips)
@@ -313,11 +373,7 @@ def escrever_IP_banido(ip):
     print(data_hora_atual)
 
     # Crie uma estrutura de dados para o IP banido
-    ip_banido_info = {
-        'ip': ip,
-        'timestamp': time.time(),
-        'data_hora': data_hora_atual
-    }
+    ip_banido_info = {'ip': ip, 'timestamp': time.time(), 'data_hora': data_hora_atual}
     while True:
         try:
             # Obtém os dados da referência 'ips_banidos' no Firebase
@@ -370,15 +426,13 @@ def lista_ip_banidos():
             return ips_banidos
         except Exception as e:
             print(f"Erro ao obter lista de IPs banidos do Firebase: {e}")
-            time.sleep(1)
-            # return []
+            time.sleep(1)  # return []
+
 
 # # Chama a função para verificar e adicionar IP (substitua pelo IP desejado)
 # verifica_e_adiciona_ip('1.1.1.3')
 
-# unir_e_atualizar_dados()
-#
-# unir_e_atualizar_dados()
+unir_e_atualizar_dados()  #  # unir_e_atualizar_dados()
 
 # lista_ip_banidos()
 # escrever_IP_banido("0.0.1.1")

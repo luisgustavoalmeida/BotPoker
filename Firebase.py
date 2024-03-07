@@ -11,17 +11,28 @@ from requests.exceptions import ConnectionError
 from Google import dicionari_token_credencial_n, numero_pc
 
 
+
 # importa o dicionário com os nomes dos computadores e o námero referete a cada um
 # from Parametros import dicionari_token_credencial_n
 
+# config = {
+#     "apiKey": "AIzaSyDDzQMVxpKKqBZrDlhA9E4sInXB5toVRT8",
+#     "authDomain": "pokerdados-6884e.firebaseapp.com",
+#     "databaseURL": "https://pokerdados-6884e-default-rtdb.firebaseio.com",
+#     "projectId": "pokerdados-6884e",
+#     "storageBucket": "pokerdados-6884e.appspot.com",
+#     "messagingSenderId": "240019464920",
+#     "appId": "1:240019464920:web:a746cddaf41f43642aadad"
+# }
+
 config = {
-    "apiKey": "AIzaSyDDzQMVxpKKqBZrDlhA9E4sInXB5toVRT8",
-    "authDomain": "pokerdados-6884e.firebaseapp.com",
-    "databaseURL": "https://pokerdados-6884e-default-rtdb.firebaseio.com",
-    "projectId": "pokerdados-6884e",
-    "storageBucket": "pokerdados-6884e.appspot.com",
-    "messagingSenderId": "240019464920",
-    "appId": "1:240019464920:web:a746cddaf41f43642aadad"
+  "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
+  "authDomain": "pokerdados-faf1f.firebaseapp.com",
+  "databaseURL": "https://pokerdados-faf1f-default-rtdb.firebaseio.com",
+  "projectId": "pokerdados-faf1f",
+  "storageBucket": "pokerdados-faf1f.appspot.com",
+  "messagingSenderId": "368579247698",
+  "appId": "1:368579247698:web:3429ba54dcb18127f5a98b"
 }
 
 # Dicionário global para armazenar as variáveis com seus respectivos valores
@@ -386,6 +397,7 @@ def escreve_configuracao(dados_config):
 def ler_configuracao():
     ''' Lê os dados de configuração do banco de dados Firebase '''
     global firebase, db, numero_pc
+
     try:
         # Lê os dados de configuração do nó 'Ajustes' do banco de dados Firebase
         dados_config = db.child('Ajustes').child(numero_pc).get().val()
@@ -407,7 +419,9 @@ def ler_configuracao():
 
 
 # Chama a função para escrever os dados de configuração no banco de dados Firebase
-# escreve_configuracao(dados_config)
+# dados_config = "teste"
+# print(numero_pc)
+escreve_configuracao(dados_config)
 
 # ler_configuracao()
 #
