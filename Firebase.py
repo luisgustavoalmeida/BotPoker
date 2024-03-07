@@ -421,7 +421,7 @@ def ler_configuracao():
 # Chama a função para escrever os dados de configuração no banco de dados Firebase
 # dados_config = "teste"
 # print(numero_pc)
-escreve_configuracao(dados_config)
+# escreve_configuracao(dados_config)
 
 # ler_configuracao()
 #
