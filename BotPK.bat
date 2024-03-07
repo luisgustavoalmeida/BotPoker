@@ -72,18 +72,21 @@ if errorlevel 6 (
     echo    Recolher selecionado.
     echo.
     timeout /t 1 /nobreak >nul
+    python InicializarRecolher.py
     python ExecutaComando.py
 ) else if errorlevel 2 (
     echo.
     echo    Remover Poker selecionado.
     echo.
     timeout /t 1 /nobreak >nul
+    python InicializarRemover.py
     python RemoverPK.py
 ) else if errorlevel 1 (
     echo.
     echo    Script Principal selecionado.
     echo.
     timeout /t 1 /nobreak >nul
+    python InicializarRoleta.py
     python main.py
 )
 pause

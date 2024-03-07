@@ -48,8 +48,9 @@ orderem_chave = {
 }
 
 # Dados padrões de configuração a serem escritos
+# confg_funcao= 'roleta_auto', 'T1', 'R1','Recolher', 'Remover'
 dados_config = {
-    'PC01': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},  # confg_funcao= 'roleta_auto', 'T1', 'R1','Recolher', 'Remover'
+    'PC01': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
     'PC02': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
     'PC03': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
     'PC04': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
@@ -396,7 +397,7 @@ def escreve_configuracao(dados_config):
 
 def ler_configuracao():
     ''' Lê os dados de configuração do banco de dados Firebase '''
-    global firebase, db, numero_pc
+    global firebase, db
 
     try:
         # Lê os dados de configuração do nó 'Ajustes' do banco de dados Firebase
@@ -418,10 +419,29 @@ def ler_configuracao():
         return None, None
 
 
+def atualizar_configuracao_pc(novos_dados):
+    ''' Atualiza os dados de configuração para um PC específico '''
+    # novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'}
+    global firebase, db
+    try:
+        if not firebase or not db:
+            raise ValueError("Firebase ou banco de dados não inicializado corretamente.")
+
+        # Atualiza os dados de configuração específicos para o PC fornecido
+        db.child('Ajustes').child(numero_pc).update(novos_dados)
+        print(f"Dados de configuração para {numero_pc} atualizados com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
+
+
 # Chama a função para escrever os dados de configuração no banco de dados Firebase
 # dados_config = "teste"
 # print(numero_pc)
+# numero_pc = 'PC35'
+# comando = {numero_pc: {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'}}
 # escreve_configuracao(dados_config)
+
+# atualizar_configuracao_pc()
 
 # ler_configuracao()
 #
