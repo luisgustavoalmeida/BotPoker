@@ -198,7 +198,7 @@ def unir_e_atualizar_dados():
         dados_combinados = dados_1 + dados_2 + dados_3 + dados_4 + dados_5 + dados_6 + dados_7
 
         dados_combinados_banidos = (
-                    dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos + dados_5_banidos + dados_6_banidos + dados_7_banidos)
+                dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos + dados_5_banidos + dados_6_banidos + dados_7_banidos)
 
         # Remove IPs duplicados
         dados_combinados = [dict(t) for t in {tuple(d.items()) for d in dados_combinados}]
@@ -315,52 +315,6 @@ def verifica_e_adiciona_ip(ip):
             time.sleep(1)
 
 
-# def escrever_IP_banido(ip):
-#     global db
-#
-#     print('escrever_IP_banido')
-#
-#     print(ip)
-#
-#     data_hora_atual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-#
-#     print(data_hora_atual)
-#
-#     # Crie uma estrutura de dados para o IP banido
-#     ip_banido_info = {
-#         'ip': ip,
-#         'timestamp': time.time(),
-#         'data_hora': data_hora_atual
-#     }
-#     while True:
-#         try:
-#             # Obtém os dados da referência 'ips_banidos' no Firebase
-#             dados_banidos = db.child('ips_banidos').get().val()
-#
-#             # Se a lista de IPs banidos está vazia ou não existe, inicializa uma lista vazia
-#             if dados_banidos is None:
-#                 dados_banidos = []
-#
-#             # Verifica se o IP já está na lista
-#             for ip_info in dados_banidos:
-#                 if ip_info['ip'] == ip:
-#                     print(f"IP {ip} já está na lista de IPs banidos.")
-#                     return
-#
-#             # Adiciona o IP banido à lista
-#             dados_banidos.append(ip_banido_info)
-#
-#             # Remove IPs duplicados
-#             dados_banidos = [dict(t) for t in {tuple(d.items()) for d in dados_banidos}]
-#
-#             # Atualiza a referência 'ips_banidos' no Firebase
-#             db.child('ips_banidos').set(dados_banidos)
-#
-#             print(f"IP {ip} adicionado à lista de IPs banidos.")
-#         except Exception as e:
-#             print(f"Erro ao adicionar IP banido do Firebase: {e}")
-#             time.sleep(1)
-
 def escrever_IP_banido(ip):
     global db
 
@@ -427,7 +381,6 @@ def lista_ip_banidos():
         except Exception as e:
             print(f"Erro ao obter lista de IPs banidos do Firebase: {e}")
             time.sleep(1)  # return []
-
 
 # # Chama a função para verificar e adicionar IP (substitua pelo IP desejado)
 # verifica_e_adiciona_ip('1.1.1.3')

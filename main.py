@@ -227,8 +227,8 @@ def roletas():
             Limpa.fecha_tarefa(x_origem, y_origem)
 
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        print('level_conta', level_conta)
-        print('valor_fichas_perfil', valor_fichas_perfil)
+        print('Level_conta: ', level_conta)
+        print('Valor_fichas_perfil: ', valor_fichas_perfil)
 
         for i in range(50):
             time_sair = time.perf_counter()
@@ -246,7 +246,7 @@ def roletas():
                 # testa de roleta 1 ta aberta
                 pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
 
-        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta, valor_fichas_perfil, conta_upada,
+        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada,
                                                                   dia_da_semana)
 
     elif roleta == 'roleta_2':
@@ -575,7 +575,7 @@ while True:
     stataus_facebook = 'Carregada'
     hora_fim_tarefa = False
 
-    dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sabado,6 domingo
+    dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
     print('dia_da_semana: ', dia_da_semana)
     # ################################################################################################################################################
     if logar_carregar():

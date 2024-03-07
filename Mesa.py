@@ -934,7 +934,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550'):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True):
     print('mesa_upar_jogar')
 
     global lista_salas_jogar, lista_salas_jogar2, lista_salas_jogar3, lista_salas_niquel, indice_inicial
@@ -1062,9 +1062,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             Limpa.limpa_jogando(x_origem, y_origem)
 
         if sentou:
-            # print("esta sentado")
-            # (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
-            jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+            # escolhe qual modo de jogar sera usado
+            if apostar:
+                jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+            else:
+                (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
             if jogou:
                 jogou_uma_vez = True
 
@@ -1160,74 +1162,78 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     return
 
 
-def dia_de_jogar_mesa(x_origem, y_origem, roleta, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0):
-    # if roleta != 'roleta_1':
-    #     return level_conta, valor_fichas_perfil
+def blind_do_dia(dia_da_semana=10):
+    """
+    Retorna a mesa que sera usada em funçao do dia da semana.
+    0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+    """
+    if dia_da_semana == 10:
+        # se dia da semana fora do falor esperado recupera o valor
+        dia_da_semana = datetime.datetime.now().weekday()
 
+    if dia_da_semana in [6, 4]:
+        print("O dia da semana é 100/200.")
+        blind_mesa = '100200'
+    elif dia_da_semana in [0, 2]:
+        print("O dia da semana é 50/100.")
+        blind_mesa = '50100'
+    elif dia_da_semana in [1, 3, 5]:
+        print("O dia da semana é 25/50.")
+        blind_mesa = '2550'
+    else:
+        print("O dia da semana é 25/50.")
+        blind_mesa = '2550'
+    return blind_mesa
+
+
+# define o numero maximo e minimo que ira joga na mesa
+num_vezes_maximo = 4
+num_vezes_minimo = 2
+# limite de fichas minimo para jogar
+LIMITE_FICHAS = 10000
+
+
+def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0):
     if datetime.datetime.now().time() < datetime.time(23, 0, 0):
+        # nao joga se ja for mais tarde que o horario definido
         if level_conta == "":
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     else:
         return level_conta, valor_fichas_perfil
 
-    if dia_da_semana in [3]:
-        print("O dia da semana é 100/200.")
-        blind_mesa = '100200'
-        num_vezes_maximo = 4
-        num_vezes_minimo = 2
+    if valor_fichas_perfil < LIMITE_FICHAS:
+        return level_conta, valor_fichas_perfil
 
-    elif dia_da_semana in [0, 2, 5]:
-        print("O dia da semana é 50/100.")
-        blind_mesa = '50100'
-        num_vezes_maximo = 4
-        num_vezes_minimo = 2
-    else:
-        print("O dia da semana é 25/50.")
-        blind_mesa = '2550'
-        num_vezes_maximo = 4
-        num_vezes_minimo = 2
+    blind_mesa = blind_do_dia(dia_da_semana)
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_promocao(x_origem, y_origem)
-    print('level_conta', level_conta)
-    print('valor_fichas_perfil', valor_fichas_perfil)
+    print('level_conta: ', level_conta)
+    print('valor_fichas_perfil: ', valor_fichas_perfil)
     time.sleep(2)
     Limpa.limpa_total(x_origem, y_origem)
 
-    LIMITE_FICHAS = 10000
+    if dia_da_semana == 6:
+        #  se o dia da semana é domingo vai upar as copntar e fazer as tarefas de upar
+        if not conta_upada:
+            Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
+            upar(x_origem, y_origem)
+            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
+            Limpa.limpa_total(x_origem, y_origem)
 
-    if not conta_upada:
-        upar(x_origem, y_origem)
-        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        Limpa.limpa_total(x_origem, y_origem)
-
-    if (level_conta >= 10) and (valor_fichas_perfil > LIMITE_FICHAS):
-        print('conta para jogar mesa')
+        if 5 <= level_conta < 10:
+            Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
+            mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa, False)
+            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
+    else:
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        print('Joga vezes: ', numero_aleatorio)
-        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
-
-    elif (5 <= level_conta < 10) and (valor_fichas_perfil > LIMITE_FICHAS * 4):
-        Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-        mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa)
-        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
-
-    elif (1 <= level_conta < 4) and (valor_fichas_perfil > LIMITE_FICHAS):
-        print('conta para jogar mesa')
-        numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        print('Joga vezes: ', numero_aleatorio)
-        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
+        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa, True)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
-    elif valor_fichas_perfil > LIMITE_FICHAS:
-        print('conta para jogar mesa')
-        numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        print('Joga vezes: ', numero_aleatorio)
-        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa)
-
-    print('level_conta', level_conta)
-    print('valor_fichas_perfil', valor_fichas_perfil)
+    print('level_conta: ', level_conta)
+    print('valor_fichas_perfil: ', valor_fichas_perfil)
     Limpa.limpa_total(x_origem, y_origem)
     return level_conta, valor_fichas_perfil
 
