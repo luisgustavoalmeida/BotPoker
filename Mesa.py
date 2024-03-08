@@ -25,27 +25,20 @@ nome_computador = socket.gethostname()
 
 indice_inicial = 0
 
-blinb_rolagem = {
-    '1/2': (534, 478, 2, 4), '2/4': (534, 504, 4, 8), '5/10': (534, 530, 10, 20), '10/20': (534, 556, 20, 40), '20/40': (534, 582, 40, 80),
-    '25/50': (548, 478, 50, 100), '50/100': (548, 504, 100, 200), '100/200': (548, 530, 200, 400), '200/400': (548, 556, 400, 800),
-    '500/1K': (548, 582, 1000, 2000), '1K/2K': (563, 478, 2000, 4000), '2K/4K': (563, 504, 4000, 8000), '5K/10K': (563, 530, 10000, 20000),
-    '10K/20K': (563, 556, 20000, 40000), '20K/40K': (563, 582, 40000, 80000), '50K/100K': (571, 530, 100000, 200000),
-    '100K/200K': (571, 556, 200000, 400000), '500K/1M': (571, 582, 1000000, 2000000)
-}
+blinb_rolagem = {'1/2': (534, 478, 2, 4), '2/4': (534, 504, 4, 8), '5/10': (534, 530, 10, 20), '10/20': (534, 556, 20, 40),
+                 '20/40': (534, 582, 40, 80), '25/50': (548, 478, 50, 100), '50/100': (548, 504, 100, 200), '100/200': (548, 530, 200, 400),
+                 '200/400': (548, 556, 400, 800), '500/1K': (548, 582, 1000, 2000), '1K/2K': (563, 478, 2000, 4000), '2K/4K': (563, 504, 4000, 8000),
+                 '5K/10K': (563, 530, 10000, 20000), '10K/20K': (563, 556, 20000, 40000), '20K/40K': (563, 582, 40000, 80000),
+                 '50K/100K': (571, 530, 100000, 200000), '100K/200K': (571, 556, 200000, 400000), '500K/1M': (571, 582, 1000000, 2000000)}
 
-lista_salas_niquel = [
-    # 5 lugares
+lista_salas_niquel = [  # 5 lugares
     {'1025': ('2040', 80, 40)}, {'1026': ('2040', 80, 40)}, {'1027': ('2040', 80, 40)}, {'1028': ('2040', 80, 40)}, {'1236': ('2040', 80, 40)},
     {'1266': ('2040', 80, 40)}, {'1645': ('2040', 80, 40)}, {'1646': ('2040', 80, 40)}, {'1647': ('2040', 80, 40)}, {'1648': ('2040', 80, 40)},
-    {'1649': ('2040', 80, 40)}, {'1650': ('2040', 80, 40)}, {'1651': ('2040', 80, 40)}, {'1652': ('2040', 80, 40)},
-    # 3 lugares
+    {'1649': ('2040', 80, 40)}, {'1650': ('2040', 80, 40)}, {'1651': ('2040', 80, 40)}, {'1652': ('2040', 80, 40)},  # 3 lugares
     {'435': ('2040', 80, 40)}, {'1540': ('2040', 80, 40)}, {'1541': ('2040', 80, 40)}, {'1542': ('2040', 80, 40)}, {'1543': ('2040', 80, 40)},
-    {'1767': ('2040', 80, 40)}, {'1768': ('2040', 80, 40)}, {'1769': ('2040', 80, 40)},
-    # 2 lugares
-    {'1535': ('2040', 80, 40)}, {'1536': ('2040', 80, 40)}, {'1537': ('2040', 80, 40)}, {'1538': ('2040', 80, 40)},
-    # nao sei
-    {'1546': ('2040', 80, 40)}, {'1765': ('2040', 80, 40)}, {'1766': ('2040', 80, 40)}, {'1545': ('2040', 80, 40)}
-]
+    {'1767': ('2040', 80, 40)}, {'1768': ('2040', 80, 40)}, {'1769': ('2040', 80, 40)},  # 2 lugares
+    {'1535': ('2040', 80, 40)}, {'1536': ('2040', 80, 40)}, {'1537': ('2040', 80, 40)}, {'1538': ('2040', 80, 40)},  # nao sei
+    {'1546': ('2040', 80, 40)}, {'1765': ('2040', 80, 40)}, {'1766': ('2040', 80, 40)}, {'1545': ('2040', 80, 40)}]
 
 # lista_salas_jogar = [{'12': ('12', 2, 4)}, {'296': ('12', 2, 4)}, {'4': ('12', 2, 4)}, {'297': ('12', 2, 4)},
 #                      {'295': ('12', 2, 4)}, {'294': ('12', 2, 4)}, {'293': ('12', 2, 4)},
@@ -66,25 +59,20 @@ lista_salas_niquel = [
 #                       {'1768': ('2040', 80, 40)}, {'1769': ('2040', 80, 40)}]
 
 
-lista_salas_jogar = [
-    {'134': ('2550', 100, 50)}, {'135': ('2550', 100, 50)}, {'999': ('2550', 100, 50)}, {'1003': ('2550', 100, 50)}, {'1004': ('2550', 100, 50)},
-    {'1243': ('2550', 100, 50)}, {'1245': ('2550', 100, 50)}, {'1246': ('2550', 100, 50)}, {'1247': ('2550', 100, 50)}, {'1673': ('2550', 100, 50)},
-    {'1674': ('2550', 100, 50)}, {'1675': ('2550', 100, 50)}, {'1676': ('2550', 100, 50)}, {'1677': ('2550', 100, 50)}, {'1678': ('2550', 100, 50)}
-]
+lista_salas_jogar = [{'134': ('2550', 100, 50)}, {'135': ('2550', 100, 50)}, {'999': ('2550', 100, 50)}, {'1003': ('2550', 100, 50)},
+                     {'1004': ('2550', 100, 50)}, {'1243': ('2550', 100, 50)}, {'1245': ('2550', 100, 50)}, {'1246': ('2550', 100, 50)},
+                     {'1247': ('2550', 100, 50)}, {'1673': ('2550', 100, 50)}, {'1674': ('2550', 100, 50)}, {'1675': ('2550', 100, 50)},
+                     {'1676': ('2550', 100, 50)}, {'1677': ('2550', 100, 50)}, {'1678': ('2550', 100, 50)}]
 
-lista_salas_jogar2 = [
-    {'1586': ('50100', 200, 100)}, {'1587': ('50100', 200, 100)}, {'1588': ('50100', 200, 100)}, {'1589': ('50100', 200, 100)},
-    {'1590': ('50100', 200, 100)}, {'1591': ('50100', 200, 100)}, {'1592': ('50100', 200, 100)}, {'1593': ('50100', 200, 100)},
-    {'1683': ('50100', 200, 100)}, {'1684': ('50100', 200, 100)}, {'1685': ('50100', 200, 100)}, {'1686': ('50100', 200, 100)},
-    {'1687': ('50100', 200, 100)}, {'1688': ('50100', 200, 100)}, {'1689': ('50100', 200, 100)}
-]
+lista_salas_jogar2 = [{'1586': ('50100', 200, 100)}, {'1587': ('50100', 200, 100)}, {'1588': ('50100', 200, 100)}, {'1589': ('50100', 200, 100)},
+                      {'1590': ('50100', 200, 100)}, {'1591': ('50100', 200, 100)}, {'1592': ('50100', 200, 100)}, {'1593': ('50100', 200, 100)},
+                      {'1683': ('50100', 200, 100)}, {'1684': ('50100', 200, 100)}, {'1685': ('50100', 200, 100)}, {'1686': ('50100', 200, 100)},
+                      {'1687': ('50100', 200, 100)}, {'1688': ('50100', 200, 100)}, {'1689': ('50100', 200, 100)}]
 
-lista_salas_jogar3 = [
-    {'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 400)}, {'1691': ('100200', 200, 400)}, {'1692': ('100200', 200, 400)},
-    {'1693': ('100200', 200, 400)}, {'1694': ('100200', 200, 400)}, {'1695': ('100200', 200, 400)}, {'1696': ('100200', 200, 400)},
-    {'1697': ('100200', 200, 400)}, {'1698': ('100200', 200, 400)}, {'1699': ('100200', 200, 400)}, {'1700': ('100200', 200, 400)},
-    {'1701': ('100200', 200, 400)}, {'1702': ('100200', 200, 400)}, {'1703': ('100200', 200, 400)}
-]
+lista_salas_jogar3 = [{'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 400)}, {'1691': ('100200', 200, 400)}, {'1692': ('100200', 200, 400)},
+                      {'1693': ('100200', 200, 400)}, {'1694': ('100200', 200, 400)}, {'1695': ('100200', 200, 400)}, {'1696': ('100200', 200, 400)},
+                      {'1697': ('100200', 200, 400)}, {'1698': ('100200', 200, 400)}, {'1699': ('100200', 200, 400)}, {'1700': ('100200', 200, 400)},
+                      {'1701': ('100200', 200, 400)}, {'1702': ('100200', 200, 400)}, {'1703': ('100200', 200, 400)}]
 
 dicionari_PC_cadeira = {
     'PC-I5-8600K': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
@@ -112,16 +100,35 @@ dicionari_PC_cadeira = {
     'PC-i3-8145U': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)},
     'PC-I7-9700KF': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
-                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}
-}
+                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}}
 
 dicionario_cadeira = {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
                       'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}
 
 dicionario_cadeira5 = {'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452), 'cadeira_6': (276, 451), 'cadeira_7': (118, 360)}
 
-dicionario_celular = {'cadeira_1': (645, 135), 'cadeira_2': (818, 217), 'cadeira_3': (814, 377), 'cadeira_4': (675, 473), 'cadeira_5': (484, 473),
-                      'cadeira_6': (290, 473), 'cadeira_7': (144, 377), 'cadeira_8': (156, 217), 'cadeira_9': (334, 135)}
+# dicionario_celular = {'cadeira_1': (645, 135), 'cadeira_2': (818, 217), 'cadeira_3': (814, 377), 'cadeira_4': (675, 473), 'cadeira_5': (484, 473),
+#                       'cadeira_6': (290, 473), 'cadeira_7': (144, 377), 'cadeira_8': (156, 217), 'cadeira_9': (334, 135)}
+
+# lista de tuplas conde se tem a coordenada de interesse e a cor da coodenada que identifica se é um humano
+lista_humano = [
+    # celuar
+    (645, 135, (136, 137, 137)), (818, 217, (136, 137, 137)), (814, 377, (136, 137, 137)), (675, 473, (136, 137, 137)), (484, 473, (136, 137, 137)),
+    (290, 473, (136, 137, 137)), (144, 377, (136, 137, 137)), (156, 217, (136, 137, 137)), (334, 135, (136, 137, 137)),
+    # hoemem
+    (667, 104, (255, 188, 162)), (839, 186, (255, 188, 162)), (836, 346, (255, 188, 162)), (697, 442, (255, 188, 162)), (506, 442, (255, 188, 162)),
+    (276, 442, (255, 188, 162)), (130, 346, (255, 188, 162)), (142, 186, (255, 188, 162)), (352, 115, (255, 188, 162)),
+    (667, 104, (128, 97, 81)), (839, 186, (128, 97, 81)), (836, 346, (128, 97, 81)), (697, 442, (128, 97, 81)), (506, 442, (128, 97, 81)),
+    (276, 442, (128, 97, 81)), (130, 346, (128, 97, 81)), (142, 186, (128, 97, 81)), (352, 115, (128, 97, 81)),
+    # mulher
+    (667, 104, (255, 221, 191)), (839, 186, (255, 221, 191)), (836, 346, (255, 221, 191)), (697, 442, (255, 221, 191)), (506, 442, (255, 221, 191)),
+    (276, 442, (255, 221, 191)), (130, 346, (255, 221, 191)), (142, 186, (255, 221, 191)), (352, 115, (255, 221, 191)),
+    (667, 104, (128, 110, 93)), (839, 186, (128, 110, 93)), (836, 346, (128, 110, 93)), (697, 442, (128, 110, 93)), (506, 442, (128, 110, 93)),
+    (276, 442, (128, 110, 93)), (130, 346, (128, 110, 93)), (142, 186, (128, 110, 93)), (352, 115, (128, 110, 93))]
+
+# dicionario_humano = {'cadeira_1': (667, 104), 'cadeira_2': (839, 186), 'cadeira_3': (836, 346), 'cadeira_4': (697, 442), 'cadeira_5': (506, 442),
+#                      'cadeira_6': (276, 442), 'cadeira_7': (130, 346), 'cadeira_8': (142, 186),
+#                      'cadeira_9': (352, 115)}  # (255, 188, 162)(128, 97, 81)(255, 221, 191)(128, 110, 93) +32 +11
 
 prioridade_cadeira = dicionari_PC_cadeira[nome_computador]
 
@@ -215,7 +222,8 @@ def cadeiras_livres(x_origem, y_origem, cor_cadeira=(254, 207, 0), tolerancia=10
 #     return cadeiras_livres
 
 
-def cadeiras_celular(x_origem, y_origem, cor_celular=(136, 137, 137), tolerancia=8):
+def cadeiras_celular(x_origem, y_origem, tolerancia=8):
+    print('Testa humanos')
     """
     Verifica se todas as cadeiras em torno de uma mesa estão livres.
 
@@ -229,9 +237,10 @@ def cadeiras_celular(x_origem, y_origem, cor_celular=(136, 137, 137), tolerancia
     - True se todas as cadeiras estiverem livres, False se pelo menos uma cadeira estiver ocupada.
     """
     # print('cadeiras_livres')
-    for x, y in dicionario_celular.values():
+    for x, y, cor_celular in lista_humano:
+        # print(x, y, cor_celular)
         if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
-            print('\nPelo menos uma cadeira está com celular.\n')
+            print('\nPelo menos um humano esta na mesa.\n')
             return False
     # print('Todas as cadeiras estão livres de celular.')
     return True
@@ -281,8 +290,7 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 65, 109), tolerance=5):
         print('possivel aviso so sistema, roda um limpa jogando')
         Limpa.limpa_jogando(x_origem, y_origem)
-        Limpa.limpa_promocao(x_origem, y_origem)
-        # time.sleep(0.5)
+        Limpa.limpa_promocao(x_origem, y_origem)  # time.sleep(0.5)
 
     # testa se esta aparecendo o botao azul "Jogar agora"
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=5):
@@ -317,8 +325,8 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
             for _ in range(2):
                 print('Tentando sentar')
 
-                if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
-                        or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+                if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
+                        (x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
                     print('mesa esta limpa')
                 else:
                     Limpa.fecha_tarefa(x_origem, y_origem)
@@ -431,8 +439,9 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                                     sentou = True
                                     return sentou
 
-                        elif (pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas, tolerance=10)
-                              or pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas2, tolerance=10)):
+                        elif (pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas,
+                                                          tolerance=10) or pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y,
+                                                                                                       cor_nao_possui_fichas2, tolerance=10)):
                             # se assim que clicar na setinha nao ter fichas suficiente
                             pyautogui.click((x_origem + 641), (y_origem + 278), button='left')  # clica no fechar mensagem de nao tem fichas
                             print("Não possui fichas suficiente")
@@ -598,8 +607,8 @@ def escolher_blind(x_origem, y_origem, blind, lugares=9, posi_lista=0):
                     Limpa.limpa_total(x_origem, y_origem)
                     break
 
-        elif (pyautogui.pixelMatchesColor((x_origem + 435), (y_origem + 264), (246, 126, 0), tolerance=5)
-              or pyautogui.pixelMatchesColor((x_origem + 435), (y_origem + 264), (80, 178, 0), tolerance=5)):
+        elif (pyautogui.pixelMatchesColor((x_origem + 435), (y_origem + 264), (246, 126, 0), tolerance=5) or pyautogui.pixelMatchesColor(
+                (x_origem + 435), (y_origem + 264), (80, 178, 0), tolerance=5)):
             # barra verde ou barra laranja
             print("Não tem sala vazia")
             return "Não tem sala vazia"
@@ -688,8 +697,8 @@ def sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa):
     if blind_mesa == "12":
         pyautogui.doubleClick(130 + x_origem, 200 + y_origem)  # clica na lista de iniciantes
     elif blind_mesa == "2040" or blind_mesa == "24":
-        pyautogui.doubleClick(280 + x_origem, 200 + y_origem)  # clica na lista de aprendizes
-        # if not pyautogui.pixelMatchesColor((x_origem + 280), (y_origem + 210), (73, 177, 9), tolerance=5):
+        pyautogui.doubleClick(280 + x_origem,
+                              200 + y_origem)  # clica na lista de aprendizes  # if not pyautogui.pixelMatchesColor((x_origem + 280), (y_origem + 210), (73, 177, 9), tolerance=5):
     #     pyautogui.click(280 + x_origem, 200 + y_origem)  # clica na lista de aprendizes
 
     time.sleep(0.3)
@@ -816,14 +825,12 @@ def joga(x_origem, y_origem, ajusta_aposta):
     sentou = False
 
     if ajusta_aposta == 200:
-        tarefas_fazer = ('Jogar o caca-niquel da mesa 150 vezes',
-                         'Jogar o caca-niquel da mesa 70 vezes',
-                         'Jogar o caca-niquel da mesa 10 vezes')
+        tarefas_fazer = ('Jogar o caca-niquel da mesa 150 vezes', 'Jogar o caca-niquel da mesa 70 vezes', 'Jogar o caca-niquel da mesa 10 vezes')
 
     elif ajusta_aposta == 2000:
-        tarefas_fazer = ('Ganhar 100.000 fichas no caca niquel da mesa',
-                         'Ganhar 30.000 fichas no caca niquel da mesa',
-                         'Ganhar 10.000 fichas no caca niquel da mesa')
+        tarefas_fazer = (
+            'Ganhar 100.000 fichas no caca niquel da mesa', 'Ganhar 30.000 fichas no caca niquel da mesa',
+            'Ganhar 10.000 fichas no caca niquel da mesa')
 
     continua_jogando = True
     meta_atigida = False
@@ -834,8 +841,8 @@ def joga(x_origem, y_origem, ajusta_aposta):
     while continua_jogando:  # permanece joghando
         senta_com_maximo = False
         # print('joga mesa')
-        if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
-                or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+        if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
+                (x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
             print('mesa esta limpa')
         else:
             Limpa.fecha_tarefa(x_origem, y_origem)
@@ -938,9 +945,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     print('mesa_upar_jogar')
 
     global lista_salas_jogar, lista_salas_jogar2, lista_salas_jogar3, lista_salas_niquel, indice_inicial
-    valor_aposta1 = 100
-    valor_aposta2 = 50
-    # blind_mesa = '2550'
     sentou = False
     continua_jogando = True
     jogou_uma_vez = False
@@ -955,12 +959,20 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if blind_mesa == '100200':
         lista_salas = lista_salas_jogar3
+        valor_aposta1 = 400
+        valor_aposta2 = 200
     elif blind_mesa == '50100':
         lista_salas = lista_salas_jogar2
+        valor_aposta1 = 200
+        valor_aposta2 = 100
     elif blind_mesa == '2550':
         lista_salas = lista_salas_jogar
+        valor_aposta1 = 100
+        valor_aposta2 = 50
     else:
         lista_salas = lista_salas_jogar
+        valor_aposta1 = 100
+        valor_aposta2 = 50
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
@@ -977,11 +989,20 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     while continua_jogando:  # permanece joghando
 
+        # print('tempo que esta esperando', tempo_total)
+        if (time.perf_counter() - time_entrou) > 60:  # troica de mesa se ficar muito tempo parado sem entrar alguem para jogar
+            time_entrou = time.perf_counter()
+            cont_limpa_jogando = 45
+            print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
+            Limpa.limpa_total(x_origem, y_origem)
+            Limpa.limpa_jogando(x_origem, y_origem)
+            pular_sala = True
+
         if cont_limpa_jogando > 40:
             cont_limpa_jogando = 0
             # testa se a mesa esta limpa
-            if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
-                    or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+            if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
+                    (x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
                 print('mesa esta limpa')
                 if pyautogui.pixelMatchesColor((x_origem + 38), (y_origem + 526), (187, 153, 111), tolerance=19):
                     pyautogui.click(x_origem + 38, y_origem + 526)
@@ -1037,31 +1058,30 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     print('Sair da mesa fim da jogada com humanos na mesa')
                     humano = True
         else:
+            # mensagem verde
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
-                for i in range(20):
+                for i in range(25):
                     time.sleep(0.3)
                     if not cadeiras_celular(x_origem, y_origem):
                         print('Sair da mesa fim da jogada com humanos na mesa')
                         humano = True
                         break
-        # print('tempo que esta esperando', tempo_total)
-        if (time.perf_counter() - time_entrou) > 60:  # troica de mesa se ficar muito tempo parado sem entrar alguem para jogar
-            time_entrou = time.perf_counter()
-            cont_limpa_jogando = 45
-            print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
-            Limpa.limpa_total(x_origem, y_origem)
-            Limpa.limpa_jogando(x_origem, y_origem)
-            pular_sala = True
+            else:
+                if not cadeiras_celular(x_origem, y_origem):
+                    print('Sair da mesa, humanos na mesa')
+                    humano = True
 
+        print('HUMANO: ', humano)
         if humano:
             print('Jogador humano na mesa, troca de mesa')
             jogou_uma_vez = False
             humano = False
             pular_sala = True
+            cont_limpa_jogando = 45
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
 
-        if sentou:
+        if sentou and not humano:
             # escolhe qual modo de jogar sera usado
             if apostar:
                 jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
@@ -1271,8 +1291,8 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80):  #
 
     #  nao tem a area branca do apostar mas tem Pagar
     # se tem o pagar com um valor ja escrito
-    elif (pyautogui.pixelMatchesColor((x_origem + 343), (y_origem + 598), (255, 255, 255), 5)
-          and (not pyautogui.pixelMatchesColor((x_origem + 480), (y_origem + 650), (255, 255, 255), 5))):
+    elif (pyautogui.pixelMatchesColor((x_origem + 343), (y_origem + 598), (255, 255, 255), 5) and (
+            not pyautogui.pixelMatchesColor((x_origem + 480), (y_origem + 650), (255, 255, 255), 5))):
         print('Tem o botao de pagar sem o a area de ajuste de valor')
         jogou_uma_vez = True, True
         return jogou_uma_vez
@@ -1383,16 +1403,18 @@ def apostar_pagar(x_origem, y_origem, sorte=True):
             # se tem a barra de ajustar a aposta
             # testar se é a ultima carta
 
-            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5)
-                    or pyautogui.pixelMatchesColor((x_origem + 512), (y_origem + 232), (234, 239, 233), 5)):
+            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5) or pyautogui.pixelMatchesColor((x_origem + 512),
+                                                                                                                                   (y_origem + 232),
+                                                                                                                                   (234, 239, 233),
+                                                                                                                                   5)):
                 # testa se é a ultima carta ou se a a aposta do river
                 print('ultima carta')
                 # cliaca no correr
                 pyautogui.click((x_origem + 600), (y_origem + 600))
 
-            elif ((pyautogui.pixelMatchesColor((x_origem + 585), (y_origem + 327), (249, 249, 249), 5)
-                   and not pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5))
-                  or pyautogui.pixelMatchesColor((x_origem + 517), (y_origem + 233), (234, 239, 233), 5)):
+            elif ((pyautogui.pixelMatchesColor((x_origem + 585), (y_origem + 327), (249, 249, 249), 5) and not pyautogui.pixelMatchesColor(
+                    (x_origem + 652), (y_origem + 327), (249, 249, 249), 5)) or pyautogui.pixelMatchesColor((x_origem + 517), (y_origem + 233),
+                                                                                                            (234, 239, 233), 5)):
                 # (tem a penultima carta e nao tem a ultima) ou aposta do Turn
                 print('penultima carta')
                 # cliaca no final da barra
@@ -1419,8 +1441,10 @@ def apostar_pagar(x_origem, y_origem, sorte=True):
         elif pyautogui.pixelMatchesColor((x_origem + 342), (y_origem + 601), (255, 255, 255), 5):
             # branco de interceção de pagar e passar sem o quadrado brando
 
-            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5)
-                    or pyautogui.pixelMatchesColor((x_origem + 512), (y_origem + 232), (234, 239, 233), 5)):
+            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5) or pyautogui.pixelMatchesColor((x_origem + 512),
+                                                                                                                                   (y_origem + 232),
+                                                                                                                                   (234, 239, 233),
+                                                                                                                                   5)):
                 # testa se é a ultima carta ou se a a aposta do river
                 print('ultima carta')
                 print('clicou no Correr')
@@ -1446,8 +1470,8 @@ def levantar_mesa(x_origem, y_origem):
             # Firebase.confirmacao_comando_resposta(sentado)
             break
 
-        if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=19)
-                or pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 64, 109), tolerance=19)):
+        if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=19) or pyautogui.pixelMatchesColor(
+                (x_origem + 700), (y_origem + 674), (19, 64, 109), tolerance=19)):
             # testa se esta dentro da mesa
 
             pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
