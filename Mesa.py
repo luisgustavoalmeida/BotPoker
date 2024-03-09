@@ -998,7 +998,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             Limpa.limpa_jogando(x_origem, y_origem)
             pular_sala = True
 
-        if cont_limpa_jogando > 40:
+        if cont_limpa_jogando > 25:
             cont_limpa_jogando = 0
             # testa se a mesa esta limpa
             if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
@@ -1057,19 +1057,27 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if not cadeiras_celular(x_origem, y_origem):
                     print('Sair da mesa fim da jogada com humanos na mesa')
                     humano = True
+                else:
+                    humano = False
         else:
             # mensagem verde
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
-                for i in range(25):
+                print('Mensagem verde fim da jogada')
+                for i in range(10):
                     time.sleep(0.3)
                     if not cadeiras_celular(x_origem, y_origem):
                         print('Sair da mesa fim da jogada com humanos na mesa')
                         humano = True
                         break
+                    else:
+                        humano = False
+                print('Termonou o for humanos :', humano)
             else:
                 if not cadeiras_celular(x_origem, y_origem):
                     print('Sair da mesa, humanos na mesa')
                     humano = True
+                else:
+                    humano = False
 
         print('HUMANO: ', humano)
         if humano:
@@ -1194,15 +1202,15 @@ def blind_do_dia(dia_da_semana=10):
     if dia_da_semana in [6, 4]:
         print("O dia da semana é 100/200.")
         blind_mesa = '100200'
-    elif dia_da_semana in [0, 2]:
+    elif dia_da_semana in [3]:
         print("O dia da semana é 50/100.")
         blind_mesa = '50100'
-    elif dia_da_semana in [1, 3, 5]:
+    elif dia_da_semana in [1, 5]:
         print("O dia da semana é 25/50.")
         blind_mesa = '2550'
     else:
-        print("O dia da semana é 25/50.")
-        blind_mesa = '2550'
+        print("Não joga mesa hoje")
+        blind_mesa = 'Não joga'
     return blind_mesa
 
 
@@ -1225,6 +1233,9 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     blind_mesa = blind_do_dia(dia_da_semana)
+
+    if blind_mesa == 'Não joga':
+        return level_conta, valor_fichas_perfil
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_promocao(x_origem, y_origem)
@@ -1403,18 +1414,16 @@ def apostar_pagar(x_origem, y_origem, sorte=True):
             # se tem a barra de ajustar a aposta
             # testar se é a ultima carta
 
-            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5) or pyautogui.pixelMatchesColor((x_origem + 512),
-                                                                                                                                   (y_origem + 232),
-                                                                                                                                   (234, 239, 233),
-                                                                                                                                   5)):
+            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5)
+                    or pyautogui.pixelMatchesColor((x_origem + 512), (y_origem + 232), (234, 239, 233), 5)):
                 # testa se é a ultima carta ou se a a aposta do river
                 print('ultima carta')
                 # cliaca no correr
                 pyautogui.click((x_origem + 600), (y_origem + 600))
 
-            elif ((pyautogui.pixelMatchesColor((x_origem + 585), (y_origem + 327), (249, 249, 249), 5) and not pyautogui.pixelMatchesColor(
-                    (x_origem + 652), (y_origem + 327), (249, 249, 249), 5)) or pyautogui.pixelMatchesColor((x_origem + 517), (y_origem + 233),
-                                                                                                            (234, 239, 233), 5)):
+            elif ((pyautogui.pixelMatchesColor((x_origem + 585), (y_origem + 327), (249, 249, 249), 5)
+                   and not pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5))
+                  or pyautogui.pixelMatchesColor((x_origem + 517), (y_origem + 233), (234, 239, 233), 5)):
                 # (tem a penultima carta e nao tem a ultima) ou aposta do Turn
                 print('penultima carta')
                 # cliaca no final da barra
@@ -1441,10 +1450,8 @@ def apostar_pagar(x_origem, y_origem, sorte=True):
         elif pyautogui.pixelMatchesColor((x_origem + 342), (y_origem + 601), (255, 255, 255), 5):
             # branco de interceção de pagar e passar sem o quadrado brando
 
-            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5) or pyautogui.pixelMatchesColor((x_origem + 512),
-                                                                                                                                   (y_origem + 232),
-                                                                                                                                   (234, 239, 233),
-                                                                                                                                   5)):
+            if (pyautogui.pixelMatchesColor((x_origem + 652), (y_origem + 327), (249, 249, 249), 5)
+                    or pyautogui.pixelMatchesColor((x_origem + 512), (y_origem + 232), (234, 239, 233), 5)):
                 # testa se é a ultima carta ou se a a aposta do river
                 print('ultima carta')
                 print('clicou no Correr')
