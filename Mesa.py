@@ -1001,13 +1001,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
         if cont_limpa_jogando > 25:
             cont_limpa_jogando = 0
             # testa se a mesa esta limpa
-            if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
-                    (x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+            if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
+                    or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
                 print('mesa esta limpa')
                 if pyautogui.pixelMatchesColor((x_origem + 38), (y_origem + 526), (187, 153, 111), tolerance=19):
                     pyautogui.click(x_origem + 38, y_origem + 526)
                     print("Presentinho de dentro da mesa")
-
             else:
                 Limpa.fecha_tarefa(x_origem, y_origem)
                 Limpa.limpa_jogando(x_origem, y_origem)
@@ -1089,14 +1088,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
 
-        if sentou and not humano:
-            # escolhe qual modo de jogar sera usado
-            if apostar:
-                jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
-            else:
-                (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
-            if jogou:
-                jogou_uma_vez = True
+        if sentou:
+            if not humano:
+                # escolhe qual modo de jogar sera usado
+                if apostar:
+                    jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+                else:
+                    (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+                if jogou:
+                    jogou_uma_vez = True
 
         else:
             humano = False
@@ -1248,7 +1248,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         #  se o dia da semana é domingo vai upar as copntar e fazer as tarefas de upar
         if not conta_upada:
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
-            upar(x_origem, y_origem)
+            upar(x_origem, y_origem,blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             Limpa.limpa_total(x_origem, y_origem)
