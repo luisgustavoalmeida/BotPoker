@@ -512,3 +512,8 @@
 #
 #         # cont_IP = IP.contagem_IP()
 #
+
+# from Mesa import cadeiras_celular
+# from Origem_pg import x_y
+# x_origem, y_origem = x_y()
+# cadeiras_celular(x_origem, y_origem, 9)

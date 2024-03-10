@@ -111,24 +111,50 @@ dicionario_cadeira5 = {'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeir
 #                       'cadeira_6': (290, 473), 'cadeira_7': (144, 377), 'cadeira_8': (156, 217), 'cadeira_9': (334, 135)}
 
 # lista de tuplas conde se tem a coordenada de interesse e a cor da coodenada que identifica se é um humano
-lista_humano = [
+lista_humano_9 = [
+    # # celuar
+    (645, 135, 8, (136, 137, 137)), (818, 217, 8, (136, 137, 137)), (814, 377, 8, (136, 137, 137)), (675, 473, 8, (136, 137, 137)),
+    (484, 473, 8, (136, 137, 137)), (290, 473, 8, (136, 137, 137)), (144, 377, 8, (136, 137, 137)), (156, 217, 8, (136, 137, 137)),
+    (334, 135, 8, (136, 137, 137)),
+    # # hoemem claro
+    (667, 104, 2, (255, 193, 161)), (839, 186, 2, (255, 193, 161)), (836, 346, 2, (255, 193, 161)), (697, 442, 2, (255, 193, 161)),
+    (506, 442, 2, (255, 193, 161)), (276, 442, 2, (255, 193, 161)), (130, 346, 2, (255, 193, 161)), (142, 186, 2, (255, 193, 161)),
+    (320, 104, 2, (255, 193, 161)),
+    # homem escuro
+    (667, 104, 2, (128, 97, 81)), (839, 186, 2, (128, 97, 81)), (836, 346, 2, (128, 97, 81)), (697, 442, 2, (128, 97, 81)),
+    (506, 442, 2, (128, 97, 81)), (276, 442, 2, (128, 97, 81)), (130, 346, 2, (128, 97, 81)), (142, 186, 2, (128, 97, 81)),
+    (320, 104, 2, (128, 97, 81)),
+    # # mulher claro
+    (667, 104, 2, (255, 220, 185)), (839, 186, 2, (255, 220, 185)), (836, 346, 2, (255, 220, 185)), (697, 442, 2, (255, 220, 185)),
+    (506, 442, 2, (255, 220, 185)), (276, 442, 2, (255, 220, 185)), (130, 346, 2, (255, 220, 185)), (142, 186, 2, (255, 220, 185)),
+    (320, 104, 2, (255, 220, 185)),
+    # # mulher escuro
+    (667, 104, 2, (128, 110, 93)), (839, 186, 2, (128, 110, 93)), (836, 346, 2, (128, 110, 93)), (697, 442, 2, (128, 110, 93)),
+    (506, 442, 2, (128, 110, 93)), (276, 442, 2, (128, 110, 93)), (130, 346, 2, (128, 110, 93)), (142, 186, 2, (128, 110, 93)),
+    (320, 104, 2, (128, 110, 93))
+]
+
+lista_humano_5 = [
     # celuar
-    (645, 135, (136, 137, 137)), (818, 217, (136, 137, 137)), (814, 377, (136, 137, 137)), (675, 473, (136, 137, 137)), (484, 473, (136, 137, 137)),
-    (290, 473, (136, 137, 137)), (144, 377, (136, 137, 137)), (156, 217, (136, 137, 137)), (334, 135, (136, 137, 137)),
-    # hoemem
-    (667, 104, (255, 188, 162)), (839, 186, (255, 188, 162)), (836, 346, (255, 188, 162)), (697, 442, (255, 188, 162)), (506, 442, (255, 188, 162)),
-    (276, 442, (255, 188, 162)), (130, 346, (255, 188, 162)), (142, 186, (255, 188, 162)), (352, 115, (255, 188, 162)),
-    (667, 104, (128, 97, 81)), (839, 186, (128, 97, 81)), (836, 346, (128, 97, 81)), (697, 442, (128, 97, 81)), (506, 442, (128, 97, 81)),
-    (276, 442, (128, 97, 81)), (130, 346, (128, 97, 81)), (142, 186, (128, 97, 81)), (352, 115, (128, 97, 81)),
-    # mulher
-    (667, 104, (255, 221, 191)), (839, 186, (255, 221, 191)), (836, 346, (255, 221, 191)), (697, 442, (255, 221, 191)), (506, 442, (255, 221, 191)),
-    (276, 442, (255, 221, 191)), (130, 346, (255, 221, 191)), (142, 186, (255, 221, 191)), (352, 115, (255, 221, 191)),
-    (667, 104, (128, 110, 93)), (839, 186, (128, 110, 93)), (836, 346, (128, 110, 93)), (697, 442, (128, 110, 93)), (506, 442, (128, 110, 93)),
-    (276, 442, (128, 110, 93)), (130, 346, (128, 110, 93)), (142, 186, (128, 110, 93)), (352, 115, (128, 110, 93))]
+    (814, 377, 8, (136, 137, 137)), (675, 473, 8, (136, 137, 137)), (484, 473, 8, (136, 137, 137)), (290, 473, 8, (136, 137, 137)),
+    (144, 377, 8, (136, 137, 137)),
+    # # hoemem claro
+    (836, 346, 2, (255, 193, 161)), (697, 442, 2, (255, 193, 161)), (506, 442, 2, (255, 193, 161)), (276, 442, 2, (255, 193, 161)),
+    (130, 346, 2, (255, 193, 161)),
+    # homem escuro
+    (836, 346, 2, (128, 97, 81)), (697, 442, 2, (128, 97, 81)), (506, 442, 2, (128, 97, 81)), (276, 442, 2, (128, 97, 81)),
+    (130, 346, 2, (128, 97, 81)),
+    # # mulher claro
+    (836, 346, 2, (255, 220, 185)), (697, 442, 2, (255, 220, 185)), (506, 442, 2, (255, 220, 185)), (276, 442, 2, (255, 220, 185)),
+    (130, 346, 2, (255, 220, 185)),
+    # # mulher escuro
+    (836, 346, 2, (128, 110, 93)), (697, 442, 2, (128, 110, 93)), (506, 442, 2, (128, 110, 93)), (276, 442, 2, (128, 110, 93)),
+    (130, 346, 2, (128, 110, 93)),
+]
 
 # dicionario_humano = {'cadeira_1': (667, 104), 'cadeira_2': (839, 186), 'cadeira_3': (836, 346), 'cadeira_4': (697, 442), 'cadeira_5': (506, 442),
 #                      'cadeira_6': (276, 442), 'cadeira_7': (130, 346), 'cadeira_8': (142, 186),
-#                      'cadeira_9': (352, 115)}  # (255, 188, 162)(128, 97, 81)(255, 221, 191)(128, 110, 93) +32 +11
+#                      'cadeira_9': (352, 115)}  # (255, 193, 161)(128, 97, 81)(255, 220, 185)(128, 110, 93) +32 +11
 
 prioridade_cadeira = dicionari_PC_cadeira[nome_computador]
 
@@ -222,7 +248,7 @@ def cadeiras_livres(x_origem, y_origem, cor_cadeira=(254, 207, 0), tolerancia=10
 #     return cadeiras_livres
 
 
-def cadeiras_celular(x_origem, y_origem, tolerancia=8):
+def cadeiras_celular(x_origem, y_origem, lugares=9):
     print('Testa humanos')
     """
     Verifica se todas as cadeiras em torno de uma mesa estão livres.
@@ -236,12 +262,19 @@ def cadeiras_celular(x_origem, y_origem, tolerancia=8):
     Retorna:
     - True se todas as cadeiras estiverem livres, False se pelo menos uma cadeira estiver ocupada.
     """
-    # print('cadeiras_livres')
-    for x, y, cor_celular in lista_humano:
-        # print(x, y, cor_celular)
-        if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
-            print('\nPelo menos um humano esta na mesa.\n')
-            return False
+
+    if lugares == 9:
+        for x, y, tolerancia, cor_celular in lista_humano_9:
+
+            if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
+                print('\nPelo menos um humano esta na mesa.\n')
+                return False
+    else:
+        for x, y, tolerancia, cor_celular in lista_humano_5:
+
+            if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
+                print('\nPelo menos um humano esta na mesa.\n')
+                return False
     # print('Todas as cadeiras estão livres de celular.')
     return True
 
@@ -1053,7 +1086,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                 jogou_uma_vez = False
                 time_entrou = time.perf_counter()
-                if not cadeiras_celular(x_origem, y_origem):
+                if not cadeiras_celular(x_origem, y_origem, 5):
                     print('Sair da mesa fim da jogada com humanos na mesa')
                     humano = True
                 else:
@@ -1064,7 +1097,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('Mensagem verde fim da jogada')
                 for i in range(10):
                     time.sleep(0.3)
-                    if not cadeiras_celular(x_origem, y_origem):
+                    if not cadeiras_celular(x_origem, y_origem,5):
                         print('Sair da mesa fim da jogada com humanos na mesa')
                         humano = True
                         break
@@ -1072,7 +1105,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         humano = False
                 print('Termonou o for humanos :', humano)
             else:
-                if not cadeiras_celular(x_origem, y_origem):
+                if not cadeiras_celular(x_origem, y_origem,5):
                     print('Sair da mesa, humanos na mesa')
                     humano = True
                 else:
@@ -1248,7 +1281,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         #  se o dia da semana é domingo vai upar as copntar e fazer as tarefas de upar
         if not conta_upada:
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
-            upar(x_origem, y_origem,blind_mesa)
+            upar(x_origem, y_origem, blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             Limpa.limpa_total(x_origem, y_origem)
@@ -1497,6 +1530,7 @@ def levantar_mesa(x_origem, y_origem):
     return sentado
 
 # x_origem, y_origem = Origem_pg.x_y()
+# cadeiras_celular(x_origem, y_origem, tolerancia=8)
 # escolher_blind(x_origem, y_origem, blind='2K/4K', lugares=5)
 # sentar_mesa(x_origem, y_origem, True, '20/40', True)
 # mesa_recolher(x_origem, y_origem, 2, '20/40')

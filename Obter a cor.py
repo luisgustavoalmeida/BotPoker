@@ -13,8 +13,10 @@ print(x_origem, y_origem)
 # x_origem, y_origem = 0, 0
 # pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
 
-x = (x_origem + 38)
-y = (y_origem + 526)
+a, b = 320, 104
+
+x = (x_origem + a)
+y = (y_origem + b)
 
 tolerancia = 0
 pyautogui.moveTo(x, y)
@@ -51,3 +53,12 @@ print(f"A cor menos comum foi: {cor_menos_comum} com {ocorrencias_menos_comum} o
 # Realize uma busca exaustiva para encontrar a melhor tolerância
 melhor_tolerancia = None
 max_ocorrencias = 0
+
+# cor do avata masculino
+# (255, 193, 161)
+# (128, 97, 81)
+
+# cor do avata feminino
+
+# (128, 110, 93)
+# (255, 220, 185)
