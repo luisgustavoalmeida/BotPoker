@@ -251,12 +251,15 @@ def verifica_e_adiciona_ip(ip):
             # Se a lista de IPs está vazia ou não existe, inicializa uma lista vazia
             if lista_ips is None:
                 lista_ips = []
-
-            # Verifica se o arquivo de backup existe e carrega a lista local de IPs a partir dele
-            if os.path.exists('ips_backup.json'):
-                with open('ips_backup.json', 'r') as file:
-                    lista_ips_local = json.load(file)
-            else:
+            try:
+                # Verifica se o arquivo de backup existe e carrega a lista local de IPs a partir dele
+                if os.path.exists('ips_backup.json'):
+                    with open('ips_backup.json', 'r') as file:
+                        lista_ips_local = json.load(file)
+                else:
+                    lista_ips_local = []
+            except Exception as e:
+                print(f"Erro ao obter o arquivo json local, será criado uma lista em branco. ERRO: {e}")
                 lista_ips_local = []
 
             # Verifica se a última data de acesso é nula ou se o dia mudou desde o último acesso
