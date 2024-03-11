@@ -189,12 +189,12 @@ def meu_ip():
         'http://ipinfo.io/ip',
         'http://whatismyip.akamai.com',
         'http://ip.42.pl/raw',
-        'http://eth0.me',
         'http://myip.dnsomatic.com',
         'https://ipv4.icanhazip.com/',
         'http://ipv4.ident.me/',
         'https://ipv4.icanhazip.com/',
-        'http://whatismyipv4.net']
+        'http://whatismyipv4.net'
+    ]
 
     random.shuffle(urls)  # Embaralha a lista de URLs
     while True:
