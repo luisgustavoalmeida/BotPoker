@@ -150,11 +150,27 @@ lista_humano_5 = [
     # # mulher escuro
     (836, 346, 2, (128, 110, 93)), (697, 442, 2, (128, 110, 93)), (506, 442, 2, (128, 110, 93)), (276, 442, 2, (128, 110, 93)),
     (130, 346, 2, (128, 110, 93)),
+]  # +32 +11
+
+cadeiras_vazias_quando_sentado_azul_9 = [
+    (661, 148, 1, (23, 21, 20)), (831, 232, 1, (20, 19, 18)), (849, 388, 1, (20, 19, 18)), (671, 451, 1, (20, 19, 18)),
+    (476, 451, 1, (21, 19, 18)), (257, 451, 1, (14, 14, 14)), (120, 381, 1, (33, 31, 30)), (136, 216, 1, (21, 19, 18)),
+    (314, 152, 1, (18, 17, 16))
 ]
 
-# dicionario_humano = {'cadeira_1': (667, 104), 'cadeira_2': (839, 186), 'cadeira_3': (836, 346), 'cadeira_4': (697, 442), 'cadeira_5': (506, 442),
-#                      'cadeira_6': (276, 442), 'cadeira_7': (130, 346), 'cadeira_8': (142, 186),
-#                      'cadeira_9': (352, 115)}  # (255, 193, 161)(128, 97, 81)(255, 220, 185)(128, 110, 93) +32 +11
+cadeiras_vazias_quando_sentado_azul_5 = [
+    (849, 388, 1, (20, 19, 18)), (671, 451, 1, (20, 19, 18)), (476, 451, 1, (21, 19, 18)), (257, 451, 1, (14, 14, 14)), (120, 381, 1, (33, 31, 30))
+]
+
+cadeiras_vazias_quando_sentado_verde_9 = [
+    (661, 148, 1, (22, 13, 10)), (831, 232, 1, (16, 12, 8)), (838, 386, 1, (33, 22, 20)), (671, 451, 1, (57, 50, 47)),
+    (476, 451, 1, (27, 24, 22)), (257, 451, 1, (60, 52, 49)), (120, 381, 1, (30, 23, 21)), (136, 216, 1, (16, 11, 8)),
+    (314, 152, 1, (17, 12, 8))
+]
+
+cadeiras_vazias_quando_sentado_verde_5 = [
+    (838, 386, 1, (33, 22, 20)), (671, 451, 1, (57, 50, 47)), (476, 451, 1, (27, 24, 22)), (257, 451, 1, (60, 52, 49)), (120, 381, 1, (30, 23, 21))
+]
 
 prioridade_cadeira = dicionari_PC_cadeira[nome_computador]
 
@@ -248,10 +264,10 @@ def cadeiras_livres(x_origem, y_origem, cor_cadeira=(254, 207, 0), tolerancia=10
 #     return cadeiras_livres
 
 
-def cadeiras_celular(x_origem, y_origem, lugares=9):
+def mesa_sem_humanos(x_origem, y_origem, lugares=9):
     print('Testa humanos')
     """
-    Verifica se todas as cadeiras em torno de uma mesa estão livres.
+    Verifica se todas as cadeiras em torno de uma mesa nao tem celular ou avata do jogo indicado humano.
 
     Parâmetros:
     - x_origem: A coordenada X da origem da mesa.
@@ -276,6 +292,41 @@ def cadeiras_celular(x_origem, y_origem, lugares=9):
                 print('\nPelo menos um humano esta na mesa.\n')
                 return False
     # print('Todas as cadeiras estão livres de celular.')
+    return True
+
+
+def mesa_completa(x_origem, y_origem, lugares=9, cor_da_mesa='verde'):
+    print('Testa mesa completa')
+    """
+    Verifica se todas as cadeiras em torno de uma mesa estao ocupadas.
+
+    Parâmetros:
+    - x_origem: A coordenada X da origem da mesa.
+    - y_origem: A coordenada Y da origem da mesa.
+    - cor_cadeira: A cor da cadeira em formato RGB.
+    - tolerancia: A tolerância para correspondência de cor.
+
+    Retorna:
+    - True se todas as cadeiras estiverem estiver ocupada e False se pelo menso uma estiver vazia.
+    """
+    if cor_da_mesa == 'verde':
+        for indece, (x, y, tolerancia, cor_celular) in enumerate(cadeiras_vazias_quando_sentado_verde_9):
+            if indece in (0, 1, 7, 8) and lugares == 5:
+                continue
+
+            if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
+                print('\nPelo uma cadeira vazia.\n')
+                return False
+
+    else:
+        for indece, (x, y, tolerancia, cor_celular) in enumerate(cadeiras_vazias_quando_sentado_azul_9):
+            if indece in (0, 1, 7, 8) and lugares == 5:
+                continue
+
+            if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
+                print('\nPelo uma cadeira vazia.\n')
+                return False
+    print('Todas as cadeiras estão ocupadas.')
     return True
 
 
@@ -350,7 +401,7 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                 return False
 
             if teste_celular:
-                if not cadeiras_celular(x_origem, y_origem):
+                if not mesa_sem_humanos(x_origem, y_origem):
                     print('Sai da mesa pq tem humanos')
                     sentou = False
                     return sentou
@@ -792,7 +843,7 @@ def sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa):
 
                     if num_sala == num_mesa:
                         print("Esta na sala certa")
-                        if not cadeiras_celular(x_origem, y_origem):
+                        if not mesa_sem_humanos(x_origem, y_origem):
                             print('Sai da mesa pq tem humanos')
                             return False, True
                         return True, True
@@ -1086,7 +1137,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                 jogou_uma_vez = False
                 time_entrou = time.perf_counter()
-                if not cadeiras_celular(x_origem, y_origem, 5):
+                if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa fim da jogada com humanos na mesa')
                     humano = True
                 else:
@@ -1097,7 +1148,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('Mensagem verde fim da jogada')
                 for i in range(10):
                     time.sleep(0.3)
-                    if not cadeiras_celular(x_origem, y_origem,5):
+                    if not mesa_sem_humanos(x_origem, y_origem, 5):
                         print('Sair da mesa fim da jogada com humanos na mesa')
                         humano = True
                         break
@@ -1105,7 +1156,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         humano = False
                 print('Termonou o for humanos :', humano)
             else:
-                if not cadeiras_celular(x_origem, y_origem,5):
+                if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa, humanos na mesa')
                     humano = True
                 else:
@@ -1530,12 +1581,12 @@ def levantar_mesa(x_origem, y_origem):
     return sentado
 
 # x_origem, y_origem = Origem_pg.x_y()
-# cadeiras_celular(x_origem, y_origem, tolerancia=8)
+# mesa_sem_humanos(x_origem, y_origem, tolerancia=8)
 # escolher_blind(x_origem, y_origem, blind='2K/4K', lugares=5)
 # sentar_mesa(x_origem, y_origem, True, '20/40', True)
 # mesa_recolher(x_origem, y_origem, 2, '20/40')
 # x_origem, y_origem = Origem_pg.x_y()
-# cadeiras_celular(x_origem, y_origem)
+# mesa_sem_humanos(x_origem, y_origem)
 # conta_cadeiras_livres_celular(x_origem, y_origem)
 # joga_uma_vez(x_origem, y_origem)
 # cadeiras_livres_resultado = cadeiras_livres(x_origem, y_origem )

@@ -8,39 +8,6 @@ import pyrebase
 
 # Configuração dos bancos de dados
 
-# config2 = {
-#     "apiKey": "AIzaSyBWJEh-hD6UIkpMz8J4V2Es4mP2AtuHx9k",
-#     "authDomain": "poker-dados.firebaseapp.com",
-#     "databaseURL": "https://poker-dados-default-rtdb.firebaseio.com",
-#     "projectId": "poker-dados",
-#     "storageBucket": "poker-dados.appspot.com",
-#     "messagingSenderId": "968238353891",
-#     "appId": "1:968238353891:web:b0026783a590efa99c24d6"
-# }
-#
-# # lga.gustavo.a@gmail.com
-# config3 = {
-#     "apiKey": "AIzaSyBMhul_wFoi-7LFtS6PP22vCi8Op3RYIlE",
-#     "authDomain": "poker-dados-2.firebaseapp.com",
-#     "databaseURL": "https://poker-dados-2-default-rtdb.firebaseio.com",
-#     "projectId": "poker-dados-2",
-#     "storageBucket": "poker-dados-2.appspot.com",
-#     "messagingSenderId": "712512083103",
-#     "appId": "1:712512083103:web:6afab600554fdf1287beaa"
-# }
-#
-# # luis.gustavo@engenharia.ufjf.br
-# config4 = firebaseConfig = {
-#     "apiKey": "AIzaSyD0OgT6l5HcMVM4HKPFRD7BGbKbCRgDeaM",
-#     "authDomain": "poker-dados-3-3e7cc.firebaseapp.com",
-#     "databaseURL": "https://poker-dados-3-3e7cc-default-rtdb.firebaseio.com",
-#     "projectId": "poker-dados-3-3e7cc",
-#     "storageBucket": "poker-dados-3-3e7cc.appspot.com",
-#     "messagingSenderId": "370013391029",
-#     "appId": "1:370013391029:web:acaa0cfbe3e53d269116fc"
-# }
-
-
 # gayaluisaalmeida@gmail.com
 config1 = {"apiKey": "AIzaSyAejgpCgHmBFyESI1cvOJ0nzUX3gQ3k4h8", "authDomain": "config1-f0277.firebaseapp.com",
            "databaseURL": "https://config1-f0277-default-rtdb.firebaseio.com", "projectId": "config1-f0277",
