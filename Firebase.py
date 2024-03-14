@@ -50,42 +50,42 @@ orderem_chave = {
 # Dados padrões de configuração a serem escritos
 # confg_funcao= 'roleta_auto', 'T1', 'R1','Recolher', 'Remover'
 dados_config = {
-    'PC01': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC02': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC03': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC04': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC05': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC06': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC07': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC08': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC09': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC10': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC11': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC12': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC13': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC14': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC15': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC16': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC17': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC18': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC19': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC20': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC21': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC22': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC23': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC24': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC25': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC26': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC27': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC28': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC29': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC30': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC31': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC32': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC33': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC34': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC35': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
-    'PC36': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'},
+    'PC01': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC02': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC03': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC04': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC05': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC06': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC07': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC08': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC09': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC10': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC11': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC12': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC13': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC14': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC15': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC16': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC17': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC18': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC19': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC20': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC21': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC22': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC23': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC24': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC25': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC26': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC27': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC28': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC29': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC30': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC31': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC32': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC33': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC34': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC35': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC36': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
 }
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
@@ -409,8 +409,9 @@ def ler_configuracao():
             # Separa os dados em variáveis individuais
             confg_funcao = dados_config.get('confg_funcao', None)
             config_tempo_roleta = dados_config.get('config_tempo_roleta', None)
+            blind_recolher_auto = dados_config.get('blind_recolher_auto', None)
 
-            return confg_funcao, config_tempo_roleta
+            return confg_funcao, config_tempo_roleta, blind_recolher_auto
         else:
             print("Nenhum dado de configuração encontrado.")
             return None, None

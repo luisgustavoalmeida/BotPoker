@@ -73,6 +73,18 @@ lista_salas_jogar3 = [{'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 40
                       {'1693': ('100200', 200, 400)}, {'1694': ('100200', 200, 400)}, {'1695': ('100200', 200, 400)}, {'1696': ('100200', 200, 400)},
                       {'1697': ('100200', 200, 400)}, {'1698': ('100200', 200, 400)}, {'1699': ('100200', 200, 400)}, {'1700': ('100200', 200, 400)},
                       {'1701': ('100200', 200, 400)}, {'1702': ('100200', 200, 400)}, {'1703': ('100200', 200, 400)}]
+# dicionariao numero das salas, valores das salas , e id das salas
+dicionario_salas = {
+    '2550': [100, 50, ['134', '135', '999', '1003', '1004', '1243', '1245', '1246', '1247', '1673', '1674', '1675', '1676', '1677', '1678']],
+    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689']],
+    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703']],
+    '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
+                          '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714']],
+    '5001K': [2000, 4000, ['192', '1743', '1744', '1745', '1746', '1747', '1748', '1749']],
+    '1K2K': [4000, 8000, ['1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760']],
+    '2K4K': [8000, 16000, ['1300', '1301', '1302', '1303', '1304', '1305']],
+    '5K10K': [20000, 40000, ['1207', '1208', '1160', '1159', '1159']]
+}
 
 dicionari_PC_cadeira = {
     'PC-I5-8600K': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
@@ -100,7 +112,8 @@ dicionari_PC_cadeira = {
     'PC-i3-8145U': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)},
     'PC-I7-9700KF': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
-                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}}
+                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}
+}
 
 dicionario_cadeira = {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
                       'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)}
@@ -295,7 +308,7 @@ def mesa_sem_humanos(x_origem, y_origem, lugares=9):
     return True
 
 
-def mesa_completa(x_origem, y_origem, lugares=9, cor_da_mesa='verde'):
+def testa_mesa_completa(x_origem, y_origem, lugares=9, cor_da_mesa='verde'):
     print('Testa mesa completa')
     """
     Verifica se todas as cadeiras em torno de uma mesa estao ocupadas.
@@ -1025,14 +1038,16 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False):
     print('mesa_upar_jogar')
 
-    global lista_salas_jogar, lista_salas_jogar2, lista_salas_jogar3, lista_salas_niquel, indice_inicial
+    global dicionario_salas, indice_inicial
     sentou = False
     continua_jogando = True
     jogou_uma_vez = False
+    jogou_uma_vez_mesa_completa = False
     humano = False
+    mesa_completa = False
     cont_jogou = 0
     senta_com_maximo = False
     cont_limpa_jogando = 0
@@ -1040,23 +1055,27 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     pular_sala = False
 
     # Use a lista apropriada com base no valor da variável blind_mesa
+    # Captura os valores do dicionário em função dos blindes das mesas
+    valor_aposta1 = dicionario_salas[blind_mesa][0]
+    valor_aposta2 = dicionario_salas[blind_mesa][1]
+    lista_salas = dicionario_salas[blind_mesa][2]
 
-    if blind_mesa == '100200':
-        lista_salas = lista_salas_jogar3
-        valor_aposta1 = 400
-        valor_aposta2 = 200
-    elif blind_mesa == '50100':
-        lista_salas = lista_salas_jogar2
-        valor_aposta1 = 200
-        valor_aposta2 = 100
-    elif blind_mesa == '2550':
-        lista_salas = lista_salas_jogar
-        valor_aposta1 = 100
-        valor_aposta2 = 50
-    else:
-        lista_salas = lista_salas_jogar
-        valor_aposta1 = 100
-        valor_aposta2 = 50
+    # if blind_mesa == '100200':
+    #     lista_salas = lista_salas_jogar3
+    #     valor_aposta1 = 400
+    #     valor_aposta2 = 200
+    # elif blind_mesa == '50100':
+    #     lista_salas = lista_salas_jogar2
+    #     valor_aposta1 = 200
+    #     valor_aposta2 = 100
+    # elif blind_mesa == '2550':
+    #     lista_salas = lista_salas_jogar
+    #     valor_aposta1 = 100
+    #     valor_aposta2 = 50
+    # else:
+    #     lista_salas = lista_salas_jogar
+    #     valor_aposta1 = 100
+    #     valor_aposta2 = 50
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
@@ -1074,7 +1093,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     while continua_jogando:  # permanece joghando
 
         # print('tempo que esta esperando', tempo_total)
-        if (time.perf_counter() - time_entrou) > 60:  # troica de mesa se ficar muito tempo parado sem entrar alguem para jogar
+        if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
             time_entrou = time.perf_counter()
             cont_limpa_jogando = 45
             print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
@@ -1108,9 +1127,20 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             # Impressão do tempo decorrido
             print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
 
-            if (tempo_decorrido >= 300) and (not upar):
+            if (tempo_decorrido >= 300) and (not upar) or (tempo_decorrido >= 300) and (not recolher):
                 print('Limite de tempo jogando mesa.')
                 break
+
+            if (tempo_decorrido >= 60) and recolher and (not mesa_completa):
+                print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
+                jogou_uma_vez = False
+                humano = False
+                pular_sala = True
+                mesa_completa = False
+                cont_limpa_jogando = 45
+                Limpa.limpa_total(x_origem, y_origem)
+                Limpa.limpa_jogando(x_origem, y_origem)
+                continue
 
         cont_limpa_jogando += 1
 
@@ -1119,12 +1149,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 # testa se apareceu as mensagens verdes na parte de baixo
                 print('Fim da partida')
                 cont_jogou += 1
+                if jogou_uma_vez_mesa_completa and recolher:
+                    print('Jogou uma partida com a mesa completa')
+                    break
                 if upar:
                     print("Esta upando a conta. Jogou vezes igua a: ", cont_jogou)
                     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                    if level_conta >= 10:
+                    if level_conta >= 16:
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                        if level_conta >= 10:
+                        if level_conta >= 16:
                             break
 
                     if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
@@ -1142,6 +1175,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     humano = True
                 else:
                     humano = False
+
         else:
             # mensagem verde
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1154,7 +1188,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         break
                     else:
                         humano = False
-                print('Termonou o for humanos :', humano)
+                print('Terminou o for humanos :', humano)
+                if not humano:
+                    mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
+                    print('Mesa esta com todas as caderas completas: ', mesa_completa)
             else:
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa, humanos na mesa')
@@ -1168,17 +1205,28 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             jogou_uma_vez = False
             humano = False
             pular_sala = True
+            mesa_completa = False
             cont_limpa_jogando = 45
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
+            continue
 
         if sentou:
             if not humano:
                 # escolhe qual modo de jogar sera usado
-                if apostar:
-                    jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+                if recolher:
+                    print('Função recolher')
+                    if mesa_completa:
+                        jogou = apostar_pagar(x_origem, y_origem)
+                        if jogou:
+                            jogou_uma_vez_mesa_completa = True
+                    else:
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
                 else:
-                    (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+                    if apostar:
+                        jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+                    else:
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
                 if jogou:
                     jogou_uma_vez = True
 
@@ -1188,26 +1236,19 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             for i in range(3):
                 print('indice_inicial', indice_inicial)
 
-                for indice, dicionario in enumerate(lista_salas):
-
-                    print('indice', indice)
+                for indice, num_mesa in enumerate(lista_salas):
 
                     if indice_inicial > indice:
-                        print('pula: ', indice)
+                        print('Porcurando o indece / mesa: ', indice, num_mesa)
                         # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
                         # troca o valor para que na proxima interação possamos iniciar do inicios da lista
                         continue
 
                     if indice == sala_atual and pular_sala:
+                        print('Pula o indice / mesa: ', indice, num_mesa)
                         continue  # Pule a primeira iteração, começando pelo segundo item
 
-                    num_mesa = list(dicionario.keys())[0]  # Obtendo a chave do dicionário
-                    valor_tupla = dicionario[num_mesa]  # Obtendo a tupla associada à chave
-                    blind_mesa = valor_tupla[0]  # Obtendo a string da tupla
-                    valor_aposta1 = valor_tupla[1]  # Obtendo o primeiro número da tupla
-                    valor_aposta2 = valor_tupla[2]  # Obtendo o segundo número da tupla
-
-                    print('Mumero da mesa para tentar sentar: ', num_mesa)
+                    print('Continuar, indece / mesa para tentar sentar: ', indice, num_mesa)
                     IP.tem_internet()
                     Limpa.limpa_jogando(x_origem, y_origem)
                     Limpa.limpa_total(x_origem, y_origem)
@@ -1258,14 +1299,16 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     indice_inicial = sala_atual
 
     # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
-    if blind_mesa == '100200':
-        lista_salas_jogar3 = lista_salas
-    elif blind_mesa == '50100':
-        lista_salas_jogar2 = lista_salas
-    elif blind_mesa == '2550':
-        lista_salas_jogar = lista_salas
-    else:
-        lista_salas_jogar = lista_salas
+    dicionario_salas[blind_mesa][2] = lista_salas
+
+    # if blind_mesa == '100200':
+    #     lista_salas_jogar3 = lista_salas
+    # elif blind_mesa == '50100':
+    #     lista_salas_jogar2 = lista_salas
+    # elif blind_mesa == '2550':
+    #     lista_salas_jogar = lista_salas
+    # else:
+    #     lista_salas_jogar = lista_salas
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"

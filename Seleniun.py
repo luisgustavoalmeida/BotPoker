@@ -200,7 +200,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         # print('continua login')
         url_atual = pega_url()
 
-        print(url_atual)
+        # print(url_atual)
 
         if (("/login/" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')

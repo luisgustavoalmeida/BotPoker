@@ -48,6 +48,7 @@ id = "x"
 guia = ""
 confg_funcao = 'roleta_auto'
 confg_funcao_anterior = ''
+blind_recolher_auto = ''
 
 senha = ""
 fichas = ""
@@ -114,8 +115,8 @@ def logar_carregar():
 
     time_atual = time.perf_counter()
     time_decorrido_id = time_atual - time_id
-    print('time_decorrido_id: ', time_decorrido_id)
-    print('cont_IP: ', cont_IP)
+
+    print('Entando em uma nova conta id / senha / cont_IP / time_decorrido_id: ', id, senha, cont_IP, time_decorrido_id)
 
     if (2 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
@@ -230,7 +231,7 @@ def roletas():
         print('Level_conta: ', level_conta)
         print('Valor_fichas_perfil: ', valor_fichas_perfil)
 
-        for i in range(50):
+        for _ in range(50):
             time_sair = time.perf_counter()
             tempo_total = time_sair - time_rodou
             print('tempo que ja clicou no rodou: ', tempo_total)
@@ -246,11 +247,10 @@ def roletas():
                 # testa de roleta 1 ta aberta
                 pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
 
-        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada,
-                                                                  dia_da_semana)
+        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana)
 
     elif roleta == 'roleta_2':
-        for i in range(20):
+        for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
             time_sair = time.perf_counter()
             tempo_total = time_sair - time_rodou
@@ -526,17 +526,25 @@ def recolher():
     return
 
 
-def identifica_funcao():
-    global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao
-    confg_funcao, config_tempo_roleta = ler_configuracao()
+def recolher_autometico():
+    global x_origem, y_origem, blind_recolher_auto
+    print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
+    Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
 
-    # print(confg_funcao, config_tempo_roleta)
+
+def identifica_funcao():
+    global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
+    confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+
+    print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
-    elif confg_funcao in ('Face', 'Recolher', 'Remover', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
+    elif confg_funcao in ('Face', 'Remover', 'Recolher', 'Recolher_automatico', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if confg_funcao == 'Face':
             guia = 'Remover'
+        elif confg_funcao == 'Recolher_automatico':
+            guia = 'Recolher'
         else:
             guia = confg_funcao
     else:
@@ -579,23 +587,25 @@ while True:
     print('dia_da_semana: ', dia_da_semana)
     # ################################################################################################################################################
     if logar_carregar():
-        # Roletas
-        if guia in ["R1", "R2", "R3", "R4", "R5"]:
-            print('Inicia a execução das Roletas')
-            roletas()
-
-        # Tarefas
-        elif guia == "T1":
-            print('Inicia a execução das Tarefas')
-            tarefas()
-
+        if confg_funcao == 'roleta_auto':
+            # Roletas
+            if guia in ["R1", "R2", "R3", "R4", "R5"]:
+                print('Inicia a execução das Roletas')
+                roletas()
+            # Tarefas
+            elif guia == "T1":
+                print('Inicia a execução das Tarefas')
+                tarefas()
         # Recolher
-        elif guia == 'Recolher':
+        elif confg_funcao == 'Recolher':
             print('Inicia a execução do Recolher')
             recolher()
-
+        # Recolher automático
+        elif confg_funcao == 'Recolher_automatico':
+            print('Inicia a execução do Recolher automático')
+            recolher_autometico()
         # Remover
-        elif guia == 'Remover':
+        elif confg_funcao == 'Remover' or confg_funcao == 'Face':
             print('Inicia a execução do remover Poker')
             roletas()
 
@@ -625,31 +635,20 @@ while True:
 
         print("Conta não entrou, o Statos é: ", stataus_facebook)
         Google.marca_caida(stataus_facebook, guia, linha)
-        # id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
     elif status_poker == 'Banida' or status_poker == 'Bloqueado Temporariamente':
-
         print("Conta não entrou, o Statos é: ", status_poker)
         Google.marca_caida(status_poker, guia, linha)
-        # id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
-
-    # elif status_poker == 'Atualizar':
-    #
-    #     print("Conta não entrou, o Statos é: ", status_poker)
-    #     # id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
     elif entrou_corretamente:  # se nao entrou no face
-
         if hora_fim_tarefa:
             valores = [""]
             #  apaga os valore quando da a hoara de sair do tarefas
             Google.apagar_numerodo_pc(valores, guia, linha)  # apaga o nume do pc
             Google.apagar_numerodo_pc(valores, guia, linha_novo)  # apaga o nume do pc
-
         else:
-            # escre os valores na planilha
+            # escreve os valores na planilha
             Google.escrever_valores_lote(valores, guia, linha)  # escreve as informaçoes na planilha apartir da coluna E
-            # id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
 
     identifica_funcao()
 
