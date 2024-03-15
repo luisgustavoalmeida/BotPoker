@@ -17,6 +17,7 @@ pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
 from UparAuto import upar
+from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa
 
 # import Firebase
 # from Firebase import confirmacao_comando_resposta, comando_escravo, comando_coleetivo_escravo_escravo
@@ -1048,6 +1049,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     jogou_uma_vez_mesa_completa = False
     humano = False
     mesa_completa = False
+    num_mesa = ''
     cont_jogou = 0
     senta_com_maximo = False
     cont_limpa_jogando = 0
@@ -1140,6 +1142,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 cont_limpa_jogando = 45
                 Limpa.limpa_total(x_origem, y_origem)
                 Limpa.limpa_jogando(x_origem, y_origem)
+                atualizar_estatos_mesa('tempo estourado' + num_mesa)
                 continue
 
         cont_limpa_jogando += 1
@@ -1189,8 +1192,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     else:
                         humano = False
                 print('Terminou o for humanos :', humano)
-                if not humano:
+
+                if not humano and recolher:
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
+                    if mesa_completa:
+                        lugares_ocupados = contar_pessoas_mesa(sala_atual)
+                        if lugares_ocupados == 5:
+                            mesa_completa = True
+                        else:
+                            mesa_completa = False
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
             else:
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
@@ -1209,13 +1219,18 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             cont_limpa_jogando = 45
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
+            atualizar_estatos_mesa('humano ' + num_mesa)
             continue
 
         if sentou:
             if not humano:
+                # atualizar_estatos_mesa(num_mesa)
+
                 # escolhe qual modo de jogar sera usado
                 if recolher:
                     print('Função recolher')
+
+                    atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
@@ -1267,6 +1282,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             print('esta tudo ok, sentado', indice)
                             sala_atual = indice
                             indice_inicial = 0
+                            atualizar_estatos_mesa(num_mesa)
                             pular_sala = False
                             break
                         else:
@@ -1300,6 +1316,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
     dicionario_salas[blind_mesa][2] = lista_salas
+
+    atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
 
     # if blind_mesa == '100200':
     #     lista_salas_jogar3 = lista_salas

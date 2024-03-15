@@ -500,6 +500,7 @@ def valor_fichas_perfil(x_origem, y_origem):
                 print(f"Valor das fichas perfil: {fichas}")
                 # clica para fechar a tela do perfil
                 pyautogui.click(772 + x_origem, 160 + y_origem)
+                time.sleep(0.5)
                 return fichas
                 # break
             else:
@@ -1394,6 +1395,7 @@ def level_conta(x_origem, y_origem):
 
                     if pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=2):
                         pyautogui.click(771 + x_origem, 162 + y_origem)  # clica para fechar a tela do perfil
+                        time.sleep(0.5)
 
                     return level, fichas
 
@@ -1408,6 +1410,7 @@ def level_conta(x_origem, y_origem):
 
     if pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=2):
         pyautogui.click(771 + x_origem, 162 + y_origem)  # clica para fechar a tela do perfil
+        time.sleep(0.5)
     print('Erro na leitura do nivel da comta')
     return level, fichas
 

@@ -449,8 +449,9 @@ def limpa_promocao(x_origem, y_origem):
         # area dos campeoes
         # comprar
         # meus objetos
-        pyautogui.click(771 + x_origem, 156 + y_origem, button='left')
+        pyautogui.click(771 + x_origem, 156 + y_origem)
         print("promoçao laranja")
+        time.sleep(0.5)
 
     # raliacesses
     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (255, 204, 125), tolerance=19) or

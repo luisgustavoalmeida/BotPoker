@@ -10,8 +10,6 @@ from requests.exceptions import ConnectionError
 
 from Google import dicionari_token_credencial_n, numero_pc
 
-
-
 # importa o dicionário com os nomes dos computadores e o námero referete a cada um
 # from Parametros import dicionari_token_credencial_n
 
@@ -26,13 +24,13 @@ from Google import dicionari_token_credencial_n, numero_pc
 # }
 
 config = {
-  "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
-  "authDomain": "pokerdados-faf1f.firebaseapp.com",
-  "databaseURL": "https://pokerdados-faf1f-default-rtdb.firebaseio.com",
-  "projectId": "pokerdados-faf1f",
-  "storageBucket": "pokerdados-faf1f.appspot.com",
-  "messagingSenderId": "368579247698",
-  "appId": "1:368579247698:web:3429ba54dcb18127f5a98b"
+    "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
+    "authDomain": "pokerdados-faf1f.firebaseapp.com",
+    "databaseURL": "https://pokerdados-faf1f-default-rtdb.firebaseio.com",
+    "projectId": "pokerdados-faf1f",
+    "storageBucket": "pokerdados-faf1f.appspot.com",
+    "messagingSenderId": "368579247698",
+    "appId": "1:368579247698:web:3429ba54dcb18127f5a98b"
 }
 
 # Dicionário global para armazenar as variáveis com seus respectivos valores
@@ -115,6 +113,7 @@ nome_computador = socket.gethostname()
 nome_usuario = os.getlogin()
 
 nome_completo = nome_computador + "_" + nome_usuario
+
 
 # # Acessar o terceiro item da tupla associada à chave 'PC-I7-9700KF_lgagu'
 # numero_pc = f"PC{dicionari_token_credencial_n[nome_completo][2] :02d}"
@@ -404,7 +403,7 @@ def ler_configuracao():
         dados_config = db.child('Ajustes').child(numero_pc).get().val()
         if dados_config:
             # print("Dados de configuração lidos com sucesso:")
-            # print(dados_config)
+            print(dados_config)
 
             # Separa os dados em variáveis individuais
             confg_funcao = dados_config.get('confg_funcao', None)
@@ -435,6 +434,118 @@ def atualizar_configuracao_pc(novos_dados):
         print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
 
 
+def atualizar_estatos_mesa(statos):
+    '''
+    Atualiza os dados de configuração para um PC específico
+    modelo de parametro a ser passado pc_statos = {'200400': 'sentado'}
+    '''
+    # novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'}
+    global firebase, db
+    try:
+        if not firebase or not db:
+            raise ValueError("Firebase ou banco de dados não inicializado corretamente.")
+
+        pc_statos = {numero_pc: statos}
+        # # Atualiza os dados de configuração específicos para o PC fornecido
+        db.child('Mesa').update(pc_statos)
+
+        print(f"Dados de configuração para {numero_pc} atualizados com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
+
+
+def ler_statos_mesa():
+    ''' Lê os dados de configuração do banco de dados Firebase '''
+    global firebase, db, dados_mesa
+
+    try:
+        # Lê os dados de configuração do nó 'Ajustes' do banco de dados Firebase
+        dados_mesa = db.child('Mesa').get().val()
+        if dados_config:
+            # print("Dados de configuração lidos com sucesso:")
+            print(dados_mesa)
+
+            return dados_mesa
+        else:
+            print("Nenhum dado de configuração encontrado.")
+            return None
+    except Exception as e:
+        print(f"Ocorreu um erro ao ler os dados de configuração: {str(e)}")
+        return None
+
+
+def contar_ocupacao_mesas(sala=''):
+    """
+    Conta cada uma das salas e retorna um dicionário com a quantidade de pessoas em cada sala.
+
+    Args:
+        sala: A sala que você deseja contar.
+
+    Returns:
+        O número de pessoas na sala especificada e o dicionario com a quantidade de pessoas por sala
+    """
+    dicionario = ler_statos_mesa()
+
+    # Verifica se dados_mesa é um dicionário
+    if isinstance(dicionario, dict):
+        contagem_numeros = {}
+        for pc, dados in dicionario.items():
+            if isinstance(dados, str):
+                if dados in contagem_numeros:
+                    contagem_numeros[dados] += 1
+                else:
+                    contagem_numeros[dados] = 1
+
+        # Verifica se a sala existe
+        if sala in contagem_numeros:
+            return contagem_numeros[sala], contagem_numeros
+        else:
+            return 0, contagem_numeros
+    else:
+        return None, None
+
+
+def contar_pessoas_mesa(sala):
+    """
+    Conta quantas vezes uma sala se repete nos dados.
+
+    Args:
+      sala: A sala que você deseja contar.
+
+    Returns:
+      O número de vezes que a sala se repete.
+    """
+    dicionario = ler_statos_mesa()
+    contagem_repeticoes = 0
+    for pc, dados in dicionario.items():
+        if isinstance(dados, str):
+            if dados == sala:
+                contagem_repeticoes += 1
+
+    return contagem_repeticoes
+
+# # Exemplo de uso
+# resultado = contar_pessoas_mesa('1234')
+#
+# # Imprime o resultado
+# print(resultado)
+
+
+# # Exemplo de uso
+# contagem, dicionario = contar_ocupacao_mesa('1234')
+#
+# # Imprime o resultado
+# print(contagem, dicionario)
+
+
+# # Exemplo de uso
+# frequencia_100200 = contar_ocupacao_mesa('100200')
+# frequencia_200400 = contar_ocupacao_mesa('200400')
+#
+# print(f"Frequência de '100200': 'sentado': {frequencia_100200}")
+# print(f"Frequência de '200400': 'sentado': {frequencia_200400}")
+
+
 # Chama a função para escrever os dados de configuração no banco de dados Firebase
 # dados_config = "teste"
 # print(numero_pc)
@@ -444,7 +555,10 @@ def atualizar_configuracao_pc(novos_dados):
 
 # atualizar_configuracao_pc()
 
-# ler_configuracao()
+
+# pc_statos = {'200400': 'sentado'}
+# #
+# atualizar_estatos_mesa('1231')
 #
 # # Imprimir o terceiro item
 # print("Numero computador:", numero_pc)
