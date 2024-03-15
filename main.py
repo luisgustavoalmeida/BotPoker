@@ -533,7 +533,12 @@ def recolher_autometico():
 
 def identifica_funcao():
     global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
-    confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+    try:
+        confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+    except Exception as e:
+        print(e)
+        print('Sera usado o pradrao roleta_auto')
+        confg_funcao = 'roleta_auto'
 
     print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
 

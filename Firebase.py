@@ -406,9 +406,9 @@ def ler_configuracao():
             print(dados_config)
 
             # Separa os dados em variáveis individuais
-            confg_funcao = dados_config.get('confg_funcao', None)
-            config_tempo_roleta = dados_config.get('config_tempo_roleta', None)
-            blind_recolher_auto = dados_config.get('blind_recolher_auto', None)
+            confg_funcao = dados_config.get('confg_funcao', 'roleta_auto')
+            config_tempo_roleta = dados_config.get('config_tempo_roleta', '4:40:5')
+            blind_recolher_auto = dados_config.get('blind_recolher_auto', '0000')
 
             return confg_funcao, config_tempo_roleta, blind_recolher_auto
         else:
