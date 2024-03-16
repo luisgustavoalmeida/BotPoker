@@ -1144,6 +1144,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 humano = False
                 pular_sala = True
                 mesa_completa = False
+                sentou = False
                 cont_limpa_jogando = 45
                 Limpa.limpa_total(x_origem, y_origem)
                 Limpa.limpa_jogando(x_origem, y_origem)
