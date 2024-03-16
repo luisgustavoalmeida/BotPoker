@@ -1095,6 +1095,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             humano = False
             pular_sala = True
             sentou = False
+            mesa_completa = False
             cont_limpa_jogando = 45
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
