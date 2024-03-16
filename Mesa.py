@@ -1173,7 +1173,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
-                    if cont_jogou >= numero_jogadas:
+                    if cont_jogou >= numero_jogadas and not recolher:
                         break
 
                 jogou_uma_vez = False
