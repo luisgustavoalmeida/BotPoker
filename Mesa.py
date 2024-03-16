@@ -1286,7 +1286,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
-                                mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
                             time_encher_mesa = time_entrou = time.perf_counter()
                             print('esta tudo ok, sentado na mesa:', num_mesa)
