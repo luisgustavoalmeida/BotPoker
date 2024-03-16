@@ -1138,7 +1138,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 break
 
             if (tempo_decorrido >= 120) and recolher and (not mesa_completa):
-                time_comecou = time.perf_counter()
+                time_entrou = time.perf_counter()
                 print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
                 jogou_uma_vez = False
                 humano = False
@@ -1202,14 +1202,17 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if not humano and recolher:
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
                     print('Reconhecimenteo de mesa completa: ', mesa_completa)
-                    if mesa_completa:
-                        lugares_ocupados = contar_pessoas_mesa(num_mesa)
-                        print('firebase mesa com:', lugares_ocupados)
-                        if lugares_ocupados >= 5:
-                            mesa_completa = True
-                            time_comecou = time.perf_counter()
-                        else:
-                            mesa_completa = False
+
+                    lugares_ocupados = contar_pessoas_mesa(num_mesa)
+                    print('firebase mesa com lugares ocupadas:', lugares_ocupados)
+                    if lugares_ocupados >= 5:
+                        mesa_completa = True
+                        time_comecou = time.perf_counter()
+                    if lugares_ocupados == 4:
+                        time_comecou = time.perf_counter()
+                        mesa_completa = False
+                    else:
+                        mesa_completa = False
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
             else:
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
@@ -1218,8 +1221,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 else:
                     humano = False
 
-        print('HUMANO: ', humano)
+        # print('HUMANO: ', humano)
         if humano:
+            time_entrou = time.perf_counter()
             print('Jogador humano na mesa, troca de mesa')
             jogou_uma_vez = False
             humano = False
@@ -1237,13 +1241,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                 # escolhe qual modo de jogar sera usado
                 if recolher:
-                    print('Função recolher')
+                    # print('Função recolher')
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
+                        print('mesa completa vai apaostar tudo')
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
                             jogou_uma_vez_mesa_completa = True
                     else:
+                        print('mesa NÃO completa ')
                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
                 else:
                     if apostar:
@@ -1258,9 +1264,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             print("ainda nao esta sentado")
             for i in range(3):
                 print('indice_inicial', indice_inicial)
-
                 for indice, num_mesa in enumerate(lista_salas):
-
                     if indice_inicial > indice:
                         print('Porcurando o indece / mesa: ', indice, num_mesa)
                         # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
@@ -1286,11 +1290,16 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if blind_certo:
                         sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
                         if sentou:
+
+                            if recolher:
+                                atualizar_estatos_mesa(num_mesa)
+                                mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
+
                             time_entrou = time.perf_counter()
-                            print('esta tudo ok, sentado', indice)
+                            print('esta tudo ok, sentado na mesa:', num_mesa)
                             sala_atual = indice
                             indice_inicial = 0
-                            atualizar_estatos_mesa(num_mesa)
+
                             pular_sala = False
                             break
                         else:
