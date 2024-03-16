@@ -1200,10 +1200,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                 if not humano and recolher:
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
+                    print('Reconhecimenteo de mesa completa: ', mesa_completa)
                     if mesa_completa:
+
                         lugares_ocupados = contar_pessoas_mesa(sala_atual)
-                        if lugares_ocupados == 5:
+                        print('firebase mesa com:', lugares_ocupados)
+                        if lugares_ocupados >= 5:
                             mesa_completa = True
+                            time_comecou = time.perf_counter()
                         else:
                             mesa_completa = False
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)

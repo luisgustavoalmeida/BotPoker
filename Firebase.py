@@ -463,7 +463,7 @@ def ler_statos_mesa():
         dados_mesa = db.child('Mesa').get().val()
         if dados_config:
             # print("Dados de configuração lidos com sucesso:")
-            print(dados_mesa)
+            # print(dados_mesa)
 
             return dados_mesa
         else:
@@ -524,6 +524,9 @@ def contar_pessoas_mesa(sala):
 
     return contagem_repeticoes
 
+#
+# contagem = contar_pessoas_mesa('1045')
+# print(contagem)
 # # Exemplo de uso
 # resultado = contar_pessoas_mesa('1234')
 #
