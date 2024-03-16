@@ -12,6 +12,7 @@ pyautogui.PAUSE = 0
 
 
 def teste_limpo(x_origem, y_origem):
+    print('teste_limpo')
     # pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     pyautogui.click(686 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     # barra azul do looby
@@ -24,7 +25,7 @@ def teste_limpo(x_origem, y_origem):
 
 
 def ja_esta_logado(x_origem, y_origem):
-    # print('ja_esta_logado')
+    print('ja_esta_logado')
     # testa se tem as cores da caixa de mensagem de aviso do sistema
 
     resultado_aviso_sistema = ocr_aviso_sistema(x_origem, y_origem)
@@ -469,8 +470,8 @@ def limpa_promocao(x_origem, y_origem):
 def limpa_total(x_origem, y_origem):
 
     cont_erro_limpa = 0
-    for _ in range(50):
-        print('limpa_total')
+    for i in range(50):
+        print('limpa_total:', i)
 
         cont_erro_limpa += 1
         if cont_erro_limpa >= 20:
