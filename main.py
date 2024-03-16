@@ -526,13 +526,15 @@ def recolher():
 
 
 def recolher_autometico():
-    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou
+    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, valor_fichas_perfil
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
     Limpa.limpa_total(x_origem, y_origem)
     time.sleep(1)
     Limpa.limpa_total(x_origem, y_origem)
     Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
+    Limpa.limpa_total(x_origem, y_origem)
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+    valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
 
 
 def identifica_funcao():
