@@ -466,11 +466,10 @@ def limpa_promocao(x_origem, y_origem):
 
 
 def limpa_total(x_origem, y_origem):
-    print('limpa_total')
+
     cont_erro_limpa = 0
     for _ in range(50):
-        # pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
-        # pyautogui.click(686 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
+        print('limpa_total')
 
         cont_erro_limpa += 1
         if cont_erro_limpa >= 20:
