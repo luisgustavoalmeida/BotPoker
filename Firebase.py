@@ -529,7 +529,7 @@ def contar_pessoas_mesa(sala):
 
     print('sala ', sala, ' com ', contagem_repeticoes)
 
-    return contagem_repeticoes
+    return int(contagem_repeticoes)
 
 #
 # contagem = contar_pessoas_mesa('1045')
