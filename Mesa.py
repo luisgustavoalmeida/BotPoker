@@ -1198,14 +1198,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
                     print('firebase mesa com lugares ocupadas:', lugares_ocupados)
-                    if lugares_ocupados >= 5:
+                    if lugares_ocupados == 5:
                         mesa_completa = True
                         time_encher_mesa = time_entrou = time.perf_counter()
-                    if lugares_ocupados == 4:
+                    elif lugares_ocupados == 4:
                         time_encher_mesa = time_entrou = time.perf_counter()
                         mesa_completa = False
                     else:
                         mesa_completa = False
+
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
             else:
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
