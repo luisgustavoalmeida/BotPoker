@@ -370,6 +370,7 @@ def clica_seta_sentar(x_origem, y_origem):
 
 
 def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_celular=False):
+    print('sentar_mesa')
     """
     Tenta sentar em uma mesa de poker virtual com base nas coordenadas fornecidas.
 
@@ -423,8 +424,8 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
             for _ in range(2):
                 print('Tentando sentar')
 
-                if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10) or pyautogui.pixelMatchesColor(
-                        (x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+                if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
+                        or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
                     print('mesa esta limpa')
                 else:
                     Limpa.fecha_tarefa(x_origem, y_origem)
@@ -1066,23 +1067,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     valor_aposta2 = dicionario_salas[blind_mesa][1]
     lista_salas = dicionario_salas[blind_mesa][2]
 
-    # if blind_mesa == '100200':
-    #     lista_salas = lista_salas_jogar3
-    #     valor_aposta1 = 400
-    #     valor_aposta2 = 200
-    # elif blind_mesa == '50100':
-    #     lista_salas = lista_salas_jogar2
-    #     valor_aposta1 = 200
-    #     valor_aposta2 = 100
-    # elif blind_mesa == '2550':
-    #     lista_salas = lista_salas_jogar
-    #     valor_aposta1 = 100
-    #     valor_aposta2 = 50
-    # else:
-    #     lista_salas = lista_salas_jogar
-    #     valor_aposta1 = 100
-    #     valor_aposta2 = 50
-
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
 
@@ -1094,7 +1078,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     Limpa.limpa_promocao(x_origem, y_origem)
     sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
 
-    time_comecou = time_entrou = time.perf_counter()
+    time_encher_mesa = time_comecou = time_entrou = time.perf_counter()
+
+    print('entra no loop do mesa_upar_jogar')
+    print('status do sentar : ', sentou)
 
     while continua_jogando:  # permanece joghando
 
@@ -1105,7 +1092,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
+            jogou_uma_vez = False
+            humano = False
             pular_sala = True
+            sentou = False
+            cont_limpa_jogando = 45
 
         if cont_limpa_jogando > 25:
             cont_limpa_jogando = 0
@@ -1125,6 +1116,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
 
+
+
             # Conversão de segundos para horas, minutos e segundos
             horas = int(tempo_decorrido // 3600)
             minutos = int((tempo_decorrido % 3600) // 60)
@@ -1137,8 +1130,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('Limite de tempo jogando mesa.')
                 break
 
-            if (tempo_decorrido >= 120) and recolher and (not mesa_completa):
-                time_entrou = time.perf_counter()
+            if (time.perf_counter() - time_encher_mesa) > 120 and recolher and (not mesa_completa):
+                time_encher_mesa = time_entrou = time.perf_counter()
                 print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
                 jogou_uma_vez = False
                 humano = False
@@ -1207,9 +1200,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     print('firebase mesa com lugares ocupadas:', lugares_ocupados)
                     if lugares_ocupados >= 5:
                         mesa_completa = True
-                        time_comecou = time.perf_counter()
+                        time_encher_mesa = time_entrou = time.perf_counter()
                     if lugares_ocupados == 4:
-                        time_comecou = time.perf_counter()
+                        time_encher_mesa = time_entrou = time.perf_counter()
                         mesa_completa = False
                     else:
                         mesa_completa = False
@@ -1295,7 +1288,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                                 atualizar_estatos_mesa(num_mesa)
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
-                            time_entrou = time.perf_counter()
+                            time_encher_mesa = time_entrou = time.perf_counter()
                             print('esta tudo ok, sentado na mesa:', num_mesa)
                             sala_atual = indice
                             indice_inicial = 0
@@ -1335,15 +1328,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     dicionario_salas[blind_mesa][2] = lista_salas
 
     atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
-
-    # if blind_mesa == '100200':
-    #     lista_salas_jogar3 = lista_salas
-    # elif blind_mesa == '50100':
-    #     lista_salas_jogar2 = lista_salas
-    # elif blind_mesa == '2550':
-    #     lista_salas_jogar = lista_salas
-    # else:
-    #     lista_salas_jogar = lista_salas
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
