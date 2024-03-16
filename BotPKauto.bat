@@ -18,10 +18,11 @@ echo   **                 O que voce deseja fazer?                 **
 echo.
 echo        1. Iniciar o Script Principal.
 echo        2. Remover o Poker Brasil.
-echo        3. Recolher fichas.
-echo        4. Interface de comando e controle.
-echo        5. Instalar bibliotecas Python.
-echo        6. Atualizar repositorio local com GitHub.
+echo        3. Recolher Manual.
+echo        4. Recolher Automatico.
+echo        5. Interface de comando e controle.
+echo        6. Instalar bibliotecas Python.
+echo        7. Atualizar repositorio local com GitHub.
 echo.
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
@@ -34,7 +35,7 @@ echo.
 choice /c 123456 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
-if errorlevel 6 (
+if errorlevel 7 (
     echo.
     echo    Atualizar repositorio local com GitHub selecionado.
     echo.
@@ -46,7 +47,7 @@ if errorlevel 6 (
     pause
     echo.
     goto :inicio
-) else if errorlevel 5 (
+) else if errorlevel 6 (
     echo.
     echo    Instalar bibliotecas Python selecionado.
     echo.
@@ -59,15 +60,22 @@ if errorlevel 6 (
     pause
     echo.
     goto :inicio
-) else if errorlevel 4 (
+) else if errorlevel 5 (
     echo.
     echo    Interface de comando selecionado.
     echo.
     timeout /t 1 /nobreak >nul
     python Tela.py
+) else if errorlevel 4 (
+    echo.
+    echo    Recolher automatico selecionado.
+    echo.
+    timeout /t 1 /nobreak >nul
+    python InicializarRecolherAuto.py
+    python main.py
 ) else if errorlevel 3 (
     echo.
-    echo    Recolher selecionado.
+    echo    Recolher manual selecionado.
     echo.
     timeout /t 1 /nobreak >nul
     python InicializarRecolher.py
