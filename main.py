@@ -526,12 +526,13 @@ def recolher():
 
 
 def recolher_autometico():
-    global x_origem, y_origem, blind_recolher_auto
+    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
     Limpa.limpa_total(x_origem, y_origem)
     time.sleep(1)
     Limpa.limpa_total(x_origem, y_origem)
     Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
+    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
 
 
 def identifica_funcao():
@@ -624,9 +625,6 @@ while True:
         Tarefas.recolher_tarefa_upando(x_origem, y_origem)
         Aneis.recolhe_aneis(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
-
-        if hora_que_rodou == 0:
-            hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
 
         print('\nTerminou as atividades\n')
     # ################################################################################################################################################
