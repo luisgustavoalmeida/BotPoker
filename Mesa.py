@@ -1144,6 +1144,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
         cont_limpa_jogando += 1
 
+        print('jogou_uma_vez', jogou_uma_vez)
+
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 # testa se apareceu as mensagens verdes na parte de baixo
@@ -1237,7 +1239,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     # print('Função recolher')
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
-                        print('\n\n mesa completa vai apaostar tudo \n\n')
+                        print('\nmesa completa vai apaostar tudo\n')
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
                             jogou_uma_vez_mesa_completa = True
@@ -1286,6 +1288,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
+                                mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
                             time_encher_mesa = time_entrou = time.perf_counter()
                             print('esta tudo ok, sentado na mesa:', num_mesa)
