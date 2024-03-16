@@ -1051,10 +1051,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     mesa_completa = False
     num_mesa = ''
     cont_jogou = 0
-    senta_com_maximo = False
+
     cont_limpa_jogando = 0
     sala_atual = None
     pular_sala = False
+    if recolher:
+        senta_com_maximo = True
+    else:
+        senta_com_maximo = False
 
     # Use a lista apropriada com base no valor da variável blind_mesa
     # Captura os valores do dicionário em função dos blindes das mesas

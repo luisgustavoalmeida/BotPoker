@@ -121,7 +121,7 @@ def logar_carregar():
     if (2 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
-    if confg_funcao in ('Recolher', 'roleta_auto', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
+    if confg_funcao in ('Recolher_automatico', 'Recolher', 'roleta_auto', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         # loga nomamente no jogo
         entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False)
     elif confg_funcao in ('Remover', 'Face'):
@@ -528,6 +528,9 @@ def recolher():
 def recolher_autometico():
     global x_origem, y_origem, blind_recolher_auto
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
+    Limpa.limpa_total(x_origem, y_origem)
+    time.sleep(1)
+    Limpa.limpa_total(x_origem, y_origem)
     Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
 
 
@@ -535,6 +538,7 @@ def identifica_funcao():
     global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+        print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
     except Exception as e:
         print(e)
         print('Sera usado o pradrao roleta_auto')
@@ -561,6 +565,8 @@ def identifica_funcao():
     if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':
         Telegran.monta_mensagem(f'código alterado para modo {str(confg_funcao)}.  ⚙️', True)
     confg_funcao_anterior = confg_funcao
+
+    print('identifica_funcao.  guia:', guia, 'confg_funcao: ', confg_funcao, 'blind_recolher_auto: ', blind_recolher_auto)
 
 
 # Obter a guia a ser utilizada
