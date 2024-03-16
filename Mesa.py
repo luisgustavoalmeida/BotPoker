@@ -1228,7 +1228,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             cont_limpa_jogando = 45
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
-            atualizar_estatos_mesa('humano ' + num_mesa)
+            if recolher:
+                atualizar_estatos_mesa('humano ' + num_mesa)
             continue
 
         if sentou:
@@ -1325,12 +1326,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 pyautogui.press('f5')
                 time.sleep(25)
 
+    atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
+
     indice_inicial = sala_atual
 
     # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
     dicionario_salas[blind_mesa][2] = lista_salas
-
-    atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
