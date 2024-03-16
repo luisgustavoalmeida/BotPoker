@@ -15,7 +15,7 @@ def teste_limpo(x_origem, y_origem):
     # pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     pyautogui.click(686 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     # barra azul do looby
-    if pyautogui.pixelMatchesColor((x_origem + 685), (y_origem + 360), (215, 234, 244), tolerance=2):
+    if pyautogui.pixelMatchesColor((x_origem + 685), (y_origem + 360), (215, 234, 244), tolerance=1):
         print("teste_limpo: Esta no Lobby, ta limpo")
         return True
     else:

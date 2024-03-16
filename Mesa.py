@@ -1137,7 +1137,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('Limite de tempo jogando mesa.')
                 break
 
-            if (tempo_decorrido >= 60) and recolher and (not mesa_completa):
+            if (tempo_decorrido >= 120) and recolher and (not mesa_completa):
                 time_comecou = time.perf_counter()
                 print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
                 jogou_uma_vez = False
@@ -1203,7 +1203,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
                     print('Reconhecimenteo de mesa completa: ', mesa_completa)
                     if mesa_completa:
-
                         lugares_ocupados = contar_pessoas_mesa(num_mesa)
                         print('firebase mesa com:', lugares_ocupados)
                         if lugares_ocupados >= 5:
@@ -1239,7 +1238,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 # escolhe qual modo de jogar sera usado
                 if recolher:
                     print('Função recolher')
-
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)

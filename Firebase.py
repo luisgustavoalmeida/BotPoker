@@ -433,14 +433,17 @@ def atualizar_configuracao_pc(novos_dados):
     except Exception as e:
         print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
 
-
+status_anterior = None
 def atualizar_estatos_mesa(statos):
+
     '''
     Atualiza os dados de configuração para um PC específico
     modelo de parametro a ser passado pc_statos = {'200400': 'sentado'}
     '''
     # novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'}
-    global firebase, db
+    global firebase, db, status_anterior
+    if status_anterior == statos:
+        return
     try:
         if not firebase or not db:
             raise ValueError("Firebase ou banco de dados não inicializado corretamente.")
@@ -450,6 +453,7 @@ def atualizar_estatos_mesa(statos):
         db.child('Mesa').update(pc_statos)
 
         print(f"Dados de configuração para {numero_pc} atualizados com sucesso.")
+        status_anterior = statos
     except Exception as e:
         print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
 
