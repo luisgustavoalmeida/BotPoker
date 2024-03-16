@@ -466,6 +466,14 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(x_origem + 722, y_origem + 219, button='left')
         print("Voce Noa Jogou Nehum Jogo De Poker Essasemana")
 
+    # Gostaria de começar a Liga do Finde?
+    if pyautogui.pixelMatchesColor((x_origem + 538), (y_origem + 408), (217, 184, 50), tolerance=5):
+        if pyautogui.pixelMatchesColor((x_origem + 538), (y_origem + 408), (31, 24, 73), tolerance=10):
+            pyautogui.click(x_origem + 407, y_origem + 354)  # não mostar novamente hoje
+            time.sleep(0.8)
+        pyautogui.click(x_origem + 407, y_origem + 408)  # clica no NÃO
+        print("Gostaria de começar a Liga do Finde?")
+
 
 def limpa_total(x_origem, y_origem):
 
