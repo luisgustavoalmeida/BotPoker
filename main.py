@@ -625,10 +625,14 @@ while True:
         Aneis.recolhe_aneis(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
 
+        if hora_que_rodou == 0:
+            hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+
         print('\nTerminou as atividades\n')
     # ################################################################################################################################################
     ip, com_internet = IP.meu_ip()  # obtem meu endereço de IP
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
+    print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
     Seleniun.sair_face(url)
 
     print('\n Espera terminar tarefa independente loop\n')
