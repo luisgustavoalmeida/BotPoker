@@ -1127,7 +1127,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             # Impressão do tempo decorrido
             print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
 
-            if (tempo_decorrido >= 300) and (not upar) or (tempo_decorrido >= 300) and (not recolher):
+            if ((tempo_decorrido >= 300) and (not upar)) or ((tempo_decorrido >= 300) and (not recolher)):
                 print('Limite de tempo jogando mesa.')
                 break
 
