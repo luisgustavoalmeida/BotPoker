@@ -1100,7 +1100,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
 
-        if cont_limpa_jogando > 25:
+        if cont_limpa_jogando > 10:
             cont_limpa_jogando = 0
             # testa se a mesa esta limpa
             if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
