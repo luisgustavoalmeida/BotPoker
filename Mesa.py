@@ -1088,7 +1088,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
         # print('tempo que esta esperando', tempo_total)
         if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
             time_entrou = time.perf_counter()
-            cont_limpa_jogando = 45
             print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
@@ -1097,6 +1096,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             pular_sala = True
             sentou = False
             cont_limpa_jogando = 45
+            atualizar_estatos_mesa('tempo estourado' + num_mesa)
 
         if cont_limpa_jogando > 25:
             cont_limpa_jogando = 0
