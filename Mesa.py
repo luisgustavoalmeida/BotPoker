@@ -1116,8 +1116,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
 
-
-
             # Conversão de segundos para horas, minutos e segundos
             horas = int(tempo_decorrido // 3600)
             minutos = int((tempo_decorrido % 3600) // 60)
@@ -1208,6 +1206,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         mesa_completa = False
 
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
+
             else:
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa, humanos na mesa')
@@ -1238,7 +1237,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     # print('Função recolher')
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
-                        print('mesa completa vai apaostar tudo')
+                        print('\n\n mesa completa vai apaostar tudo \n\n')
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
                             jogou_uma_vez_mesa_completa = True
