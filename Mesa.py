@@ -1138,6 +1138,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 break
 
             if (tempo_decorrido >= 60) and recolher and (not mesa_completa):
+                time_comecou = time.perf_counter()
                 print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
                 jogou_uma_vez = False
                 humano = False
