@@ -506,6 +506,7 @@ def contar_ocupacao_mesas(sala=''):
 
 
 def contar_pessoas_mesa(sala):
+    print('conta quantas pessosa tem na mesa: ', sala)
     """
     Conta quantas vezes uma sala se repete nos dados.
 
@@ -521,6 +522,8 @@ def contar_pessoas_mesa(sala):
         if isinstance(dados, str):
             if dados == sala:
                 contagem_repeticoes += 1
+
+    print('sala ', sala, ' com ', contagem_repeticoes)
 
     return contagem_repeticoes
 
