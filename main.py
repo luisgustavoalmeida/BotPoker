@@ -263,6 +263,7 @@ def roletas():
     # level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana)
     return
 
+
 def tarefas():
     print('Entrou nas tarefas')
     global x_origem, y_origem, roleta, hora_que_rodou, entrou_corretamente, stataus_facebook, pontuacao_tarefas
