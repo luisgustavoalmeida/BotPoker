@@ -81,10 +81,10 @@ dicionario_salas = {
     '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703']],
     '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714']],
-    '5001K': [2000, 4000, ['192', '1743', '1744', '1745', '1746', '1747', '1748', '1749']],
-    '1K2K': [4000, 8000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760']],
-    '2K4K': [8000, 16000, ['1300', '1301', '1302', '1303', '1304', '1305']],
-    '5K10K': [20000, 40000, ['1207', '1208', '1160', '1159', '1159']]
+    '5001K': [2000, 1000, ['192', '1743', '1744', '1745', '1746', '1747', '1748', '1749']],
+    '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760']],
+    '2K4K': [8000, 4000, ['1300', '1301', '1302', '1303', '1304', '1305']],
+    '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159']]
 }
 
 dicionari_PC_cadeira = {
@@ -1067,6 +1067,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     valor_aposta2 = dicionario_salas[blind_mesa][1]
     lista_salas = dicionario_salas[blind_mesa][2]
 
+    print('\n\nlista_salas', lista_salas,'\n')
+    print('valores', valor_aposta1, valor_aposta2,'\n\n')
+
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
 
@@ -1088,7 +1091,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
         # print('tempo que esta esperando', tempo_total)
         if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
             time_entrou = time.perf_counter()
-            print("tempo limite atingido sem outro jogador, sai da mesa para tentar em outra")
+            print("\ntempo limite atingido sem outro jogador, sai da mesa para tentar em outra\n")
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1133,7 +1136,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
             if ((time.perf_counter() - time_encher_mesa) > 120) and recolher and (not mesa_completa):
                 time_encher_mesa = time_entrou = time.perf_counter()
-                print('Limite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa')
+                print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
                 jogou_uma_vez = False
                 humano = False
                 pular_sala = True
@@ -1147,7 +1150,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
         cont_limpa_jogando += 1
 
-        print('jogou_uma_vez', jogou_uma_vez)
+        # print('jogou_uma_vez', jogou_uma_vez)
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1221,8 +1224,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
         # print('HUMANO: ', humano)
         if humano:
-            time_entrou = time.perf_counter()
-            print('Jogador humano na mesa, troca de mesa')
+            time_encher_mesa = time_entrou = time.perf_counter()
+            print('\nJogador humano na mesa, troca de mesa\n')
             jogou_uma_vez = False
             humano = False
             pular_sala = True
@@ -1243,12 +1246,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     # print('Função recolher')
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
-                        print('\nmesa completa vai apaostar tudo\n')
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
                             jogou_uma_vez_mesa_completa = True
                     else:
-                        print('mesa NÃO completa ')
                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
                 else:
                     if apostar:
