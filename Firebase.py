@@ -520,15 +520,18 @@ def contar_pessoas_mesa(sala):
     Returns:
       O número de vezes que a sala se repete.
     """
-    dicionario = ler_statos_mesa()
-    contagem_repeticoes = 0
-    for pc, dados in dicionario.items():
-        if isinstance(dados, str):
-            if dados == sala:
-                contagem_repeticoes += 1
+    try:
+        dicionario = ler_statos_mesa()
+        contagem_repeticoes = 0
+        for pc, dados in dicionario.items():
+            if isinstance(dados, str):
+                if dados == sala:
+                    contagem_repeticoes += 1
 
-    print('sala ', sala, ' com ', contagem_repeticoes)
-
+        print('sala ', sala, ' com ', contagem_repeticoes)
+    except Exception as e:
+        contagem_repeticoes = 0
+        print(e)
     return int(contagem_repeticoes)
 
 #
