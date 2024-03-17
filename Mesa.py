@@ -83,7 +83,7 @@ dicionario_salas = {
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714']],
     '5001K': [2000, 1000, ['192', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749']],
     '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760']],
-    '2K4K': [8000, 4000, ['1300', '1301', '1302', '1303', '1304', '1305']],
+    '2K4K': [8000, 4000, ['1155', '1299', '1300', '1301', '1302', '1303', '1304', '1305']],
     '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159']]
 }
 
@@ -1163,9 +1163,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if upar:
                     print("Esta upando a conta. Jogou vezes igua a: ", cont_jogou)
                     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                    if level_conta >= 16:
+                    if level_conta >= 15:
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                        if level_conta >= 16:
+                        if level_conta >= 15:
                             break
 
                     if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
