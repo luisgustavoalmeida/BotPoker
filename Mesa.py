@@ -1067,8 +1067,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     valor_aposta2 = dicionario_salas[blind_mesa][1]
     lista_salas = dicionario_salas[blind_mesa][2]
 
-    print('\n\nlista_salas', lista_salas,'\n')
-    print('valores', valor_aposta1, valor_aposta2,'\n\n')
+    print('\n\nlista_salas', lista_salas, '\n')
+    print('valores', valor_aposta1, valor_aposta2, '\n\n')
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
