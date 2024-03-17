@@ -1111,7 +1111,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     print("Presentinho de dentro da mesa")
             else:
                 print('mesa nao esta limpa')
-                Limpa.fecha_tarefa(x_origem, y_origem)
+                Limpa.fecha_tarefa(x_origem, y_origem, jogando=True)
                 Limpa.limpa_jogando(x_origem, y_origem)
                 Limpa.limpa_promocao(x_origem, y_origem)
             sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)

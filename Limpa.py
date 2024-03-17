@@ -326,7 +326,7 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
     fecha_tarefa(x_origem, y_origem)
 
 
-def fecha_tarefa(x_origem, y_origem):  # fecha a lista de tarefas diarias
+def fecha_tarefa(x_origem, y_origem, jogando=False):  # fecha a lista de tarefas diarias
     print('fecha_tarefa')
     # pyautogui.click(490 + x_origem, 70 + y_origem, button='left')  # clique bobo para passar alguma naimação
     # Tarefas diarias
@@ -344,7 +344,8 @@ def fecha_tarefa(x_origem, y_origem):  # fecha a lista de tarefas diarias
             print("o novo banco esta aberto")
 
         time.sleep(0.3)
-    limpa_total(x_origem, y_origem)
+    if not jogando:
+        limpa_total(x_origem, y_origem)
 
 
 def limpa_promocao(x_origem, y_origem):
