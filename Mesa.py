@@ -76,15 +76,15 @@ lista_salas_jogar3 = [{'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 40
                       {'1701': ('100200', 200, 400)}, {'1702': ('100200', 200, 400)}, {'1703': ('100200', 200, 400)}]
 # dicionariao numero das salas, valores das salas , e id das salas
 dicionario_salas = {
-    '2550': [100, 50, ['134', '135', '999', '1003', '1004', '1243', '1245', '1246', '1247', '1673', '1674', '1675', '1676', '1677', '1678']],
-    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689']],
-    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703']],
+    '2550': [100, 50, ['134', '135', '999', '1003', '1004', '1243', '1245', '1246', '1247', '1673', '1674', '1675', '1676', '1677', '1678'], 8000],
+    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689'], 10000],
+    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703'], 20000],
     '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
-                          '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714']],
-    '5001K': [2000, 1000, ['192', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749']],
-    '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760']],
-    '2K4K': [8000, 4000, ['1155', '1299', '1300', '1301', '1302', '1303', '1304', '1305']],
-    '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159']]
+                          '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714'], 40000],
+    '5001K': [2000, 1000, ['192', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 80000],
+    '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760'], 200000],
+    '2K4K': [8000, 4000, ['1155', '1299', '1300', '1301', '1302', '1303', '1304', '1305'], 400000],
+    '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159'], 800000]
 }
 
 dicionari_PC_cadeira = {
@@ -1045,6 +1045,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     global dicionario_salas, indice_inicial
     sentou = False
+    teste_humano = False
     continua_jogando = True
     jogou_uma_vez = False
     jogou_uma_vez_mesa_completa = False
@@ -1197,6 +1198,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
                     print('Firebase mesa com lugares ocupadas:', lugares_ocupados)
 
+                    if mesa_completa and lugares_ocupados < 5:
+                        # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
+                        if teste_humano:
+                            humano = True
+                        teste_humano = True
+                    else:
+                        teste_humano = False
+
                     if lugares_ocupados >= 5:
                         mesa_completa = True
                         time_encher_mesa = time_entrou = time.perf_counter()
@@ -1228,7 +1237,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         if jogou:
                             jogou_uma_vez_mesa_completa = True
                     else:
-                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+                        lugares_ocupados = contar_pessoas_mesa(num_mesa)
+                        if lugares_ocupados < 5:
+                            lento = True
+                        else:
+                            lento = False
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento)
                 else:
                     if apostar:
                         jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
@@ -1400,7 +1414,8 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     return level_conta, valor_fichas_perfil
 
 
-def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80):  # para se fazer tarefas
+def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, lento=False):  # para se fazer tarefas
+    time_lento = 7
     # print("passa_corre_joga")
     jogou_uma_vez = False, False
     # se esta com v azul dentro do quadrado branco
@@ -1409,6 +1424,8 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80):  #
 
     # se esta com quadrado branco
     elif pyautogui.pixelMatchesColor((x_origem + 333), (y_origem + 610), (255, 255, 255), 3):
+        if lento:
+            time.sleep(time_lento)
         pyautogui.click((x_origem + 337), (y_origem + 605))
         time.sleep(0.3)
         print("Passar")
@@ -1420,6 +1437,8 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80):  #
         valor = OCR_tela.valor_apostar(x_origem, y_origem)
         print('Valor da aposta: ', valor)
         if (valor == valor_aposta1) or (valor == valor_aposta2):
+            if lento:
+                time.sleep(time_lento)
             pyautogui.click((x_origem + 337), (y_origem + 605))  # clica no passar
             print("Valor esprado, Paga")
             jogou_uma_vez = True, False

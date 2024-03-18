@@ -5,9 +5,11 @@ start "" "move_janela.bat.ahk"
 REM Adiciona exceção para o diretório BotGit
 git config --global --add safe.directory C:/GitHub/BotPoker
 echo.
+echo.
 echo   **************************************************************
 echo   **                                                          **
 echo   **                     Bem-vindo a                          **
+echo   **                                                          **
 echo   **            S P E C T R O   S O L U T I O N               **
 echo   **                                                          **
 echo   **************************************************************

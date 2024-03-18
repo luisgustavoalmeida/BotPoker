@@ -542,13 +542,19 @@ def recolher():
 
 
 def recolher_autometico():
-    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, valor_fichas_perfil
+    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, fichas, valor_fichas, valor_fichas_perfil
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
     Limpa.limpa_total(x_origem, y_origem)
     time.sleep(1)
     Limpa.limpa_total(x_origem, y_origem)
-    Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
+    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+    valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     Limpa.limpa_total(x_origem, y_origem)
+
+    if valor_minimo_mesa < valor_fichas:
+        Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
+        Limpa.limpa_total(x_origem, y_origem)
+
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
 
