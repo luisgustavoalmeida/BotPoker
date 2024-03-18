@@ -1052,10 +1052,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     mesa_completa = False
     num_mesa = ''
     cont_jogou = 0
-
     cont_limpa_jogando = 0
     sala_atual = None
     pular_sala = False
+    reinicia_variaveis = True
     if recolher:
         senta_com_maximo = True
     else:
@@ -1088,21 +1088,27 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     while continua_jogando:  # permanece joghando
 
-        # print('tempo que esta esperando', tempo_total)
-        if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
-            time_entrou = time.perf_counter()
-            print("\ntempo limite atingido sem outro jogador, sai da mesa para tentar em outra\n")
+        if reinicia_variaveis:
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
             humano = False
             pular_sala = True
-            sentou = False
             mesa_completa = False
+            sentou = False
             cont_limpa_jogando = 45
+            time_encher_mesa = time_entrou = time.perf_counter()
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
+            reinicia_variaveis = False
 
+        # print('tempo que esta esperando', tempo_total)
+        if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
+            print("\nTempo limite atingido sem outro jogador, sai da mesa para tentar em outra\n")
+            reinicia_variaveis = True
+            continue
+
+        cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
             cont_limpa_jogando = 0
             # testa se a mesa esta limpa
@@ -1117,6 +1123,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 Limpa.fecha_tarefa(x_origem, y_origem, jogando=True)
                 Limpa.limpa_jogando(x_origem, y_origem)
                 Limpa.limpa_promocao(x_origem, y_origem)
+
             sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
 
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
@@ -1131,26 +1138,13 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
 
             if (tempo_decorrido >= 300) and (not upar) and (not recolher):
-                print('Limite de tempo jogando mesa.')
+                print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
                 break
 
             if ((time.perf_counter() - time_encher_mesa) > 120) and recolher and (not mesa_completa):
-                time_encher_mesa = time_entrou = time.perf_counter()
                 print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
-                jogou_uma_vez = False
-                humano = False
-                pular_sala = True
-                mesa_completa = False
-                sentou = False
-                cont_limpa_jogando = 45
-                Limpa.limpa_total(x_origem, y_origem)
-                Limpa.limpa_jogando(x_origem, y_origem)
-                atualizar_estatos_mesa('tempo estourado' + num_mesa)
+                reinicia_variaveis = True
                 continue
-
-        cont_limpa_jogando += 1
-
-        # print('jogou_uma_vez', jogou_uma_vez)
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1162,15 +1156,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     break
                 if upar:
                     print("Esta upando a conta. Jogou vezes igua a: ", cont_jogou)
-                    level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                    if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
+                        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                        xp2.pega_2xp(x_origem, y_origem)
+                        IP.testa_trocar_IP()  # ve se tem que trocar ip
                     if level_conta >= 15:
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         if level_conta >= 15:
                             break
-
-                    if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
-                        xp2.pega_2xp(x_origem, y_origem)
-                        IP.testa_trocar_IP()  # ve se tem que trocar ip
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if cont_jogou >= numero_jogadas and not recolher:
@@ -1201,9 +1194,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if not humano and recolher:
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
                     print('Reconhecimenteo de mesa completa: ', mesa_completa)
-
                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
-                    print('firebase mesa com lugares ocupadas:', lugares_ocupados)
+                    print('Firebase mesa com lugares ocupadas:', lugares_ocupados)
+
                     if lugares_ocupados >= 5:
                         mesa_completa = True
                         time_encher_mesa = time_entrou = time.perf_counter()
@@ -1212,7 +1205,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         mesa_completa = False
                     else:
                         mesa_completa = False
-
                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
 
             else:
@@ -1222,28 +1214,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 else:
                     humano = False
 
-        # print('HUMANO: ', humano)
         if humano:
-            time_encher_mesa = time_entrou = time.perf_counter()
             print('\nJogador humano na mesa, troca de mesa\n')
-            jogou_uma_vez = False
-            humano = False
-            pular_sala = True
-            mesa_completa = False
-            cont_limpa_jogando = 45
-            Limpa.limpa_total(x_origem, y_origem)
-            Limpa.limpa_jogando(x_origem, y_origem)
-            if recolher:
-                atualizar_estatos_mesa('humano ' + num_mesa)
+            reinicia_variaveis = True
             continue
 
         if sentou:
             if not humano:
-                # atualizar_estatos_mesa(num_mesa)
-
-                # escolhe qual modo de jogar sera usado
                 if recolher:
-                    # print('Função recolher')
                     atualizar_estatos_mesa(num_mesa)
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)
@@ -1258,7 +1236,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
                 if jogou:
                     jogou_uma_vez = True
-
         else:
             humano = False
             print("ainda nao esta sentado")
@@ -1329,7 +1306,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 pyautogui.press('f5')
                 time.sleep(25)
 
-    atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
+    if recolher:
+        atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
 
     indice_inicial = sala_atual
 
