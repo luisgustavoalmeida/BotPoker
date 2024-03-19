@@ -550,10 +550,14 @@ def recolher_autometico():
     valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     Limpa.limpa_total(x_origem, y_origem)
+    Mesa.atualizar_estatos_mesa('Fichas: ', valor_fichas)
+    print('\nFichas Disponiveis: ', valor_fichas, '.Mínimo para o blide: ', valor_minimo_mesa,'\n')
 
     if valor_minimo_mesa < valor_fichas:
         Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
         Limpa.limpa_total(x_origem, y_origem)
+    else:
+        print('Fichas insuficiente para recolher: ', valor_fichas, '.Mínimo para o blide é: ', valor_minimo_mesa)
 
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
