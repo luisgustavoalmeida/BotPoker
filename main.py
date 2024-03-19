@@ -68,21 +68,6 @@ linha_novo = ""
 cont_IP_novo = ""
 continuar_tarefa = False
 
-ip = ""
-hora_que_rodou = 0
-valor_fichas = ""
-valor_fichas_perfil = ""
-pontuacao_tarefas = ""
-level_conta = ""
-roleta = 'roleta_1'
-conta_upada = True
-hora_atual = ""
-status_poker = None
-valores = [""]
-entrou_corretamente = True
-stataus_facebook = 'Carregada'
-hora_fim_tarefa = False
-
 url = str(Google.pega_valor('Dados', 'F1'))
 
 navegador = Seleniun.cria_nevegador()
@@ -609,22 +594,20 @@ id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
 while True:
-    # ip = ""
-    # hora_que_rodou = 0
-    # valor_fichas = ""
-    # valor_fichas_perfil = ""
-    # pontuacao_tarefas = ""
-    # level_conta = ""
-    # roleta = 'roleta_1'
-    # conta_upada = True
-    # hora_atual = ""
-    # status_poker = None
-    # valores = [""]
-    # entrou_corretamente = True
-    # stataus_facebook = 'Carregada'
-    # hora_fim_tarefa = False
-
+    ip = ""
+    hora_que_rodou = 0
+    valor_fichas = ""
+    valor_fichas_perfil = ""
+    pontuacao_tarefas = ""
+    level_conta = ""
+    roleta = 'roleta_1'
+    conta_upada = True
+    hora_atual = ""
+    status_poker = None
     valores = [""]
+    entrou_corretamente = True
+    stataus_facebook = 'Carregada'
+    hora_fim_tarefa = False
 
     dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
     print('dia_da_semana: ', dia_da_semana)
@@ -693,6 +676,9 @@ while True:
         else:
             # escreve os valores na planilha
             Google.escrever_valores_lote(valores, guia, linha)  # escreve as informaçoes na planilha apartir da coluna E
+
+    else:
+        Telegran.monta_mensagem(f'ERRO CRÍTICO ao entar no face, parÃo de erro não esperado, código finalizado', False)
 
     identifica_funcao()
 
