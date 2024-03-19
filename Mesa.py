@@ -279,7 +279,7 @@ def cadeiras_livres(x_origem, y_origem, cor_cadeira=(254, 207, 0), tolerancia=10
 
 
 def mesa_sem_humanos(x_origem, y_origem, lugares=9):
-    print('Testa humanos')
+    # print('Testa humanos')
     """
     Verifica se todas as cadeiras em torno de uma mesa nao tem celular ou avata do jogo indicado humano.
 
@@ -1415,7 +1415,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
 
 def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, lento=False):  # para se fazer tarefas
-    time_lento = 7
+    time_lento = 7.5
     # print("passa_corre_joga")
     jogou_uma_vez = False, False
     # se esta com v azul dentro do quadrado branco
@@ -1425,7 +1425,8 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, len
     # se esta com quadrado branco
     elif pyautogui.pixelMatchesColor((x_origem + 333), (y_origem + 610), (255, 255, 255), 3):
         if lento:
-            time.sleep(time_lento)
+            # não usa o quadrado branco, para jogar amis lento
+            return jogou_uma_vez
         pyautogui.click((x_origem + 337), (y_origem + 605))
         time.sleep(0.3)
         print("Passar")
@@ -1438,7 +1439,7 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, len
         print('Valor da aposta: ', valor)
         if (valor == valor_aposta1) or (valor == valor_aposta2):
             if lento:
-                time.sleep(time_lento)
+                time.sleep(time_lento) # atrasa para passar
             pyautogui.click((x_origem + 337), (y_origem + 605))  # clica no passar
             print("Valor esprado, Paga")
             jogou_uma_vez = True, False
@@ -1452,8 +1453,8 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, len
 
     #  nao tem a area branca do apostar mas tem Pagar
     # se tem o pagar com um valor ja escrito
-    elif (pyautogui.pixelMatchesColor((x_origem + 343), (y_origem + 598), (255, 255, 255), 5) and (
-            not pyautogui.pixelMatchesColor((x_origem + 480), (y_origem + 650), (255, 255, 255), 5))):
+    elif (pyautogui.pixelMatchesColor((x_origem + 343), (y_origem + 598), (255, 255, 255), 5)
+          and (not pyautogui.pixelMatchesColor((x_origem + 480), (y_origem + 650), (255, 255, 255), 5))):
         print('Tem o botao de pagar sem o a area de ajuste de valor')
         jogou_uma_vez = True, True
         return jogou_uma_vez
