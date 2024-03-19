@@ -562,7 +562,6 @@ def recolher_autometico():
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
 
-
 def identifica_funcao():
     global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
     try:
