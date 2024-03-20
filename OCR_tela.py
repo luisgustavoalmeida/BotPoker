@@ -373,7 +373,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
         r'--psm 8 --oem 0 -c tessedit_char_whitelist=0123456789.',
         r'--oem 3 --psm 6 outputbase digits',
     ]
-    for _ in range(100):
+    for _ in range(500):
         if pyautogui.pixelMatchesColor((x_origem + 121), (y_origem + 15), (255, 210, 77), tolerance=5):
             print('Valor de ficha no lugar correto')
             time.sleep(0.3)
@@ -460,6 +460,14 @@ def valor_fichas_perfil(x_origem, y_origem):
     """
     print('valor_fichas_perfil')
     fichas = 0
+
+    for _ in range(500):
+        if pyautogui.pixelMatchesColor((x_origem + 121), (y_origem + 15), (255, 210, 77), tolerance=5):
+            print('Valor de ficha no lugar correto')
+            time.sleep(0.3)
+            break
+        time.sleep(0.02)
+
     for _ in range(50):
         # clica para abrir a tela do perfil
         pyautogui.click(16 + x_origem, 24 + y_origem)
