@@ -532,8 +532,12 @@ def recolher_autometico():
     Limpa.limpa_total(x_origem, y_origem)
     time.sleep(1)
     Limpa.limpa_total(x_origem, y_origem)
-    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+    time.sleep(1)
+    Limpa.limpa_total(x_origem, y_origem)
+    time.sleep(1)
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
+    valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
+    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
     Limpa.limpa_total(x_origem, y_origem)
 
     print('\nFichas Disponiveis: ', valor_fichas, '.Mínimo para o blide: ', valor_minimo_mesa, '\n')
