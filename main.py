@@ -118,8 +118,13 @@ def logar_carregar():
 
     print('Entando em uma nova conta id / senha / cont_IP / time_decorrido_id: ', id, senha, cont_IP, time_decorrido_id)
 
-    if (2 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
+    if (1 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+
+    print('\n Manda iniciar a tarefa independete\n ')
+    # Comando para iniciar a tarefa independente
+    continuar_tarefa = True
+    iniciar_tarefa.release()
 
     if confg_funcao in ('Recolher_automatico', 'Recolher', 'roleta_auto', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         # loga nomamente no jogo
@@ -144,10 +149,10 @@ def logar_carregar():
         stataus_facebook = 'confg_funcao fora do padrão'
         entrou_corretamente = False
 
-    print('\n Manda iniciar a tarefa independete\n ')
-    # Comando para iniciar a tarefa independente
-    continuar_tarefa = True
-    iniciar_tarefa.release()
+    # print('\n Manda iniciar a tarefa independete\n ')
+    # # Comando para iniciar a tarefa independente
+    # continuar_tarefa = True
+    # iniciar_tarefa.release()
 
     if stataus_facebook == "Logou so face":
         return False
@@ -683,6 +688,7 @@ while True:
 
     else:
         Telegran.monta_mensagem(f'ERRO CRÍTICO ao entar no face, parÃo de erro não esperado, código finalizado', False)
+        break
 
     identifica_funcao()
 
