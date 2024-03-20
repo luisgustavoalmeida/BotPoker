@@ -74,6 +74,7 @@ if errorlevel 8 (
     echo    Entar no facebook selecionado.
     echo.
     timeout /t 1 /nobreak >nul
+    python InicializarFace.py
     python main.py
 ) else if errorlevel 4 (
     echo.
