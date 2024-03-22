@@ -59,6 +59,5 @@ max_ocorrencias = 0
 # (128, 97, 81)
 
 # cor do avata feminino
-
 # (128, 110, 93)
 # (255, 220, 185)
