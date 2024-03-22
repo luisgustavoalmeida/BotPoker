@@ -399,8 +399,8 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(884 + x_origem, 135 + y_origem, button='left')
         print("Mega Giro e roleta2")
 
-    # Fecha promoçoes exceto tarefas
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (73, 71, 76), tolerance=20):
+    # Fecha promoçoes exceto tarefas (72, 71, 76) padrao 100% . usado (62, 71, 76) para pegar outrasd propaganas mais claras
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (62, 71, 76), tolerance=20):
         print("Promoção padrão")
         if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (48, 0, 96), tolerance=10):
             print("Tarefas diarias, se fecha no limpa")
