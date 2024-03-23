@@ -83,7 +83,7 @@ dicionario_salas = {
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714'], 4000],
     '5001K': [2000, 1000, ['192', '1741', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 10000],
     '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760'], 20000],
-    '2K4K': [8000, 4000, ['1155', '1299', '1300', '1301', '1302', '1303', '1304', '1305'], 40000],
+    '2K4K': [8000, 4000, ['1154', '1155', '1298', '1299', '1300', '1301', '1302', '1303', '1304', '1305'], 40000],
     '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159'], 100000]
 }
 
@@ -1161,9 +1161,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
-                    if level_conta >= 15:
+                    if level_conta >= 10:
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                        if level_conta >= 15:
+                        if level_conta >= 10:
                             break
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
