@@ -701,8 +701,10 @@ def busca_link():
         endereco_falha = 'F3'
 
     elif nome_usuario == "lgagu":  # and (nome_computador == "PC-I7-9700KF"):
-        id = "stefaniaalmeida.jf"
-        senha = "$TE20091992te"
+        id = "Luis.gustavo.almeida88"
+        senha = "020996Pa"
+        # id = "stefaniaalmeida.jf"
+        # senha = "$TE20091992te"
         endereco_falha = 'F4'
 
     else:  # nome_usuario == "PokerIP": #and (nome_computador == "PC-i3-8145U"):
@@ -740,12 +742,11 @@ def busca_link():
     time.sleep(7)
 
     print('rola')
-    # Esperar um pouco para a rolagem ser concluída
-    navegador.implicitly_wait(5)  # Aguarde por 5 segundos (ou o tempo que for necessário)
 
     try:
         # Encontrar todos os elementos de imagem na página
         elementos_imagem = navegador.find_elements(By.TAG_NAME, 'img')
+
 
     except TimeoutException:
         # Se ocorrer um TimeoutException, informe que a imagem não foi encontrada e escreva o erro no arquivo de dados
@@ -847,7 +848,10 @@ def busca_link():
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-# navegador = cria_nevegador()
+# cria_nevegador()
+#
+# busca_link()
+# time.sleep(10000)
 #
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
 #
@@ -899,5 +903,4 @@ def busca_link():
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
 
 
-# # busca_link(navegador)
-# time.sleep(10000)
+
