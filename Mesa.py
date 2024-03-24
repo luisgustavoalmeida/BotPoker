@@ -1078,8 +1078,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if upar:
         xp2.pega_2xp(x_origem, y_origem)
-        recolher = False
-        senta_com_maximo = False
+
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
@@ -1092,7 +1091,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     print('status do sentar : ', sentou)
 
     while continua_jogando:  # permanece joghando
-        print('recolher: ', recolher)
+
         if reinicia_variaveis:
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
@@ -1409,7 +1408,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
     else:
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, upar=False, blind_mesa=blind_mesa, apostar=True, )
+        mesa_upar_jogar(x_origem, y_origem, numero_jogadas=numero_aleatorio, upar=False, blind_mesa=blind_mesa, apostar=True, )
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
     print('level_conta: ', level_conta)
