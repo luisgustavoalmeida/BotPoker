@@ -110,7 +110,7 @@ def tarefa_independente():
                         valores_apagar = [""]
                         #  apaga os valore quando da a hoara de sair do tarefas
                         Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_fim)  # apaga o nume do pc
-                        Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
+                        # Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
                     else:
                         # escreve os valores na planilha
                         Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
@@ -686,13 +686,6 @@ while True:
         entrou_corretamente = False
         print("Conta não entrou, o Statos é: ", status_poker)
 
-    guia_fim = guia
-    linha_fim = linha
-    linha_novo_fim = linha_novo
-    valores_fim = valores
-    entrou_corretamente_fim = entrou_corretamente
-    hora_fim_tarefa_fim = hora_fim_tarefa
-
     dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
     print('dia_da_semana: ', dia_da_semana)
 
@@ -705,8 +698,16 @@ while True:
         time.sleep(0.3)
     print('\n Tarefa independente terminada loop\n')
 
+    guia_fim = guia
+    linha_fim = linha
+    linha_novo_fim = linha_novo
+    valores_fim = valores
+    entrou_corretamente_fim = entrou_corretamente
+    hora_fim_tarefa_fim = hora_fim_tarefa
+
     identifica_funcao()
     if guia != guia_anterior:
+        print('Mudando de guia')
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
         if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
