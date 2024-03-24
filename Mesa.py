@@ -1040,7 +1040,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level_conta=1):
     print('mesa_upar_jogar')
 
     global dicionario_salas, indice_inicial
@@ -1400,12 +1400,12 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
         if 5 <= level_conta < 10:
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa, False)
+            mesa_upar_jogar(x_origem, y_origem, 0, True, blind_mesa, False, level_conta)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
     else:
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa, True)
+        mesa_upar_jogar(x_origem, y_origem, numero_aleatorio, False, blind_mesa, True, level_conta)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
     print('level_conta: ', level_conta)
