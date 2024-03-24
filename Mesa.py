@@ -1040,7 +1040,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level):
     print('mesa_upar_jogar')
 
     global dicionario_salas, indice_inicial
@@ -1161,10 +1161,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
-                    if level_conta >= 10:
-                        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         if level_conta >= 10:
-                            break
+                            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                            if level_conta >= 10:
+                                break
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if cont_jogou >= numero_jogadas and not recolher:
