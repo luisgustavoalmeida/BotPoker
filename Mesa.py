@@ -77,8 +77,10 @@ lista_salas_jogar3 = [{'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 40
 # dicionariao numero das salas, valores das salas , e id das salas
 dicionario_salas = {
     '2550': [100, 50, ['134', '135', '999', '1003', '1004', '1243', '1245', '1246', '1247', '1673', '1674', '1675', '1676', '1677', '1678'], 500],
-    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689'], 1000],
-    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703'], 2000],
+    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689'],
+              1000],
+    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703'],
+               2000],
     '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714'], 4000],
     '5001K': [2000, 1000, ['192', '1741', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 10000],
@@ -1167,7 +1169,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                                 break
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
-                    if cont_jogou >= numero_jogadas and not recolher:
+                    if (cont_jogou >= numero_jogadas) and (not recolher):
                         break
 
                 jogou_uma_vez = False
@@ -1247,7 +1249,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if apostar:
                         jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
                     else:
-                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2)
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento=False)
                 if jogou:
                     jogou_uma_vez = True
         else:
@@ -1439,7 +1441,7 @@ def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, len
         print('Valor da aposta: ', valor)
         if (valor == valor_aposta1) or (valor == valor_aposta2):
             if lento:
-                time.sleep(time_lento) # atrasa para passar
+                time.sleep(time_lento)  # atrasa para passar
             pyautogui.click((x_origem + 337), (y_origem + 605))  # clica no passar
             print("Valor esprado, Paga")
             jogou_uma_vez = True, False
