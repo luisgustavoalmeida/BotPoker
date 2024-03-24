@@ -1403,12 +1403,12 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
         if 5 <= level_conta < 10:
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False)
+            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
     else:
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
-        mesa_upar_jogar(x_origem, y_origem, numero_jogadas=numero_aleatorio, upar=False, blind_mesa=blind_mesa, apostar=True, )
+        mesa_upar_jogar(x_origem, y_origem, numero_jogadas=numero_aleatorio, upar=False, blind_mesa=blind_mesa, apostar=True, recolher=False)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
     print('level_conta: ', level_conta)
