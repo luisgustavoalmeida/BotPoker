@@ -102,18 +102,16 @@ def tarefa_independente():
             print(status_fim, guia_fim, linha_fim, valores)
 
             if guia_fim:
-                if not entrou_corretamente_fim:  # se nao entrou no face
-                    Google.marca_caida(status_fim, guia_fim, linha_fim, valores_fim)
-
-                elif entrou_corretamente_fim:  # se nao entrou no face
+                if entrou_corretamente_fim:  # se nao entrou no face
                     if hora_fim_tarefa_fim:
                         valores_apagar = [""]
                         #  apaga os valore quando da a hoara de sair do tarefas
                         Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_fim)  # apaga o nume do pc
-                        # Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
                     else:
                         # escreve os valores na planilha
                         Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
+                else:  # se nao entrou no face
+                    Google.marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
             id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo = Google.credenciais(guia)  # pega id e senha para o proximo login
