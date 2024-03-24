@@ -423,7 +423,7 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                     sentou = False
                     return sentou
 
-            for _ in range(2):
+            for _ in range(9):
                 print('Tentando sentar')
 
                 if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
@@ -548,6 +548,9 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                             print("Não possui fichas suficiente")
                             sentou = False
                             return sentou
+                else:
+                    print('Não tem cadeira livre')
+                    break
 
     print('Não está dentro da mesa')
     return sentou
@@ -1370,6 +1373,7 @@ LIMITE_FICHAS = 10000
 
 
 def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0):
+    print(dia_de_jogar_mesa)
     if datetime.datetime.now().time() < datetime.time(23, 0, 0):
         # nao joga se ja for mais tarde que o horario definido
         if level_conta == "":
@@ -1381,40 +1385,68 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     blind_mesa = blind_do_dia(dia_da_semana)
-
+    print('blinde do dia: ', blind_mesa)
     if blind_mesa == 'Não joga':
         return level_conta, valor_fichas_perfil
 
-    Limpa.fecha_tarefa(x_origem, y_origem)
-    Limpa.limpa_promocao(x_origem, y_origem)
-    print('level_conta: ', level_conta)
-    print('valor_fichas_perfil: ', valor_fichas_perfil)
-    time.sleep(2)
-    Limpa.limpa_total(x_origem, y_origem)
-
     if dia_da_semana == 6:
+
         #  se o dia da semana é domingo vai upar as copntar e fazer as tarefas de upar
         if not conta_upada:
+            Limpa.fecha_tarefa(x_origem, y_origem)
+            Limpa.limpa_promocao(x_origem, y_origem)
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+            time.sleep(2)
+            Limpa.limpa_total(x_origem, y_origem)
+
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             upar(x_origem, y_origem, blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             Limpa.limpa_total(x_origem, y_origem)
 
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+            Limpa.limpa_total(x_origem, y_origem)
+            return level_conta, valor_fichas_perfil
+
         if 5 <= level_conta < 10:
+            Limpa.fecha_tarefa(x_origem, y_origem)
+            Limpa.limpa_promocao(x_origem, y_origem)
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+            time.sleep(2)
+            Limpa.limpa_total(x_origem, y_origem)
+
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
             mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
+
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+            Limpa.limpa_total(x_origem, y_origem)
+            return level_conta, valor_fichas_perfil
+
     else:
+        Limpa.fecha_tarefa(x_origem, y_origem)
+        Limpa.limpa_promocao(x_origem, y_origem)
+        print('level_conta: ', level_conta)
+        print('valor_fichas_perfil: ', valor_fichas_perfil)
+        time.sleep(2)
+        Limpa.limpa_total(x_origem, y_origem)
+
         numero_aleatorio = random.randint(num_vezes_minimo, num_vezes_maximo)
         mesa_upar_jogar(x_origem, y_origem, numero_jogadas=numero_aleatorio, upar=False, blind_mesa=blind_mesa, apostar=True, recolher=False)
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
-    print('level_conta: ', level_conta)
-    print('valor_fichas_perfil: ', valor_fichas_perfil)
-    Limpa.limpa_total(x_origem, y_origem)
+        print('level_conta: ', level_conta)
+        print('valor_fichas_perfil: ', valor_fichas_perfil)
+        Limpa.limpa_total(x_origem, y_origem)
+        return level_conta, valor_fichas_perfil
     return level_conta, valor_fichas_perfil
+
 
 
 def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, lento=False):  # para se fazer tarefas

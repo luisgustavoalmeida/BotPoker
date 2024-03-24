@@ -13,7 +13,6 @@ pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
 posicao_recolher_presentes = (215, 400, 585, 770)
-posicao_recolher_tarefa_y = (361, 457, 553)
 
 # import Origem_pg
 # from fuzzywuzzy import fuzz #pip install fuzzywuzzy
@@ -201,10 +200,8 @@ def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
 #     return False, None
 
 
-posicao_recolher_tarefa_y = (542, 463, 384, 305)
-
-
 def recolher_tarefa(x_origem, y_origem):
+    posicao_recolher_tarefa_y = (542, 463, 384, 305)
     print("recolher_tarefa")
     clique_recolher = []
 
@@ -348,6 +345,7 @@ def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):
 
 
 def recolher_tarefa_upando(x_origem, y_origem):
+    posicao_recolher_tarefa_y = (361, 457, 553)
     print('recolher_tarefa_upando')
     status_tarefas = "Não tem missão"
     # print("recolher_tarefa_upando")
@@ -377,7 +375,6 @@ def recolher_tarefa_upando(x_origem, y_origem):
                     clique_recolher = []
 
                     for recolher_y in posicao_recolher_tarefa_y:
-                        # print(recolher_y)
                         if (pyautogui.pixelMatchesColor((x_origem + 767), (y_origem + recolher_y), (240, 249, 240), tolerance=25)
                                 or pyautogui.pixelMatchesColor((x_origem + 722), (y_origem + recolher_y), (34, 170, 33), tolerance=25)):
                             # testa se tem "Retirar" em braco ou se a tela ta verde

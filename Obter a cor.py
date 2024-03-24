@@ -13,7 +13,7 @@ print(x_origem, y_origem)
 # x_origem, y_origem = 0, 0
 # pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
 
-a, b = 490, 118
+a, b = 767, 457
 
 x = (x_origem + a)
 y = (y_origem + b)

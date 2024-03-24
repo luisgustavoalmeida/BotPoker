@@ -33,6 +33,10 @@ nome_usuario = os.getlogin()
 # Obter o nome do computador
 nome_computador = socket.gethostname()
 
+# hora_atual = datetime.datetime.now()
+# hora_formatada = hora_atual.strftime("%H:%M:%S")
+
+
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', True)
 
 LIMITE_IP = 6
@@ -64,14 +68,6 @@ linha_novo = ""
 cont_IP_novo = ""
 continuar_tarefa = False
 
-status_fim = None
-entrou_corretamente_fim = True
-hora_fim_tarefa_fim = False
-guia_fim = ''
-linha_fim = ''
-linha_novo_fim = ''
-valores_fim = [""]
-
 url = str(Google.pega_valor('Dados', 'F1'))
 
 navegador = Seleniun.cria_nevegador()
@@ -89,32 +85,13 @@ tarefa_concluida = threading.Semaphore(0)
 # Função que será executada na tarefa independente
 def tarefa_independente():
     global continuar_tarefa, guia, id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo, time_id
-    global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim
 
     while True:
         # Aguardar o comando para iniciar a execução
         iniciar_tarefa.acquire()
         print("\n Executando tarefa independente...\n")
-
         # Verificar se a tarefa deve continuar executando ou parar
         if continuar_tarefa:
-
-            print(status_fim, guia_fim, linha_fim, valores)
-
-            if guia_fim:
-                if not entrou_corretamente_fim:  # se nao entrou no face
-                    Google.marca_caida(status_fim, guia_fim, linha_fim, valores_fim)
-
-                elif entrou_corretamente_fim:  # se nao entrou no face
-                    if hora_fim_tarefa_fim:
-                        valores_apagar = [""]
-                        #  apaga os valore quando da a hoara de sair do tarefas
-                        Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_fim)  # apaga o nume do pc
-                        Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
-                    else:
-                        # escreve os valores na planilha
-                        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
-
             # Atualizar as variáveis
             id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo = Google.credenciais(guia)  # pega id e senha para o proximo login
             time_id = time.perf_counter()
@@ -295,7 +272,7 @@ def roletas():
 def tarefas():
     print('Entrou nas tarefas')
     global x_origem, y_origem, roleta, hora_que_rodou, entrou_corretamente, stataus_facebook, pontuacao_tarefas
-    global level_conta, valor_fichas_perfil, valor_fichas, hora_fim_tarefa, dia_da_semana
+    global level_conta, valor_fichas_perfil, valor_fichas, hora_fim_tarefa
 
     pontuacao_tarefas = 0
     valor_fichas = 0
@@ -581,7 +558,7 @@ def recolher_autometico():
 
 
 def identifica_funcao():
-    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
+    global guia_anterior, id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
@@ -590,6 +567,8 @@ def identifica_funcao():
         print('Sera usado o pradrao roleta_auto')
         confg_funcao = 'roleta_auto'
         config_tempo_roleta = '4:40:5'
+
+    print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
@@ -623,9 +602,6 @@ id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
-dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-print('dia_da_semana: ', dia_da_semana)
-
 while True:
     ip = ""
     hora_que_rodou = 0
@@ -642,6 +618,8 @@ while True:
     stataus_facebook = 'Carregada'
     hora_fim_tarefa = False
 
+    dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+    print('dia_da_semana: ', dia_da_semana)
     # ################################################################################################################################################
     if logar_carregar():
         if confg_funcao == 'roleta_auto':
@@ -677,37 +655,45 @@ while True:
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
     Seleniun.sair_face(url)
 
-    if not entrou_corretamente:  # se nao entrou no face
-        status_fim = stataus_facebook
-        print("Conta não entrou, o Statos é: ", stataus_facebook)
-
-    elif status_poker == 'Banida' or status_poker == 'Bloqueado Temporariamente':
-        status_fim = status_poker
-        entrou_corretamente = False
-        print("Conta não entrou, o Statos é: ", status_poker)
-
-    guia_fim = guia
-    linha_fim = linha
-    linha_novo_fim = linha_novo
-    valores_fim = valores
-    entrou_corretamente_fim = entrou_corretamente
-    hora_fim_tarefa_fim = hora_fim_tarefa
-
-    dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-    print('dia_da_semana: ', dia_da_semana)
-
     print('\n Espera terminar tarefa independente loop\n')
     tarefa_concluida.acquire()
+
     print('\n Tarefa independente liberada loop\n')
+
     while True:
         if not continuar_tarefa:
             break
         time.sleep(0.3)
+
     print('\n Tarefa independente terminada loop\n')
 
+    if entrou_corretamente is False:  # se nao entrou no face
+
+        print("Conta não entrou, o Statos é: ", stataus_facebook)
+        Google.marca_caida(stataus_facebook, guia, linha)
+
+    elif status_poker == 'Banida' or status_poker == 'Bloqueado Temporariamente':
+        print("Conta não entrou, o Statos é: ", status_poker)
+        Google.marca_caida(status_poker, guia, linha)
+
+    elif entrou_corretamente:  # se nao entrou no face
+        if hora_fim_tarefa:
+            valores = [""]
+            #  apaga os valore quando da a hoara de sair do tarefas
+            Google.apagar_numerodo_pc(valores, guia, linha)  # apaga o nume do pc
+            Google.apagar_numerodo_pc(valores, guia, linha_novo)  # apaga o nume do pc
+        else:
+            # escreve os valores na planilha
+            Google.escrever_valores_lote(valores, guia, linha)  # escreve as informaçoes na planilha apartir da coluna E
+
+    else:
+        Telegran.monta_mensagem(f'ERRO CRÍTICO ao entar no face, parÃo de erro não esperado, código finalizado', False)
+        break
+
     identifica_funcao()
+
     if guia != guia_anterior:
-        Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
+        Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', False)
 
         if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
             Seleniun.busca_link()
@@ -716,10 +702,6 @@ while True:
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
             url = str(Google.pega_valor('Dados', 'F1'))
-
-        valores_apagar = [""]
-
-        Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
 
         guia_anterior = guia
         id, senha, fichas, linha, cont_IP = Google.credenciais(guia)  # pega id e senha par o proximo login
