@@ -1192,7 +1192,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         humano = False
                 print('Terminou o for humanos :', humano)
 
-                if not humano and recolher:
+                if (not humano) and recolher:
                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
                     print('Reconhecimenteo de mesa completa: ', mesa_completa)
                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
