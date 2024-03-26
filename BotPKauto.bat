@@ -21,11 +21,12 @@ echo.
 echo        1. Iniciar o Script Principal.
 echo        2. Remover o Poker Brasil.
 echo        3. Recolher Manual.
-echo        4. Recolher Automatico.
-echo        5. Entar np Facebook.
+echo        4. Recolher Automático.
+echo        5. Entrar no Facebook.
 echo        6. Interface de comando e controle.
-echo        7. Instalar bibliotecas Python.
+echo        7. Instalar bibliotecas Python via comando pip.
 echo        8. Atualizar repositorio local com GitHub.
+echo        9. Substitui repositorio local pelo do GitHub.
 echo.
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
@@ -35,73 +36,81 @@ echo.
 echo    Voce tem %tempo_espera% segundos para escolher ou sera iniciado o
 echo    Script Principal.
 echo.
-choice /c 12345678 /t %tempo_espera% /d 1 /m "   Escolha: "
+choice /c 123456789 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
 REM Verifica a escolha do usuário
-if errorlevel 8 (
+REM     timeout /t 1 /nobreak >nul
+if errorlevel 9 (
+    echo.
+    echo    Substitui repositorio local pelo do GitHub.
+    echo.
+    git fetch origin
+    echo.
+    timeout /t 1 /nobreak > nul
+    echo.
+    git reset --hard origin/main
+    echo.
+    echo    Repositorio substituido com sucesso!
+    echo.
+    pause
+    goto :inicio
+) else if errorlevel 8 (
     echo.
     echo    Atualizar repositorio local com GitHub selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     git pull origin main
     echo.
     echo    Repositorio atualizado com sucesso!
     echo.
     pause
-    echo.
     goto :inicio
 ) else if errorlevel 7 (
     echo.
     echo    Instalar bibliotecas Python selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     pip install -r requirements.txt
     echo.
-    echo.
-    echo    Bibliotecas instaladas / atualizadas com sucesso!
-    echo.
-    pause
+    echo    Bibliotecas instaladas / atualizadas com sucesso via comando pip!
     echo.
     goto :inicio
 ) else if errorlevel 6 (
     echo.
     echo    Interface de comando selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     python Tela.py
 ) else if errorlevel 5 (
     echo.
-    echo    Entar no facebook selecionado.
+    echo    Entrar no facebook selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     python InicializarFace.py
     python main.py
 ) else if errorlevel 4 (
     echo.
     echo    Recolher automatico selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     python InicializarRecolherAuto.py
     python main.py
 ) else if errorlevel 3 (
     echo.
     echo    Recolher manual selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     python InicializarRecolher.py
     python main.py
 ) else if errorlevel 2 (
     echo.
     echo    Remover Poker selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
     python InicializarRemover.py
     python main.py
 ) else if errorlevel 1 (
     echo.
+    python InicializarAtualizarBiblioteca.py
+    echo.
+    echo.
     echo    Script Principal selecionado.
     echo.
-    timeout /t 1 /nobreak >nul
+    echo.
+    echo.
     python InicializarRoleta.py
     python main.py
 )

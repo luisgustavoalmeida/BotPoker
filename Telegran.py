@@ -64,9 +64,9 @@ async def enviar_mensagem_com_reenvio(mensagem, disable_notification=False):
 
 def monta_mensagem(mensagem, disabilitar_notificacao=False):
     if disabilitar_notificacao:
-        icone_som = '🔊'
-    else:
         icone_som = '🔇'
+    else:
+        icone_som = '🔊'
     mensagem_montada = f'🤖   {numero_pc}: {str(mensagem)}. {icone_som}'
     # Executa a função de envio de mensagem assíncrona
     # asyncio.run(enviar_mensagem(mensagem_montada, False))

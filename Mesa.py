@@ -83,7 +83,7 @@ dicionario_salas = {
                2000],
     '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714'], 4000],
-    '5001K': [2000, 1000, ['192', '1741', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 10000],
+    '5001K': [2000, 1000, ['192', '492', '1741', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 10000],
     '1K2K': [4000, 2000, ['1287', '1288', '1289', '1290', '1752', '1753', '1754', '1756', '1757', '1758', '1759', '1760'], 20000],
     '2K4K': [8000, 4000, ['1154', '1155', '1298', '1299', '1300', '1301', '1302', '1303', '1304', '1305'], 40000],
     '5K10K': [20000, 10000, ['1207', '1208', '1160', '1159', '1159'], 100000]
@@ -1082,7 +1082,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if upar:
         xp2.pega_2xp(x_origem, y_origem)
 
-
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
     Limpa.limpa_promocao(x_origem, y_origem)
@@ -1350,13 +1349,13 @@ def blind_do_dia(dia_da_semana=10):
         # se dia da semana fora do falor esperado recupera o valor
         dia_da_semana = datetime.datetime.now().weekday()
 
-    if dia_da_semana in [6, 4]:
+    if dia_da_semana in [5]:
         print("O dia da semana é 100/200.")
         blind_mesa = '100200'
     elif dia_da_semana in [3]:
         print("O dia da semana é 50/100.")
         blind_mesa = '50100'
-    elif dia_da_semana in [1, 5]:
+    elif dia_da_semana in [1]:
         print("O dia da semana é 25/50.")
         blind_mesa = '2550'
     else:
@@ -1370,10 +1369,12 @@ num_vezes_maximo = 4
 num_vezes_minimo = 2
 # limite de fichas minimo para jogar
 LIMITE_FICHAS = 10000
+level_para_upar = 10
 
 
-def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0):
+def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0, roleta='roleta_1'):
     print(dia_de_jogar_mesa)
+
     if datetime.datetime.now().time() < datetime.time(23, 0, 0):
         # nao joga se ja for mais tarde que o horario definido
         if level_conta == "":
@@ -1384,14 +1385,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     if valor_fichas_perfil < LIMITE_FICHAS:
         return level_conta, valor_fichas_perfil
 
-    blind_mesa = blind_do_dia(dia_da_semana)
-    print('blinde do dia: ', blind_mesa)
-    if blind_mesa == 'Não joga':
-        return level_conta, valor_fichas_perfil
+    if roleta == 'roleta_2':
+        if level_conta >= level_para_upar:
+            return level_conta, valor_fichas_perfil
 
-    if dia_da_semana == 6:
-
-        #  se o dia da semana é domingo vai upar as copntar e fazer as tarefas de upar
         if not conta_upada:
             Limpa.fecha_tarefa(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
@@ -1401,7 +1398,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Limpa.limpa_total(x_origem, y_origem)
 
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
-            upar(x_origem, y_origem, blind_mesa)
+            upar(x_origem, y_origem, blind_mesa='100200')
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             Limpa.limpa_total(x_origem, y_origem)
@@ -1411,7 +1408,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Limpa.limpa_total(x_origem, y_origem)
             return level_conta, valor_fichas_perfil
 
-        if 5 <= level_conta < 10:
+        if 5 <= level_conta < level_para_upar:
             Limpa.fecha_tarefa(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
             print('level_conta: ', level_conta)
@@ -1420,7 +1417,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Limpa.limpa_total(x_origem, y_origem)
 
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False)
+            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa='100200', apostar=False, recolher=False)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
@@ -1428,8 +1425,14 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('valor_fichas_perfil: ', valor_fichas_perfil)
             Limpa.limpa_total(x_origem, y_origem)
             return level_conta, valor_fichas_perfil
+        return level_conta, valor_fichas_perfil
 
-    else:
+    elif roleta == 'roleta_1':
+        blind_mesa = blind_do_dia(dia_da_semana)
+        print('blinde do dia: ', blind_mesa)
+        if blind_mesa == 'Não joga':
+            return level_conta, valor_fichas_perfil
+
         Limpa.fecha_tarefa(x_origem, y_origem)
         Limpa.limpa_promocao(x_origem, y_origem)
         print('level_conta: ', level_conta)
@@ -1445,8 +1448,8 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         print('valor_fichas_perfil: ', valor_fichas_perfil)
         Limpa.limpa_total(x_origem, y_origem)
         return level_conta, valor_fichas_perfil
-    return level_conta, valor_fichas_perfil
-
+    else:
+        return level_conta, valor_fichas_perfil
 
 
 def passa_corre_joga(x_origem, y_origem, valor_aposta1=40, valor_aposta2=80, lento=False):  # para se fazer tarefas

@@ -6,7 +6,7 @@ from Tarefas import recolher_tarefa_upando
 from Upar import genius_joga_vezes_upando, cartas_premidas_joga_vezes_upando, slot_joga_vezes_upando
 
 
-def upar(x_origem, y_origem, blind_mesa=2550 ):
+def upar(x_origem, y_origem, blind_mesa='2550'):
     """
     Função principal para realizar a automação de tarefas de upando em um jogo de poker online.
 

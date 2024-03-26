@@ -273,8 +273,6 @@ def roletas():
                 # testa de roleta 1 ta aberta
                 pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
 
-        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana)
-
     elif roleta == 'roleta_2':
         for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
@@ -286,7 +284,8 @@ def roletas():
                 break
             time.sleep(0.3)
 
-    # level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana)
+    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta=level_conta, valor_fichas_perfil=valor_fichas_perfil,
+                                                              conta_upada=conta_upada, dia_da_semana=dia_da_semana, roleta=roleta)
     return
 
 
