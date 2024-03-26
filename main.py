@@ -274,6 +274,16 @@ def roletas():
                 pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
 
     elif roleta == 'roleta_2':
+        # testa o se a conta ja esta upada
+        if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
+                or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
+            conta_upada = False
+        else:
+            conta_upada = True
+
+        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+        print('Level_conta: ', level_conta)
+        print('Valor_fichas_perfil: ', valor_fichas_perfil)
         for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
             time_sair = time.perf_counter()
@@ -284,8 +294,8 @@ def roletas():
                 break
             time.sleep(0.3)
 
-    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta=level_conta, valor_fichas_perfil=valor_fichas_perfil,
-                                                              conta_upada=conta_upada, dia_da_semana=dia_da_semana, roleta=roleta)
+    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana, roleta)
+
     return
 
 

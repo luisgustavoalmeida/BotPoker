@@ -24,10 +24,16 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
         time.sleep(2)
         lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
+
         if 'Missões padrão' in lista_tarefa_upar:
             return 'Conta upada'
 
-        if 'Jogar 1 mãos em qualquer mesa' in lista_tarefa_upar:
+        elif not lista_tarefa_upar:
+            lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
+            if not lista_tarefa_upar:
+                return 'Conta upada'
+
+        elif 'Jogar 1 mãos em qualquer mesa' in lista_tarefa_upar:
             print("\n\n Jogar 1 mãos em qualquer mesa \n\n")
             Mesa.mesa_upar_jogar(x_origem, y_origem, 1, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)

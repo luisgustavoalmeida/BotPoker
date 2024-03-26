@@ -1373,11 +1373,11 @@ level_para_upar = 10
 
 
 def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0, roleta='roleta_1'):
-    print(dia_de_jogar_mesa)
+    print("dia_de_jogar_mesa")
 
-    if datetime.datetime.now().time() < datetime.time(23, 0, 0):
+    if datetime.datetime.now().time() < datetime.time(23, 59, 0):
         # nao joga se ja for mais tarde que o horario definido
-        if level_conta == "":
+        if level_conta == '' or level_conta == 1 or valor_fichas_perfil == 0 or valor_fichas_perfil == '':
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     else:
         return level_conta, valor_fichas_perfil
@@ -1389,7 +1389,8 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         if level_conta >= level_para_upar:
             return level_conta, valor_fichas_perfil
 
-        if not conta_upada:
+        # if not conta_upada:
+        if (4 < level_conta) or (not conta_upada):
             Limpa.fecha_tarefa(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
             print('level_conta: ', level_conta)

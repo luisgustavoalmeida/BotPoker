@@ -470,7 +470,8 @@ def valor_fichas_perfil(x_origem, y_origem):
 
     for _ in range(50):
         # clica para abrir a tela do perfil
-        pyautogui.click(16 + x_origem, 24 + y_origem)
+        pyautogui.click(25+ x_origem, 22 + y_origem)
+        pyautogui.click(35 + x_origem, 22 + y_origem)
         # testa se a tela do perfil esta aberta
         if (pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=1)
                 and pyautogui.pixelMatchesColor((x_origem + 406), (y_origem + 273), (116, 130, 139), tolerance=1)):
@@ -1364,7 +1365,8 @@ def level_conta(x_origem, y_origem):
 
     for _ in range(50):
         # clica para abrir a tela do perfil
-        pyautogui.click(16 + x_origem, 24 + y_origem)
+        pyautogui.click(25+ x_origem, 22 + y_origem)
+        pyautogui.click(35 + x_origem, 22 + y_origem)
         # testa se a tela do perfil esta aberta
         if (pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=1)
                 and pyautogui.pixelMatchesColor((x_origem + 406), (y_origem + 273), (116, 130, 139), tolerance=1)):
@@ -1389,7 +1391,8 @@ def level_conta(x_origem, y_origem):
     ]
     for _ in range(3):
         for config in configuracoes:
-            pyautogui.click(16 + x_origem, 24 + y_origem)
+            pyautogui.click(25+ x_origem, 22 + y_origem)
+            pyautogui.click(35 + x_origem, 22 + y_origem)
             # print(config)
             # Realiza a leitura do nível usando OCR
             level = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
