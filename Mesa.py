@@ -797,12 +797,13 @@ def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta):
     return aposta, auto10
 
 
-def sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa):
+def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
+    print('sala_minima_niquel')
     if blind_mesa == "12":
         pyautogui.doubleClick(130 + x_origem, 200 + y_origem)  # clica na lista de iniciantes
     elif blind_mesa == "2040" or blind_mesa == "24":
-        pyautogui.doubleClick(280 + x_origem,
-                              200 + y_origem)  # clica na lista de aprendizes  # if not pyautogui.pixelMatchesColor((x_origem + 280), (y_origem + 210), (73, 177, 9), tolerance=5):
+        pyautogui.doubleClick(280 + x_origem, 200 + y_origem)
+        # clica na lista de aprendizes  # if not pyautogui.pixelMatchesColor((x_origem + 280), (y_origem + 210), (73, 177, 9), tolerance=5):
     #     pyautogui.click(280 + x_origem, 200 + y_origem)  # clica na lista de aprendizes
 
     time.sleep(0.3)
@@ -824,7 +825,6 @@ def sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa):
     print('mesa: ', num_mesa)
     # time.sleep(0.5)
     cont_erro_entrar_mesa = 0
-    blind_sala = None
 
     if pyautogui.pixelMatchesColor((x_origem + 685), (y_origem + 360), (215, 234, 244), tolerance=1):
         print("teste_limpo: Esta no Lobby, ta limpo")
@@ -832,7 +832,7 @@ def sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa):
         Limpa.limpa_promocao(x_origem, y_origem)
 
     for j in range(20):
-        # print(j)
+        print(j)
         if pyautogui.pixelMatchesColor((x_origem + 310), (y_origem + 264), (95, 106, 122), tolerance=5):
             # erro ao buscar sala, fica uma faixa cinza na linha da sala
             print('Erro ao buscar sala, vai ser dado um F5')
@@ -998,7 +998,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
                     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
                         return "sair da conta"
                     # blind_certo = escolher_blind(x_origem, y_origem, '20/40')
-                    blind_certo, sala_existe = sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa)
+                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa)
                     if not sala_existe:
                         # Remova o item da posição específica
                         item_removido = lista_salas_niquel.pop(indice)
@@ -1267,7 +1267,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         # troca o valor para que na proxima interação possamos iniciar do inicios da lista
                         continue
 
-                    if indice == sala_atual and pular_sala:
+                    if (indice == sala_atual) and pular_sala:
                         print('Pula o indice / mesa: ', indice, num_mesa)
                         continue  # Pule a primeira iteração, começando pelo segundo item
 
@@ -1275,7 +1275,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     IP.tem_internet()
                     Limpa.limpa_jogando(x_origem, y_origem)
                     Limpa.limpa_total(x_origem, y_origem)
-                    blind_certo, sala_existe = sala_minima_niquel(x_origem, y_origem, num_mesa, blind_mesa)
+                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa)
 
                     if not sala_existe:
                         # Remova o item da posição específica
