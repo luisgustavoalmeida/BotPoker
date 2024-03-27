@@ -748,6 +748,12 @@ def credenciais(guia, salta_linhas=True):
 
         if reservado:
             try:
+                level = int(level)
+            except Exception as error:
+                print(error)
+                level = 1
+
+            try:
                 cont_IP = int(cont_IP)
                 return id, senha, fichas, linha, cont_IP, level
             except Exception as error:
