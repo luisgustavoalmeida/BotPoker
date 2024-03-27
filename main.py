@@ -287,7 +287,7 @@ def roletas():
             print('Level_conta: ', level_conta)
             print('Valor_fichas_perfil: ', valor_fichas_perfil)
         else:
-            valor_fichas_perfil = fichas_planilha
+            valor_fichas_perfil = int(fichas_planilha)
 
         for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho

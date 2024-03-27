@@ -749,9 +749,11 @@ def credenciais(guia, salta_linhas=True):
         if reservado:
             try:
                 level = int(level)
+                fichas = int(fichas)
             except Exception as error:
                 print(error)
                 level = 1
+                fichas = 1
 
             try:
                 cont_IP = int(cont_IP)

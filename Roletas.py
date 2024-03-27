@@ -104,7 +104,7 @@ def roletas(x_origem, y_origem):
 
                         hora_que_rodou = f"{horas:02d}:{minutos:02d}:{segundos:02d}"
                         print(hora_que_rodou)
-                        roleta = 'roleta_2'
+                        roleta = 'roleta_tempo_longo'
                         time_rodou = 0
                         return roleta, hora_que_rodou, time_rodou
 
