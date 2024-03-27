@@ -1062,7 +1062,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     num_mesa = ''
     cont_jogou = 0
     cont_limpa_jogando = 0
-    sala_atual = None
+    indice_atual = None
     pular_sala = False
     reinicia_variaveis = True
     if recolher:
@@ -1263,16 +1263,23 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             print("ainda nao esta sentado")
             for i in range(3):
                 print('indice_inicial', indice_inicial)
+                if not indice_inicial:
+                    indice_inicial = 0
+                if not indice_atual:
+                    indice_atual = 0
                 for indice, num_mesa in enumerate(lista_salas):
-                    if indice_inicial > indice:
-                        print('Porcurando o indece / mesa: ', indice, num_mesa)
-                        # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
-                        # troca o valor para que na proxima interação possamos iniciar do inicios da lista
-                        continue
+                    try:
+                        if indice_inicial > indice:
+                            print('Porcurando o indece / mesa: ', indice, num_mesa)
+                            # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
+                            # troca o valor para que na proxima interação possamos iniciar do inicios da lista
+                            continue
 
-                    if (indice == sala_atual) and pular_sala:
-                        print('Pula o indice / mesa: ', indice, num_mesa)
-                        continue  # Pule a primeira iteração, começando pelo segundo item
+                        if (indice == indice_atual) and pular_sala:
+                            print('Pula o indice / mesa: ', indice, num_mesa)
+                            continue  # Pule a primeira iteração, começando pelo segundo item
+                    except Exception as e:
+                        print(e)
 
                     print('Continuar, indece / mesa para tentar sentar: ', indice, num_mesa)
                     IP.tem_internet()
@@ -1296,7 +1303,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                             time_encher_mesa = time_entrou = time.perf_counter()
                             print('esta tudo ok, sentado na mesa:', num_mesa)
-                            sala_atual = indice
+                            if indice:
+                                indice_atual = indice
+                            else:
+                                indice_atual = 0
                             indice_inicial = 0
 
                             pular_sala = False
@@ -1331,9 +1341,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if recolher:
         atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
 
-    indice_inicial = sala_atual
+    if indice_atual:
+        indice_inicial = indice_atual
+    else:
+        indice_inicial = 0
 
-    # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
+        # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
     dicionario_salas[blind_mesa][2] = lista_salas
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
