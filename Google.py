@@ -369,7 +369,7 @@ def reservar_linha(guia, endereco, salta_linhas=True):
     print("reservar_linha")
     global linha_vazia_anterior
 
-    values = None
+    n_pc = None
     id = ""
     senha = ""
     linha = ""
@@ -384,26 +384,26 @@ def reservar_linha(guia, endereco, salta_linhas=True):
             time.sleep(10.5)  # tempo entre pegar o id e testa se nao teve concorrencia
         else:
             time.sleep(5.5)  # tempo entre pegar o id e testa se nao teve concorrencia
-        values, id, senha, fichas, contagem_ip = lote_valor(guia, linha)
+        n_pc, id, senha, fichas, contagem_ip, level = lote_valor(guia, linha)
         try:
-            values = int(values)
-            if valor_pc == values:
+            n_pc = int(n_pc)
+            if valor_pc == n_pc:
                 print("Não teve concorrencia pela celula")
-                return True, id, senha, fichas, linha, contagem_ip  # Retorna o valor testado, id, senha e linha
+                return True, id, senha, fichas, linha, contagem_ip, level  # Retorna o valor testado, id, senha e linha
             else:
                 print("Pego por outro computador")
                 if salta_linhas:
                     linha_vazia_anterior += random.randint(10, 40)
                 else:
                     linha_vazia_anterior += random.randint(5, 30)
-                return False, id, senha, fichas, linha, contagem_ip
+                return False, id, senha, fichas, linha, contagem_ip, level
             # print("values :",values)
         except:
             if salta_linhas:
-                linha_vazia_anterior += random.randint(20, 40)
+                linha_vazia_anterior += random.randint(10, 40)
             else:
                 linha_vazia_anterior += random.randint(5, 30)
-            return False, id, senha, fichas, linha, contagem_ip
+            return False, id, senha, fichas, linha, contagem_ip, level
 
     else:
         print('A chave não existe no dicionário')
@@ -411,10 +411,10 @@ def reservar_linha(guia, endereco, salta_linhas=True):
 
 def lote_valor(guia, linha):
     global cred, service
-    regiao1 = f"{guia}!B{linha}:E{linha}"  # regiao com a informação id senha e numero computador
-    # print(regiao1)
-    regiao2 = f"{dicionari_PC_IP[nome_computador]}"  # pega a contagem de ip
-    # print(regiao2)
+
+    regiao2 = f"{guia}!B{linha}:I{linha}"  # regiao com a informação id senha e numero computador
+    regiao1 = f"{dicionari_PC_IP[nome_computador]}"  # pega a contagem de ip
+
     regiao = [regiao1, regiao2]
 
     while True:
@@ -435,25 +435,28 @@ def lote_valor(guia, linha):
 
             # print("Os valores são:", values)
 
-            if len(values) == 5:
-                id = values[0]
-                senha = values[1]
-                valor = values[2]
-                fichas = values[3]
-                cont_IP = values[-1]
-                return valor, id, senha, fichas, cont_IP
-            elif len(values) == 4:
-                id = values[0]
-                senha = values[1]
-                valor = values[2]
+            if len(values) > 4:
+                cont_IP = values[0]
+                id = values[1]
+                senha = values[2]
+                n_pc = values[3]
+                fichas = values[4]
+                level = values[-1]
+
+            else:
+                cont_IP = values[0]
+                id = values[1]
+                senha = values[2]
+                n_pc = values[3]
                 fichas = 0
-                cont_IP = values[-1]
-                return valor, id, senha, fichas, cont_IP
+                level = 1
+
+            return n_pc, id, senha, fichas, cont_IP, level
 
         except Exception as error:
             print(f"lote_valor Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
-            time.sleep(5)
+            # time.sleep(5)
             IP.tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
@@ -741,12 +744,12 @@ def credenciais(guia, salta_linhas=True):
 
         endereco = primeira_celula_vazia(guia)
 
-        reservado, id, senha, fichas, linha, cont_IP = reservar_linha(guia, endereco, salta_linhas)
+        reservado, id, senha, fichas, linha, cont_IP, level = reservar_linha(guia, endereco, salta_linhas)
 
         if reservado:
             try:
                 cont_IP = int(cont_IP)
-                return id, senha, fichas, linha, cont_IP
+                return id, senha, fichas, linha, cont_IP, level
             except Exception as error:
                 print(error)
         print('tentar credenciaias')

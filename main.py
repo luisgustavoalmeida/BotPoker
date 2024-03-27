@@ -46,10 +46,11 @@ confg_funcao = 'roleta_auto'
 confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
-senha = ""
-fichas = ""
-linha = ""
+# senha = ""
+# fichas = ""
+# linha = ""
 cont_IP = 10
+# level = ''
 blind = ""
 lugares = ""
 guia_anterior = ""
@@ -58,9 +59,10 @@ posi_lista = 0
 # Variáveis globais para as variáveis e controle da tarefa independente
 time_id = 0
 id_novo = "x"
-senha_novo = ""
-fichas_novo = ""
-linha_novo = ""
+senha_novo = ''
+fichas_planilha_novo = ''
+linha_novo = ''
+level_novo = ''
 cont_IP_novo = ""
 continuar_tarefa = False
 
@@ -70,7 +72,7 @@ hora_fim_tarefa_fim = False
 guia_fim = ''
 linha_fim = ''
 linha_novo_fim = ''
-valores_fim = [""]
+valores_fim = ['']
 
 url = str(Google.pega_valor('Dados', 'F1'))
 
@@ -88,7 +90,7 @@ tarefa_concluida = threading.Semaphore(0)
 
 # Função que será executada na tarefa independente
 def tarefa_independente():
-    global continuar_tarefa, guia, id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo, time_id
+    global continuar_tarefa, guia, id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo, time_id
     global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim
 
     while True:
@@ -114,7 +116,7 @@ def tarefa_independente():
                     Google.marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
-            id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo = Google.credenciais(guia)  # pega id e senha para o proximo login
+            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(guia)  # pega id e senha para o proximo login
             time_id = time.perf_counter()
             continuar_tarefa = False
             # Indicar que a tarefa terminou e está pronta para aguardar novo comando
@@ -280,10 +282,13 @@ def roletas():
             conta_upada = False
         else:
             conta_upada = True
+        if level_conta < 10:
+            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            print('Level_conta: ', level_conta)
+            print('Valor_fichas_perfil: ', valor_fichas_perfil)
+        else:
+            valor_fichas_perfil = fichas_planilha
 
-        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        print('Level_conta: ', level_conta)
-        print('Valor_fichas_perfil: ', valor_fichas_perfil)
         for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
             time_sair = time.perf_counter()
@@ -302,7 +307,7 @@ def roletas():
 def tarefas():
     print('Entrou nas tarefas')
     global x_origem, y_origem, roleta, hora_que_rodou, entrou_corretamente, stataus_facebook, pontuacao_tarefas
-    global level_conta, valor_fichas_perfil, valor_fichas, hora_fim_tarefa, dia_da_semana
+    global level_conta, valor_fichas, hora_fim_tarefa, dia_da_semana
 
     pontuacao_tarefas = 0
     valor_fichas = 0
@@ -417,7 +422,7 @@ def tarefas():
 
 
 def recolher():
-    global blind, lugares, valor_fichas, posi_lista, hora_que_rodou, valor_fichas_perfil
+    global blind, lugares, valor_fichas, posi_lista, hora_que_rodou, valor_fichas_perfil, fichas_planilha
 
     recebido1 = "padrao"
     recebido2 = "padrao"
@@ -443,7 +448,7 @@ def recolher():
 
     Firebase.confirmacao_comando_resposta('Terminou de limpa')
 
-    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha)
     status_comando = 'Valor ficha: ' + str(valor_fichas)
     Firebase.confirmacao_comando_resposta(status_comando)
 
@@ -481,7 +486,7 @@ def recolher():
         elif comando == 'Levanta':
             Mesa.levantar_mesa(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
-            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha)
             status_comando = 'Valor ficha: ' + str(valor_fichas)
 
         elif comando == 'Cofre':
@@ -522,7 +527,7 @@ def recolher():
             else:
                 status_comando = "Mesa ocupada"
             time.sleep(2)
-            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha)
             status_comando = 'Valor ficha: ' + str(valor_fichas)
 
         elif comando == "Senta2":
@@ -537,7 +542,7 @@ def recolher():
             else:
                 status_comando = "Mesa ocupada"
             time.sleep(2)
-            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas)
+            valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha)
             status_comando = 'Valor ficha: ' + str(valor_fichas)
 
         elif comando == "Senta3":
@@ -562,7 +567,7 @@ def recolher():
 
 
 def recolher_autometico():
-    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, fichas, valor_fichas, valor_fichas_perfil
+    global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, fichas_planilha, valor_fichas, valor_fichas_perfil
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
     Limpa.limpa_total(x_origem, y_origem)
     time.sleep(1)
@@ -572,7 +577,7 @@ def recolher_autometico():
     time.sleep(1)
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
-    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
+    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
     Limpa.limpa_total(x_origem, y_origem)
 
     print('\nFichas Disponiveis: ', valor_fichas, '.Mínimo para o blide: ', valor_minimo_mesa, '\n')
@@ -626,7 +631,7 @@ identifica_funcao()
 print('Guia: ', guia)
 guia_anterior = guia
 # Obter as credenciais da conta do facebook
-id, senha, fichas, linha, cont_IP = Google.credenciais(guia)
+id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
@@ -639,7 +644,6 @@ while True:
     valor_fichas = ""
     valor_fichas_perfil = ""
     pontuacao_tarefas = ""
-    level_conta = ""
     roleta = 'roleta_1'
     conta_upada = True
     hora_atual = ""
@@ -675,7 +679,7 @@ while True:
 
         Tarefas.recolher_tarefa_upando(x_origem, y_origem)
         Aneis.recolhe_aneis(x_origem, y_origem)
-        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas, valor_fichas_perfil)
+        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
 
         print('\nTerminou as atividades\n')
     # ################################################################################################################################################
@@ -730,7 +734,7 @@ while True:
         Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
 
         guia_anterior = guia
-        id, senha, fichas, linha, cont_IP = Google.credenciais(guia)  # pega id e senha par o proximo login
+        id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)  # pega id e senha par o proximo login
 
     else:
-        id, senha, fichas, linha, cont_IP = id_novo, senha_novo, fichas_novo, linha_novo, cont_IP_novo
+        id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
