@@ -830,7 +830,7 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
         print("teste_limpo: Esta no Lobby, ta limpo")
     else:
         Limpa.limpa_promocao(x_origem, y_origem)
-
+    print('j')
     for j in range(20):
         print(j)
         if pyautogui.pixelMatchesColor((x_origem + 310), (y_origem + 264), (95, 106, 122), tolerance=5):
@@ -843,8 +843,10 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
         if pyautogui.pixelMatchesColor((x_origem + 435), (y_origem + 264), (26, 29, 33), tolerance=5):
             # testa se tem sala com pelo menos um lugar vazio, olha se tem preto no fim da barra de ocupação
             pyautogui.doubleClick(490 + x_origem, 263 + y_origem)  # clica para entar na sala vazia
-
+            print('Clica para entrar em uma sala com lugar disponível')
+            print('i')
             for i in range(40):
+                print(i)
                 if pyautogui.pixelMatchesColor((x_origem + 435), (y_origem + 264), (26, 29, 33), tolerance=5):
                     # testa se tem sala com pelo menos um lugar vazio, olha se tem preto no fim da barra de ocupação
                     pyautogui.doubleClick(490 + x_origem, 263 + y_origem)  # clica para entar na sala vazia
@@ -873,6 +875,7 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
 
                 time.sleep(1)
                 if cont_erro_entrar_mesa >= 5:
+                    print('cont_erro_entrar_mesa')
                     Limpa.limpa_total(x_origem, y_origem)
                     break
 
