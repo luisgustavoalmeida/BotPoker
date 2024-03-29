@@ -1407,25 +1407,25 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
         # if not conta_upada:
         if (4 < level_conta) or (not conta_upada):
-            Limpa.fecha_tarefa(x_origem, y_origem)
-            Limpa.limpa_promocao(x_origem, y_origem)
-            print('level_conta: ', level_conta)
-            print('valor_fichas_perfil: ', valor_fichas_perfil)
-            time.sleep(2)
-            Limpa.limpa_total(x_origem, y_origem)
+            # Limpa.fecha_tarefa(x_origem, y_origem)
+            # Limpa.limpa_promocao(x_origem, y_origem)
+            # print('level_conta: ', level_conta)
+            # print('valor_fichas_perfil: ', valor_fichas_perfil)
+            # time.sleep(2)
+            # Limpa.limpa_total(x_origem, y_origem)
 
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             upar(x_origem, y_origem, blind_mesa='100200')
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
-            Limpa.limpa_total(x_origem, y_origem)
+            # Limpa.limpa_total(x_origem, y_origem)
 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
-            Limpa.limpa_total(x_origem, y_origem)
+            # Limpa.limpa_total(x_origem, y_origem)
             return level_conta, valor_fichas_perfil
 
-        if 5 <= level_conta < level_para_upar:
+        if 4 <= level_conta < level_para_upar:
             Limpa.fecha_tarefa(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
             print('level_conta: ', level_conta)
