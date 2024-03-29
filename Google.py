@@ -8,6 +8,7 @@ import os.path
 import random
 import socket
 import time
+from OCR_tela import tratar_valor_numerico
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -748,18 +749,18 @@ def credenciais(guia, salta_linhas=True):
 
         if reservado:
             try:
-                level = int(level)
-                fichas = int(fichas)
+                level = tratar_valor_numerico(level)
+                fichas = tratar_valor_numerico(fichas)
+                cont_IP = tratar_valor_numerico(cont_IP)
+
             except Exception as error:
                 print(error)
                 level = 1
                 fichas = 1
+                cont_IP = 6
 
-            try:
-                cont_IP = int(cont_IP)
-                return id, senha, fichas, linha, cont_IP, level
-            except Exception as error:
-                print(error)
+            return id, senha, fichas, linha, cont_IP, level
+
         print('tentar credenciaias')
 
 

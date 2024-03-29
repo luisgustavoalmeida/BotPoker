@@ -141,7 +141,7 @@ def logar_carregar():
 
     print('Entando em uma nova conta id / senha / cont_IP / time_decorrido_id: ', id, senha, cont_IP, time_decorrido_id)
 
-    if (1 + cont_IP) >= LIMITE_IP or cont_IP < 0 or time_decorrido_id > 120:  # se a contagem de ip ta fora da faixa vai para a função
+    if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
     print('\n Manda iniciar a tarefa independete\n ')
@@ -566,7 +566,7 @@ def recolher():
     return
 
 
-def recolher_autometico():
+def recolher_automatico():
     global x_origem, y_origem, blind_recolher_auto, hora_que_rodou, fichas_planilha, valor_fichas, valor_fichas_perfil
     print('main recolher_autometico. Blid blind_recolher_auto:', blind_recolher_auto)
     Limpa.limpa_total(x_origem, y_origem)
@@ -671,7 +671,7 @@ while True:
         # Recolher automático
         elif confg_funcao == 'Recolher_automatico':
             print('Inicia a execução do Recolher automático')
-            recolher_autometico()
+            recolher_automatico()
         # Remover
         elif confg_funcao == 'Remover' or confg_funcao == 'Face':
             print('Inicia a execução do remover Poker')

@@ -1102,6 +1102,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
             humano = False
+            teste_humano = False
             pular_sala = True
             mesa_completa = False
             sentou = False
@@ -1112,7 +1113,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             reinicia_variaveis = False
 
         # print('tempo que esta esperando', tempo_total)
-        if (time.perf_counter() - time_entrou) > 60:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
+        if (time.perf_counter() - time_entrou) > 100:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
             print("\nTempo limite atingido sem outro jogador, sai da mesa para tentar em outra\n")
             reinicia_variaveis = True
             continue
@@ -1137,7 +1138,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
-
             # Conversão de segundos para horas, minutos e segundos
             horas = int(tempo_decorrido // 3600)
             minutos = int((tempo_decorrido % 3600) // 60)
@@ -1156,6 +1156,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 continue
 
         if jogou_uma_vez:
+            time_entrou = time.perf_counter()
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 # testa se apareceu as mensagens verdes na parte de baixo
                 print('Fim da partida')
@@ -1179,7 +1180,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         break
 
                 jogou_uma_vez = False
-                time_entrou = time.perf_counter()
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa fim da jogada com humanos na mesa')
                     humano = True
@@ -1206,9 +1206,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
                     print('Firebase mesa com lugares ocupadas:', lugares_ocupados)
 
-                    if mesa_completa and lugares_ocupados < 5:
+                    if mesa_completa and (lugares_ocupados < 5):
                         # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
-                        if teste_humano:
+                        if teste_humano: # para levantar so na segunada rodada
                             humano = True
                         teste_humano = True
                     else:
