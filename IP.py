@@ -214,7 +214,7 @@ def meu_ip():
                 hora_atual = datetime.datetime.now().strftime('%H:%M:%S')
                 print("Sem conexão com a internet, hora:", hora_atual, "nova tentativa e outro servidor")
                 print(e)
-                time.sleep(5)
+                # time.sleep(5)
 
 
 def nao_tem_internet():
