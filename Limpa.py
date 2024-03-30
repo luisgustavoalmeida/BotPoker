@@ -225,6 +225,11 @@ def limpa_pequeno(x_origem, y_origem):
         print("o novo banco esta aberto")
 
     if not teste_limpo(x_origem, y_origem):  # se ta limpo nem entra
+
+        # Valete ou mais
+        if pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (12, 6, 42), tolerance=10):
+            return
+
         teste_logado()
         try:
             if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38), tolerance=5)
@@ -239,6 +244,7 @@ def limpa_pequeno(x_origem, y_origem):
                 # tela cinza clara com cara triste
                 print("aguarda 5 segundos e faz um novo teste se a pagina nao carregou")
                 time.sleep(5)
+                limpa_promocao(x_origem, y_origem)
                 try:
                     if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38), tolerance=5)
                             or pyautogui.pixelMatchesColor(700, 650, (32, 33, 36), tolerance=5)
@@ -377,13 +383,6 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(812 + x_origem, 240 + y_origem)
         print("Fique milionario jogando")
 
-    # Valete ou mais
-    if pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (12, 6, 42), tolerance=10):
-        pyautogui.mouseDown(895 + x_origem, 82 + y_origem)  # aperta e segura
-        time.sleep(0.4)
-        pyautogui.mouseUp(895 + x_origem, 82 + y_origem)  # aperta e segura
-        print("Valete ou mais")
-
     # Vip
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 100), (46, 29, 21), tolerance=5):
         pyautogui.click(921 + x_origem, 89 + y_origem, button='left')
@@ -474,6 +473,13 @@ def limpa_promocao(x_origem, y_origem):
             time.sleep(0.8)
         pyautogui.click(x_origem + 407, y_origem + 408)  # clica no NÃO
         print("Gostaria de começar a Liga do Finde?")
+
+    # Valete ou mais
+    if pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (12, 6, 42), tolerance=10):
+        pyautogui.mouseDown(895 + x_origem, 82 + y_origem)  # aperta e segura
+        time.sleep(0.4)
+        pyautogui.mouseUp(895 + x_origem, 82 + y_origem)  # aperta e segura
+        print("Valete ou mais")
 
 
 def limpa_total(x_origem, y_origem):
