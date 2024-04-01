@@ -1090,14 +1090,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     Limpa.limpa_promocao(x_origem, y_origem)
     sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
 
-    time_encher_mesa = time_comecou = time_entrou = time.perf_counter()
+    time_encher_mesa = time_comecou = time_fazer_jogada = time.perf_counter()
 
     print('entra no loop do mesa_upar_jogar')
     print('status do sentar : ', sentou)
 
     while continua_jogando:  # permanece joghando
 
-        if reinicia_variaveis:
+        if reinicia_variaveis or (time.perf_counter() - time_fazer_jogada > 100):
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1107,16 +1107,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             mesa_completa = False
             sentou = False
             cont_limpa_jogando = 45
-            time_encher_mesa = time_entrou = time.perf_counter()
+            time_encher_mesa = time_fazer_jogada = time.perf_counter()
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
             reinicia_variaveis = False
-
-        # print('tempo que esta esperando', tempo_total)
-        if (time.perf_counter() - time_entrou) > 100:  # troca de mesa se ficar muito tempo parado sem entrar alguem para jogar
-            print("\nTempo limite atingido sem outro jogador, sai da mesa para tentar em outra\n")
-            reinicia_variaveis = True
-            continue
 
         cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
@@ -1156,7 +1150,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 continue
 
         if jogou_uma_vez:
-            time_entrou = time.perf_counter()
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 # testa se apareceu as mensagens verdes na parte de baixo
                 print('Fim da partida')
@@ -1216,9 +1209,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                     if lugares_ocupados >= 5:
                         mesa_completa = True
-                        time_encher_mesa = time_entrou = time.perf_counter()
+                        time_encher_mesa = time_fazer_jogada = time.perf_counter()
                     elif lugares_ocupados == 4:
-                        time_encher_mesa = time_entrou = time.perf_counter()
+                        time_encher_mesa = time_fazer_jogada = time.perf_counter()
                         mesa_completa = False
                     else:
                         mesa_completa = False
@@ -1257,7 +1250,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     else:
                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento=False)
                 if jogou:
+                    time_fazer_jogada = time.perf_counter()
                     jogou_uma_vez = True
+
         else:
             humano = False
             print("ainda nao esta sentado")
@@ -1296,12 +1291,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if blind_certo:
                         sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
                         if sentou:
-
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
-                            time_encher_mesa = time_entrou = time.perf_counter()
+                            time_encher_mesa = time_fazer_jogada = time.perf_counter()
                             print('esta tudo ok, sentado na mesa:', num_mesa)
                             if indice:
                                 indice_atual = indice
@@ -1312,7 +1306,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             pular_sala = False
                             break
                         else:
-                            time_entrou = 0
+                            reinicia_variaveis = True
 
                     if indice_inicial == indice and indice_inicial != 0:
                         indice_inicial = 0
@@ -1327,11 +1321,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if sentou:
                     break
                 else:
-                    time_entrou = 0
+                    reinicia_variaveis = True
 
             if not sentou:
                 indice_inicial = 0
-                time_entrou = 0
+                reinicia_variaveis = True
                 print("rodou a lista de mesas 2x, da um F5 para recarregar as mesas")
                 IP.tem_internet()
                 print('f5')
