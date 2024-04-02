@@ -77,10 +77,10 @@ lista_salas_jogar3 = [{'172': ('100200', 200, 400)}, {'1690': ('100200', 200, 40
 # dicionariao numero das salas, valores das salas , e id das salas
 dicionario_salas = {
     '2550': [100, 50, ['134', '135', '999', '1003', '1004', '1243', '1245', '1246', '1247', '1673', '1674', '1675', '1676', '1677', '1678'], 500],
-    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1683', '1684', '1685', '1686', '1687', '1688', '1689'],
-              1000],
-    '100200': [400, 200, ['172', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702', '1703'],
-               2000],
+    '50100': [200, 100, ['1586', '1587', '1588', '1589', '1590', '1591', '1592', '1593', '1681', '1682', '1683', '1684', '1685', '1686', '1687',
+                         '1688', '1689'], 1000],
+    '100200': [400, 200, ['172', '472', '1690', '1691', '1692', '1693', '1694', '1695', '1696', '1697', '1698', '1699', '1700', '1701', '1702',
+                          '1703'], 2000],
     '200400': [800, 400, ['1044', '1045', '1046', '1047', '1048', '1268', '1269', '1270', '1271', '1272', '1273', '1274', '1275', '1276', '1705',
                           '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713', '1714'], 4000],
     '5001K': [2000, 1000, ['192', '492', '1741', '1742', '1743', '1744', '1745', '1746', '1747', '1748', '1749'], 10000],
@@ -129,9 +129,9 @@ dicionario_cadeira5 = {'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeir
 # lista de tuplas conde se tem a coordenada de interesse e a cor da coodenada que identifica se é um humano
 lista_humano_9 = [
     # # celuar
-    (645, 135, 8, (136, 137, 137)), (818, 217, 8, (136, 137, 137)), (814, 377, 8, (136, 137, 137)), (675, 473, 8, (136, 137, 137)),
-    (484, 473, 8, (136, 137, 137)), (290, 473, 8, (136, 137, 137)), (144, 377, 8, (136, 137, 137)), (156, 217, 8, (136, 137, 137)),
-    (334, 135, 8, (136, 137, 137)),
+    (645, 135, 2, (136, 137, 137)), (818, 217, 2, (136, 137, 137)), (814, 377, 2, (136, 137, 137)), (675, 473, 2, (136, 137, 137)),
+    (484, 473, 2, (136, 137, 137)), (290, 473, 2, (131, 131, 130)), (144, 377, 2, (130, 130, 129)), (156, 217, 2, (131, 131, 130)),
+    (334, 135, 2, (130, 130, 129)),
     # # hoemem claro
     (667, 104, 2, (255, 193, 161)), (839, 186, 2, (255, 193, 161)), (836, 346, 2, (255, 193, 161)), (697, 442, 2, (255, 193, 161)),
     (506, 442, 2, (255, 193, 161)), (276, 442, 2, (255, 193, 161)), (130, 346, 2, (255, 193, 161)), (142, 186, 2, (255, 193, 161)),
@@ -152,8 +152,8 @@ lista_humano_9 = [
 
 lista_humano_5 = [
     # celuar
-    (814, 377, 8, (136, 137, 137)), (675, 473, 8, (136, 137, 137)), (484, 473, 8, (136, 137, 137)), (290, 473, 8, (136, 137, 137)),
-    (144, 377, 8, (136, 137, 137)),
+    (814, 377, 2, (135, 136, 136)), (675, 473, 2, (136, 137, 137)), (484, 473, 2, (136, 137, 137)), (290, 473, 2, (131, 131, 130)),
+    (144, 377, 2, (131, 131, 130)),
     # # hoemem claro
     (836, 346, 2, (255, 193, 161)), (697, 442, 2, (255, 193, 161)), (506, 442, 2, (255, 193, 161)), (276, 442, 2, (255, 193, 161)),
     (130, 346, 2, (255, 193, 161)),
@@ -299,13 +299,13 @@ def mesa_sem_humanos(x_origem, y_origem, lugares=9):
         for x, y, tolerancia, cor_celular in lista_humano_9:
 
             if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
-                print('\nPelo menos um humano esta na mesa.\n')
+                print('\nPelo menos um humano esta na mesa posição: ', x, y, ' , cor: ', cor_celular, '.\n')
                 return False
     else:
         for x, y, tolerancia, cor_celular in lista_humano_5:
 
             if pyautogui.pixelMatchesColor(x_origem + x, y_origem + y, cor_celular, tolerance=tolerancia):
-                print('\nPelo menos um humano esta na mesa.\n')
+                print('\nPelo menos um humano esta na mesa posição: ', x, y, ' , cor: ', cor_celular, '.\n')
                 return False
     # print('Todas as cadeiras estão livres de celular.')
     return True
@@ -1095,9 +1095,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     print('entra no loop do mesa_upar_jogar')
     print('status do sentar : ', sentou)
 
+    if datetime.datetime.now().time() > datetime.time(23, 00, 0):
+        continua_jogando = False
+
     while continua_jogando:  # permanece joghando
 
-        if reinicia_variaveis or (time.perf_counter() - time_fazer_jogada > 100):
+        if reinicia_variaveis:
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1111,6 +1114,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
             reinicia_variaveis = False
+
 
         cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
@@ -1148,6 +1152,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
                 reinicia_variaveis = True
                 continue
+
+            if time.perf_counter() - time_fazer_jogada > 100:
+                print('\nLimite de tempo sem jogar, 100 segundos\n')
+                reinicia_variaveis = True
+                continue
+
+            if datetime.datetime.now().time() > datetime.time(23, 30, 0):
+                print('\nPara de jogar atingiu o limite de 23:30\n')
+                break
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1390,26 +1403,24 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         if level_conta == '' or level_conta == 1 or valor_fichas_perfil == 0 or valor_fichas_perfil == '':
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     else:
+        print('\n horario maior que o limite definido 23:00 \n')
         return level_conta, valor_fichas_perfil
 
     if valor_fichas_perfil < LIMITE_FICHAS:
+        print('\n valor de fichar inferior ao definido \n')
         return level_conta, valor_fichas_perfil
 
     if roleta == 'roleta_2':
         if level_conta >= level_para_upar:
+            print('\nlevel da conta ja superior a 10 \n')
             return level_conta, valor_fichas_perfil
 
         # if not conta_upada:
         if (4 < level_conta) or (not conta_upada):
-            # Limpa.fecha_tarefa(x_origem, y_origem)
-            # Limpa.limpa_promocao(x_origem, y_origem)
-            # print('level_conta: ', level_conta)
-            # print('valor_fichas_perfil: ', valor_fichas_perfil)
-            # time.sleep(2)
-            # Limpa.limpa_total(x_origem, y_origem)
-
+            blind_mesa = '100200'
+            # blind_mesa = '5001K'
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
-            upar(x_origem, y_origem, blind_mesa='100200')
+            upar(x_origem, y_origem, blind_mesa=blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             # Limpa.limpa_total(x_origem, y_origem)
@@ -1420,6 +1431,8 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             return level_conta, valor_fichas_perfil
 
         if 4 <= level_conta < level_para_upar:
+            blind_mesa = '100200'
+            # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
             print('level_conta: ', level_conta)
@@ -1428,7 +1441,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Limpa.limpa_total(x_origem, y_origem)
 
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa='100200', apostar=False, recolher=False)
+            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
@@ -1436,6 +1449,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('valor_fichas_perfil: ', valor_fichas_perfil)
             Limpa.limpa_total(x_origem, y_origem)
             return level_conta, valor_fichas_perfil
+        print('\n level da conta nao adequado ou conta ja upada\n')
         return level_conta, valor_fichas_perfil
 
     elif roleta == 'roleta_1':
@@ -1460,6 +1474,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         Limpa.limpa_total(x_origem, y_origem)
         return level_conta, valor_fichas_perfil
     else:
+        print('\n nao é roleta 1 e nem roleta 2 \n')
         return level_conta, valor_fichas_perfil
 
 
