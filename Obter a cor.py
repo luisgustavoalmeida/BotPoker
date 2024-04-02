@@ -13,7 +13,14 @@ print(x_origem, y_origem)
 # x_origem, y_origem = 0, 0
 # pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
 
-a, b = 130, 346
+lista_humano_9 = [
+    # # celuar
+    (645, 138, 2, (96, 160, 249)), (817, 220, 2, (96, 160, 249)), (814, 380, 2, (96, 160, 249)), (675, 476, 2, (95, 159, 247)),
+    (484, 476, 2, (96, 160, 249)), (292, 476, 2, (134, 179, 242)), (146, 380, 2, (134, 179, 242)), (158, 220, 2, (134, 179, 242)),
+    (336, 138, 2, (134, 179, 242))
+]
+
+a, b = 146, 380
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -25,7 +32,7 @@ for i in range(100):
     cor = pyautogui.pixel(x, y)
     print(f"A cor RGB do pixel em ({x}, {y}) é {cor}")
 
-    if pyautogui.pixelMatchesColor(x, y, (136, 137, 137), tolerance=tolerancia):
+    if pyautogui.pixelMatchesColor(x, y, (96, 159, 248), tolerance=tolerancia):
         print('tem a cor, tolerancia :', tolerancia)
 
     tolerancia += 1
