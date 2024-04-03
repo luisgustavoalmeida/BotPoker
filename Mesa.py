@@ -1315,7 +1315,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             else:
                                 indice_atual = 0
                             indice_inicial = 0
-
+                            reinicia_variaveis = False
                             pular_sala = False
                             break
                         else:
@@ -1332,6 +1332,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     pular_sala = False
 
                 if sentou:
+                    reinicia_variaveis = False
                     break
                 else:
                     reinicia_variaveis = True
