@@ -136,19 +136,16 @@ def f5_quando_internete_ocila():
 def tem_internet():
     cont_erro2 = 0
     cont_erro = 0
-    # print('tem_internet')
+    print('tem_internet')
 
     com_internete = True
     while com_internete:
         print('testa a internete')
         cont_erro2 += 1
-        # site_aleatorio = random.choice(sites)
-        # print(site_aleatorio)
         try:
-            # response = requests.get(site_aleatorio, timeout=10)
             response = requests.get('http://www.google.com', timeout=5)
             if response.status_code == 200 or response.status_code == 429:
-                print("Conexão com a internet ativa...")
+                print("tem_internet Conexão com a internet ativa...")
                 cont_erro = 0
                 cont_erro2 = 0
                 com_internete = False
@@ -163,7 +160,7 @@ def tem_internet():
             if cont_erro >= 5:
                 cont_erro = 0
                 cont_erro2 = 0
-                if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+                if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
                     # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                     print("Vai par a função de trocar ip")
                     conexao()  # chama a função que troca ip
@@ -172,7 +169,7 @@ def tem_internet():
         if cont_erro2 >= 20:
             cont_erro = 0
             cont_erro2 = 0
-            if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+            if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
                 # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                 print("Vai par a função de trocar ip")
                 conexao()  # chama a função que troca ip
@@ -214,7 +211,6 @@ def meu_ip():
                 hora_atual = datetime.datetime.now().strftime('%H:%M:%S')
                 print("Sem conexão com a internet, hora:", hora_atual, "nova tentativa e outro servidor")
                 print(e)
-                # time.sleep(5)
 
 
 def nao_tem_internet():
@@ -231,7 +227,6 @@ def nao_tem_internet():
         except Exception as e:
             print("Sem conexão com a internet. Encerrando os testes...")
             print(e)
-            print()
             time.sleep(5)
             falhou = True
 

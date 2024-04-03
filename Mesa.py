@@ -1101,6 +1101,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     while continua_jogando:  # permanece joghando
 
         if reinicia_variaveis:
+            print('reiniciando as variaveis')
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1201,6 +1202,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if not mesa_sem_humanos(x_origem, y_origem, 5):
                         print('Sair da mesa fim da jogada com humanos na mesa')
                         humano = True
+                        reinicia_variaveis = True
                         break
                     else:
                         humano = False
@@ -1216,6 +1218,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
                         if teste_humano: # para levantar so na segunada rodada
                             humano = True
+                            print('\nJogador humano na mesa, troca de mesa\n')
+                            reinicia_variaveis = True
+                            continue
                         teste_humano = True
                     else:
                         teste_humano = False
@@ -1234,6 +1239,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 if not mesa_sem_humanos(x_origem, y_origem, 5):
                     print('Sair da mesa, humanos na mesa')
                     humano = True
+                    print('\nJogador humano na mesa, troca de mesa\n')
+                    reinicia_variaveis = True
+                    continue
                 else:
                     humano = False
 
@@ -1268,6 +1276,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
         else:
             humano = False
+            reinicia_variaveis = False
             print("ainda nao esta sentado")
             for i in range(3):
                 print('indice_inicial', indice_inicial)
@@ -1534,41 +1543,47 @@ def apostar_pagar_jogar_mesa(x_origem, y_origem):
         # se tem a barra de ajustar a aposta
         print('Barra de ajustar valor')
 
-        passa_paga_aposta = random.randint(1, 3)
+        correr = random.randint(1, 30)
+        if correr == 1:
+            pyautogui.click((x_origem + 592), (y_origem + 603))
+            print('***Correu')
+            jogou_uma_vez = True
+            return jogou_uma_vez
+        else:
+            passa_paga_aposta = random.randint(1, 3)
+            match passa_paga_aposta:
+                case 1:
+                    pyautogui.click((x_origem + 380), (y_origem + 603))
+                    print('***Passou')
+                    jogou_uma_vez = True
+                    return jogou_uma_vez
+                case 2:
+                    pyautogui.click((x_origem + 380), (y_origem + 650))
+                    print('***Apostou valor padrão')
+                    jogou_uma_vez = True
+                    return jogou_uma_vez
+                case 3:
+                    # cliaca no final da barra para ela ir ate o final
+                    pyautogui.click((x_origem + 660), (y_origem + 647))
+                    print('ajustou no final da barra')
 
-        match passa_paga_aposta:
-            case 1:
-                pyautogui.click((x_origem + 380), (y_origem + 603))
-                print('***Passou')
-                jogou_uma_vez = True
-                return jogou_uma_vez
-            case 2:
-                pyautogui.click((x_origem + 380), (y_origem + 650))
-                print('***Apostou valor padrão')
-                jogou_uma_vez = True
-                return jogou_uma_vez
-            case 3:
-                # cliaca no final da barra para ela ir ate o final
-                pyautogui.click((x_origem + 660), (y_origem + 647))
-                print('ajustou no final da barra')
+                    numero_aleatorio = random.randint(540, 600)
 
-                numero_aleatorio = random.randint(540, 600)
+                    for _ in range(100):
+                        #  teste se a barra foi deslocada, nao esta mais na posição inicial
+                        if not pyautogui.pixelMatchesColor((x_origem + 515), (y_origem + 647), (184, 212, 237), 5):
+                            break
+                        time.sleep(0.01)
 
-                for _ in range(100):
-                    #  teste se a barra foi deslocada, nao esta mais na posição inicial
-                    if not pyautogui.pixelMatchesColor((x_origem + 515), (y_origem + 647), (184, 212, 237), 5):
-                        break
-                    time.sleep(0.01)
+                    # clicar em uma posição aleatoria da barra
+                    pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
+                    print('Posição de valor aleatorio')
+                    time.sleep(0.4)
 
-                # clicar em uma posição aleatoria da barra
-                pyautogui.click((x_origem + numero_aleatorio), (y_origem + 647))
-                print('Posição de valor aleatorio')
-                time.sleep(0.4)
-
-                pyautogui.click((x_origem + 380), (y_origem + 650))
-                print('***Apostou valor maior')
-                jogou_uma_vez = True
-                return jogou_uma_vez
+                    pyautogui.click((x_origem + 380), (y_origem + 650))
+                    print('***Apostou valor maior')
+                    jogou_uma_vez = True
+                    return jogou_uma_vez
 
     elif pyautogui.pixelMatchesColor((x_origem + 342), (y_origem + 601), (255, 255, 255), 5):
         # branco de interceção de pagar e passar sem o quadrado brando
