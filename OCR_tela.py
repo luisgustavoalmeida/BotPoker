@@ -12,7 +12,7 @@ import pytesseract
 from fuzzywuzzy import fuzz
 
 import IP
-import Variaveis_Globais
+from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -470,7 +470,7 @@ def valor_fichas_perfil(x_origem, y_origem):
 
     for _ in range(50):
         # clica para abrir a tela do perfil
-        pyautogui.click(25+ x_origem, 22 + y_origem)
+        pyautogui.click(25 + x_origem, 22 + y_origem)
         pyautogui.click(35 + x_origem, 22 + y_origem)
         # testa se a tela do perfil esta aberta
         if (pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=1)
@@ -1321,7 +1321,6 @@ def aviso_sistema(x_origem, y_origem):
                 print('foi encontrado um: Aviso do sistema')
                 if 'cancelada' in valor:
                     print("Mesagem: ", valor)
-                    Variaveis_Globais.alterar_global_aviso_sistema(True)  # muda o valor da variavel global destinado a sair da conta
                     resposta = "sair da conta"
                     print('tem que sair da conta')
                     return True, resposta
@@ -1330,7 +1329,8 @@ def aviso_sistema(x_origem, y_origem):
                     resposta = "erro de comunicação"
                     IP.tem_internet()
                     print('Erro de comunicação, favor atualizar a página para continuar com o processo')
-                    pyautogui.press('f5')
+                    # pyautogui.press('f5')
+                    atualizar_navegador()
                     print('espera 30 segundos')
                     time.sleep(30)
                     print('continua')
@@ -1365,7 +1365,7 @@ def level_conta(x_origem, y_origem):
 
     for _ in range(50):
         # clica para abrir a tela do perfil
-        pyautogui.click(25+ x_origem, 22 + y_origem)
+        pyautogui.click(25 + x_origem, 22 + y_origem)
         pyautogui.click(35 + x_origem, 22 + y_origem)
         # testa se a tela do perfil esta aberta
         if (pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=1)
@@ -1391,7 +1391,7 @@ def level_conta(x_origem, y_origem):
     ]
     for _ in range(3):
         for config in configuracoes:
-            pyautogui.click(25+ x_origem, 22 + y_origem)
+            pyautogui.click(25 + x_origem, 22 + y_origem)
             pyautogui.click(35 + x_origem, 22 + y_origem)
             # print(config)
             # Realiza a leitura do nível usando OCR

@@ -2,6 +2,7 @@ import time
 
 import pyautogui
 
+from F5_navegador import atualizar_navegador
 from IP import tem_internet, f5_quando_internete_ocila
 from OCR_tela import aviso_sistema as ocr_aviso_sistema
 from Seleniun import teste_logado
@@ -205,7 +206,8 @@ def limpa_pequeno(x_origem, y_origem):
                 tem_internet()
                 print("erro no torneio semanal, Da um F5")
                 # pyautogui.press('f5')
-                pyautogui.click(94, 63)  # clica no atualizar
+                # clica no atualizar
+                atualizar_navegador()
                 time.sleep(25)
 
     # voce esta convidado a participar de uma festa em las vegasuma surpresa esta esperando por vc
@@ -259,7 +261,8 @@ def limpa_pequeno(x_origem, y_origem):
                         print("Falha na pagina e a tela esta branca, da um F5")
                         tem_internet()
                         # navegador.get(url)
-                        pyautogui.click(94, 63)  # clica no atualizar
+                        # clica no atualizar
+                        atualizar_navegador()
                         # pyautogui.press('f5')
                         time.sleep(25)
                 except Exception as e:
@@ -483,7 +486,6 @@ def limpa_promocao(x_origem, y_origem):
 
 
 def limpa_total(x_origem, y_origem):
-
     cont_erro_limpa = 0
     for i in range(50):
         print('limpa_total:', i)
@@ -493,7 +495,8 @@ def limpa_total(x_origem, y_origem):
             cont_erro_limpa = 0
             print('clica no atualizar')
             # pyautogui.press('f5')
-            pyautogui.click(94, 63)  # clica no atualizar
+            # clica no atualizar
+            atualizar_navegador()
             print('espera 25 segundos')
             time.sleep(25)
             print('esperou 25 segundos')
@@ -582,7 +585,8 @@ def limpa_abre_tarefa(x_origem, y_origem):  # abre o tarefas
                 print("limpa tarefa Da um F5")
                 # pyautogui.press('f5')
                 # navegador.get(url)
-                pyautogui.click(86, 59)  # clica no atualizar
+                # clica no atualizar
+                atualizar_navegador()
                 time.sleep(25)
                 teste_logado()
                 limpa_total(x_origem, y_origem)

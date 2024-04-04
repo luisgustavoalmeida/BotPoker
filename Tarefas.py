@@ -7,6 +7,7 @@ import Aneis
 import HoraT
 import Limpa
 import OCR_tela
+from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -418,7 +419,7 @@ def recolher_tarefa_upando(x_origem, y_origem):
 
             # pyautogui.press('f5')
             print('espera 30 segundos clica no atualizar')
-            pyautogui.click(86, 59)  # clica no atualizar
+            atualizar_navegador()
             time.sleep(30)
             Limpa.limpa_total(x_origem, y_origem)
 

@@ -3,7 +3,6 @@ import time
 import pyautogui
 
 import Limpa
-import Origem_pg
 
 
 def pega_2xp(x_origem, y_origem):
@@ -71,7 +70,6 @@ def pega_2xp(x_origem, y_origem):
         pyautogui.doubleClick(x_origem + 260, y_origem + 25)  # clica no no icone dos meus objetos
         pyautogui.click(x_origem + 772, y_origem + 160)  # clica no fechar meus objetos
         return "Não tem a guia de 2xp"
-
 
 # import Origem_pg
 #

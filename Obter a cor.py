@@ -1,5 +1,7 @@
 import time
+
 import pyautogui
+
 import Origem_pg
 
 # Exemplo de uso
@@ -12,7 +14,6 @@ x_origem, y_origem = Origem_pg.x_y()
 print(x_origem, y_origem)
 # x_origem, y_origem = 0, 0
 # pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
-
 
 
 a, b = 534, 357

@@ -6,6 +6,7 @@ import HoraT
 import IP
 import Limpa
 import Tarefas
+from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -77,7 +78,8 @@ def testa_slot_lipo(x_origem, y_origem):
 
             elif pyautogui.pixelMatchesColor((x_origem + 491), (y_origem + 417), (25, 118, 188), tolerance=20):
                 print('Erro de comunicação, favor atualizar a página para continuar com o processo')
-                pyautogui.press('f5')
+                # pyautogui.press('f5')
+                atualizar_navegador()
                 print('espera 25 segundos')
                 time.sleep(25)
                 print('continua')
@@ -94,7 +96,8 @@ def testa_slot_lipo(x_origem, y_origem):
         cont_erro += 1
         if cont_erro > 50:
             print('numero de tentativas superadas vai da um F5')
-            pyautogui.press('f5')
+            # pyautogui.press('f5')
+            atualizar_navegador()
             print('espera 25 segundos')
             time.sleep(25)
             print('continua')

@@ -64,7 +64,6 @@ regiao_ativado_desativado = (conexao_x + 75, conexao_y + 292, 73, 22)
 
 tipo_conexao = "modem"
 
-
 print("Espera 5 minutos para testar a conexão")
 
 time.sleep(300)

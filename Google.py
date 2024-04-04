@@ -8,7 +8,6 @@ import os.path
 import random
 import socket
 import time
-from OCR_tela import tratar_valor_numerico
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -16,6 +15,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 import IP
+from OCR_tela import tratar_valor_numerico
 
 # from googleapiclient.errors import HttpError
 

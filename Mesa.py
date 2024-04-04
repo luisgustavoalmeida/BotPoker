@@ -12,6 +12,7 @@ import OCR_tela
 import Tarefas
 import Telegran
 import xp2
+from F5_navegador import atualizar_navegador
 
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
@@ -152,7 +153,7 @@ lista_humano_9 = [
 
 lista_humano_5 = [
     # celuar
-    (814, 380, 2, (96, 160, 249)), (675, 476, 2, (95, 159, 247)),(484, 476, 2, (96, 160, 249)), (292, 476, 2, (134, 179, 242)),
+    (814, 380, 2, (96, 160, 249)), (675, 476, 2, (95, 159, 247)), (484, 476, 2, (96, 160, 249)), (292, 476, 2, (134, 179, 242)),
     (146, 380, 2, (134, 179, 242)),
     # # hoemem claro
     (836, 346, 2, (255, 193, 161)), (697, 442, 2, (255, 193, 161)), (506, 442, 2, (255, 193, 161)), (276, 442, 2, (255, 193, 161)),
@@ -670,7 +671,7 @@ def escolher_blind(x_origem, y_origem, blind, lugares=9, posi_lista=0):
         if pyautogui.pixelMatchesColor((x_origem + 310), (y_origem + 264), (95, 106, 122), tolerance=5):
             # erro ao buscar sala, fica uma faixa cinza na linha da sala
             print('Erro ao buscar sala, vai ser dado um F5')
-            pyautogui.press('f5')
+            atualizar_navegador()
             time.sleep(35)
             return "Erro ao buscar sala, vai ser dado um F5"
 
@@ -836,7 +837,8 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
         if pyautogui.pixelMatchesColor((x_origem + 310), (y_origem + 264), (95, 106, 122), tolerance=5):
             # erro ao buscar sala, fica uma faixa cinza na linha da sala
             print('Erro ao buscar sala, vai ser dado um F5')
-            pyautogui.press('f5')
+            # pyautogui.press('f5')
+            atualizar_navegador()
             time.sleep(25)
             break
 
@@ -1023,7 +1025,8 @@ def joga(x_origem, y_origem, ajusta_aposta):
                 print("rodou a lista de mesas 2x, da um F5 para recarregar as mesas")
                 IP.tem_internet()
                 print('f5')
-                pyautogui.press('f5')
+                # pyautogui.press('f5')
+                atualizar_navegador()
                 time.sleep(15)
 
         meta, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
@@ -1115,7 +1118,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if recolher:
                 atualizar_estatos_mesa('tempo estourado' + num_mesa)
             reinicia_variaveis = False
-
 
         cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
@@ -1216,7 +1218,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                     if mesa_completa and (lugares_ocupados < 5):
                         # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
-                        if teste_humano: # para levantar so na segunada rodada
+                        if teste_humano:  # para levantar so na segunada rodada
                             humano = True
                             print('\nJogador humano na mesa, troca de mesa\n')
                             reinicia_variaveis = True
@@ -1352,7 +1354,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print("rodou a lista de mesas 2x, da um F5 para recarregar as mesas")
                 IP.tem_internet()
                 print('f5')
-                pyautogui.press('f5')
+                # pyautogui.press('f5')
+                atualizar_navegador()
                 time.sleep(25)
 
     if recolher:
@@ -1421,8 +1424,8 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     if roleta == 'roleta_2':
-        if level_conta >= level_para_upar:
-            print('\nlevel da conta ja superior a 10 \n')
+        if (level_conta >= level_para_upar) and (valor_fichas_perfil < (LIMITE_FICHAS*4)):
+            print('\nlevel da conta ja superior a 10 ou valor de fichas menores que 40k \n')
             return level_conta, valor_fichas_perfil
 
         # if not conta_upada:

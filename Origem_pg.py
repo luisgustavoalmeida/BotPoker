@@ -1,11 +1,14 @@
-import time
-import pyautogui
 import os
 import socket
+import time
+
+import pyautogui
+
 # import Google
 import IP
-from Seleniun import teste_logado
+from F5_navegador import atualizar_navegador
 from ListaIpFirebase import escrever_IP_banido
+from Seleniun import teste_logado
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -122,7 +125,6 @@ def carregado_origem():  # navegador
 
                 localizado = localizar_imagem(imagem=r'Imagens\Atualizar.png', regiao=(410, 400, 580, 300), precisao=0.8)
                 if localizado is not None:
-
                     print("Erro ao entrar no Lobby, tente atualizar a pagina")
                     status_conta = 'Atualizar'
                     return 0, 0, status_conta
@@ -148,19 +150,21 @@ def carregado_origem():  # navegador
 
                     print('origem da um f5 e espera 15 segundos ')
                     # navegador.get(url)
-                    pyautogui.click(86, 59)  # clica no atualizar
+                    # clica no atualizar
+                    atualizar_navegador()
                     # pyautogui.press('f5')
                     time.sleep(25)
                     continue
 
                 recolhe_fan()
-                
+
                 cont_erro_fundo_preto += 1
                 if cont_erro_fundo_preto > 4:
                     cont_erro_fundo_preto = 0
                     if pyautogui.pixelMatchesColor(493, 602, (17, 16, 16), tolerance=2):
                         print('Esta com fundo preto da um F5')
-                        pyautogui.click(86, 59)  # clica no atualizar
+                        # clica no atualizar
+                        atualizar_navegador()
                     else:
                         print('Pagina esta carregando')
 
@@ -169,23 +173,28 @@ def carregado_origem():  # navegador
             IP.f5_quando_internete_ocila()
             teste_logado()
             try:
-                if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38), tolerance=5)  # mensagem do canto inferior esquedo " Você esta offiline no momento."
+                if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38),
+                                                tolerance=5)  # mensagem do canto inferior esquedo " Você esta offiline no momento."
                         or pyautogui.pixelMatchesColor(700, 650, (32, 33, 36), tolerance=5)  # fundo cinza com o dinoçauro
-                        or pyautogui.pixelMatchesColor(700, 650, (255, 255, 255), tolerance=2)  # retangulo branco no meio da tela quando esta sem internete
+                        or pyautogui.pixelMatchesColor(700, 650, (255, 255, 255),
+                                                       tolerance=2)  # retangulo branco no meio da tela quando esta sem internete
                         or pyautogui.pixelMatchesColor(700, 650, (221, 221, 221), tolerance=7)  # tela cinza clara com cara triste
                         or pyautogui.pixelMatchesColor(700, 650, (238, 238, 238), tolerance=7)):  # tela cinza clara com cara triste
                     print("aguarda 7 segundos e faz um novo teste se a pagina nao carregou")
                     time.sleep(7)
                     try:
-                        if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38),tolerance=5)  # mensagem do canto inferior esquedo " Você esta offiline no momento."
+                        if (pyautogui.pixelMatchesColor(215, 1000, (36, 37, 38),
+                                                        tolerance=5)  # mensagem do canto inferior esquedo " Você esta offiline no momento."
                                 or pyautogui.pixelMatchesColor(700, 650, (32, 33, 36), tolerance=5)  # fundo cinza com o dinoçauro
-                                or pyautogui.pixelMatchesColor(700, 650, (255, 255, 255),tolerance=2)  # retangulo branco no meio da tela quando esta sem internete
+                                or pyautogui.pixelMatchesColor(700, 650, (255, 255, 255),
+                                                               tolerance=2)  # retangulo branco no meio da tela quando esta sem internete
                                 or pyautogui.pixelMatchesColor(700, 650, (221, 221, 221), tolerance=7)  # tela cinza clara com cara triste
                                 or pyautogui.pixelMatchesColor(700, 650, (238, 238, 238), tolerance=7)):  # tela cinza clara com cara triste
                             print("Falha na pagina e a tela esta branca, da um F5")
                             IP.tem_internet()
                             # navegador.get(url)
-                            pyautogui.click(86, 59)  # clica no atualizar
+                            # clica no atualizar
+                            atualizar_navegador()
                             # pyautogui.press('f5')
                             time.sleep(15)
                     except Exception as e:
@@ -209,7 +218,8 @@ def carregado_origem():  # navegador
             IP.tem_internet()
             print('origem da um f5 ')
             # navegador.get(url)
-            pyautogui.click(86, 59)  # clica no atualizar
+            # clica no atualizar
+            atualizar_navegador()
             # pyautogui.press('f5')
             time.sleep(15)
 

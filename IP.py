@@ -13,6 +13,7 @@ import requests
 import Google
 import ListaIpFirebase
 import Seleniun
+from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -111,15 +112,15 @@ def f5_quando_internete_ocila():
     while True:
         try:
             response = requests.get('http://www.google.com', timeout=5)
-            # if response.status_code == 200:
-            if response.status_code == 200 or response.status_code == 429:
+            if response.status_code == 200:
                 print("Conexão com a internet ativa. ")
                 if not conectado:
                     try:
                         print("------------------F5-----------------")
                         # pyautogui.press('f5')
                         # navegador.get(url)
-                        pyautogui.click(86, 59)  # clica no atualizar
+                        # clica no atualizar
+                        atualizar_navegador()
                         time.sleep(15)
                     except Exception as e:
                         print('erro autogui: ', e)
@@ -144,7 +145,7 @@ def tem_internet():
         cont_erro2 += 1
         try:
             response = requests.get('http://www.google.com', timeout=5)
-            if response.status_code == 200 or response.status_code == 429:
+            if response.status_code == 200:
                 print("tem_internet Conexão com a internet ativa...")
                 cont_erro = 0
                 cont_erro2 = 0

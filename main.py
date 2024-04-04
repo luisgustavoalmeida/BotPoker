@@ -26,8 +26,6 @@ import Tarefas
 import Telegran
 from Firebase import ler_configuracao
 
-global aviso_sistema_global
-
 # Obter o nome de usuário
 nome_usuario = os.getlogin()
 # Obter o nome do computador
@@ -116,7 +114,8 @@ def tarefa_independente():
                     Google.marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
-            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(guia)  # pega id e senha para o proximo login
+            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(
+                guia)  # pega id e senha para o proximo login
             time_id = time.perf_counter()
             continuar_tarefa = False
             # Indicar que a tarefa terminou e está pronta para aguardar novo comando
@@ -299,7 +298,8 @@ def roletas():
                 break
             time.sleep(0.3)
 
-    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana, roleta)
+    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
+                                                              roleta)
 
     return
 

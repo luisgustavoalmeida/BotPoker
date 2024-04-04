@@ -13,16 +13,6 @@ from Google import dicionari_token_credencial_n, numero_pc
 # importa o dicionário com os nomes dos computadores e o námero referete a cada um
 # from Parametros import dicionari_token_credencial_n
 
-# config = {
-#     "apiKey": "AIzaSyDDzQMVxpKKqBZrDlhA9E4sInXB5toVRT8",
-#     "authDomain": "pokerdados-6884e.firebaseapp.com",
-#     "databaseURL": "https://pokerdados-6884e-default-rtdb.firebaseio.com",
-#     "projectId": "pokerdados-6884e",
-#     "storageBucket": "pokerdados-6884e.appspot.com",
-#     "messagingSenderId": "240019464920",
-#     "appId": "1:240019464920:web:a746cddaf41f43642aadad"
-# }
-
 config = {
     "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
     "authDomain": "pokerdados-faf1f.firebaseapp.com",
@@ -433,9 +423,11 @@ def atualizar_configuracao_pc(novos_dados):
     except Exception as e:
         print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
 
-status_anterior = None
-def atualizar_estatos_mesa(statos):
 
+status_anterior = None
+
+
+def atualizar_estatos_mesa(statos):
     '''
     Atualiza os dados de configuração para um PC específico
     modelo de parametro a ser passado pc_statos = {'200400': 'sentado'}

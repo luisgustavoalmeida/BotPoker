@@ -1,5 +1,6 @@
 import subprocess
 
+
 # Função para obter os pacotes instalados
 def get_installed_packages():
     try:
@@ -8,6 +9,7 @@ def get_installed_packages():
     except subprocess.CalledProcessError as e:
         print(f"\nOcorreu um erro ao obter os pacotes instalados: \n{e}\n")
         return []
+
 
 # Função para atualizar ou instalar apenas os pacotes necessários
 def update_or_install_required_packages(requirements_file):
@@ -30,6 +32,7 @@ def update_or_install_required_packages(requirements_file):
         #     print(f"Pacote {package} já está instalado.")
 
     print('\nBibliotecas instaladas / atualizadas com sucesso!\n')
+
 
 if __name__ == "__main__":
     print('\nProcura por atualizações em bibliotecas\n')

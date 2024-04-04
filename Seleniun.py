@@ -17,6 +17,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 import Google
 import IP
+from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -157,7 +158,8 @@ def pega_url():
             print(" clica no atualizar a pagina, atualizar")
             # pyautogui.press('f5')
             # navegador.get(url)
-            pyautogui.click(85, 60)
+            # pyautogui.click(85, 60)
+            atualizar_navegador()
             time.sleep(15)
 
 
@@ -901,6 +903,3 @@ def busca_link():
 # print("\ndatr")
 # navegador.delete_cookie("datr")
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
-
-
-

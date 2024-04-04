@@ -24,7 +24,6 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
         time.sleep(2)
         lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
-
         if 'Missões padrão' in lista_tarefa_upar:
             return 'Conta upada'
 
