@@ -726,7 +726,7 @@ def escolher_blind(x_origem, y_origem, blind, lugares=9, posi_lista=0):
     return "Não entrou na sala"
 
 
-def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta):
+def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200):
     """
     Ajusta o valor da aposta no jogo de Niquel em uma máquina virtual.
 
@@ -1183,6 +1183,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                             if level_conta >= 10:
                                 break
+                    else:
+                        gira_niquel(x_origem, y_origem)
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if (cont_jogou >= numero_jogadas) and (not recolher):
@@ -1313,8 +1315,12 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         lista_salas.append(item_removido)
 
                     if blind_certo:
+                        if upar:
+                            aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200)
+                        else:
+                            aposta, auto10 = True, True
                         sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
-                        if sentou:
+                        if sentou and aposta and auto10:
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
