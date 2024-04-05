@@ -1408,16 +1408,14 @@ def blind_do_dia(dia_da_semana=10):
     return blind_mesa
 
 
-# define o numero maximo e minimo que ira joga na mesa
-num_vezes_maximo = 4
-num_vezes_minimo = 2
-# limite de fichas minimo para jogar
-LIMITE_FICHAS = 10000
-level_para_upar = 10
-
-
 def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0, roleta='roleta_1'):
     print("dia_de_jogar_mesa")
+    # define o numero maximo e minimo que ira joga na mesa
+    num_vezes_maximo = 4
+    num_vezes_minimo = 2
+    # limite de fichas minimo para jogar
+    LIMITE_FICHAS = 10000
+    level_para_upar = 10
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
         # nao joga se ja for mais tarde que o horario definido
@@ -1432,7 +1430,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     if roleta == 'roleta_2':
-        if (level_conta >= level_para_upar) and (valor_fichas_perfil < (LIMITE_FICHAS*4)):
+        if (level_conta >= level_para_upar) and (valor_fichas_perfil < (LIMITE_FICHAS * 4)):
             print('\nlevel da conta ja superior a 10 ou valor de fichas menores que 40k \n')
             return level_conta, valor_fichas_perfil
         else:
@@ -1451,7 +1449,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
                 # Limpa.limpa_total(x_origem, y_origem)
                 return level_conta, valor_fichas_perfil
 
-            if (4 <= level_conta < level_para_upar) and (valor_fichas_perfil > (LIMITE_FICHAS*4)):
+            if (4 <= level_conta < level_para_upar) and (valor_fichas_perfil > (LIMITE_FICHAS * 4)):
                 blind_mesa = '100200'
                 # blind_mesa = '5001K'
                 Limpa.fecha_tarefa(x_origem, y_origem)
