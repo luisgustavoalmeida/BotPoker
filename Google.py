@@ -78,11 +78,16 @@ dicionari_token_credencial_n = {
     'PC-I5-13400E_lgagu': ("token32.json", "credentials4.json", 32, 'lga.gustavo.a@gmail.com', 'LGlg32379089@'),
     'PC-I5-13400E_Poker': ("token33.json", "credentials4.json", 33, 'luis.gustavo@engenharia.ufjf.br', 'LGlg32379089@#'),
 
-    'PC-I7-9700KF_PokerIP': ("token34.json", "credentials5.json", 34, 'gayaluisaalmeida@gmail.com', 'lglg32379089'),
-    'PC-I7-9700KF_lgagu': ("token35.json", "credentials5.json", 35, 'lga.gustavo.a@gmail.com', 'LGlg32379089@'),
-    'PC-I7-9700KF_Poker': ("token36.json", "credentials5.json", 36, 'luis.gustavo@engenharia.ufjf.br', 'LGlg32379089@#'),
+    'PC-I5-13400F_PokerIP': ("token34.json", "credentials5.json", 34, 'gayaluisaalmeida@gmail.com', 'lglg32379089'),
+    'PC-I5-13400F_lgagu': ("token35.json", "credentials5.json", 35, 'lga.gustavo.a@gmail.com', 'LGlg32379089@'),
+    'PC-I5-13400F_Poker': ("token36.json", "credentials5.json", 36, 'luis.gustavo@engenharia.ufjf.br', 'LGlg32379089@#'),
 
-    'PC-i3-8145U_PokerIP': ("token37.json", "credentials5.json", 37, 'gayaluisaalmeida@gmail.com', 'lglg32379089')
+    'PC-i3-8145U_PokerIP': ("token37.json", "credentials0.json", 37, 'gayaluisaalmeida@gmail.com', 'lglg32379089'),
+
+    'PC-I7-9700KF_PokerIP': ("token40.json", "credentials5.json", 40, 'gayaluisaalmeida@gmail.com', 'lglg32379089'),
+    'PC-I7-9700KF_lgagu': ("token41.json", "credentials5.json", 41, 'lga.gustavo.a@gmail.com', 'LGlg32379089@'),
+    'PC-I7-9700KF_Poker': ("token42.json", "credentials5.json", 42, 'luis.gustavo@engenharia.ufjf.br', 'LGlg32379089@#')
+
 }
 
 # Acessar o terceiro item da tupla associada à chave 'PC-I7-9700KF_lgagu'
@@ -99,8 +104,10 @@ dicionari_PC_IP = {'PC-I5-8600K': "IP!F3",
                    'PC-I5-13400D': "IP!F27",
                    'PC-R5-5600G': "IP!F30",
                    'PC-I5-13400E': "IP!F33",
-                   'PC-I7-9700KF': "IP!F36",
-                   'PC-i3-8145U': "IP!F39"}
+                   'PC-I5-13400F': "IP!F36",
+                   'PC-i3-8145U': "IP!F39",
+                   'PC-I7-9700KF': "IP!F42"
+                   }
 
 valor_dicionario = dicionari_token_credencial_n[nome_completo]
 valor_pc = valor_dicionario[2]  # numero do computador

@@ -64,8 +64,9 @@ dicionari_PC_IP = {'PC-I5-8600K': ("F3", "modem"),
                    'PC-I5-13400D': ("F27", "modem"),
                    'PC-R5-5600G': ("F30", "modem"),
                    'PC-I5-13400E': ("F33", "modem"),
-                   'PC-I7-9700KF': ("F36", "vero"),
-                   'PC-i3-8145U': ("F39", "modem")}
+                   'PC-I5-13400F': ("F36", "modem"),
+                   'PC-i3-8145U': ("F39", "modem"),
+                   'PC-I7-9700KF': ("F42", "vero")}
 
 # Obter o nome de usuário
 nome_usuario = os.getlogin()
@@ -98,7 +99,7 @@ cont_lista_negra = 0
 
 
 def testa_trocar_IP():
-    if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+    if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
         ip(LIMITE_IP)
         return
@@ -235,7 +236,7 @@ def nao_tem_internet():
 def ip_troca_agora():
     while True:
         print('Troca IP imediatamente')
-        if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+        if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
             # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
             print("Vai par a função de trocar ip")
             conexao()  # chama a função que troca ip
@@ -262,7 +263,7 @@ def ip(LIMITE_IP=6):
 
             if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
 
-                if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+                if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
                     print("Vai par a função de trocar ip")
                     conexao()  # chama a função que troca ip
                     print('espera a internete estar estavel')

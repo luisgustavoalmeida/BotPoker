@@ -74,6 +74,8 @@ dados_config = {
     'PC34': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC35': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC36': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC39': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC42': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
 }
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
