@@ -3,6 +3,7 @@ from time import sleep
 
 import pyautogui
 
+import Limpa
 from Cartas import abre_cartas_premidas
 from Genius import abre_genius, localizar_imagem
 from Limpa import limpa_total
@@ -79,10 +80,11 @@ def genius_joga_vezes_upando(x_origem, y_origem):
     imagem1 = r'Imagens\Genius\tempo6.png'
     precisao = 0.9
 
+    Limpa.limpa_promocao(x_origem, y_origem)
     limpa_total(x_origem, y_origem)
 
     while continua_jogando:  # Permanece jogando Genius Pro até atingir a quantidade de jogadas
-
+        Limpa.limpa_promocao(x_origem, y_origem)
         genius_aberto = abre_genius(x_origem, y_origem)
 
         if genius_aberto:
