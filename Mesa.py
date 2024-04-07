@@ -1185,8 +1185,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                             if level_conta >= 10:
                                 break
-                    else:
-                        gira_niquel(x_origem, y_origem)
+                    # else:
+                        # gira_niquel(x_origem, y_origem)
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if (cont_jogou >= numero_jogadas) and (not recolher):
