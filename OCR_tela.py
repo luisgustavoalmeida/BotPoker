@@ -363,6 +363,9 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     contraste_pre = 1
     contraste_pos = 1.6
 
+    pagina_carregada = True
+    lido_corretamente = True
+
     # Define a região de interesse para a leitura do valor
     regiao_ficha = (x_origem + 43, y_origem + 9, x_origem + 105, y_origem + 21)
 
@@ -375,32 +378,62 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     ]
     for _ in range(500):
         if pyautogui.pixelMatchesColor((x_origem + 121), (y_origem + 15), (255, 210, 77), tolerance=5):
-            print('Valor de ficha no lugar correto')
-            time.sleep(0.3)
+            print('Valor de ficha no lugar pagina carregada')
+            pagina_carregada = True
+            regiao_ficha = (x_origem + 43, y_origem + 9, x_origem + 105, y_origem + 21)
+            break
+        elif pyautogui.pixelMatchesColor((x_origem + 149), (y_origem + 15), (255, 210, 77), tolerance=5):
+            print('Valor de ficha no lugar pagina em carregamento')
+            pagina_carregada = False
+            regiao_ficha = (x_origem + 71, y_origem + 9, x_origem + 105, y_origem + 21)
             break
         time.sleep(0.02)
 
     # Itera sobre cada configuração e realiza o OCR
     for config in configuracoes:
-        # print(config)
         # Realiza o OCR com a configuração atual
         lido = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-        print(lido)
-
+        # print(lido)
         if lido is not None:
             # Converte o valor lido para um formato numérico
             valor = tratar_valor_numerico(lido)
             # Verifica se o valor está dentro da faixa desejada
             if 500 < valor < 50000000:
                 print(f"Valor das fichas: {valor}")
+                lido_corretamente = True
                 break
-                # return valor
             else:
-                print('Valor fora sa feixa esperado')
-                # valor = 0
-        elif lido is None:
-            print('OCR nao recolheceu a imagem')
-            valor = valor_fichas_perfil(x_origem, y_origem)
+                lido_corretamente = False
+                print('Valor fora sa faixa esperada')
+
+    if (not lido_corretamente) and (not pagina_carregada):
+        for _ in range(500):
+            if pyautogui.pixelMatchesColor((x_origem + 121), (y_origem + 15), (255, 210, 77), tolerance=5):
+                print('Valor de ficha no lugar pagina carregada segunda tentativa')
+                break
+            time.sleep(0.02)
+
+        regiao_ficha = (x_origem + 43, y_origem + 9, x_origem + 105, y_origem + 21)
+
+        # Itera sobre cada configuração e realiza o OCR
+        for config in configuracoes:
+            # Realiza o OCR com a configuração atual
+            lido = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+            if lido is not None:
+                # Converte o valor lido para um formato numérico
+                valor = tratar_valor_numerico(lido)
+                # Verifica se o valor está dentro da faixa desejada
+                if 500 < valor < 50000000:
+                    print(f"Valor das fichas: {valor}")
+                    lido_corretamente = True
+                    break
+                else:
+                    lido_corretamente = False
+                    print('Valor fora sa faixa esperada')
+
+    if not lido_corretamente:
+        print('OCR nao recolheceu a imagem')
+        valor = valor_fichas_perfil(x_origem, y_origem)
 
     print('valor_planilha', valor_planilha)
     print('fichas_perfil ', fichas_perfil)
@@ -461,13 +494,6 @@ def valor_fichas_perfil(x_origem, y_origem):
     print('valor_fichas_perfil')
     fichas = 0
 
-    for _ in range(500):
-        if pyautogui.pixelMatchesColor((x_origem + 121), (y_origem + 15), (255, 210, 77), tolerance=5):
-            print('Valor de ficha no lugar correto')
-            time.sleep(0.3)
-            break
-        time.sleep(0.02)
-
     for _ in range(50):
         # clica para abrir a tela do perfil
         pyautogui.click(25 + x_origem, 22 + y_origem)
@@ -498,7 +524,6 @@ def valor_fichas_perfil(x_origem, y_origem):
 
     # Itera sobre cada configuração e realiza o OCR
     for config in configuracoes:
-        # print(config)
         # Realiza o OCR com a configuração atual
         fichas = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
         print(fichas)
