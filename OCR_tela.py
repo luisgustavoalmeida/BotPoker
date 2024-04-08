@@ -1083,10 +1083,10 @@ def limpa_abre_tarefa_3(x_origem, y_origem):  # abre o tarefas
                 or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
             print("Tarefas diarias conta level menor que 4 com cadeado")
             # testa se a tarefa diaria é de conta sem upar ( cadeado )
-            if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 50, 254), tolerance=20):
+            if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 49, 243), tolerance=5):
                 print("Tarefas diarias conta missoes iniciais")
                 return False
-            elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (48, 0, 96), tolerance=20):
+            elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (72, 2, 131), tolerance=5):
                 print("Tarefas diarias limpo conta upada, missoes padroes")
                 return True
 
@@ -1101,14 +1101,14 @@ def limpa_abre_tarefa_3(x_origem, y_origem):  # abre o tarefas
                 pyautogui.doubleClick(x_origem + 193, y_origem + 172)  # clica dentro do tarefas diarias
 
                 # testa se tarefa diariaria esta aberta e limpa
-                if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (48, 0, 96), tolerance=20):
+                if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (72, 2, 131), tolerance=5):
                     print("Tarefas diarias pausa")
                     time.sleep(1.5)
-                    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (48, 0, 96), tolerance=20):
+                    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (72, 2, 131), tolerance=5):
                         print("Tarefas diarias limpo conta upada, missoes padroes")
                         return True
                 # testa se a tarefa diaria é de conta sem upar
-                elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 50, 254), tolerance=20):
+                elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 49, 243), tolerance=5):
                     # pyautogui.click(821 + x_origem, 138 + y_origem) #clique para fechar
                     print("Tarefas diarias, missoes iniciais")
                     return False
