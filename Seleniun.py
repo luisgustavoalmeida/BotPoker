@@ -15,9 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
-import Google
 import IP
 from F5_navegador import atualizar_navegador
+from Google import escrever_celula
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -736,56 +736,24 @@ def busca_link():
 
     print('fez login agurda 7 segundo para a paguna carregar')
     time.sleep(7)
-    print('digita o endereço da fanpage')
-    # Abrir a página do Facebook da qual você deseja obter a última postagem
+    print('Endereço da fanpage')
     pagina_do_facebook = "https://www.facebook.com/people/Poker-Brasil/100064546038812/"
     navegador.get(pagina_do_facebook)
     print('agurade 7 segundas para a pagina carregar')
     time.sleep(7)
-
-    print('rola')
-
     try:
-        # Encontrar todos os elementos de imagem na página
-        elementos_imagem = navegador.find_elements(By.TAG_NAME, 'img')
-
-
-    except TimeoutException:
-        # Se ocorrer um TimeoutException, informe que a imagem não foi encontrada e escreva o erro no arquivo de dados
-        print("Imagem não encontrada na página")
-        Google.escrever_celula("Imagem não encontrada na página", 'Dados', endereco_falha)
-        return
-
-    # Procurar o primeiro link que começa com o padrão especificado
-    teste_url = False
-    try:
-        # Iterar sobre os elementos de imagem e verificar se a URL começa com o padrão desejado
-        for elemento in elementos_imagem:
-            url_imagem = elemento.get_attribute('src')
-            # print(url_imagem)
-            # Verificar se a URL começa com o padrão especificado
-            if url_imagem.startswith("https://external.fjdf2-2.fna.fbcdn.net/emg1"):
-                print("\n\n URL válida: \n\n", url_imagem)
-                # Se encontrar a URL válida, clicar no elemento e sair do loop
-                elemento.click()
-                print("\n\n Clicou na imagem correspondente \n\n ")
-                teste_url = True
+        links = navegador.find_elements(By.CSS_SELECTOR, "a[href]")
+        for link in links:
+            # print(link.get_attribute("href"))
+            href = link.get_attribute("href")
+            if href.startswith("https://l.facebook.com/l.php?u=https%3A%2F%2Fbr-texas.rallyacespoker.com%2Fapplink%"):
+                print(f"Link encontrado: {href}")
+                link.click()
+                print('Espera a pagina ficar carregada...')
+                time.sleep(7)
                 break
-
     except Exception as e:
-        # Se ocorrer uma exceção ao encontrar a URL, informar o erro e escrever no arquivo de dados
-        print('Erro ao encontrar a URL:', str(e))
-        Google.escrever_celula("Erro ao encontrar a URL", 'Dados', endereco_falha)
-        return
-
-    if not teste_url:
-        print('url fora do padrao ou nao encontrada')
-        # Google.escrever_celula('url fora do padrao ou nao encontrada', 'Dados', endereco_falha)
-        pyautogui.click(670, 730)
-        print('clique burro para tentar achar a imagem')
-        # return
-
-    time.sleep(5)
+        escrever_celula("erro ao buscar elemento da pagina", 'Dados', endereco_falha)
 
     # Obtém todos os identificadores de guias abertas
     guias_abertas = navegador.window_handles
@@ -794,10 +762,40 @@ def busca_link():
     if len(guias_abertas) == 2:
 
         print("Existem duas guias abertas, continua.")
-        # Faça algo com as duas guias, se necessário
+        # Alterne o foco para a nova guia (segunda guia)
+        navegador.switch_to.window(navegador.window_handles[1])
+        time.sleep(5)
+        # Pegar o link da barra de endereço do navegador
+        link_da_barra_de_endereco = navegador.current_url
+        # Feche a segunda guia
+        navegador.close()
+        # Volte para a primeira guia, se necessário
+        navegador.switch_to.window(navegador.window_handles[0])
+        # Verificar se a URL começa com o padrão desejado
+        padrao_desejado = "https://apps.facebook.com/pokerbrasil?vtype&amfmethod=appLinkFanPageAward&SignedParams="
+        if link_da_barra_de_endereco.startswith(padrao_desejado):
+            print("A URL começa com o padrão desejado.")
+            print(link_da_barra_de_endereco)
+            print('escreve o link')
+            escrever_celula(link_da_barra_de_endereco, 'Dados', 'F2')
+
+            # Obtenha a data e hora atual
+            data_hora_atual = str(datetime.datetime.now())
+            print('escreve a data da atialização: ', data_hora_atual)
+            if (nome_usuario == "PokerIP") and (nome_computador == "PC-I5-8600K"):
+                escrever_celula(data_hora_atual, 'Dados', endereco_falha)
+            elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
+                escrever_celula(data_hora_atual, 'Dados', endereco_falha)
+
+            print('Link copiado com sucesso')
+            time.sleep(1)
+        else:
+            escrever_celula("link fanpag fora do padrão", 'Dados', endereco_falha)
+            print("link fanpag fora do padrão")
+        return
     else:
         print("Não existem duas guias abertas.")
-        Google.escrever_celula('url fora do padrao ou nao encontrada a imagem com clique burro ', 'Dados', endereco_falha)
+        escrever_celula('url fora do padrao ou nao encontrada a imagem com clique burro ', 'Dados', endereco_falha)
 
         guias_abertas = navegador.window_handles
 
@@ -814,46 +812,19 @@ def busca_link():
             print("Apenas uma guia foi mantida aberta.")
         else:
             print("Apenas uma guia já está aberta.")
+
+        escrever_celula("link nao encontrado", 'Dados', endereco_falha)
         return
 
-    # Alterne o foco para a nova guia (segunda guia)
-    navegador.switch_to.window(navegador.window_handles[1])
-    time.sleep(5)
-    # Pegar o link da barra de endereço do navegador
-    link_da_barra_de_endereco = navegador.current_url
-    # Feche a segunda guia
-    navegador.close()
-    # Volte para a primeira guia, se necessário
-    navegador.switch_to.window(navegador.window_handles[0])
-    # Verificar se a URL começa com o padrão desejado
-    padrao_desejado = "https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams="
-    if link_da_barra_de_endereco.startswith(padrao_desejado):
-        print("A URL começa com o padrão desejado.")
-        print(link_da_barra_de_endereco)
-        print('escreve o link')
-        Google.escrever_celula(link_da_barra_de_endereco, 'Dados', 'F2')
 
-        # Obtenha a data e hora atual
-        data_hora_atual = str(datetime.datetime.now())
-        print('escreve a data da atialização: ', data_hora_atual)
-        if (nome_usuario == "PokerIP") and (nome_computador == "PC-I5-8600K"):
-            Google.escrever_celula(data_hora_atual, 'Dados', endereco_falha)
-        elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
-            Google.escrever_celula(data_hora_atual, 'Dados', endereco_falha)
 
-        print('Link copiado com sucesso')
-        time.sleep(5)
-        return
-    else:
-        Google.escrever_celula("link fanpag fora do padrão", 'Dados', endereco_falha)
-        print("link fanpag fora do padrão")
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-# cria_nevegador()
-#
-# busca_link()
-# time.sleep(10000)
+cria_nevegador()
+
+busca_link()
+time.sleep(10000)
 #
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
 #

@@ -721,10 +721,10 @@ while True:
         print('Mudando de guia')
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
-        # if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
-        #     Seleniun.busca_link()
-        # elif nome_computador == "PC-I7-9700KF":
-        #     Seleniun.busca_link()
+        if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
+            Seleniun.busca_link()
+        elif nome_computador == "PC-I7-9700KF":
+            Seleniun.busca_link()
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
             url = str(Google.pega_valor('Dados', 'F1'))
