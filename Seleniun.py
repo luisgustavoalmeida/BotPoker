@@ -821,10 +821,10 @@ def busca_link():
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-cria_nevegador()
-
-busca_link()
-time.sleep(10000)
+# cria_nevegador()
+#
+# busca_link()
+# time.sleep(10000)
 #
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
 #
