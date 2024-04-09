@@ -1,6 +1,5 @@
 import datetime
 import os
-import socket
 import time
 
 import pyautogui
@@ -18,6 +17,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import IP
 from F5_navegador import atualizar_navegador
 from Google import escrever_celula
+from Requerimentos import nome_computador, nome_usuario
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -25,8 +25,8 @@ pyautogui.FAILSAFE = False
 # def criar_drive():
 # servico = Service(ChromeDriverManager().install())  # criar um objeto Service com o caminho do webdriver
 
-nome_computador = socket.gethostname()
-nome_usuario = os.getlogin()
+# nome_computador = socket.gethostname()
+# nome_usuario = os.getlogin()
 pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie\{nome_usuario}')
 
 options = Options()  # Criar um objeto 'Options' para definir as opções do Chrome
@@ -313,9 +313,14 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                                 clicou_no_segundo = True
                                                 break
                                             time.sleep(1)
+                                        break
                                     if clicou_no_segundo:
                                         break
                                     time.sleep(1)
+
+                                if not clicou_no_segundo:
+                                    atualizar_navegador()
+                                    time.sleep(10)
 
                             if loga_face:
                                 entrou = True
@@ -815,9 +820,6 @@ def busca_link():
 
         escrever_celula("link nao encontrado", 'Dados', endereco_falha)
         return
-
-
-
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo

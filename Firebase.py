@@ -8,7 +8,7 @@ import pyrebase
 import requests
 from requests.exceptions import ConnectionError
 
-from Google import dicionari_token_credencial_n, numero_pc
+from Requerimentos import dicionari_token_credencial_n, numero_pc, nome_computador, nome_usuario, nome_completo
 
 # importa o dicionário com os nomes dos computadores e o námero referete a cada um
 # from Parametros import dicionari_token_credencial_n
@@ -74,8 +74,15 @@ dados_config = {
     'PC34': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC35': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC36': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC37': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC38': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC39': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC40': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC41': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
     'PC42': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC43': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC44': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
+    'PC45': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5', 'blind_recolher_auto': '100200'},
 }
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
@@ -100,11 +107,11 @@ lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'Thiago-PC')
 teve_atualizacao = False
 comando_escravo = None
 
-nome_computador = socket.gethostname()
+# nome_computador = socket.gethostname()
 # print('nome_computador', nome_computador)
-nome_usuario = os.getlogin()
-
-nome_completo = nome_computador + "_" + nome_usuario
+# nome_usuario = os.getlogin()
+#
+# nome_completo = nome_computador + "_" + nome_usuario
 
 
 # # Acessar o terceiro item da tupla associada à chave 'PC-I7-9700KF_lgagu'
@@ -528,93 +535,4 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
-#
-# contagem = contar_pessoas_mesa('1045')
-# print(contagem)
-# # Exemplo de uso
-# resultado = contar_pessoas_mesa('1234')
-#
-# # Imprime o resultado
-# print(resultado)
-
-
-# # Exemplo de uso
-# contagem, dicionario = contar_ocupacao_mesa('1234')
-#
-# # Imprime o resultado
-# print(contagem, dicionario)
-
-
-# # Exemplo de uso
-# frequencia_100200 = contar_ocupacao_mesa('100200')
-# frequencia_200400 = contar_ocupacao_mesa('200400')
-#
-# print(f"Frequência de '100200': 'sentado': {frequencia_100200}")
-# print(f"Frequência de '200400': 'sentado': {frequencia_200400}")
-
-
-# Chama a função para escrever os dados de configuração no banco de dados Firebase
-# dados_config = "teste"
-# print(numero_pc)
-# numero_pc = 'PC35'
-# comando = {numero_pc: {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '4:40:5'}}
 # escreve_configuracao(dados_config)
-
-# atualizar_configuracao_pc()
-
-
-# pc_statos = {'200400': 'sentado'}
-# #
-# atualizar_estatos_mesa('1231')
-#
-# # Imprimir o terceiro item
-# print("Numero computador:", numero_pc)
-#
-# # Chama a função para ler os dados de configuração do banco de dados Firebase
-# confg_funcao, campo2 = ler_configuracao()
-#
-# print(confg_funcao, campo2)
-
-# print(dados_lidos)
-
-# caminho = "Resposta1/PC01"
-#
-# def escrever_informacoes_aleatorias():
-#
-#     # Gere uma informação aleatória (por exemplo, um número aleatório)
-#     informacao_aleatoria = random.randint(1, 100)
-#     try:
-#         # Escreva a informação aleatória no banco de dados Firebase
-#         db.child(caminho).set(informacao_aleatoria)
-#         print(f"Informação aleatória {informacao_aleatoria} escrita com sucesso em {caminho}")
-#     except Exception as e:
-#         print(f"Ocorreu um erro ao escrever a informação: {str(e)}")
-
-# def loop_infinito():
-#     global global_variables
-#     while True:
-#         print(global_variables)
-#         escrever_informacoes_aleatorias()
-
-
-# loop_infinito()
-
-
-# Mantenha o programa em execução para continuar recebendo as atualizações
-# while True:
-#     time.sleep(10)
-#     variavel = obter_dado()
-#     print('ta rodando')
-#     print(variavel)
-#     pass
-
-
-# escrever_dado("Comandos/PC01/Teste", "Firebase!")
-#
-# ler_dado("Comandos/PC01/Teste")
-
-# confirmacao_escravo("funciona")
-# escreve_resposta_escravo("funciona")
-
-
-# comando_escravo()

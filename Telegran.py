@@ -2,9 +2,9 @@ import asyncio
 
 from telegram import Bot
 
-from Google import numero_pc
+from Requerimentos import numero_pc
 
-token = '6446494638:AAE5lkb9s74m_5R8DE-z2uDqt5PrYEQUTo8'
+token_telegran = '6446494638:AAE5lkb9s74m_5R8DE-z2uDqt5PrYEQUTo8'
 chat_id = '-1001971264843'
 
 MAX_TENTATIVAS = 3
@@ -25,8 +25,8 @@ async def enviar_mensagem(mensagem, disable_notification=False):
         True se a mensagem foi enviada com sucesso, False caso contrário.
     """
     try:
-        # Inicializa o bot com o token fornecido
-        bot = Bot(token)
+        # Inicializa o bot com o token_telegran fornecido
+        bot = Bot(token_telegran)
         # Envia a mensagem para o chat especificado
         await bot.send_message(chat_id=chat_id, text=mensagem, disable_notification=disable_notification)
         return True
