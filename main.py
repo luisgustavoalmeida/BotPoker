@@ -1,6 +1,4 @@
 import datetime
-import os
-import socket
 import threading
 import time
 
@@ -25,13 +23,9 @@ import Slot
 import Tarefas
 import Telegran
 from Firebase import ler_configuracao
+from Requerimentos import nome_computador, nome_usuario
 
-# Obter o nome de usuário
-nome_usuario = os.getlogin()
-# Obter o nome do computador
-nome_computador = socket.gethostname()
-
-Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', True)
+Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
 LIMITE_IP = 6
 
@@ -44,11 +38,7 @@ confg_funcao = 'roleta_auto'
 confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
-# senha = ""
-# fichas = ""
-# linha = ""
 cont_IP = 10
-# level = ''
 blind = ""
 lugares = ""
 guia_anterior = ""
@@ -95,7 +85,6 @@ def tarefa_independente():
         # Aguardar o comando para iniciar a execução
         iniciar_tarefa.acquire()
         print("\n Executando tarefa independente...\n")
-
         # Verificar se a tarefa deve continuar executando ou parar
         if continuar_tarefa:
 
@@ -170,11 +159,6 @@ def logar_carregar():
         Telegran.monta_mensagem(f'Padrao de configuração não esperado na função logar_carregar. ', True)
         stataus_facebook = 'confg_funcao fora do padrão'
         entrou_corretamente = False
-
-    # print('\n Manda iniciar a tarefa independete\n ')
-    # # Comando para iniciar a tarefa independente
-    # continuar_tarefa = True
-    # iniciar_tarefa.release()
 
     if stataus_facebook == "Logou so face":
         return False

@@ -1,6 +1,5 @@
 import datetime
 import random
-import socket
 import time
 
 import pyautogui
@@ -13,17 +12,12 @@ import Tarefas
 import Telegran
 import xp2
 from F5_navegador import atualizar_navegador
+from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa
+from Requerimentos import nome_computador
+from UparAuto import upar
 
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
-
-from UparAuto import upar
-from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa
-
-# import Firebase
-# from Firebase import confirmacao_comando_resposta, comando_escravo, comando_coleetivo_escravo_escravo
-
-nome_computador = socket.gethostname()
 
 indice_inicial = 0
 
@@ -1186,7 +1180,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             if level_conta >= 10:
                                 break
                     # else:
-                        # gira_niquel(x_origem, y_origem)
+                    # gira_niquel(x_origem, y_origem)
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if (cont_jogou >= numero_jogadas) and (not recolher):

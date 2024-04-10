@@ -1,5 +1,3 @@
-import os
-import socket
 import time
 
 import pyautogui
@@ -8,17 +6,12 @@ import pyautogui
 import IP
 from F5_navegador import atualizar_navegador
 from ListaIpFirebase import escrever_IP_banido
+from Requerimentos import nome_computador, nome_usuario
 from Seleniun import teste_logado
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
-
 pyautogui.PAUSE = 0
-
-# Obter o nome do computador
-nome_computador = socket.gethostname()
-# Obter o nome de usuário
-nome_usuario = os.getlogin()
 
 # Define o nome do arquivo da imagem a ser buscada
 origem = r'Imagens\Origem.png'
