@@ -15,9 +15,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 import IP
+import Telegran
 from F5_navegador import atualizar_navegador
 from Google import escrever_celula
-from Requerimentos import nome_computador, nome_usuario
+from Requerimentos import nome_usuario
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -156,9 +157,6 @@ def pega_url():
             print("Erro ao obter o URL do navegador, erro: ", e)
             IP.tem_internet()
             print(" clica no atualizar a pagina, atualizar")
-            # pyautogui.press('f5')
-            # navegador.get(url)
-            # pyautogui.click(85, 60)
             atualizar_navegador()
             time.sleep(15)
 
@@ -201,8 +199,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         IP.tem_internet()
         # print('continua login')
         url_atual = pega_url()
-
-        # print(url_atual)
 
         if (("/login/" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')
@@ -783,19 +779,16 @@ def busca_link():
             print(link_da_barra_de_endereco)
             print('escreve o link')
             escrever_celula(link_da_barra_de_endereco, 'Dados', 'F2')
-
             # Obtenha a data e hora atual
             data_hora_atual = str(datetime.datetime.now())
             print('escreve a data da atialização: ', data_hora_atual)
-            if (nome_usuario == "PokerIP") and (nome_computador == "PC-I5-8600K"):
-                escrever_celula(data_hora_atual, 'Dados', endereco_falha)
-            elif (nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF"):
-                escrever_celula(data_hora_atual, 'Dados', endereco_falha)
-
+            escrever_celula(data_hora_atual, 'Dados', endereco_falha)
+            Telegran.monta_mensagem(f'Link fan page feito com sucesso. ', False)
             print('Link copiado com sucesso')
-            time.sleep(1)
+            return
         else:
             escrever_celula("link fanpag fora do padrão", 'Dados', endereco_falha)
+            Telegran.monta_mensagem(f'FALHA LINK FAN PAGE. ATENÇÃO!!!', False)
             print("link fanpag fora do padrão")
         return
     else:
@@ -819,6 +812,7 @@ def busca_link():
             print("Apenas uma guia já está aberta.")
 
         escrever_celula("link nao encontrado", 'Dados', endereco_falha)
+        Telegran.monta_mensagem(f'FALHA LINK FAN PAGE. ATENÇÃO!!!', False)
         return
 
 ######################################################################################################################
