@@ -384,7 +384,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                             EC.element_to_be_clickable((By.CSS_SELECTOR, elemento_seletor)))
                                         elemento_clicavel.click()
                                         print("Clicou em: ", elemento)
-                                        time.sleep(5)
+                                        if elemento_clicavel:
+                                            time.sleep(5)
                                         encontrou = True
                                     except Exception as e:  # Corrigido o erro aqui, "as e" ao invés de "e Exception:"
                                         print("Elememto para clicar não encontrado: ", elemento, e)
@@ -455,7 +456,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                         elemento_clicavel.click()
                                         print('cicou no elemento :', elemento)
                                         elemento_clicavel_encontrado = True
-                                        time.sleep(4)
+                                        if elemento_clicavel:
+                                            time.sleep(4)
                                     except Exception as e:  # Corrigido o erro aqui, "as e" ao invés de "e Exception:"
                                         print("Elememto para clicar não encontrado: ", elemento)
                                         # print(e)
@@ -465,13 +467,14 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     xpath_expression = f"//span[text()='{elemento}']"
                                     try:
                                         # Esperar até que o elemento seja clicável (nesse caso, esperaremos até 10 segundos)
-                                        elemento = WebDriverWait(navegador, 0.5).until(EC.element_to_be_clickable((By.XPATH, xpath_expression)))
+                                        elementoa = WebDriverWait(navegador, 0.5).until(EC.element_to_be_clickable((By.XPATH, xpath_expression)))
 
                                         # Clicar no elemento
-                                        elemento.click()
-                                        print('cicou no elemento :', elemento)
+                                        elementoa.click()
+                                        print('cicou no elemento :', elementoa)
                                         elemento_clicavel_encontrado = True
-                                        time.sleep(4)
+                                        if elementoa:
+                                            time.sleep(4)
                                     except Exception as e:
                                         print(f"Elemento para clicar não encontrado: {elemento}")
                                         # print(e)

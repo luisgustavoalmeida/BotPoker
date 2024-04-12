@@ -34,6 +34,7 @@ y_origem = 266
 
 id = "x"
 guia = ""
+guia_anterior = ""
 confg_funcao = 'roleta_auto'
 confg_funcao_anterior = ''
 blind_recolher_auto = ''
@@ -41,10 +42,8 @@ blind_recolher_auto = ''
 cont_IP = 10
 blind = ""
 lugares = ""
-guia_anterior = ""
 posi_lista = 0
 
-# Variáveis globais para as variáveis e controle da tarefa independente
 time_id = 0
 id_novo = "x"
 senha_novo = ''

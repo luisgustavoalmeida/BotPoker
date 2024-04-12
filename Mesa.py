@@ -794,7 +794,7 @@ def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200):
     return aposta, auto10
 
 
-def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
+def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=9):
     print('sala_minima_niquel')
     if blind_mesa == "12":
         pyautogui.doubleClick(130 + x_origem, 200 + y_origem)  # clica na lista de iniciantes
@@ -857,15 +857,16 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa):
                     # testa se esta dentro da mesa
                     # Limpa.limpa_jogando(x_origem, y_origem)
 
+                    if not mesa_sem_humanos(x_origem, y_origem, lugares):
+                        print('Sai da mesa pq tem humanos')
+                        return False, True
+
+
                     num_sala = OCR_tela.numero_sala(x_origem, y_origem)
-                    print("num_sala", num_sala)
-                    print('num_mesa', num_mesa)
+                    print("num_sala", num_sala, 'num_mesa', num_mesa)
 
                     if num_sala == num_mesa:
                         print("Esta na sala certa")
-                        if not mesa_sem_humanos(x_origem, y_origem):
-                            print('Sai da mesa pq tem humanos')
-                            return False, True
                         return True, True
                     else:
                         print("Esta na sala errada")
@@ -999,7 +1000,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
                     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
                         return "sair da conta"
                     # blind_certo = escolher_blind(x_origem, y_origem, '20/40')
-                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa)
+                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=5)
                     if not sala_existe:
                         # Remova o item da posição específica
                         item_removido = lista_salas_niquel.pop(indice)
@@ -1302,7 +1303,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     IP.tem_internet()
                     Limpa.limpa_jogando(x_origem, y_origem)
                     Limpa.limpa_total(x_origem, y_origem)
-                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa)
+                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=5)
 
                     if not sala_existe:
                         # Remova o item da posição específica

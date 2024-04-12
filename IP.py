@@ -12,7 +12,7 @@ import requests
 
 import Google
 import ListaIpFirebase
-import Seleniun
+from Seleniun import teste_logado
 from F5_navegador import atualizar_navegador
 
 # Desabilitar o fail-safe
@@ -126,7 +126,7 @@ def f5_quando_internete_ocila():
                     except Exception as e:
                         print('erro autogui: ', e)
 
-                    entrou_corretamente, stataus = Seleniun.teste_logado()
+                    entrou_corretamente, stataus = teste_logado()
                 return True
         except Exception as e:
             print("Sem conexão com a internet...")

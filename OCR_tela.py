@@ -498,7 +498,7 @@ def valor_fichas_perfil(x_origem, y_origem):
     print('valor_fichas_perfil')
     fichas = 0
 
-    for _ in range(50):
+    for _ in range(100):
         # clica para abrir a tela do perfil
         pyautogui.click(25 + x_origem, 22 + y_origem)
         pyautogui.click(35 + x_origem, 22 + y_origem)
@@ -795,7 +795,7 @@ def tarefas_diaris(x_origem, y_origem):
                         if item not in lista:
                             # inclui na lista o itens nao repitidos
                             lista.append(item)
-        time.sleep(2)
+        # time.sleep(2)
 
     return lista
 
