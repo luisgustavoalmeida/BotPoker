@@ -436,8 +436,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     status = item
                                     entrou = False
                                     return entrou, status
-                                except NoSuchElementException:
-                                    continue
+                                except Exception as e:
+                                    print(f'Elemento "{item}" não encontrado')
 
                             # lista de elemento clicaveis
                             elementos_para_clicar = [
@@ -445,40 +445,20 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 'Usar esta atividade', 'Usar gratuitamente', 'Concordo', 'Concordo', 'Fechar', 'Manter jogos sociais',
                                 'Confirmar', 'Concluir'
                             ]
-                            time.sleep(3)
+
                             for _ in range(2):
                                 for elemento in elementos_para_clicar:
                                     print("procura: ", elemento)
-                                    elemento_seletor = f'div[aria-label="{elemento}"]'
-                                    try:
-                                        elemento_clicavel = WebDriverWait(navegador, 0.5).until(
-                                            EC.element_to_be_clickable((By.CSS_SELECTOR, elemento_seletor)))
-                                        elemento_clicavel.click()
-                                        print('cicou no elemento :', elemento)
-                                        elemento_clicavel_encontrado = True
-                                        if elemento_clicavel:
-                                            time.sleep(4)
-                                    except Exception as e:  # Corrigido o erro aqui, "as e" ao invés de "e Exception:"
-                                        print("Elememto para clicar não encontrado: ", elemento)
-                                        # print(e)
-                                        continue
+                                    # Tentativa de clicar usando CSS
+                                    seletor_css = f'div[aria-label="{elemento}"]'
+                                    elemento_clicado = clicar_por_css(navegador, elemento)
 
-                                    # Construir a expressão XPath para o elemento atual na lista
-                                    xpath_expression = f"//span[text()='{elemento}']"
-                                    try:
-                                        # Esperar até que o elemento seja clicável (nesse caso, esperaremos até 10 segundos)
-                                        elementoa = WebDriverWait(navegador, 0.5).until(EC.element_to_be_clickable((By.XPATH, xpath_expression)))
-
-                                        # Clicar no elemento
-                                        elementoa.click()
-                                        print('cicou no elemento :', elementoa)
-                                        elemento_clicavel_encontrado = True
-                                        if elementoa:
-                                            time.sleep(4)
-                                    except Exception as e:
-                                        print(f"Elemento para clicar não encontrado: {elemento}")
-                                        # print(e)
-                                        continue
+                                    # Se o clique por CSS falhar, tente por XPath
+                                    if not elemento_clicado:
+                                        elemento_clicado =clicar_por_xpath(navegador, elemento)
+                                    if elemento_clicado:
+                                        print('\nEspera carregar a proxima interação\n')
+                                        time.sleep(5)
 
                             if not elemento_clicavel_encontrado:
                                 print("Nenhum elemento para clicar foi encontrado.")
@@ -511,8 +491,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 status = item
                                 entrou = False
                                 return entrou, status
-                            except NoSuchElementException:
-                                continue
+                            except Exception as e:
+                                print(f'Elemento "{item}" não encontrado')
+
 
                 print("Não carregou o poker")
                 entrou = False
@@ -529,6 +510,31 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
             print('Padrao de URL não esperado')
             time.sleep(5)
             sair_face(url)
+
+
+# Função para encontrar e clicar em um elemento usando CSS
+def clicar_por_css(driver, elemento):
+    try:
+        seletor_css = f'div[aria-label="{elemento}"]'
+        elemento_clicavel = WebDriverWait(driver, 0.5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, seletor_css)))
+        elemento_clicavel.click()
+        print(f'Clicado no elemento {elemento} usando CSS: {seletor_css}')
+        return True
+    except Exception as e:
+        print(f'Elemento "{elemento}" não encontrado usando CSS: {seletor_css}')
+        return False
+
+# Função para encontrar e clicar em um elemento usando XPath
+def clicar_por_xpath(driver, elemento):
+    try:
+        seletor_xpath = f"//span[text()='{elemento}']"
+        elemento_clicavel = WebDriverWait(driver, 0.5).until(EC.element_to_be_clickable((By.XPATH, seletor_xpath)))
+        elemento_clicavel.click()
+        print(f'Clicado no elemento {elemento} usando XPath: {seletor_xpath}')
+        return True
+    except Exception as e:
+        print(f'Elemento "{elemento}" não encontrado usando XPath: {seletor_xpath}')
+        return False
 
 
 def abrir_fechar_guia(max_tentativas=5):
