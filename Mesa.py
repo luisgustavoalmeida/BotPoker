@@ -385,6 +385,7 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
 
     print('sentar_mesa')
     sentou = False
+    ficha_suficiente = True
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 65, 109), tolerance=5):
         print('possivel aviso so sistema, roda um limpa jogando')
         Limpa.limpa_jogando(x_origem, y_origem)
@@ -400,7 +401,8 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
             # testa se tem o botao jogar agoar apara seber se ja ta sentado
             # print('Já está sentado')
             sentou = True
-            return sentou
+            ficha_suficiente = True
+            return sentou, ficha_suficiente
         else:
             blind_sala = OCR_tela.blind_sala(x_origem, y_origem)
             try:
@@ -412,13 +414,16 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                 print("Sentar mesa: Está na sala certa")
             else:
                 print("Sentar mesa: Está na sala errada")
-                return False
+                sentou = False
+                ficha_suficiente = True
+                return sentou, ficha_suficiente
 
             if teste_celular:
                 if not mesa_sem_humanos(x_origem, y_origem):
                     print('Sai da mesa pq tem humanos')
                     sentou = False
-                    return sentou
+                    ficha_suficiente = True
+                    return sentou, ficha_suficiente
 
             for _ in range(9):
                 print('Tentando sentar')
@@ -505,37 +510,42 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
                                         print('Desculpex vocês nao possui fichas suficientes para senter. Favor ir a uma sala ou faça uma recarga')
                                         sentou = False
-                                        return sentou
+                                        ficha_suficiente = False
+                                        return sentou, ficha_suficiente
 
                                     elif pyautogui.pixelMatchesColor((x_origem + 373), (y_origem + 339), (63, 92, 123), tolerance=5):
                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
                                         print('Desculpe! Não possui fichas suficientes')
                                         sentou = False
-                                        return sentou
+                                        ficha_suficiente = False
+                                        return sentou, ficha_suficiente
 
                                     elif pyautogui.pixelMatchesColor((x_origem + 340), (y_origem + 336), (33, 66, 103), tolerance=5):
                                         # Você não pode jogar com duas contas ao mesmo tempo
                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
                                         print('Você não pode jogar com duas contas ao mesmo tempo')
                                         sentou = False
-                                        return sentou
+                                        ficha_suficiente = False
+                                        return sentou, ficha_suficiente
 
                                     elif pyautogui.pixelMatchesColor((x_origem + 369), (y_origem + 341), (33, 66, 103), tolerance=5):
                                         # Este lugar ja foi ocupado
                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
                                         print("Este lugar ja foi ocupado")
                                         sentou = False
-                                        # tenta sentar em outra cadeira
+                                        ficha_suficiente = True
                                         break
                                     else:
                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
                                         print('outro amensagem com aviso do sistema')
+                                        ficha_suficiente = True
                                         break
 
                                 else:
                                     print('sentar_mesa: Sentou')
                                     sentou = True
-                                    return sentou
+                                    ficha_suficiente = True
+                                    return sentou, ficha_suficiente
 
                         elif (pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas,
                                                           tolerance=10) or pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y,
@@ -544,13 +554,14 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                             pyautogui.click((x_origem + 641), (y_origem + 278), button='left')  # clica no fechar mensagem de nao tem fichas
                             print("Não possui fichas suficiente")
                             sentou = False
-                            return sentou
+                            ficha_suficiente = False
+                            return sentou, ficha_suficiente
                 else:
                     print('Não tem cadeira livre')
                     break
 
     print('Não está dentro da mesa')
-    return sentou
+    return sentou, ficha_suficiente
 
 
 def escolher_blind(x_origem, y_origem, blind, lugares=9, posi_lista=0):
@@ -955,7 +966,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
             Limpa.limpa_jogando(x_origem, y_origem)
             Limpa.limpa_promocao(x_origem, y_origem)
 
-        sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa)
+        sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa)
         # print("Sentou : ", sentou)
 
         if sentou:
@@ -1010,7 +1021,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
                     if blind_certo:
                         aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta)
 
-                        sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa)
+                        sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa)
 
                         if sentou and aposta and auto10:
                             print('esta tudo ok, slote e sentado')
@@ -1088,7 +1099,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
     Limpa.limpa_promocao(x_origem, y_origem)
-    sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+    sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
 
     time_encher_mesa = time_comecou = time_fazer_jogada = time.perf_counter()
 
@@ -1097,11 +1108,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if datetime.datetime.now().time() > datetime.time(23, 00, 0):
         continua_jogando = False
+    if not ficha_suficiente:
+        continua_jogando = False
 
     while continua_jogando:  # permanece joghando
 
         if reinicia_variaveis:
             print('reiniciando as variaveis')
+            if recolher:
+                atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1112,8 +1127,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             sentou = False
             cont_limpa_jogando = 45
             time_encher_mesa = time_fazer_jogada = time.perf_counter()
-            if recolher:
-                atualizar_estatos_mesa('tempo estourado' + num_mesa)
             reinicia_variaveis = False
 
         cont_limpa_jogando += 1
@@ -1132,7 +1145,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 Limpa.limpa_jogando(x_origem, y_origem)
                 Limpa.limpa_promocao(x_origem, y_origem)
 
-            sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+            sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+
+            if (not sentou) and recolher:
+                atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
 
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
@@ -1143,6 +1159,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
             # Impressão do tempo decorrido
             print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
+
+            if not ficha_suficiente:
+                print('Não tem fichas suficientes')
+                break
 
             if (tempo_decorrido >= 300) and (not upar) and (not recolher):
                 print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
@@ -1316,8 +1336,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200)
                         else:
                             aposta, auto10 = True, True
-                        sentou = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
-                        if sentou and aposta and auto10:
+                        sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+                        if sentou and aposta and auto10 and ficha_suficiente:
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)

@@ -453,9 +453,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     seletor_css = f'div[aria-label="{elemento}"]'
                                     elemento_clicado = clicar_por_css(navegador, elemento)
 
-                                    # Se o clique por CSS falhar, tente por XPath
                                     if not elemento_clicado:
-                                        elemento_clicado =clicar_por_xpath(navegador, elemento)
+                                        # Se o clique por CSS falhar, tente por XPath
+                                        elemento_clicado = clicar_por_xpath(navegador, elemento)
                                     if elemento_clicado:
                                         print('\nEspera carregar a proxima interação\n')
                                         elemento_clicavel_encontrado = True
@@ -495,7 +495,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             except Exception as e:
                                 print(f'Elemento "{item}" não encontrado')
 
-
                 print("Não carregou o poker")
                 entrou = False
                 status = "Não ok, outro"
@@ -524,6 +523,7 @@ def clicar_por_css(driver, elemento):
     except Exception as e:
         print(f'Elemento "{elemento}" não encontrado usando CSS: {seletor_css}')
         return False
+
 
 # Função para encontrar e clicar em um elemento usando XPath
 def clicar_por_xpath(driver, elemento):

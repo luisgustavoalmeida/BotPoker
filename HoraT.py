@@ -5,15 +5,15 @@ import IP
 
 guias = ["R1", "R2", "R3", "R4", "R5"]
 
-faixa_tempo = 4000 # janela de tempo para sair das contas no tarefas
+faixa_tempo = 4000# janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
-hora_roleta = 4
-minutos_roleta = 40
+hora_roleta = 5
+minutos_roleta = 0
 tempo_total_ciclo = 5
 
 
-def mudar_guia(id, guia, config_tempo_roleta='4:40:5'):
+def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
     global tempo_total, tempo_tarefa, tempo_total_ciclo, hora_roleta, minutos_roleta
     print('mudar_guia', config_tempo_roleta)
 

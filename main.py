@@ -503,7 +503,7 @@ def recolher():
         elif comando == "Senta":
             comando = 'Executado'
             if Mesa.cadeiras_livres(x_origem, y_origem, lugares=lugares):
-                sentou = Mesa.sentar_mesa(x_origem, y_origem, True, blind, True)
+                sentou, ficha_suficiente = Mesa.sentar_mesa(x_origem, y_origem, True, blind, True)
                 if sentou:
                     Recolher.mesa_recolher(x_origem, y_origem, 2, blind, sorte)
                 else:
@@ -518,7 +518,7 @@ def recolher():
             # Começa ja apostando na primeira jogada
             comando = 'Executado'
             if Mesa.cadeiras_livres(x_origem, y_origem, lugares=lugares):
-                sentou = Mesa.sentar_mesa(x_origem, y_origem, True, blind, True)
+                sentou, ficha_suficiente = Mesa.sentar_mesa(x_origem, y_origem, True, blind, True)
                 if sentou:
                     Recolher.mesa_recolher(x_origem, y_origem, 1, blind, sorte)
                 else:

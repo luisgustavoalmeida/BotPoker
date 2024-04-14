@@ -8,7 +8,6 @@ import cv2
 import numpy
 import pyautogui
 import pytesseract
-# import Origem_pg
 from fuzzywuzzy import fuzz
 
 import IP
@@ -796,7 +795,7 @@ def tarefas_diaris(x_origem, y_origem):
                             # inclui na lista o itens nao repitidos
                             lista.append(item)
         # time.sleep(2)
-
+    print(lista)
     return lista
 
 
@@ -1453,33 +1452,3 @@ def level_conta(x_origem, y_origem):
         time.sleep(0.5)
     print('Erro na leitura do nivel da comta')
     return level, fichas
-
-# aviso_do_sistema()
-# x_origem, y_origem = Origem_pg.x_y()
-# valor_fichas(x_origem, y_origem)
-# valor_fichas_perfil(x_origem, y_origem)
-# numero_sala(x_origem, y_origem)
-# blind_sala(x_origem, y_origem)
-# valor_fichas_perfil(x_origem, y_origem)
-# tarefas_diaris_upando(x_origem, y_origem)
-# level_conta(x_origem, y_origem)
-# numero_sala(x_origem, y_origem)
-# tarefas_diaris_upando(x_origem, y_origem)
-# pontuacao_tarefas(x_origem, y_origem)
-# level_conta(x_origem, y_origem)
-# pontuacao_tarefas(x_origem, y_origem)
-# valor_fichas(x_origem, y_origem)
-# tarefas_diaris_trocar(x_origem, y_origem)
-# tarefas_diaris(x_origem, y_origem)
-# print(y_origem)
-# valor_apostar(x_origem, y_origem)
-# blind_sala(x_origem, y_origem)
-# print(valor)
-# lista_tarefas_disponivel = tarefas_diaris(x_origem, y_origem)
-# print(lista_tarefas_disponivel)
-# tempo_roleta(x_origem, y_origem)
-# lido = valor_fichas(x_origem, y_origem)
-# print(lido)
-# pontuacao_tarefas(x_origem, y_origem)
-# def rola_tarefa_0():
-# pyautogui.click(708 + x_origem, 426 + y_origem, button='left')
