@@ -585,7 +585,7 @@ def identifica_funcao():
         print(e)
         print('Sera usado o pradrao roleta_auto')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '4:40:5'
+        config_tempo_roleta = '5:00:5'
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
@@ -599,7 +599,7 @@ def identifica_funcao():
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '4:40:5'
+        config_tempo_roleta = '5:50:5'
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
 
     if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':

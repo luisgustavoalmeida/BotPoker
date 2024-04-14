@@ -26,13 +26,13 @@ def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
                     hora_roleta = int(tempo_separado[0])
                 except ValueError:
                     print("Erro: A hora não é um número válido")
-                    hora_roleta = 4
+                    hora_roleta = 5
 
                 try:
                     minutos_roleta = int(tempo_separado[1])
                 except ValueError:
                     print("Erro: Os minutos não são um número válido")
-                    minutos_roleta = 40
+                    minutos_roleta = 00
 
                 try:
                     tempo_total_ciclo = int(tempo_separado[2])
