@@ -458,6 +458,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                         elemento_clicado =clicar_por_xpath(navegador, elemento)
                                     if elemento_clicado:
                                         print('\nEspera carregar a proxima interação\n')
+                                        elemento_clicavel_encontrado = True
                                         time.sleep(5)
 
                             if not elemento_clicavel_encontrado:
