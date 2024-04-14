@@ -24,6 +24,7 @@ import Tarefas
 import Telegran
 from Firebase import ler_configuracao
 from Requerimentos import nome_computador, nome_usuario
+from colorama import Fore, Back, Style, init, deinit
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -83,7 +84,7 @@ def tarefa_independente():
     while True:
         # Aguardar o comando para iniciar a execução
         iniciar_tarefa.acquire()
-        print("\n Executando tarefa independente...\n")
+        print(Fore.BLUE + "Executando tarefa independente..." + Fore.RESET)
         # Verificar se a tarefa deve continuar executando ou parar
         if continuar_tarefa:
 
@@ -107,10 +108,10 @@ def tarefa_independente():
             time_id = time.perf_counter()
             continuar_tarefa = False
             # Indicar que a tarefa terminou e está pronta para aguardar novo comando
-            print("\n Tarefa independente finalizada\n")
+            print(Fore.BLUE + "Tarefa independente finalizada" + Fore.RESET)
             tarefa_concluida.release()
         else:
-            print("\n Tarefa independente parada.\n")
+            print(Fore.BLUE + "Tarefa independente parada.\n" + Fore.RESET)
             # Indicar que a tarefa terminou de executar
             tarefa_concluida.release()
 
@@ -126,7 +127,7 @@ def logar_carregar():
     time_atual = time.perf_counter()
     time_decorrido_id = time_atual - time_id
 
-    print('Entando em uma nova conta id / senha / cont_IP / time_decorrido_id: ', id, senha, cont_IP, time_decorrido_id)
+    print(Fore.GREEN + f'Entando em uma nova conta id: {id}, senha: {senha}, cont_IP: {cont_IP}' + Fore.RESET)
 
     if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
