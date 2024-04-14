@@ -50,7 +50,7 @@ if errorlevel 9 (
     echo.
     git reset --hard origin/main
     echo.
-    echo    Repositorio substituido com sucesso!
+    echo    Repositorio substitution com sucesso!
     echo.
     pause
     goto :inicio
@@ -86,7 +86,7 @@ if errorlevel 9 (
     python main.py
 ) else if errorlevel 4 (
     echo.
-    echo    Recolher automatico selecionado.
+    echo    Recolher automático selecionado.
     echo.
     python InicializarRecolherAuto.py
     python main.py
