@@ -1,4 +1,7 @@
 @echo off
+REM Enable UTF-8 character support
+chcp 65001
+cls
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
 
@@ -27,8 +30,8 @@ echo        4. Recolher Automático.
 echo        5. Entrar no Facebook.
 echo        6. Interface de comando e controle.
 echo        7. Instalar bibliotecas Python via comando pip.
-echo        8. Atualizar repositorio local com GitHub.
-echo        9. Substitui repositorio local pelo do GitHub.
+echo        8. Atualizar repositório local com GitHub.
+echo        9. Substitui repositório local pelo do GitHub.
 echo.
 git status | findstr /C:"Your branch is behind" >nul
 if errorlevel 1 (
@@ -37,6 +40,8 @@ if errorlevel 1 (
     echo.
 ) else (
     echo.
+    echo                - A T E N Ç Ã O -
+    echo.
     echo    - Novas atualizações disponíveis no GitHub!
     echo.
 )
@@ -44,10 +49,10 @@ echo.
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"
 REM Pergunta ao usuário
-echo    Aguardando resposta.
+echo    Aguardando resposta...
 echo.
 echo    Voce tem %tempo_espera% segundos para escolher ou sera iniciado o
-echo    Script Principal.
+echo    'Script Principal'.
 echo.
 choice /c 123456789 /t %tempo_espera% /d 1 /m "   Escolha: "
 REM se nao imfornar nada cai no primeiro item da lista
