@@ -15,6 +15,8 @@ echo   **                                                          **
 echo   **************************************************************
 :inicio
 echo.
+git fetch origin
+echo.
 REM Opções
 echo   **                 O que voce deseja fazer?                 **
 echo.
@@ -27,6 +29,17 @@ echo        6. Interface de comando e controle.
 echo        7. Instalar bibliotecas Python via comando pip.
 echo        8. Atualizar repositorio local com GitHub.
 echo        9. Substitui repositorio local pelo do GitHub.
+echo.
+git status | findstr /C:"Your branch is behind" >nul
+if errorlevel 1 (
+    echo.
+    echo    - Programa local atualizado com o GitHub.
+    echo.
+) else (
+    echo.
+    echo    - Novas atualizações disponíveis no GitHub!
+    echo.
+)
 echo.
 REM Define o tempo de espera em segundos
 set "tempo_espera=15"

@@ -1,6 +1,8 @@
 import os
 import socket
 
+# link do video explicativo https://www.youtube.com/watch?v=l7pL_Y3fw-o
+
 # Obter o nome do computador
 nome_computador = socket.gethostname()
 # Obter o nome de usuário
