@@ -51,6 +51,16 @@ def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
     hora_atual = datetime.datetime.now().time()
 
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
+    continua = True
+    while continua:
+        print('ta nao while')
+        for i in range(1, 5):
+            if ((tempo_total * i) - 420) <= tempo_atual <= (tempo_total * i):
+                print('espera 7 minutoa para organisar a planilha')
+                time.sleep(30)
+                tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
+            else:
+                continua = False
 
     while tempo_atual > 86100:  # se maior que 23:55:00
         print('Espera virar 0h')

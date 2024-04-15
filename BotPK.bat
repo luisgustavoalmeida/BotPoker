@@ -1,7 +1,6 @@
 @echo off
 REM Enable UTF-8 character support
-chcp 65001
-cls
+chcp 65001 > nul
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
 start "" "move_janela.bat.ahk"
 
@@ -17,6 +16,8 @@ echo   **            S P E C T R O   S O L U T I O N               **
 echo   **                                                          **
 echo   **************************************************************
 :inicio
+REM Enable UTF-8 character support
+chcp 65001 > nul
 echo.
 git fetch origin
 echo.
@@ -95,29 +96,34 @@ if errorlevel 9 (
     echo.
     echo    Interface de comando selecionado.
     echo.
+    chcp 850 > nul
     python Tela.py
 ) else if errorlevel 5 (
     echo.
     echo    Entrar no facebook selecionado.
     echo.
+    chcp 850 > nul
     python InicializarFace.py
     python main.py
 ) else if errorlevel 4 (
     echo.
     echo    Recolher automático selecionado.
     echo.
+    chcp 850
     python InicializarRecolherAuto.py
     python main.py
 ) else if errorlevel 3 (
     echo.
     echo    Recolher manual selecionado.
     echo.
+    chcp 850 > nul
     python InicializarRecolher.py
     python main.py
 ) else if errorlevel 2 (
     echo.
     echo    Remover Poker selecionado.
     echo.
+    chcp 850 > nul
     python InicializarRemover.py
     python main.py
 ) else if errorlevel 1 (
@@ -129,6 +135,7 @@ if errorlevel 9 (
     echo.
     echo.
     echo.
+    chcp 850 > nul
     python InicializarRoleta.py
     python main.py
 )
