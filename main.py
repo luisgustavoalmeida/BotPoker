@@ -25,7 +25,7 @@ import Tarefas
 import Telegran
 from Firebase import ler_configuracao
 from Requerimentos import nome_computador, nome_usuario
-from Sub_processo import atualiza_repositorio
+from Sub_processo import inicializa_cmd_novo
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -614,7 +614,8 @@ def identifica_funcao():
     elif confg_funcao == "Atualizar_codigo":
         Seleniun.finaliza_navegador()
         print("Este script será interrompido!")
-        atualiza_repositorio()
+        inicializa_cmd_novo()
+        exit(0)
 
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')

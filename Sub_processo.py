@@ -1,7 +1,7 @@
 import os
 
 
-def atualiza_repositorio():
+def inicializa_cmd_novo():
     shortcut_path = r'Fechar_CMD.lnk'
 
     try:
