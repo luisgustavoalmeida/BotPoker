@@ -138,9 +138,10 @@ if errorlevel 9 (
     chcp 850 > nul
     python InicializarRoleta.py
     python main.py
+    echo    Script Principal finalizado.
 )
 pause
-REM goto :inicio
+goto :inicio
 pause
 exit /b
 

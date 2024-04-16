@@ -3,6 +3,7 @@ import threading
 import time
 
 import pyautogui
+from colorama import Fore, Back, Style, init, deinit
 
 import Aneis
 import Cartas
@@ -24,7 +25,7 @@ import Tarefas
 import Telegran
 from Firebase import ler_configuracao
 from Requerimentos import nome_computador, nome_usuario
-from colorama import Fore, Back, Style, init, deinit
+from Sub_processo import atualiza_repositorio
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -114,6 +115,19 @@ def tarefa_independente():
             print(Fore.BLUE + "Tarefa independente parada.\n" + Fore.RESET)
             # Indicar que a tarefa terminou de executar
             tarefa_concluida.release()
+
+
+def finalizar_tarefa_independente():
+    global continuar_tarefa
+
+    # Sinalizar à tarefa para parar
+    continuar_tarefa = False
+
+    # Aguardar o término da tarefa
+    tarefa_concluida.acquire()
+
+    # Finalizar a thread
+    tarefa.join()
 
 
 # Iniciar a execução da tarefa independente
@@ -596,6 +610,12 @@ def identifica_funcao():
             guia = 'Recolher'
         else:
             guia = confg_funcao
+
+    elif confg_funcao == "Atualizar_codigo":
+        Seleniun.finaliza_navegador()
+        print("Este script será interrompido!")
+        atualiza_repositorio()
+
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
         confg_funcao = 'roleta_auto'
@@ -722,3 +742,7 @@ while True:
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
+
+Seleniun.finaliza_navegador()
+
+print("Este script será interrompido!")

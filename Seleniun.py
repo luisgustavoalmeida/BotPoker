@@ -91,6 +91,11 @@ def cria_nevegador():
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 
+def finaliza_navegador():
+    global navegador
+    if navegador:
+        navegador.quit()
+        print("Navegador finalizado com sucesso")
 
 def fechar_janelas_chrome():
     # Lista todas as janelas abertas

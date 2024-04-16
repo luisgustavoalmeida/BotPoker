@@ -2,10 +2,22 @@
 REM Enable UTF-8 character support
 chcp 65001 > nul
 REM Executa o script AutoHotkey para posicionar e redimensionar a janela do prompt de comando
+echo    O CMD aberto anteriormente será fechado e o código python local atualizado com o GitHub
+timeout /t 2 >nul
+python fecha_cmd.py
+timeout /t 2 >nul
 start "" "move_janela.bat.ahk"
 
 REM Adiciona exceção para o diretório BotGit
 git config --global --add safe.directory C:/GitHub/BotPoker
+echo.
+echo    Repositorio será atualizado!
+echo.
+timeout /t 10 >nul
+echo.
+REM git pull origin main
+echo.
+echo    Repositorio atualizado com sucesso!
 echo.
 echo.
 echo   **************************************************************
@@ -138,7 +150,6 @@ if errorlevel 9 (
     chcp 850 > nul
     python InicializarRoleta.py
     python main.py
-    echo    Script Principal finalizado.
 )
 pause
 goto :inicio
