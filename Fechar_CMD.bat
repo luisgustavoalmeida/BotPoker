@@ -15,7 +15,7 @@ echo    Repositorio será atualizado!
 echo.
 timeout /t 10 >nul
 echo.
-REM git pull origin main
+git pull origin main
 echo.
 echo    Repositorio atualizado com sucesso!
 echo.
