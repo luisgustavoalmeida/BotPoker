@@ -10,6 +10,3 @@ def inicializa_cmd_novo():
         print(f"Erro ao executar o arquivo .bat: {e}")
     else:
         print("Arquivo .bat executado com sucesso!")
-
-
-inicializa_cmd_novo()  # Chame a função para executar o arquivo .bat
