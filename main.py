@@ -603,6 +603,7 @@ def identifica_funcao():
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
+
     elif confg_funcao in ('Face', 'Remover', 'Recolher', 'Recolher_automatico', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if confg_funcao == 'Face':
             guia = 'Remover'
@@ -612,15 +613,36 @@ def identifica_funcao():
             guia = confg_funcao
 
     elif confg_funcao == "Atualizar_codigo":
+        Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
-        print("Este script será interrompido!")
+        print("Este script será interrompido e inicializado novamente!")
         inicializa_cmd_novo()
         exit(0)
+
+    elif confg_funcao == "Substituir_codigo":
+        Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
+        Seleniun.finaliza_navegador()
+        print("Este script será interrompido e inicializado novamente!")
+        inicializa_cmd_novo()
+        exit(0)
+
+    elif confg_funcao == "Parar_codigo":
+        Telegran.monta_mensagem(f'A execução do programa foi interrompida {str(confg_funcao)}.  ⚙️', False)
+        print("Este script será interrompido!")
+        exit(0)
+
+    elif confg_funcao == "Pausar_codigo":
+        while confg_funcao == "Pausar_codigo":
+            Telegran.monta_mensagem(f'A execução do programa foi pausada {str(confg_funcao)}.  ⚙️', False)
+            print("Este script será pausado!")
+            time.sleep(180)
+            confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+        Telegran.monta_mensagem(f'A execução do programa foi retomada {str(confg_funcao)}.  ⚙️', False)
 
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '5:50:5'
+        config_tempo_roleta = '5:00:5'
         guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
 
     if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':

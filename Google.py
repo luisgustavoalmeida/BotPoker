@@ -734,26 +734,6 @@ def apagar_numerodo_pc(valores, guia, linha):
     endereco = f"D{linha}"
     escrever_valores(valores, guia, endereco)
 
-# credencial()
 
 
-# guia = "R1"
-#
-# credenciais(guia)
-# linha = 3
-# marca_horario(guia,linha)
-
-#
-
-# creds = credencial()
-# escrever_celula("14", "R1", "G8") # conteudo, guia , endereço B150
-
-# zera_cont_IP("F15")
-
-# credenciais('R4')
-# testa_valor("R4", 'D2')
-
-# guia = "IP"
-# endereco = "F1"
-# pega_valores_em_lote(guia, endereco)
-# pega_valor(guia, endereco)
+# gerar_tokens()
