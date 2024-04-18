@@ -12,18 +12,20 @@ pyautogui.PAUSE = 0
 def recolhe_aneis(x_origem, y_origem):
     # testa se tem aneis para serem recolhidos
 
-    for i in range(2):
+    for _ in range(2):
         if (pyautogui.pixelMatchesColor((x_origem + 954), (y_origem + 288), (33, 145, 18), tolerance=30)
                 or (not pyautogui.pixelMatchesColor((x_origem + 954), (y_origem + 288), (32, 17, 20), tolerance=30))):
             # testa se tem o verde do anel ou se nao esta visivel a parte atras do verde
             print("Tem aneis para recolhar")
             Limpa.limpa_total(x_origem, y_origem)
-            for i in range(20):
+            for _ in range(20):
                 pyautogui.doubleClick((x_origem + 928), (y_origem + 323))
                 # espera abrir os anis
-                if pyautogui.pixelMatchesColor((x_origem + 650), (y_origem + 118), (72, 72, 74), tolerance=20):
+                if pyautogui.pixelMatchesColor((x_origem + 650), (y_origem + 118), (74, 73, 87), tolerance=20):
                     print('aneis aberto')
-                    time.sleep(0.5)
+                    time.sleep(1)
+                    pyautogui.doubleClick((x_origem + 490), (y_origem + 513))
+                    time.sleep(2)
                     # se esta aberto
                     pyautogui.doubleClick((x_origem + 195), (y_origem + 307))  # 1
                     pyautogui.doubleClick((x_origem + 275), (y_origem + 307))  # 2

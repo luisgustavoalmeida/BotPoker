@@ -16,7 +16,7 @@ print(x_origem, y_origem)
 # pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
 
 
-a, b = 490, 133
+a, b = 650, 118
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -28,7 +28,7 @@ for i in range(100):
     cor = pyautogui.pixel(x, y)
     print(f"A cor RGB do pixel em ({x}, {y}) é {cor}")
 
-    if pyautogui.pixelMatchesColor(x, y, (96, 159, 248), tolerance=tolerancia):
+    if pyautogui.pixelMatchesColor(x, y, (74, 73, 87), tolerance=tolerancia):
         print('tem a cor, tolerancia :', tolerancia)
 
     tolerancia += 1
