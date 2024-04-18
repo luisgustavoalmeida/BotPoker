@@ -1410,13 +1410,13 @@ def blind_do_dia(dia_da_semana=10):
 
     if dia_da_semana in [5]:
         print("O dia da semana é 100/200.")
-        blind_mesa = '100200'
-    elif dia_da_semana in [3]:
+        blind_mesa = '2550'
+    elif dia_da_semana in [2]:
         print("O dia da semana é 50/100.")
         blind_mesa = '50100'
-    elif dia_da_semana in [1]:
+    elif dia_da_semana in [0]:
         print("O dia da semana é 25/50.")
-        blind_mesa = '2550'
+        blind_mesa = '100200'
     else:
         print("Não joga mesa hoje")
         blind_mesa = 'Não joga'
