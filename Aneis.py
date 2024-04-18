@@ -23,8 +23,10 @@ def recolhe_aneis(x_origem, y_origem):
                 # espera abrir os anis
                 if pyautogui.pixelMatchesColor((x_origem + 650), (y_origem + 118), (74, 73, 87), tolerance=20):
                     print('aneis aberto')
-                    time.sleep(1)
-                    pyautogui.doubleClick((x_origem + 490), (y_origem + 513))
+                    time.sleep(0.5)
+                    pyautogui.click((x_origem + 490), (y_origem + 513))
+                    time.sleep(0.5)
+                    pyautogui.click((x_origem + 490), (y_origem + 513))
                     time.sleep(2)
                     # se esta aberto
                     pyautogui.doubleClick((x_origem + 195), (y_origem + 307))  # 1

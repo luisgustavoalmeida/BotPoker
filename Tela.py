@@ -143,8 +143,9 @@ janela = tk.Tk()
 # Maximize a janela (Windows)
 janela.state('zoomed')
 
-# Defina o número de colunas e linhas
-numero_colunas = 12
+# Defina o número de colunas e linhas e por qual computador se inicia
+primeiro_pc = 3  # para deslocar os computadores basta aticionar ou remover numero
+numero_colunas = 10 + primeiro_pc
 numero_linhas = 16
 
 # Crie as áreas de informações
@@ -163,12 +164,12 @@ for i in range(3):
     # Loop para criar as colunas e botões dentro de cada arranjo
     for j in range(numero_colunas):
         # ajustar as colunas conforne a faixa de computadores 1 ao 9
-        if j == 1 or j == 2:
+        if 1 <= j <= primeiro_pc:
             continue  # Pula o primeiro item
-        if 1 <= j <= numero_colunas:
+        elif 1 <= j <= numero_colunas:
             # Aplica a regra de mapeamento para os valores de j
             j = (j - 1) * 3 + 1 + i
-
+        # a coluna 0 é constante em qualquer arranjo
         coluna = tk.Frame(arranjo)  # Cria uma nova coluna dentro do arranjo
         for k in range(numero_linhas):
             button_text = f"{arranjo_letters[i]}-{j}-{k}"  # Cria o texto do botão
