@@ -31,6 +31,9 @@ end_contagem_ip = valor_dicionario[5]  # pega o sexxto item da tupla
 token_path = os.path.join('Tokens', token)
 credencial_path = os.path.join('Tokens', credentials)
 
+linha_vazia_anterior = 2  # Inicializa a variável global
+intervalo_de_busca = 500
+guia_antiga = None
 
 def credencial():
     # IP.tem_internet()
@@ -119,9 +122,6 @@ service = build('sheets', 'v4', credentials=cred)
 #             service = build('sheets', 'v4', credentials=cred)
 
 
-linha_vazia_anterior = 2  # Inicializa a variável global
-intervalo_de_busca = 500
-guia_antiga = None
 
 
 def primeira_celula_vazia(guia):
@@ -385,11 +385,37 @@ def lote_valor(guia, linha):
             service = build('sheets', 'v4', credentials=cred)
 
 
-def pega_valor(guia, endereco):
+# def pega_valor(guia, endereco):
+#     print('pega_valor')
+#     global cred
+#     global service
+#     regiao = f"{guia}!{endereco}"  # 'R1!B150'
+#     while True:
+#         try:
+#             # Faz a requisição para obter os valores da célula
+#             result = service.spreadsheets().values().get(
+#                 spreadsheetId=planilha_id,
+#                 range=regiao).execute()
+#             # Extrai o valor da célula e retorna
+#             values = result.get('values', [])
+#             print("o valor escrito na celula é :", values[0][0])
+#             return values[0][0]
+#
+#         # except (socket.gaierror, TransportError, ServerNotFoundError) as error:
+#         except Exception as error:
+#             print(f"pega_valor Ocorreu um erro ao obter o valor da célula:")
+#             print(f"Erro: {str(error)}")
+#             IP.tem_internet()
+#             # return None
+#             cred = credencial()
+#             service = build('sheets', 'v4', credentials=cred)
+
+
+def pega_valor_endereco(endereco):
     print('pega_valor')
     global cred
     global service
-    regiao = f"{guia}!{endereco}"  # 'R1!B150'
+    regiao = f"{endereco}"  # 'R1!B150'
     while True:
         try:
             # Faz a requisição para obter os valores da célula
@@ -496,12 +522,12 @@ def zera_cont_IP(endereco):
     cred = credencial()
     service = build('sheets', 'v4', credentials=cred)
 
-    letra = endereco[0]  # obtém a primeira letra do endereço
-    numero = int(endereco[1:])  # obtém o número do endereço
+    letra = endereco[:4]  # obtém a primeira letra do endereço
+    numero = int(endereco[4:])  # obtém o número do endereço
     endereco2 = letra + str(numero - 1)  # cria a variável com o endereço imediatamente inferior
     endereco1 = letra + str(numero - 2)  # cria a variável com o endereço duas posições abaixo
-    regiao1 = f"IP!{endereco1}"  # 'R1!F1'
-    regiao2 = f"IP!{endereco2}"  # 'R1!F2'
+    regiao1 = f"{endereco1}"  # 'R1!F1'
+    regiao2 = f"{endereco2}"  # 'R1!F2'
     while True:
         try:
             result = service.spreadsheets().values().get(

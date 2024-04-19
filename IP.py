@@ -1,7 +1,6 @@
 import datetime
 import os
 import random
-import socket
 import time
 
 import psutil
@@ -12,8 +11,9 @@ import requests
 
 import Google
 import ListaIpFirebase
-from Seleniun import teste_logado
 from F5_navegador import atualizar_navegador
+from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
+from Seleniun import teste_logado
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -50,36 +50,6 @@ ativado = r"Imagens\Conexao\ativado.png"
 desativado = r"Imagens\Conexao\desativado.png"
 regiao_ativado_desativado = (conexao_x + 75, conexao_y + 292, 73, 22)
 
-# chave nome do computador : tupla( valor 1 celula , valor 2 tipo de conexão)
-# "F3" de 3 em 3       #"modem" ou "vero"
-# cria um dicionario de tuplas par agurdar os valores das celulas e o tipo de conexao com a internete que cada computador usa
-dicionari_PC_IP = {'PC-I5-8600K': ("F3", "modem"),
-                   'PC-I5-9400A': ("F6", "modem"),
-                   'PC-I5-9400B': ("F9", "modem"),
-                   'PC-I5-9400C': ("F12", "modem"),
-                   'PC-R5-7600A': ("F15", "modem"),
-                   'PC-I5-13400A': ("F18", "modem"),
-                   'PC-I5-13400B': ("F21", "modem"),
-                   'PC-I5-13400C': ("F24", "modem"),
-                   'PC-I5-13400D': ("F27", "modem"),
-                   'PC-R5-5600G': ("F30", "modem"),
-                   'PC-I5-13400E': ("F33", "modem"),
-                   'PC-I5-13400F': ("F36", "modem"),
-                   'PC-i3-8145U': ("F39", "modem"),
-                   'PC-I7-9700KF': ("F42", "vero")}
-
-# Obter o nome de usuário
-nome_usuario = os.getlogin()
-# print("Nome de usuário:", nome_usuario)
-
-# Obter o nome do computador
-nome_computador = socket.gethostname()
-# print("Nome do computador:", nome_computador)
-
-# usa o nome do computador para buscar os valores do dicionario
-valor_dicionario = dicionari_PC_IP[nome_computador]
-celula = valor_dicionario[0]  # pega o primeiro item da tupla
-tipo_conexao = valor_dicionario[1]  # pega o segundo item da tuplas
 
 sites = [
     'http://www.google.com',
@@ -92,6 +62,19 @@ sites = [
     'http://www.reddit.com',
     'http://www.amazon.com',
     'http://www.netflix.com'
+]
+
+urls = [
+    'https://api.ipify.org',
+    'http://checkip.amazonaws.com',
+    'http://ipinfo.io/ip',
+    'http://whatismyip.akamai.com',
+    'http://ip.42.pl/raw',
+    'http://myip.dnsomatic.com',
+    'https://ipv4.icanhazip.com/',
+    'http://ipv4.ident.me/',
+    'https://ipv4.icanhazip.com/',
+    'http://whatismyipv4.net'
 ]
 
 lista_negra_ip = []
@@ -118,9 +101,6 @@ def f5_quando_internete_ocila():
                 if not conectado:
                     try:
                         print("------------------F5-----------------")
-                        # pyautogui.press('f5')
-                        # navegador.get(url)
-                        # clica no atualizar
                         atualizar_navegador()
                         time.sleep(15)
                     except Exception as e:
@@ -182,19 +162,6 @@ def tem_internet():
 
 
 def meu_ip():
-    urls = [
-        'https://api.ipify.org',
-        'http://checkip.amazonaws.com',
-        'http://ipinfo.io/ip',
-        'http://whatismyip.akamai.com',
-        'http://ip.42.pl/raw',
-        'http://myip.dnsomatic.com',
-        'https://ipv4.icanhazip.com/',
-        'http://ipv4.ident.me/',
-        'https://ipv4.icanhazip.com/',
-        'http://whatismyipv4.net'
-    ]
-
     random.shuffle(urls)  # Embaralha a lista de URLs
     while True:
         for url in urls:
@@ -219,17 +186,17 @@ def nao_tem_internet():
     falhou = False
     for i in range(60):
         try:
-            response = requests.get('http://www.google.com', timeout=2)
+            response = requests.get('http://www.google.com', timeout=3)
             if response.status_code == 200:
                 print("Conexão com a internet ativa...")
-                time.sleep(0.5)  # Espera por 5 segundos antes de fazer o próximo teste
+                time.sleep(1)  # Espera por 5 segundos antes de fazer o próximo teste
                 if falhou:
                     time.sleep(15)
                     return
         except Exception as e:
             print("Sem conexão com a internet. Encerrando os testes...")
             print(e)
-            time.sleep(5)
+            time.sleep(20)
             falhou = True
 
 
@@ -246,7 +213,7 @@ def ip_troca_agora():
             if testa_lista_negra_ip(meu_ip_agora):
                 if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
                     print("Vai para a função que zera a contagem")
-                    Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
+                    Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
                     return
         else:
             print('Troca IP imediatamente não é um computador principal')
@@ -257,7 +224,7 @@ def ip(LIMITE_IP=6):
     while True:
         com_internete = tem_internet()
         # tem_internet() # testa se tem internete ativa
-        cont_IP = int(Google.pega_valor('IP', celula))  # pega o valor de contas que ja rodaram no IP atual
+        cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
 
         if com_internete:
 
@@ -272,7 +239,7 @@ def ip(LIMITE_IP=6):
                     if testa_lista_negra_ip(meu_ip_agora):
                         if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
                             print("Vai para a função que zera a contagem")
-                            Google.zera_cont_IP(celula)  # Zera a contegem de ip na planilha
+                            Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
                             return
                 else:
                     print("Espera liberar IP")

@@ -63,7 +63,7 @@ linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
 
-url = str(Google.pega_valor('Dados', 'F1'))
+url = str(Google.pega_valor_endereco('Dados!F1'))
 
 navegador = Seleniun.cria_nevegador()
 
@@ -754,7 +754,7 @@ while True:
             Seleniun.busca_link()
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
-            url = str(Google.pega_valor('Dados', 'F1'))
+            url = str(Google.pega_valor_endereco('Dados!F1'))
 
         valores_apagar = [""]
 
