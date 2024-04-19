@@ -736,4 +736,4 @@ def apagar_numerodo_pc(valores, guia, linha):
 
 
 
-# gerar_tokens()
+gerar_tokens()
