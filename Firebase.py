@@ -1,9 +1,11 @@
 # pip install pyrebase5
 import re
 import time
+
 import pyrebase
 import requests
 from requests.exceptions import ConnectionError
+
 from Requerimentos import dicionari_token_credencial_n, numero_pc, nome_computador, nome_usuario, nome_completo
 
 config = {
@@ -27,6 +29,25 @@ orderem_chave = {
     'group2': ['PC11', 'PC14', 'PC17', 'PC20', 'PC23', 'PC26', 'PC29', 'PC32', 'PC35'],
     'group3': ['PC12', 'PC15', 'PC18', 'PC21', 'PC24', 'PC27', 'PC30', 'PC33', 'PC36']
 }
+
+# Define listas de arranjos de computadores cada arranjo será uma mesa diferente
+arranjo1_pc = (
+    'Comandos1/PC10', 'Comandos1/PC13', 'Comandos1/PC16', 'Comandos1/PC19', 'Comandos1/PC22',
+    'Comandos1/PC25', 'Comandos1/PC28', 'Comandos1/PC31', 'Comandos1/PC34'
+)
+
+arranjo2_pc = (
+    'Comandos2/PC11', 'Comandos2/PC14', 'Comandos2/PC17', 'Comandos2/PC20', 'Comandos2/PC23',
+    'Comandos2/PC26', 'Comandos2/PC29', 'Comandos2/PC32', 'Comandos2/PC35'
+)
+
+arranjo3_pc = (
+    'Comandos3/PC12', 'Comandos3/PC15', 'Comandos3/PC18', 'Comandos3/PC21', 'Comandos3/PC24',
+    'Comandos3/PC27', 'Comandos3/PC30', 'Comandos3/PC33', 'Comandos3/PC36'
+)
+
+#  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
+lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600A')
 
 # Dados padrões de configuração a serem escritos
 dados_config = {
@@ -82,25 +103,6 @@ dados_config = {
     'PC50': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
     'PC51': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
 }
-
-# Define listas de arranjos de computadores cada arranjo será uma mesa diferente
-arranjo1_pc = (
-    'Comandos1/PC10', 'Comandos1/PC13', 'Comandos1/PC16', 'Comandos1/PC19', 'Comandos1/PC22',
-    'Comandos1/PC25', 'Comandos1/PC28', 'Comandos1/PC31', 'Comandos1/PC34'
-)
-
-arranjo2_pc = (
-    'Comandos2/PC11', 'Comandos2/PC14', 'Comandos2/PC17', 'Comandos2/PC20', 'Comandos2/PC23',
-    'Comandos2/PC26', 'Comandos2/PC29', 'Comandos2/PC32', 'Comandos2/PC35'
-)
-
-arranjo3_pc = (
-    'Comandos3/PC12', 'Comandos3/PC15', 'Comandos3/PC18', 'Comandos3/PC21', 'Comandos3/PC24',
-    'Comandos3/PC27', 'Comandos3/PC30', 'Comandos3/PC33', 'Comandos3/PC36'
-)
-
-#  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
-lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'Thiago-PC')
 
 teve_atualizacao = False
 comando_escravo = None
@@ -522,6 +524,5 @@ def contar_pessoas_mesa(sala):
         contagem_repeticoes = 0
         print(e)
     return int(contagem_repeticoes)
-
 
 # escreve_configuracao(dados_config)

@@ -25,7 +25,7 @@ import Tarefas
 import Telegran
 from Firebase import ler_configuracao
 from Requerimentos import nome_computador, nome_usuario
-from Sub_processo import inicializa_cmd_novo
+from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -617,7 +617,7 @@ def identifica_funcao():
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
-        inicializa_cmd_novo()
+        fecha_cmd_atualisa_codigo()
         exit(0)
 
     elif confg_funcao == "Substituir_codigo":
@@ -625,7 +625,7 @@ def identifica_funcao():
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
-        inicializa_cmd_novo()
+        fecha_cmd_subistitui_codigo()
         exit(0)
 
     elif confg_funcao == "Parar_codigo":
