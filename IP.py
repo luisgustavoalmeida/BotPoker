@@ -191,12 +191,13 @@ def nao_tem_internet():
                 print("Conexão com a internet ativa...")
                 time.sleep(1)  # Espera por 5 segundos antes de fazer o próximo teste
                 if falhou:
-                    time.sleep(15)
+                    print('aguarda um tempo para que o principal atualize o valor da contagem de IP')
+                    time.sleep(40)
                     return
         except Exception as e:
             print("Sem conexão com a internet. Encerrando os testes...")
             print(e)
-            time.sleep(20)
+            time.sleep(30)
             falhou = True
 
 
@@ -224,10 +225,9 @@ def ip(LIMITE_IP=6):
     while True:
         com_internete = tem_internet()
         # tem_internet() # testa se tem internete ativa
-        cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
 
         if com_internete:
-
+            cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
             if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
 
                 if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
