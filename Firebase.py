@@ -1,17 +1,10 @@
 # pip install pyrebase5
-import os
 import re
-import socket
 import time
-
 import pyrebase
 import requests
 from requests.exceptions import ConnectionError
-
 from Requerimentos import dicionari_token_credencial_n, numero_pc, nome_computador, nome_usuario, nome_completo
-
-# importa o dicionário com os nomes dos computadores e o námero referete a cada um
-# from Parametros import dicionari_token_credencial_n
 
 config = {
     "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
@@ -36,59 +29,58 @@ orderem_chave = {
 }
 
 # Dados padrões de configuração a serem escritos
-# confg_funcao= 'Atualizar_codigo', 'T1', 'R1','Recolher', 'Remover'
 dados_config = {
-    'PC01': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC02': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC03': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC04': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC05': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC06': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC07': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC08': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC09': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC10': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC11': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC12': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC13': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC14': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC15': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC16': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC17': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC18': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC19': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC20': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC21': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC22': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC23': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC24': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC25': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC26': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC27': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC28': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC29': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC30': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC31': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC32': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC33': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC34': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC35': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC36': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC37': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC38': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC39': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC40': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC41': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC42': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC43': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC44': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC45': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC46': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC47': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC48': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC49': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC50': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC51': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC01': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC02': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC03': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC04': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC05': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC06': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC07': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC08': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC09': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC10': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC11': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC12': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC13': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC14': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC15': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC16': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC17': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC18': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC19': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC20': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC21': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC22': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC23': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC24': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC25': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC26': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC27': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC28': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC29': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC30': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC31': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC32': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC33': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC34': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC35': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC36': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC37': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC38': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC39': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC40': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC41': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC42': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC43': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC44': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC45': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC46': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC47': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC48': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC49': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC50': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC51': {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
 }
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
@@ -112,16 +104,6 @@ lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'Thiago-PC')
 
 teve_atualizacao = False
 comando_escravo = None
-
-# nome_computador = socket.gethostname()
-# print('nome_computador', nome_computador)
-# nome_usuario = os.getlogin()
-#
-# nome_completo = nome_computador + "_" + nome_usuario
-
-
-# # Acessar o terceiro item da tupla associada à chave 'PC-I7-9700KF_lgagu'
-# numero_pc = f"PC{dicionari_token_credencial_n[nome_completo][2] :02d}"
 
 
 def cria_caminho_resposta_fb():
@@ -411,7 +393,7 @@ def ler_configuracao():
             print(dados_config)
 
             # Separa os dados em variáveis individuais
-            confg_funcao = dados_config.get('confg_funcao', 'Atualizar_codigo')
+            confg_funcao = dados_config.get('confg_funcao', 'Substituir_codigo')
             config_tempo_roleta = dados_config.get('config_tempo_roleta', '5:00:5')
             blind_recolher_auto = dados_config.get('blind_recolher_auto', '0000')
 
@@ -426,7 +408,7 @@ def ler_configuracao():
 
 def atualizar_configuracao_pc(novos_dados):
     ''' Atualiza os dados de configuração para um PC específico '''
-    # novos_dados = {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5'}
+    # novos_dados = {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5'}
     global firebase, db
     try:
         if not firebase or not db:
@@ -447,7 +429,7 @@ def atualizar_estatos_mesa(statos):
     Atualiza os dados de configuração para um PC específico
     modelo de parametro a ser passado pc_statos = {'200400': 'sentado'}
     '''
-    # novos_dados = {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5'}
+    # novos_dados = {'confg_funcao': 'Substituir_codigo', 'config_tempo_roleta': '5:00:5'}
     global firebase, db, status_anterior
     if status_anterior == statos:
         return
@@ -540,5 +522,6 @@ def contar_pessoas_mesa(sala):
         contagem_repeticoes = 0
         print(e)
     return int(contagem_repeticoes)
+
 
 # escreve_configuracao(dados_config)
