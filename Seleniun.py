@@ -783,12 +783,13 @@ def busca_link():
         time.sleep(5)
         # Pegar o link da barra de endereço do navegador
         link_da_barra_de_endereco = navegador.current_url
+        print('link da barra de endereços: ', link_da_barra_de_endereco)
         # Feche a segunda guia
         navegador.close()
         # Volte para a primeira guia, se necessário
         navegador.switch_to.window(navegador.window_handles[0])
         # Verificar se a URL começa com o padrão desejado
-        padrao_desejado = "https://apps.facebook.com/pokerbrasil?vtype&amfmethod=appLinkFanPageAward&SignedParams="
+        padrao_desejado = "https://apps.facebook.com/pokerbrasil?"
         if link_da_barra_de_endereco.startswith(padrao_desejado):
             print("A URL começa com o padrão desejado.")
             print(link_da_barra_de_endereco)
@@ -833,9 +834,10 @@ def busca_link():
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
 # cria_nevegador()
-#
 # busca_link()
 # time.sleep(10000)
+
+
 #
 # navegador.get("https://apps.facebook.com/pokerbrasil?vtype=&amfmethod=appLinkFanPageAward&SignedParams=hIygZ7vSvP9r7RwePVy1W5XheNQYiuWT8U9EdgPVaB4.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjYyMDAifQ&fbclid=IwAR1folpzzbjVGnnI-cxCtwm8rZky5Is52TGgzh_CNVvnCRVryopwAYAzbdQ")
 #
