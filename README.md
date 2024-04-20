@@ -1,2 +1,4 @@
-# BotPoker
-Poker Bot
+# Spectro Solution
+### Poker Bot
+
+Projetado por Luís Gustavo de Almeida
