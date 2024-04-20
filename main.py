@@ -613,6 +613,7 @@ def identifica_funcao():
             guia = confg_funcao
 
     elif confg_funcao == "Atualizar_codigo":
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
@@ -620,6 +621,7 @@ def identifica_funcao():
         exit(0)
 
     elif confg_funcao == "Substituir_codigo":
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
