@@ -5,7 +5,7 @@ import IP
 
 guias = ["R1", "R2", "R3", "R4", "R5"]
 
-faixa_tempo = 4000# janela de tempo para sair das contas no tarefas
+faixa_tempo = 4000  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
 hora_roleta = 5
@@ -51,16 +51,11 @@ def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
     hora_atual = datetime.datetime.now().time()
 
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-    continua = True
-    while continua:
-        print('ta nao while')
-        for i in range(1, 5):
-            if ((tempo_total * i) - 420) <= tempo_atual <= (tempo_total * i):
-                print('espera 7 minutoa para organisar a planilha')
-                time.sleep(30)
-                tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-            else:
-                continua = False
+
+    while (17580 < tempo_atual < 18000) or (35580 < tempo_atual < 36000) or (53580 < tempo_atual < 54000) or (71580 < tempo_atual < 72000):
+        print('espera 7 minutoa para organisar a planilha')
+        time.sleep(45)
+        tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
     while tempo_atual > 86100:  # se maior que 23:55:00
         print('Espera virar 0h')
