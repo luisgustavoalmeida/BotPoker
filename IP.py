@@ -184,7 +184,7 @@ def meu_ip():
 
 def nao_tem_internet():
     falhou = False
-    for i in range(60):
+    for i in range(30):
         try:
             response = requests.get('http://www.google.com', timeout=3)
             if response.status_code == 200:
@@ -192,7 +192,7 @@ def nao_tem_internet():
                 time.sleep(1)  # Espera por 5 segundos antes de fazer o próximo teste
                 if falhou:
                     print('aguarda um tempo para que o principal atualize o valor da contagem de IP')
-                    time.sleep(40)
+                    time.sleep(5)
                     return
         except Exception as e:
             print("Sem conexão com a internet. Encerrando os testes...")
