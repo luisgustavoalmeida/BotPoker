@@ -1456,12 +1456,13 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             upar(x_origem, y_origem, blind_mesa=blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             # Limpa.limpa_total(x_origem, y_origem)
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
 
-        if (4 <= level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)):
+        if (4 <= level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
