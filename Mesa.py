@@ -1446,7 +1446,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
     if roleta == 'roleta_2':
         if level_conta >= LEVEL_UPAR and conta_upada:
-            print('\nLevel da conta ja superior a 10\n')
+            print('\nLevel da conta ja superior a 10 e conta upada\n')
             return level_conta, valor_fichas_perfil
 
         # if not conta_upada:

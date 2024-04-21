@@ -89,7 +89,7 @@ dados_config = {
     'PC47': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
     'PC48': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
     'PC49': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
-    'PC50': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
+    'PC50': {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
     'PC51': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5', 'blind_recolher_auto': '200400'},
 }
 
@@ -481,4 +481,4 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
-# escreve_configuracao(dados_config)
+escreve_configuracao(dados_config)
