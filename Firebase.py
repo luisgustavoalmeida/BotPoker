@@ -33,14 +33,7 @@ arranjo3_pc = tuple(f"Comandos3/{pc}" for pc in global_variables['group3'])
 #     'Comandos1/PC10', 'Comandos1/PC13', 'Comandos1/PC16', 'Comandos1/PC19', 'Comandos1/PC22',
 #     'Comandos1/PC25', 'Comandos1/PC28', 'Comandos1/PC31', 'Comandos1/PC34'
 # )
-# arranjo2_pc = (
-#     'Comandos2/PC11', 'Comandos2/PC14', 'Comandos2/PC17', 'Comandos2/PC20', 'Comandos2/PC23',
-#     'Comandos2/PC26', 'Comandos2/PC29', 'Comandos2/PC32', 'Comandos2/PC35'
-# )
-# arranjo3_pc = (
-#     'Comandos3/PC12', 'Comandos3/PC15', 'Comandos3/PC18', 'Comandos3/PC21', 'Comandos3/PC24',
-#     'Comandos3/PC27', 'Comandos3/PC30', 'Comandos3/PC33', 'Comandos3/PC36'
-# )
+
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
 lista_PC_meste = ('PC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600')
@@ -173,7 +166,7 @@ def enviar_comando_coletivo(arranjo, comando):
 def on_update(event):
     try:
 
-        print("Atualização detectada:", event)  # Aqui você pode acessar diretamente os dados atualizados
+        # print("Atualização detectada:", event)  # Aqui você pode acessar diretamente os dados atualizados
         # Acessar o valor associado à chave 'data' no dicionário 'event'
         dado_atualizado = event['data']
         caminho_atualizado = event['path']
@@ -239,14 +232,12 @@ def alterar_dado_global(nome_variavel, valor):
             grupo[nome_variavel] = valor
             teve_atualizacao = True
             # print(global_variables)
-        else:
-            print(f"A variável '{nome_variavel}' não corresponde a nenhum grupo existente.")
+        # else:
+        #     print(f"A variável '{nome_variavel}' não corresponde a nenhum grupo existente.")
     else:
-        print("é um comando para uma escravo")
-
+        # print("é um comando para uma escravo")
         comando_escravo = valor
-
-        print("comando: ", comando_escravo)
+        # print("comando: ", comando_escravo)
 
 
 def atualizar_dados_globais():
@@ -264,7 +255,6 @@ def atualizar_dados_globais():
 
     except Exception as e:
         print("Erro ao buscar dados do Firebase:", e)
-
     # print(f"Atualizado: {chave} -> {valor}")
 
 
