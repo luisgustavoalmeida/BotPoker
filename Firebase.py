@@ -96,6 +96,7 @@ dados_config = {
 teve_atualizacao = False
 comando_escravo = None
 resposta_anterior = None
+status_anterior = None
 
 
 def cria_caminho_resposta_fb():
@@ -382,9 +383,6 @@ def atualizar_configuracao_pc(novos_dados):
         print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
 
 
-status_anterior = None
-
-
 def atualizar_estatos_mesa(statos):
     '''
     Atualiza os dados de configuração para um PC específico
@@ -484,6 +482,4 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
-
 # escreve_configuracao(dados_config)
-
