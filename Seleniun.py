@@ -91,11 +91,13 @@ def cria_nevegador():
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 
+
 def finaliza_navegador():
     global navegador
     if navegador:
         navegador.quit()
         print("Navegador finalizado com sucesso")
+
 
 def fechar_janelas_chrome():
     # Lista todas as janelas abertas
@@ -353,7 +355,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
                         elif "/checkpoint/" in url_atual:
                             # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
-
+                            elemento_clicavel_encontrado = False
                             entrou = False
                             status = "Anomalia Fecebook"
                             print("A conta está suspensa.")
@@ -378,29 +380,31 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     continue
                             # se nao for algum item da lista retorna uma mensagem generica
 
-                            elementos_para_clicar = ['Começar', 'Avançar', 'Avançar', 'Avançar', 'Voltar para o Facebook', 'Ignorar']
-                            encontrou = False
+                            elementos_para_clicar = ['Continuar', 'Fui eu', 'Continuar', 'Começar', 'Avançar', 'Avançar', 'Avançar',
+                                                     'Voltar para o Facebook', 'Ignorar']
+
                             for _ in range(2):
                                 for elemento in elementos_para_clicar:
-                                    elemento_seletor = f'div[aria-label="{elemento}"]'
                                     print("procura: ", elemento)
-                                    try:
-                                        elemento_clicavel = WebDriverWait(navegador, 3).until(
-                                            EC.element_to_be_clickable((By.CSS_SELECTOR, elemento_seletor)))
-                                        elemento_clicavel.click()
-                                        print("Clicou em: ", elemento)
-                                        if elemento_clicavel:
-                                            time.sleep(5)
-                                        encontrou = True
-                                    except Exception as e:  # Corrigido o erro aqui, "as e" ao invés de "e Exception:"
-                                        print("Elememto para clicar não encontrado: ", elemento, e)
-                                        continue
-                            if encontrou:
-                                time.sleep(3)
-                                navegador.get(url)
-                                time.sleep(5)
-                            else:
+                                    elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
+                                    if not elemento_clicado:
+                                        elemento_clicado = clicar_por_xpath(navegador, elemento)
+                                    if not elemento_clicado:
+                                        elemento_clicado = clicar_por_css(navegador, elemento)
+                                    if elemento_clicado:
+                                        print('\nEspera carregar a proxima interação\n')
+                                        elemento_clicavel_encontrado = True
+                                        time.sleep(5)
+
+                            if not elemento_clicavel_encontrado:
+                                print("Nenhum elemento para clicar foi encontrado.")
+                                entrou = False
+                                status = "Anomalia Fecebook"
                                 return entrou, status
+
+                            time.sleep(5)
+                            navegador.get(url)
+                            time.sleep(5)
 
                         elif "/user_cookie_choice/" in url_atual:
                             # https://www.facebook.com/privacy/consent/user_cookie_choice/?source=pft_user_cookie_choice
@@ -454,13 +458,11 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             for _ in range(2):
                                 for elemento in elementos_para_clicar:
                                     print("procura: ", elemento)
-                                    # Tentativa de clicar usando CSS
-                                    seletor_css = f'div[aria-label="{elemento}"]'
                                     elemento_clicado = clicar_por_css(navegador, elemento)
-
                                     if not elemento_clicado:
-                                        # Se o clique por CSS falhar, tente por XPath
                                         elemento_clicado = clicar_por_xpath(navegador, elemento)
+                                    if not elemento_clicado:
+                                        elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
                                     if elemento_clicado:
                                         print('\nEspera carregar a proxima interação\n')
                                         elemento_clicavel_encontrado = True
@@ -534,6 +536,17 @@ def clicar_por_css(driver, elemento):
 def clicar_por_xpath(driver, elemento):
     try:
         seletor_xpath = f"//span[text()='{elemento}']"
+        elemento_clicavel = WebDriverWait(driver, 0.5).until(EC.element_to_be_clickable((By.XPATH, seletor_xpath)))
+        elemento_clicavel.click()
+        print(f'Clicado no elemento {elemento} usando XPath: {seletor_xpath}')
+        return True
+    except Exception as e:
+        print(f'Elemento "{elemento}" não encontrado usando XPath: {seletor_xpath}')
+        return False
+
+def clicar_por_xpath_botao(driver, elemento):
+    try:
+        seletor_xpath = f"//button[@value='{elemento}']"
         elemento_clicavel = WebDriverWait(driver, 0.5).until(EC.element_to_be_clickable((By.XPATH, seletor_xpath)))
         elemento_clicavel.click()
         print(f'Clicado no elemento {elemento} usando XPath: {seletor_xpath}')
