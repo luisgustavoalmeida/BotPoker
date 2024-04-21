@@ -273,12 +273,8 @@ def roletas():
                 pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
 
     elif roleta == 'roleta_2':
-        # testa o se a conta ja esta upada
-        if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
-                or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
-            conta_upada = False
-        else:
-            conta_upada = True
+
+        conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
         if level_conta < 10:
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             print('Level_conta: ', level_conta)

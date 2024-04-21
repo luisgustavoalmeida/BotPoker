@@ -36,7 +36,7 @@ arranjo3_pc = tuple(f"Comandos3/{pc}" for pc in global_variables['group3'])
 
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
-lista_PC_meste = ('PC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600')
+lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600')
 
 # Dados padrões de configuração a serem escritos
 dados_config = {
@@ -195,7 +195,6 @@ if nome_computador in lista_PC_meste:
     # # A função "on" irá chamar a função "on_update" sempre que ocorrer uma edição no nó referenciado
     ref.stream(on_update)
 else:
-
     print(f"{nome_completo} não está na lista de PCs mestres.")
 
 
