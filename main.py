@@ -591,7 +591,7 @@ def recolher_automatico():
 
 
 def identifica_funcao():
-    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto
+    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)

@@ -1,12 +1,11 @@
 # pip install pyrebase5
-import re
 import time
 
 import pyrebase
 import requests
 from requests.exceptions import ConnectionError
 
-from Requerimentos import dicionari_token_credencial_n, numero_pc, nome_computador, nome_usuario, nome_completo
+from Requerimentos import numero_pc, nome_computador, nome_usuario, nome_completo
 
 config = {
     "apiKey": "AIzaSyCZ7PjgHEe16o9KFAsZ4eZ3PjiAJ06qWlE",
@@ -24,27 +23,24 @@ global_variables = {
     'group2': {'PC11': None, 'PC14': None, 'PC17': None, 'PC20': None, 'PC23': None, 'PC26': None, 'PC29': None, 'PC32': None, 'PC35': None},
     'group3': {'PC12': None, 'PC15': None, 'PC18': None, 'PC21': None, 'PC24': None, 'PC27': None, 'PC30': None, 'PC33': None, 'PC36': None}
 }
-orderem_chave = {
-    'group1': ['PC10', 'PC13', 'PC16', 'PC19', 'PC22', 'PC25', 'PC28', 'PC31', 'PC34'],
-    'group2': ['PC11', 'PC14', 'PC17', 'PC20', 'PC23', 'PC26', 'PC29', 'PC32', 'PC35'],
-    'group3': ['PC12', 'PC15', 'PC18', 'PC21', 'PC24', 'PC27', 'PC30', 'PC33', 'PC36']
-}
 
 # Define listas de arranjos de computadores cada arranjo será uma mesa diferente
-arranjo1_pc = (
-    'Comandos1/PC10', 'Comandos1/PC13', 'Comandos1/PC16', 'Comandos1/PC19', 'Comandos1/PC22',
-    'Comandos1/PC25', 'Comandos1/PC28', 'Comandos1/PC31', 'Comandos1/PC34'
-)
-
-arranjo2_pc = (
-    'Comandos2/PC11', 'Comandos2/PC14', 'Comandos2/PC17', 'Comandos2/PC20', 'Comandos2/PC23',
-    'Comandos2/PC26', 'Comandos2/PC29', 'Comandos2/PC32', 'Comandos2/PC35'
-)
-
-arranjo3_pc = (
-    'Comandos3/PC12', 'Comandos3/PC15', 'Comandos3/PC18', 'Comandos3/PC21', 'Comandos3/PC24',
-    'Comandos3/PC27', 'Comandos3/PC30', 'Comandos3/PC33', 'Comandos3/PC36'
-)
+# Criando as tuplas diretamente a partir do dicionário
+arranjo1_pc = tuple(f"Comandos1/{pc}" for pc in global_variables['group1'])
+arranjo2_pc = tuple(f"Comandos2/{pc}" for pc in global_variables['group2'])
+arranjo3_pc = tuple(f"Comandos3/{pc}" for pc in global_variables['group3'])
+# arranjo1_pc = (
+#     'Comandos1/PC10', 'Comandos1/PC13', 'Comandos1/PC16', 'Comandos1/PC19', 'Comandos1/PC22',
+#     'Comandos1/PC25', 'Comandos1/PC28', 'Comandos1/PC31', 'Comandos1/PC34'
+# )
+# arranjo2_pc = (
+#     'Comandos2/PC11', 'Comandos2/PC14', 'Comandos2/PC17', 'Comandos2/PC20', 'Comandos2/PC23',
+#     'Comandos2/PC26', 'Comandos2/PC29', 'Comandos2/PC32', 'Comandos2/PC35'
+# )
+# arranjo3_pc = (
+#     'Comandos3/PC12', 'Comandos3/PC15', 'Comandos3/PC18', 'Comandos3/PC21', 'Comandos3/PC24',
+#     'Comandos3/PC27', 'Comandos3/PC30', 'Comandos3/PC33', 'Comandos3/PC36'
+# )
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
 lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600A')
@@ -106,49 +102,30 @@ dados_config = {
 
 teve_atualizacao = False
 comando_escravo = None
+resposta_anterior = None
 
 
 def cria_caminho_resposta_fb():
     """Função destinada a manipular o dicionário com os nomes dos computadores
     e criar um caminho para apontar na função callback """
 
-    caminho_resposta = f'Comandos/PCXX'
-    caminho_resposta1 = f'Resposta1/PCXX'
-
-    # Crie um dicionário com os valores formatados
-    dicionari_pc = {}
-    for chave, (_, _, terceiro_item, *_resto) in dicionari_token_credencial_n.items():
-        # Formate o valor para ter dois dígitos e adicione "PC" antes
-        valor_formatado = f"PC{terceiro_item:02d}"
-        dicionari_pc[chave] = valor_formatado
-
-    # Verifique se o nome completo existe no dicionário
-    if nome_completo in dicionari_pc:
-        conteudo = dicionari_pc[nome_completo]
-        # print(f"Conteúdo para {nome_completo}: {conteudo}")
-
-        # Verifique em qual grupo o conteúdo está
-        for grupo, membros in global_variables.items():
-            # print(grupo)
-            # print(membros)
-            if conteudo in membros:
-                # Use uma expressão regular para extrair o número após 'group'
-                numero_grupo = re.search(r'group(\d+)', grupo).group(1)
-                # Use re.sub para substituir "group" por "Comandos"
-                grupo_modificado = re.sub(r'group', r'Comandos', grupo)
-                # print(f"{conteudo} está no grupo {grupo_modificado} ({numero_grupo})")
-                caminho_resposta = f'{grupo_modificado}/{conteudo}'
-                # print("caminho_resposta :", caminho_resposta)  # Comandos2/PC23
-                caminho_resposta1 = f'Resposta1/{conteudo}'
-                # print("caminho_resposta1 :", caminho_resposta1)  # Comandos2/PC23
-                return caminho_resposta, caminho_resposta1
-        else:
-            # print(f"{conteudo} não está em nenhum dos grupos")
-            return caminho_resposta, caminho_resposta1
-
+    if numero_pc in global_variables['group1']:
+        caminho_resposta = f'Comandos1/{numero_pc}'
+        caminho_resposta1 = f'Resposta1/{numero_pc}'
+    elif numero_pc in global_variables['group2']:
+        caminho_resposta = f'Comandos2/{numero_pc}'
+        caminho_resposta1 = f'Resposta2/{numero_pc}'
+    elif numero_pc in global_variables['group3']:
+        caminho_resposta = f'Comandos3/{numero_pc}'
+        caminho_resposta1 = f'Resposta3/{numero_pc}'
     else:
-        print(f"{nome_completo} não encontrado no dicionário")
-        return caminho_resposta, caminho_resposta1
+        print(f"{numero_pc} não está em nenhum dos arranjos")
+        caminho_resposta = f'Comandos/{numero_pc}'
+        caminho_resposta1 = f'Resposta/{numero_pc}'
+
+    print("caminho_resposta :", caminho_resposta)
+    print("caminho_resposta1 :", caminho_resposta1)
+    return caminho_resposta, caminho_resposta1
 
 
 if nome_computador in lista_PC_meste:
@@ -162,7 +139,7 @@ else:
 def inicializar_firebase():
     while True:
         response = requests.get('http://www.google.com', timeout=5)
-        if response.status_code == 200 or response.status_code == 429:
+        if response.status_code == 200:
             try:
                 firebase = pyrebase.initialize_app(config)
                 return firebase
@@ -195,13 +172,11 @@ def enviar_comando_coletivo(arranjo, comando):
 # Função de callback para manipular os dados quando houver uma atualização
 def on_update(event):
     try:
-        print("Atualização detectada:")
-        print(event)  # Aqui você pode acessar diretamente os dados atualizados
+
+        print("Atualização detectada:", event)  # Aqui você pode acessar diretamente os dados atualizados
         # Acessar o valor associado à chave 'data' no dicionário 'event'
         dado_atualizado = event['data']
         caminho_atualizado = event['path']
-        print(caminho_atualizado)
-        print(dado_atualizado)
         alterar_dado_global(caminho_atualizado, dado_atualizado)
 
     except Exception as e:
@@ -222,7 +197,6 @@ if nome_computador in lista_PC_meste:
     print(f"{nome_completo} está na lista de PCs mestres.")
     # # Referência para o nó do Firebase que você deseja observar
     ref = firebase.database().child(caminho_resposta)  # colocar o caminho de onde vem os comandos
-    #
     # # Registrar o observador usando o método "stream"
     # # A função "on" irá chamar a função "on_update" sempre que ocorrer uma edição no nó referenciado
     ref.stream(on_update)
@@ -232,11 +206,9 @@ else:
 
 
 def comando_escravo():
-    # global comando_escravo
     try:
         dado = db.child(caminho_resposta).get().val()
         if dado:
-            # Faça algo com os dados
             # print(f"O dado em {caminho_resposta} é: {dado}")
             return dado
         else:
@@ -256,11 +228,11 @@ def alterar_dado_global(nome_variavel, valor):
 
     if "PC" in nome_variavel:
         # Verifique em qual grupo colocar a variável com base no nome_variavel
-        if nome_variavel in orderem_chave['group1']:
+        if nome_variavel in global_variables['group1']:
             grupo = global_variables['group1']
-        elif nome_variavel in orderem_chave['group2']:
+        elif nome_variavel in global_variables['group2']:
             grupo = global_variables['group2']
-        elif nome_variavel in orderem_chave['group3']:
+        elif nome_variavel in global_variables['group3']:
             grupo = global_variables['group3']
 
         if grupo is not None:
@@ -322,9 +294,6 @@ def escreve_configuracao(dados_config):
         print(f"Ocorreu um erro ao escrever a informação: {str(e)}")
 
 
-resposta_anterior = None
-
-
 def confirmacao_escravo(resposta_escravo):
     global resposta_anterior
     '''Esta função escreve no banco onde é destinado a receber comando, com o intuito de deixar um comando nao aplicavel'''
@@ -359,13 +328,13 @@ def confirmacao_comando_resposta(resposta_escravo):
 def comando_coleetivo_escravo_escravo(comando):
     ''''quando um escravo precisa comandar os outro escravos de forma automatica'''
     if nome_usuario == "PokerIP":
-        print(nome_usuario)
+        # print(nome_usuario)
         enviar_comando_coletivo(arranjo1_pc, comando)
     elif nome_usuario == "lgagu":
-        print(nome_usuario)
+        # print(nome_usuario)
         enviar_comando_coletivo(arranjo2_pc, comando)
     elif nome_usuario == "Poker":
-        print(nome_usuario)
+        # print(nome_usuario)
         enviar_comando_coletivo(arranjo3_pc, comando)
     else:
         print("nome de usuario não configurado")
@@ -525,4 +494,6 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
+
 # escreve_configuracao(dados_config)
+
