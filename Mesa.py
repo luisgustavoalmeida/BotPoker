@@ -1073,6 +1073,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     num_mesa = ''
     cont_jogou = 0
     cont_limpa_jogando = 0
+    LEVEL_UPAR = 11
     indice_atual = None
     pular_sala = False
     reinicia_variaveis = True
@@ -1196,9 +1197,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
-                        if level_conta >= 10:
+                        if level_conta >= LEVEL_UPAR:
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                            if level_conta >= 10:
+                            if level_conta >= LEVEL_UPAR:
                                 break
                     # else:
                     # gira_niquel(x_origem, y_origem)
