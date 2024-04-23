@@ -35,6 +35,7 @@ linha_vazia_anterior = 2  # Inicializa a variável global
 intervalo_de_busca = 500
 guia_antiga = None
 
+
 def credencial():
     # IP.tem_internet()
     """Mostra o uso básico da Sheets API.
@@ -90,6 +91,7 @@ def gerar_tokens():
 cred = credencial()
 service = build('sheets', 'v4', credentials=cred)
 
+
 # def primeira_celula_vazia3(guia):
 #     print('primeira celula vazia')
 #     global cred
@@ -120,8 +122,6 @@ service = build('sheets', 'v4', credentials=cred)
 #             IP.tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
-
-
 
 
 def primeira_celula_vazia(guia):
@@ -373,7 +373,6 @@ def lote_valor(guia, linha):
                 n_pc = values[3]
                 fichas = 0
                 level = 1
-
             return n_pc, id, senha, fichas, cont_IP, level
 
         except Exception as error:
@@ -697,14 +696,19 @@ def credenciais(guia, salta_linhas=True):
 
         if reservado:
             try:
-                level = float(level)
-                fichas = tratar_valor_numerico(fichas)
-                cont_IP = tratar_valor_numerico(cont_IP)
-
+                level = float(level.replace(",", "."))
             except Exception as error:
                 print(error)
                 level = 1
+            try:
+                fichas = tratar_valor_numerico(fichas)
+            except Exception as error:
+                print(error)
                 fichas = 1
+            try:
+                cont_IP = tratar_valor_numerico(cont_IP)
+            except Exception as error:
+                print(error)
                 cont_IP = 6
 
             return id, senha, fichas, linha, cont_IP, level
@@ -759,7 +763,5 @@ def marca_caida(status, guia, linha):
 def apagar_numerodo_pc(valores, guia, linha):
     endereco = f"D{linha}"
     escrever_valores(valores, guia, endereco)
-
-
 
 # gerar_tokens()

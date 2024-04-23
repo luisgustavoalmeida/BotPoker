@@ -344,6 +344,7 @@ def tratar_valor_numerico(texto):
 
 
 def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
+
     """
     Esta função realiza a leitura do valor das fichas em uma determinada região da tela.
 
@@ -449,7 +450,6 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
 
     try:
         if valor_planilha != "":
-            print('fichas e valor_fichas_level ')
             if valor_planilha - 15000 < valor < valor_planilha + 15000:
                 print('\n valor compativel com valor_planilha \n')
                 return valor

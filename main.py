@@ -118,19 +118,6 @@ def tarefa_independente():
             tarefa_concluida.release()
 
 
-def finalizar_tarefa_independente():
-    global continuar_tarefa
-
-    # Sinalizar à tarefa para parar
-    continuar_tarefa = False
-
-    # Aguardar o término da tarefa
-    tarefa_concluida.acquire()
-
-    # Finalizar a thread
-    tarefa.join()
-
-
 # Iniciar a execução da tarefa independente
 tarefa = threading.Thread(target=tarefa_independente)
 tarefa.start()
@@ -142,7 +129,7 @@ def logar_carregar():
     time_atual = time.perf_counter()
     time_decorrido_id = time_atual - time_id
 
-    print(Fore.GREEN + f'Entando em uma nova conta id: {id}, senha: {senha}, cont_IP: {cont_IP}' + Fore.RESET)
+    print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
     if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
@@ -768,5 +755,8 @@ while True:
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
+        print(Fore.GREEN + f'Novos dados...\nID: {id},\nSenha: {senha},\nContagem de IP: {cont_IP},\nFichas planilha: {fichas_planilha},'
+                           f'\n Level da conta {level_conta},' + Fore.RESET)
+
 
 print("Este script será interrompido!")
