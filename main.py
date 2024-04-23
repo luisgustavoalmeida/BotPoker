@@ -575,7 +575,7 @@ def recolher_automatico():
 
 
 def identifica_funcao():
-    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim
+    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
@@ -597,7 +597,8 @@ def identifica_funcao():
             guia = confg_funcao
 
     elif confg_funcao == "Atualizar_codigo":
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
+        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
@@ -605,7 +606,8 @@ def identifica_funcao():
         exit(0)
 
     elif confg_funcao == "Substituir_codigo":
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
+        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
@@ -613,11 +615,15 @@ def identifica_funcao():
         exit(0)
 
     elif confg_funcao == "Parar_codigo":
+        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'A execução do programa foi interrompida {str(confg_funcao)}.  ⚙️', False)
         print("Este script será interrompido!")
         exit(0)
 
     elif confg_funcao == "Pausar_codigo":
+        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         while confg_funcao == "Pausar_codigo":
             Telegran.monta_mensagem(f'A execução do programa foi pausada {str(confg_funcao)}.  ⚙️', False)
             print("Este script será pausado!")
