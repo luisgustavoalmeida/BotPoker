@@ -637,6 +637,10 @@ def identifica_funcao():
             time.sleep(180)
             confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
         Telegran.monta_mensagem(f'A execução do programa foi retomada {str(confg_funcao)}.  ⚙️', False)
+        Seleniun.finaliza_navegador()
+        print("Este script será interrompido e inicializado novamente!")
+        fecha_cmd_atualisa_codigo()
+        exit(0)
 
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
