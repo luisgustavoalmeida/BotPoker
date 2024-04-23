@@ -697,7 +697,7 @@ def credenciais(guia, salta_linhas=True):
 
         if reservado:
             try:
-                level = tratar_valor_numerico(level)
+                level = float(level)
                 fichas = tratar_valor_numerico(fichas)
                 cont_IP = tratar_valor_numerico(cont_IP)
 
