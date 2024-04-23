@@ -354,7 +354,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     Returns:
     - int: O valor das fichas lido, ou 0 se nenhum valor válido for encontrado.
     """
-    print('valor_fichas')
+
 
     # Configurações para o processo OCR
     inveter_cor = True
@@ -373,6 +373,8 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     if valor_planilha:
         valor = tratar_valor_numerico(valor_planilha)
         valor_planilha = tratar_valor_numerico(valor_planilha)
+
+    print(Fore.YELLOW + f'valor_fichas - Planilha:{valor_planilha}, Perfil:{fichas_perfil}' + Fore.RESET)
 
     # Define a região de interesse para a leitura do valor
     regiao_ficha = (x_origem + 43, y_origem + 9, x_origem + 105, y_origem + 21)
@@ -1493,16 +1495,20 @@ def jogos_totais(x_origem, y_origem):
             # print(total_jogos)
             if total_jogos is not None:
                 # Dividindo a string em linhas usando o caractere de nova linha como separador
-                total_jogos = total_jogos.split("\n")[1].split("/")[0]
-                total_jogos = tratar_valor_numerico(total_jogos)
-                if 1 < total_jogos < 9999:
-                    print(Fore.YELLOW + f'Total de jogos:  {total_jogos}' + Fore.RESET)
-                    return total_jogos
-                else:
-                    print("Nível da contar fora da faixa desejada")
-                    total_jogos = 1
-            else:
-                print("Erro na leitura do OCR")
-                total_jogos = 1
+                try:
+                    total_jogos = total_jogos.split("\n")[1].split("/")[0]
+                    total_jogos = tratar_valor_numerico(total_jogos)
+                    if 1 < total_jogos < 9999:
+                        print(Fore.YELLOW + f'Total de jogos:  {total_jogos}' + Fore.RESET)
+                        return total_jogos
+                except IndexError:
+                    # Código a ser executado caso o índice da lista esteja fora do intervalo
+                    print("Erro ao extrair o valor de 'total_jogos'")
+                    # Opcionalmente, você pode definir um valor padrão para 'total_jogos'
+                    total_jogos = None
+                    pyautogui.click(25 + x_origem, 22 + y_origem)
+                    pyautogui.click(35 + x_origem, 22 + y_origem)
+                    time.sleep(1)
 
+    total_jogos = 0
     return total_jogos
