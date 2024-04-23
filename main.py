@@ -3,7 +3,7 @@ import threading
 import time
 
 import pyautogui
-from colorama import Fore, Back, Style, init, deinit
+from colorama import Fore
 
 import Aneis
 import Cartas
@@ -42,6 +42,7 @@ confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
 cont_IP = 10
+LEVEL_UPAR = 10
 blind = ""
 lugares = ""
 posi_lista = 0
@@ -104,8 +105,8 @@ def tarefa_independente():
                     Google.marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
-            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(
-                guia)  # pega id e senha para o proximo login
+            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(guia)
+            # pega id e senha para o proximo login
             time_id = time.perf_counter()
             continuar_tarefa = False
             # Indicar que a tarefa terminou e está pronta para aguardar novo comando
@@ -146,7 +147,7 @@ def logar_carregar():
     if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
-    print('\n Manda iniciar a tarefa independete\n ')
+    # print('\n Manda iniciar a tarefa independete\n ')
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
     iniciar_tarefa.release()
@@ -275,7 +276,7 @@ def roletas():
     elif roleta == 'roleta_2':
 
         conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
-        if level_conta < 10:
+        if level_conta < LEVEL_UPAR:
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             print('Level_conta: ', level_conta)
             print('Valor_fichas_perfil: ', valor_fichas_perfil)
@@ -706,7 +707,7 @@ while True:
         Aneis.recolhe_aneis(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
 
-        print('\nTerminou as atividades\n')
+        print(Fore.GREEN + '\nTerminou as atividades\n' + Fore.RESET)
     # ################################################################################################################################################
     ip, com_internet = IP.meu_ip()  # obtem meu endereço de IP
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
@@ -723,16 +724,16 @@ while True:
         print("Conta não entrou, o Statos é: ", status_poker)
 
     dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-    print('dia_da_semana: ', dia_da_semana)
+    # print('dia_da_semana: ', dia_da_semana)
 
-    print('\n Espera terminar tarefa independente loop\n')
+    # print('\n Espera terminar tarefa independente loop\n')
     tarefa_concluida.acquire()
-    print('\n Tarefa independente liberada loop\n')
+    # print('\n Tarefa independente liberada loop\n')
     while True:
         if not continuar_tarefa:
             break
         time.sleep(0.3)
-    print('\n Tarefa independente terminada loop\n')
+    # print('\n Tarefa independente terminada loop\n')
 
     guia_fim = guia
     linha_fim = linha
@@ -743,7 +744,7 @@ while True:
 
     identifica_funcao()
     if guia != guia_anterior:
-        print('Mudando de guia')
+        print(Fore.CYAN + 'Mudando de guia' + Fore.RESET)
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
         if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
@@ -763,7 +764,5 @@ while True:
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
-
-Seleniun.finaliza_navegador()
 
 print("Este script será interrompido!")

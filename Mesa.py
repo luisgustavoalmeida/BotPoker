@@ -108,7 +108,7 @@ dicionari_PC_cadeira = {
     'PC-I5-13400E': {'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452), 'cadeira_6': (276, 451),
                      'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131), 'cadeira_1': (659, 127)},
     'PC-I5-13400F': {'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452), 'cadeira_6': (276, 451), 'cadeira_7': (118, 360),
-                    'cadeira_8': (134, 194), 'cadeira_9': (312, 131), 'cadeira_1': (659, 127), 'cadeira_2': (828, 211)},
+                     'cadeira_8': (134, 194), 'cadeira_9': (312, 131), 'cadeira_1': (659, 127), 'cadeira_2': (828, 211)},
     'PC-i3-8145U': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
                     'cadeira_6': (276, 451), 'cadeira_7': (118, 360), 'cadeira_8': (134, 194), 'cadeira_9': (312, 131)},
     'PC-I7-9700KF': {'cadeira_1': (659, 127), 'cadeira_2': (828, 211), 'cadeira_3': (847, 366), 'cadeira_4': (690, 451), 'cadeira_5': (495, 452),
@@ -871,7 +871,6 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=9
                     if not mesa_sem_humanos(x_origem, y_origem, lugares):
                         print('Sai da mesa pq tem humanos')
                         return False, True
-
 
                     num_sala = OCR_tela.numero_sala(x_origem, y_origem)
                     print("num_sala", num_sala, 'num_mesa', num_mesa)

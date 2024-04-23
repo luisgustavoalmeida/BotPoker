@@ -6,7 +6,7 @@ import Limpa
 
 
 def pega_2xp(x_origem, y_origem):
-    if pyautogui.pixelMatchesColor((x_origem + 46), (y_origem + 31), (254, 255, 150), tolerance=5):
+    if pyautogui.pixelMatchesColor((x_origem + 45), (y_origem + 31), (254, 255, 195), tolerance=20):
         # raio do 2xp ativo
         print("2xp ja esta acionado acionado")
         return "2xp acionado"

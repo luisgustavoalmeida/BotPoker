@@ -12,6 +12,7 @@ from fuzzywuzzy import fuzz
 
 import IP
 from F5_navegador import atualizar_navegador
+from colorama import Fore, Back, Style, init, deinit
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -353,7 +354,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     Returns:
     - int: O valor das fichas lido, ou 0 se nenhum valor válido for encontrado.
     """
-    print('\n\n valor_fichas')
+    print('valor_fichas')
 
     # Configurações para o processo OCR
     inveter_cor = True
@@ -406,7 +407,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
             valor = tratar_valor_numerico(lido)
             # Verifica se o valor está dentro da faixa desejada
             if 500 < valor < 50000000:
-                print(f"Valor das fichas: {valor}")
+                print(Fore.YELLOW + f"Valor das fichas: {valor}" + Fore.RESET)
                 lido_corretamente = True
                 break
             else:
@@ -431,7 +432,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
                 valor = tratar_valor_numerico(lido)
                 # Verifica se o valor está dentro da faixa desejada
                 if 500 < valor < 50000000:
-                    print(f"Valor das fichas: {valor}")
+                    print(Fore.YELLOW + f"Valor das fichas: {valor}" + Fore.RESET)
                     lido_corretamente = True
                     break
                 else:
@@ -442,8 +443,8 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
         print('OCR nao recolheceu a imagem')
         valor = valor_fichas_perfil(x_origem, y_origem)
 
-    print('valor_planilha', valor_planilha)
-    print('fichas_perfil ', fichas_perfil)
+    print(Fore.YELLOW + f'valor_planilha {valor_planilha}, fichas_perfil  {fichas_perfil}' + Fore.RESET)
+
     try:
         if valor_planilha != "":
             print('fichas e valor_fichas_level ')
@@ -495,7 +496,7 @@ def valor_fichas_perfil(x_origem, y_origem):
     - int: valor de fichas da conta ou 0 se não for encontrado ou estiver fora da faixa desejada.
     """
     print('valor_fichas_perfil')
-    fichas = 0
+    fichas = None
 
     for _ in range(100):
         # clica para abrir a tela do perfil
@@ -529,23 +530,16 @@ def valor_fichas_perfil(x_origem, y_origem):
     for config in configuracoes:
         # Realiza o OCR com a configuração atual
         fichas = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-        print(fichas)
         if fichas is not None:
             fichas = tratar_valor_numerico(fichas)
             # Verifica se o valor está na faixa desejada
             if 500 < fichas < 50000000:
-                print(f"Valor das fichas perfil: {fichas}")
+                print(Fore.YELLOW + f"Valor das fichas perfil: {fichas}" + Fore.RESET)
                 # clica para fechar a tela do perfil
                 pyautogui.click(772 + x_origem, 160 + y_origem)
                 time.sleep(0.5)
                 return fichas
-                # break
-            else:
-                print("Valor fora da faixa desejada")
-                fichas = 0
-        else:
-            print("Erro na leitura do OCR")
-            fichas = 0
+    fichas = 0
     return fichas
 
 
@@ -568,12 +562,12 @@ def tempo_roleta(x_origem, y_origem):
     ]
 
     for config in configuracoes:
-        print(config)
+        # print(config)
         tempo = OCR_regiao(regiao, config, inverter_cor, fator_ampliacao, contraste_pre, contraste_pos, escala_cinza)
-        print(tempo)
+        # print(tempo)
         if tempo is not None:
             tempo = tratar_valor_numerico(tempo)
-            print("Tempo lido na roleta", tempo)
+            print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
             return tempo
         else:
             print('OCR não reconheceu a imagem')
@@ -631,13 +625,13 @@ def pontuacao_tarefas(x_origem, y_origem):
                 pontuacao = tratar_valor_numerico(str(pontuacao)[:-3])
                 # Verifica se a pontuação está entre os valores possíveis
                 if pontuacao in valores_possiveis:
-                    print("Pontuação obtida com sucesso:", pontuacao)
+                    print(Fore.YELLOW + f'Pontuação tarefas: {pontuacao}' + Fore.RESET)
                     return pontuacao
             elif pontuacao is not None and "/200" in pontuacao:
                 pontuacao = tratar_valor_numerico(pontuacao.split("/")[0])
                 # Verifica se a pontuação está entre os valores possíveis
                 if pontuacao in valores_possiveis:
-                    print("Pontuação obtida com sucesso:", pontuacao)
+                    print(Fore.YELLOW + f'Pontuação tarefas: {pontuacao}' + Fore.RESET)
                     return pontuacao
             else:
                 print('Informação OCR fora do padrao')
@@ -795,7 +789,7 @@ def tarefas_diaris(x_origem, y_origem):
                             # inclui na lista o itens nao repitidos
                             lista.append(item)
         # time.sleep(2)
-    print(lista)
+    print(f'Lista de tarefas diarias; {lista}')
     return lista
 
 
@@ -1072,8 +1066,7 @@ def remover_termos_upando(texto, metodo=1):
                 if similarity_ratio >= tolerancia and item not in itens_em_comum:
                     itens_em_comum.append(item)
 
-    print('itens_em_comum')
-    print(itens_em_comum)
+    print(f'itens_em_comum: {itens_em_comum}')
     return itens_em_comum
 
 
@@ -1146,12 +1139,12 @@ def tarefas_diaris_upando(x_origem, y_origem):
     regiao = (x_origem + 278, y_origem + 329, x_origem + 784, y_origem + 563)
     # abre a tela do tarefa diarias e retrona se true se a conta esta upada e false se a conta esta sem upar
     if limpa_abre_tarefa_3(x_origem, y_origem):
-        print('Conta upada')
+        print(Fore.YELLOW + 'Conta upada' + Fore.RESET)
         pyautogui.click(x_origem + 816, y_origem + 142)  # clica para fechar as tarefas
         lista_tarefas = ['Missões padrão']
         return lista_tarefas
     else:
-        print('Conta sem upar')
+        print(Fore.YELLOW + 'Conta sem upar' + Fore.RESET)
         # Realiza a leitura da região de tarefas diárias
         texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
 
@@ -1207,8 +1200,7 @@ def blind_sala(x_origem, y_origem):
             # mantém apenas os dígitos (0-9), 'K' e 'M' na string blind e descarta os outros caracteres.
             blind = str(''.join(c for c in blind if c.isdigit() or c in ['K', 'M']))
             if blind in lista_blind:
-                print(f"{blind} está na lista.")
-                print('blind da mesa : ', blind)
+                print(Fore.YELLOW + f'blind da mesa: {blind}' + Fore.RESET)
                 return blind
             else:
                 print(f"{blind} não está na lista.")
@@ -1255,13 +1247,13 @@ def numero_sala(x_origem, y_origem):
     for config in configuracoes:
 
         numero = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)  # pontuação
-        print('numero mesa sem tratamento: ', numero)
+        # print('numero mesa sem tratamento: ', numero)
         if numero is not None:
             numero = numero.split(' ')[0] if ' ' in numero else numero
             # se a string contiver espaços, ele pegará a parte antes do espaço. Caso contrário, retornará a própria string original.
             numero = str(numero)[:4]
             numero = tratar_valor_numerico(numero)
-            print('Número da sala:', numero)
+            print(Fore.YELLOW + f'Número da sala: {numero}' + Fore.RESET)
             return str(numero)
         else:
             print("Valor fora da faixa desejada")
@@ -1305,9 +1297,9 @@ def valor_apostar(x_origem, y_origem):
                 valor = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
 
                 if valor is not None:
-                    # print("\nAposta: ", valor, "\n")
 
                     valor = int(valor)
+                    print(Fore.YELLOW + f'Valor aposta: {valor}' + Fore.RESET)
                     return valor
 
             except Exception as e:
@@ -1403,14 +1395,16 @@ def level_conta(x_origem, y_origem):
         time.sleep(0.2)
 
     # Configurações para o processo OCR
-    level = 0
+    level = None
     fichas = 0
+    total_jogos = 0
     inveter_cor = False
     esca_ciza = True
     fator_ampliacao = 3
     contraste_pre = 1
     contraste_pos = 1
-    regiao_ficha = (x_origem + 599, y_origem + 239, x_origem + 630, y_origem + 257)  # leval
+    regiao_level = (x_origem + 599, y_origem + 239, x_origem + 630, y_origem + 257)  # leval
+    regiao_total_jogos = (x_origem + 410, y_origem + 310, x_origem + 595, y_origem + 345)
     configuracoes = [
         r'--oem 3 --psm 6 outputbase digits',
         r'--psm 7 --oem 0 -c tessedit_char_whitelist=0123456789',
@@ -1423,13 +1417,18 @@ def level_conta(x_origem, y_origem):
             pyautogui.click(35 + x_origem, 22 + y_origem)
             # print(config)
             # Realiza a leitura do nível usando OCR
-            level = OCR_regiao(regiao_ficha, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-            # print('lido ', lido)
+            level = OCR_regiao(regiao_level, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+            # print(total_jogos)
             if level is not None:
                 level = tratar_valor_numerico(level)
                 # Verifica se o valor está na faixa desejada
                 if 1 < level < 30:
-                    print("\n   Nível da conta:", level, '\n')
+                    print(Fore.YELLOW + f'Leval da conta: {level}' + Fore.RESET)
+
+                    total_jogos = jogos_totais(x_origem, y_origem)
+
+                    level = float(level + float(total_jogos) / 10000)
+
                     fichas = valor_fichas_perfil(x_origem, y_origem)
 
                     if pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=2):
@@ -1438,17 +1437,72 @@ def level_conta(x_origem, y_origem):
 
                     return level, fichas
 
-                else:
-                    print("Nível da contar fora da faixa desejada")
-                    level = 1
-            else:
-                print("Erro na leitura do OCR")
-                level = 1
-
     fichas = valor_fichas_perfil(x_origem, y_origem)
 
     if pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=2):
         pyautogui.click(771 + x_origem, 162 + y_origem)  # clica para fechar a tela do perfil
         time.sleep(0.5)
     print('Erro na leitura do nivel da comta')
+    level = 1
+    level = float(level + float(total_jogos) / 10000)
     return level, fichas
+
+
+def jogos_totais(x_origem, y_origem):
+    """
+    Extrai e retorna o nível da conta de uma aplicação gráfica.
+
+    Parameters:
+    - x_origem (int): Coordenada x da origem da janela.
+    - y_origem (int): Coordenada y da origem da janela.
+
+    Returns:
+    - int: Nível da conta ou 0 se não for encontrado ou estiver fora da faixa desejada.
+    """
+    print('level_conta')
+
+    for _ in range(50):
+        # clica para abrir a tela do perfil
+        pyautogui.click(25 + x_origem, 22 + y_origem)
+        pyautogui.click(35 + x_origem, 22 + y_origem)
+        # testa se a tela do perfil esta aberta
+        if (pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 170), (227, 18, 5), tolerance=1)
+                and pyautogui.pixelMatchesColor((x_origem + 406), (y_origem + 273), (116, 130, 139), tolerance=1)):
+            break
+
+        time.sleep(0.2)
+
+    # Configurações para o processo OCR
+    inveter_cor = False
+    esca_ciza = True
+    fator_ampliacao = 3
+    contraste_pre = 1
+    contraste_pos = 1
+    total_jogos = None
+
+    regiao_total_jogos = (x_origem + 410, y_origem + 310, x_origem + 595, y_origem + 345)
+
+    configuracoes = ['--psm 6 --oem 1']
+
+    for _ in range(3):
+        for config in configuracoes:
+            pyautogui.click(25 + x_origem, 22 + y_origem)
+            pyautogui.click(35 + x_origem, 22 + y_origem)
+
+            total_jogos = OCR_regiao(regiao_total_jogos, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+            # print(total_jogos)
+            if total_jogos is not None:
+                # Dividindo a string em linhas usando o caractere de nova linha como separador
+                total_jogos = total_jogos.split("\n")[1].split("/")[0]
+                total_jogos = tratar_valor_numerico(total_jogos)
+                if 1 < total_jogos < 9999:
+                    print(Fore.YELLOW + f'Total de jogos:  {total_jogos}' + Fore.RESET)
+                    return total_jogos
+                else:
+                    print("Nível da contar fora da faixa desejada")
+                    total_jogos = 1
+            else:
+                print("Erro na leitura do OCR")
+                total_jogos = 1
+
+    return total_jogos
