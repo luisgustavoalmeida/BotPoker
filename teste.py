@@ -1,20 +1,20 @@
 import sqlite3
 
-ARQUIVO_BD = 'shared_data.db'
+ARQUIVO_BD = 'tabele_ip.db'
 CRIAR_TABELA_QUERY = '''CREATE TABLE IF NOT EXISTS contagem_ip (
                             id INTEGER PRIMARY KEY,
-                            dado_script_um INTEGER,
-                            dado_script_dois TEXT,
-                            dado_script_tres TEXT,
-                            soma_dos_tres_primeiros INTEGER,
+                            dado_PC_1 INTEGER,
+                            dado_PC_2 INTEGER,
+                            dado_PC_3 INTEGER,
+                            soma_IP INTEGER,
                             dado_coluna_cinco TEXT
                         )'''
-INSERIR_INFO_QUERY = "INSERT INTO contagem_ip (dado_script_um, dado_script_dois, dado_script_tres) VALUES (?, ?, ?)"
+INSERIR_INFO_QUERY = "UPDATE contagem_ip SET (dado_PC_1, dado_PC_2, dado_PC_3) VALUES (?, ?, ?)"
 SELECIONAR_TODAS_INFO_QUERY = "SELECT * FROM contagem_ip"
-ATUALIZAR_DADO_SCRIPT_UM_QUERY = "UPDATE contagem_ip SET dado_script_um = ?"
-ATUALIZAR_DADO_SCRIPT_DOIS_QUERY = "UPDATE contagem_ip SET dado_script_dois = ?"
-ATUALIZAR_DADO_SCRIPT_TRES_QUERY = "UPDATE contagem_ip SET dado_script_tres = ?"
-ATUALIZAR_SOMA_QUERY = "UPDATE contagem_ip SET soma_dos_tres_primeiros = dado_script_um + dado_script_dois + dado_script_tres"
+ATUALIZAR_DADO_PC_1 = "UPDATE contagem_ip SET dado_PC_1 = ?"
+ATUALIZAR_DADO_PC_2 = "UPDATE contagem_ip SET dado_PC_2 = ?"
+ATUALIZAR_DADO_PC_3 = "UPDATE contagem_ip SET dado_PC_3 = ?"
+ATUALIZAR_SOMA_QUERY = "UPDATE contagem_ip SET soma_dos_tres_primeiros = dado_PC_1 + dado_PC_2 + dado_PC_3"
 ATUALIZAR_DADO_COLUNA_CINCO_QUERY = "UPDATE contagem_ip SET dado_coluna_cinco = ?"
 
 
@@ -47,7 +47,7 @@ def criar_tabela(conn):
         print(f"Erro ao criar tabela: {e}")
 
 
-def inserir_info(dado_script_um, dado_script_dois, dado_script_tres):
+def inserir_info_dos_3_computadores(dado_1, dado_2, dado_3):
     """
     Função para inserir informações nas três primeiras colunas da tabela 'contagem_ip'.
 
@@ -61,32 +61,32 @@ def inserir_info(dado_script_um, dado_script_dois, dado_script_tres):
         if conn:
             criar_tabela(conn)  # Chamada para criar a tabela
             with conn:
-                conn.execute(INSERIR_INFO_QUERY, (dado_script_um, dado_script_dois, dado_script_tres))
+                conn.execute(INSERIR_INFO_QUERY, (dado_1, dado_2, dado_3))
     except sqlite3.Error as e:
         print(f"Erro ao inserir informação: {e}")
     finally:
         if conn:
             conn.close()
+            
+    with sqlite3.connect(ARQUIVO_BD) as conexao:  # Conexão aberta automaticamente
+        cursor = conexao.cursor()
+        cursor.execute(ATUALIZAR_DADO_PC_1, (dado_1, dado_2, dado_3))
+        conexao.commit()  # Transação confirmada antes do fechamento
+        print(f"Dado do Script 1 atualizado para: {novo_dado}")
 
 
-def atualizar_dado_script_um(data):
+def atualizar_dado_script_um(novo_dado):
     """
-    Função para atualizar a informação do Script 1 na primeira coluna da tabela 'contagem_ip'.
+    Função para atualizar o valor do Script 1 na tabela 'contagem_ip'.
 
     Parâmetros:
-        data: Nova informação do Script 1.
+        novo_dado: Novo valor do Script 1.
     """
-    try:
-        conn = criar_conexao()
-        if conn:
-            criar_tabela(conn)  # Chamada para criar a tabela
-            with conn:
-                conn.execute(ATUALIZAR_DADO_SCRIPT_UM_QUERY, (data,))
-    except sqlite3.Error as e:
-        print(f"Erro ao atualizar dado do Script 1: {e}")
-    finally:
-        if conn:
-            conn.close()
+    with sqlite3.connect(ARQUIVO_BD) as conexao:  # Conexão aberta automaticamente
+        cursor = conexao.cursor()
+        cursor.execute(ATUALIZAR_DADO_PC_1, (novo_dado,))
+        conexao.commit()  # Transação confirmada antes do fechamento
+        print(f"Dado do Script 1 atualizado para: {novo_dado}")
 
 
 def atualizar_dado_script_dois(data):
@@ -101,7 +101,7 @@ def atualizar_dado_script_dois(data):
         if conn:
             criar_tabela(conn)  # Chamada para criar a tabela
             with conn:
-                conn.execute(ATUALIZAR_DADO_SCRIPT_DOIS_QUERY, (data,))
+                conn.execute(ATUALIZAR_DADO_PC_2, (data,))
     except sqlite3.Error as e:
         print(f"Erro ao atualizar dado do Script 2: {e}")
     finally:
@@ -121,7 +121,7 @@ def atualizar_dado_script_tres(data):
         if conn:
             criar_tabela(conn)  # Chamada para criar a tabela
             with conn:
-                conn.execute(ATUALIZAR_DADO_SCRIPT_TRES_QUERY, (data,))
+                conn.execute(ATUALIZAR_DADO_PC_3, (data,))
     except sqlite3.Error as e:
         print(f"Erro ao atualizar dado do Script 3: {e}")
     finally:
@@ -206,19 +206,19 @@ def limpar_tabela():
 # Exemplo de como usar as funções definidas acima
 if __name__ == "__main__":
     # Script 1
-    inserir_info(10, 'Dado do Script 2', 'Dado do Script 3')
-    atualizar_dado_script_um(10)
-    atualizar_soma_coluna()
-    atualizar_dado_coluna_cinco('Dado da coluna cinco do Script 1')
-
-    # Script 2
-    atualizar_dado_script_dois('Dado atualizado do Script 2')
-
-    # Script 3
-    atualizar_dado_script_tres('Dado atualizado do Script 3')
-
-    # Visualizar tabela
-    visualizar_tabela()
+    inserir_info_dos_3_computadores(1, 2, 3)
+    # atualizar_dado_script_um(2)
+    # atualizar_soma_coluna()
+    # atualizar_dado_coluna_cinco('Dado da coluna cinco do Script 1')
+    #
+    # # Script 2
+    # atualizar_dado_script_dois('Dado atualizado do Script 2')
+    #
+    # # Script 3
+    # atualizar_dado_script_tres('Dado atualizado do Script 3')
+    #
+    # # Visualizar tabela
+    # visualizar_tabela()
 
     # Limpar tabela
-    limpar_tabela()
+    # limpar_tabela()

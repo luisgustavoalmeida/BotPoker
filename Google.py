@@ -711,6 +711,7 @@ def credenciais(guia, salta_linhas=True):
                 print(error)
                 cont_IP = 6
 
+            print('credenciais', level, fichas, cont_IP)
             return id, senha, fichas, linha, cont_IP, level
 
         print('tentar credenciaias')
@@ -764,4 +765,4 @@ def apagar_numerodo_pc(valores, guia, linha):
     endereco = f"D{linha}"
     escrever_valores(valores, guia, endereco)
 
-# gerar_tokens()
+gerar_tokens()
