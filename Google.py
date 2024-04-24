@@ -765,4 +765,4 @@ def apagar_numerodo_pc(valores, guia, linha):
     endereco = f"D{linha}"
     escrever_valores(valores, guia, endereco)
 
-gerar_tokens()
+# gerar_tokens()
