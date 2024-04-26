@@ -660,6 +660,12 @@ Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  �
 
 dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
 print('dia_da_semana: ', dia_da_semana)
+print(Fore.GREEN + f'Novos dados...\n'
+                   f'ID: {id},'
+                   f'\nSenha: {senha},'
+                   f'\nContagem de IP: {cont_IP},'
+                   f'\nFichas planilha: {fichas_planilha},'
+                   f'\nLevel da conta {level_conta},' + Fore.RESET)
 
 while True:
     ip = ""
@@ -761,7 +767,10 @@ while True:
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
-        print(Fore.GREEN + f'Novos dados...\nID: {id},\nSenha: {senha},\nContagem de IP: {cont_IP},\nFichas planilha: {fichas_planilha},'
-                           f'\n Level da conta {level_conta},' + Fore.RESET)
+        print(Fore.GREEN + f'Novos dados...\n'
+                           f'ID: {id},\nSenha: {senha},'
+                           f'\nContagem de IP: {cont_IP},'
+                           f'\nFichas planilha: {fichas_planilha},'
+                           f'\nLevel da conta {level_conta},' + Fore.RESET)
 
 print("Este script será interrompido!")
