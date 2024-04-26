@@ -1079,7 +1079,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     JOGADAS_UPAR = 180
     SLOT_UPAR = 120
     LEVEL_UPAR = 10
-    JOGADAS_SLOT_SOMA = 300
+    JOGADAS_SLOT_SOMA = 280
 
     indice_atual = None
     pular_sala = False
@@ -1217,15 +1217,19 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                     if level_conta >= LEVEL_UPAR:
                         if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
-                            print(Fore.YELLOW + f"Terminou de upoar. Jogou vezes igua a: {cont_jogou}."
+                            print(Fore.YELLOW + f"Terminou de upoar. "
+                                                f"\nJogou vezes igua a: {cont_jogou}."
                                                 f"\nSlote vezes: {cont_slot}."
-                                                f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
+                                                f"\n Jogadas total: {cont_total_jogadas}."
+                                                f"\nJogadas + Slote" + Fore.RESET)
                             break
 
                         if (cont_total_jogadas + cont_slot) >= JOGADAS_SLOT_SOMA:
-                            print(Fore.YELLOW + f"Terminou de upoar. Jogou vezes igua a: {cont_jogou}."
+                            print(Fore.YELLOW + f"Terminou de upoar. "
+                                                f"\nJogou vezes igua a: {cont_jogou}."
                                                 f"\nSlote vezes: {cont_slot}."
-                                                f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
+                                                f"\n Jogadas total: {cont_total_jogadas}."
+                                                f"\nJogadas + Slote" + Fore.RESET)
                             break
 
                 else:
@@ -1459,7 +1463,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     num_vezes_minimo = 2
     # limite de fichas minimo para jogar
     LIMITE_FICHAS = 10000
-    LEVEL_UPAR = 0.03
+    LEVEL_UPAR = 0.028
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
         # nao joga se ja for mais tarde que o horario definido
