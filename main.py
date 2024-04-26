@@ -42,7 +42,7 @@ confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
 cont_IP = 10
-LEVEL_UPAR = 0.012
+LEVEL_UPAR = 0.0280
 blind = ""
 lugares = ""
 posi_lista = 0
