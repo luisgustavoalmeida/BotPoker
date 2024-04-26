@@ -367,7 +367,7 @@ def ler_configuracao():
 
 def atualizar_configuracao_pc(novos_dados):
     ''' Atualiza os dados de configuração para um PC específico '''
-    # novos_dados = {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5'}
+
     global firebase, db
     try:
         if not firebase or not db:
@@ -385,7 +385,7 @@ def atualizar_estatos_mesa(statos):
     Atualiza os dados de configuração para um PC específico
     modelo de parametro a ser passado pc_statos = {'200400': 'sentado'}
     '''
-    # novos_dados = {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '5:00:5'}
+
     global firebase, db, status_anterior
     if status_anterior == statos:
         return
