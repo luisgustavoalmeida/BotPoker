@@ -1076,7 +1076,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     cont_total_jogadas = 0
     cont_slot = 0
-    JOGADAS_UPAR = 180
+    JOGADAS_UPAR = 160
     SLOT_UPAR = 120
     LEVEL_UPAR = 10
     JOGADAS_SLOT_SOMA = 280

@@ -247,7 +247,7 @@ def roletas():
         for _ in range(50):
             time_sair = time.perf_counter()
             tempo_total = time_sair - time_rodou
-            print('tempo que ja clicou no rodou: ', tempo_total)
+            print(f'Tempo que ja clicou no girar: {tempo_total}')
             if tempo_total >= 12:
                 print('ja pode sair do r1')
                 if pyautogui.pixelMatchesColor((x_origem + 495), (y_origem + 315), (211, 110, 12), tolerance=10):
