@@ -36,7 +36,7 @@ arranjo3_pc = tuple(f"Comandos3/{pc}" for pc in global_variables['group3'])
 
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
-lista_PC_meste = ('xPC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600')
+lista_PC_meste = ('PC-I7-9700KF', 'PC-i3-8145U', 'PC-R5-7600')
 
 # Dados padrões de configuração a serem escritos
 dados_config = {
@@ -105,17 +105,15 @@ def cria_caminho_resposta_fb():
 
     if numero_pc in global_variables['group1']:
         caminho_resposta = f'Comandos1/{numero_pc}'
-        caminho_resposta1 = f'Resposta1/{numero_pc}'
     elif numero_pc in global_variables['group2']:
         caminho_resposta = f'Comandos2/{numero_pc}'
-        caminho_resposta1 = f'Resposta2/{numero_pc}'
     elif numero_pc in global_variables['group3']:
         caminho_resposta = f'Comandos3/{numero_pc}'
-        caminho_resposta1 = f'Resposta3/{numero_pc}'
     else:
         print(f"{numero_pc} não está em nenhum dos arranjos")
-        caminho_resposta = f'Comandos/{numero_pc}'
-        caminho_resposta1 = f'Resposta/{numero_pc}'
+        caminho_resposta = f'Comandos_despadronizado/{numero_pc}'
+
+    caminho_resposta1 = f'Resposta1/{numero_pc}'
 
     print("caminho_resposta :", caminho_resposta)
     print("caminho_resposta1 :", caminho_resposta1)

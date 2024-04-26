@@ -3,6 +3,7 @@ import random
 import time
 
 import pyautogui
+from colorama import Fore
 
 import HoraT
 import IP
@@ -1058,7 +1059,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level_conta=4):
     print('mesa_upar_jogar')
 
     global dicionario_salas, indice_inicial
@@ -1072,7 +1073,14 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     num_mesa = ''
     cont_jogou = 0
     cont_limpa_jogando = 0
-    LEVEL_UPAR = 11
+
+    cont_total_jogadas = 0
+    cont_slot = 0
+    JOGADAS_UPAR = 180
+    SLOT_UPAR = 120
+    LEVEL_UPAR = 10
+    JOGADAS_SLOT_SOMA = 300
+
     indice_atual = None
     pular_sala = False
     reinicia_variaveis = True
@@ -1094,6 +1102,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
         return "sair da conta"
 
     if upar:
+        cont_total_jogadas = (level_conta - int(level_conta)) * 10000
         xp2.pega_2xp(x_origem, y_origem)
 
     Limpa.fecha_tarefa(x_origem, y_origem)
@@ -1182,6 +1191,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('\nPara de jogar atingiu o limite de 23:30\n')
                 break
 
+            if upar and (cont_slot < SLOT_UPAR):
+                if gira_niquel(x_origem, y_origem):
+                    cont_slot += 10
+
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 # testa se apareceu as mensagens verdes na parte de baixo
@@ -1191,17 +1204,30 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     print('Jogou uma partida com a mesa completa')
                     break
                 if upar:
-                    print("Esta upando a conta. Jogou vezes igua a: ", cont_jogou)
+                    print(Fore.YELLOW + f"Esta upando a conta. Jogou vezes igua a: {cont_jogou}."
+                                        f"\nSlote vezes: {cont_slot}."
+                                        f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
                     if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                        cont_total_jogadas = (level_conta - int(level_conta)) * 10000
                         xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
                         if level_conta >= LEVEL_UPAR:
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-                            if level_conta >= LEVEL_UPAR:
-                                break
-                    # else:
-                    # gira_niquel(x_origem, y_origem)
+
+                    if level_conta >= LEVEL_UPAR:
+                        if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
+                            print(Fore.YELLOW + f"Terminou de upoar. Jogou vezes igua a: {cont_jogou}."
+                                                f"\nSlote vezes: {cont_slot}."
+                                                f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
+                            break
+
+                        if (cont_total_jogadas + cont_slot) >= JOGADAS_SLOT_SOMA:
+                            print(Fore.YELLOW + f"Terminou de upoar. Jogou vezes igua a: {cont_jogou}."
+                                                f"\nSlote vezes: {cont_slot}."
+                                                f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
+                            break
+
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
                     if (cont_jogou >= numero_jogadas) and (not recolher):
@@ -1351,6 +1377,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                             indice_inicial = 0
                             reinicia_variaveis = False
                             pular_sala = False
+                            if upar and cont_slot < SLOT_UPAR:
+                                gira_niquel(x_origem, y_origem)
                             break
                         else:
                             reinicia_variaveis = True
@@ -1424,13 +1452,14 @@ def blind_do_dia(dia_da_semana=10):
 
 
 def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0, roleta='roleta_1'):
-    print("dia_de_jogar_mesa")
+    cont_total_jogadas = (level_conta - int(level_conta))
+    print("dia_de_jogar_mesa", level_conta, valor_fichas_perfil, conta_upada, dia_da_semana, cont_total_jogadas)
     # define o numero maximo e minimo que ira joga na mesa
     num_vezes_maximo = 4
     num_vezes_minimo = 2
     # limite de fichas minimo para jogar
     LIMITE_FICHAS = 10000
-    LEVEL_UPAR = 10
+    LEVEL_UPAR = 0.03
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
         # nao joga se ja for mais tarde que o horario definido
@@ -1445,24 +1474,26 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     if roleta == 'roleta_2':
-        if level_conta >= LEVEL_UPAR and conta_upada:
+        print('numero total de jogadas:', (level_conta - int(level_conta)))
+        if (cont_total_jogadas >= LEVEL_UPAR) and conta_upada:
             print('\nLevel da conta ja superior a 10 e conta upada\n')
             return level_conta, valor_fichas_perfil
 
         # if not conta_upada:
-        if (4 < level_conta) or (not conta_upada):
+        if (4 >= level_conta) or (not conta_upada):
             blind_mesa = '100200'
             # blind_mesa = '5001K'
-            Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
+            # Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             upar(x_origem, y_origem, blind_mesa=blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            cont_total_jogadas = (level_conta - int(level_conta))
             conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             # Limpa.limpa_total(x_origem, y_origem)
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
 
-        if (4 <= level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+        if (cont_total_jogadas < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
@@ -1473,13 +1504,14 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             Limpa.limpa_total(x_origem, y_origem)
 
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False)
+            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
+                            level_conta=level_conta)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
-        Limpa.limpa_total(x_origem, y_origem)
+        # Limpa.limpa_total(x_origem, y_origem)
         print('\n level da conta nao adequado ou conta ja upada\n')
         return level_conta, valor_fichas_perfil
 

@@ -217,7 +217,7 @@ def update_text_widgets():
     # global valores_anteriores
 
     if Firebase.teve_atualizacao:
-        print('tem atualizações')
+        # print('tem atualizações')
         for i, (group, pc_data) in enumerate(global_variables.items()):
 
             # Verifique se os valores atuais são diferentes dos valores anteriores

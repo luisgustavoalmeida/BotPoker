@@ -42,7 +42,7 @@ confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
 cont_IP = 10
-LEVEL_UPAR = 10
+LEVEL_UPAR = 0.012
 blind = ""
 lugares = ""
 posi_lista = 0
@@ -262,8 +262,8 @@ def roletas():
 
     elif roleta == 'roleta_2':
 
-        conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
-        if level_conta < LEVEL_UPAR:
+        if (level_conta - int(level_conta)) < LEVEL_UPAR:
+            conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             print('Level_conta: ', level_conta)
             print('Valor_fichas_perfil: ', valor_fichas_perfil)
@@ -763,6 +763,5 @@ while True:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
         print(Fore.GREEN + f'Novos dados...\nID: {id},\nSenha: {senha},\nContagem de IP: {cont_IP},\nFichas planilha: {fichas_planilha},'
                            f'\n Level da conta {level_conta},' + Fore.RESET)
-
 
 print("Este script será interrompido!")
