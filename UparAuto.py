@@ -1,4 +1,5 @@
 import time
+import HoraT
 
 import Mesa
 from OCR_tela import tarefas_diaris_upando
@@ -19,10 +20,14 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
     """
     print('upar')
 
-    for _ in range(10):
+    for _ in range(20):
         recolher_tarefa_upando(x_origem, y_origem)
         time.sleep(2)
         lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
+
+        if HoraT.fim_tempo_tarefa():
+            print('Fim do horario destinado a tarefas')
+            return 'Conta upada'
 
         if 'Missões padrão' in lista_tarefa_upar:
             return 'Conta upada'
@@ -61,7 +66,7 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
 
         elif 'Alcançar Nível 4' in lista_tarefa_upar:
             print("\n\n Alcançar Nível 3 \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 20, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)

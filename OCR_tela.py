@@ -1001,7 +1001,7 @@ def remover_caracteres_especiais(texto):
     texto = re.sub(caracteres_especiais, '', texto)
     # Remove
     texto_sem_especiais = (texto.replace('ms', '').replace('md', '').replace('f em', '').
-                           replace('E', '').replace('fm', '').replace('-', ''))
+                           replace('E', '').replace('fm', '').replace('PAR', '').replace('-', ''))
     # Remove espaços duplos
     texto_sem_especiais = re.sub(r'\s+', ' ', texto_sem_especiais)
 
@@ -1044,7 +1044,7 @@ def remover_termos_upando(texto, metodo=1):
 
     if metodo == 1:
         # Defina a tolerância para a comparação
-        tolerancia = 0.95
+        tolerancia = 0.9
 
         # Percorra a lista de tarefas limpas
         for item in tarefas_upando:

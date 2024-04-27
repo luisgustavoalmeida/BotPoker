@@ -1490,7 +1490,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             # Telegran.monta_mensagem(f'vai fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             upar(x_origem, y_origem, blind_mesa=blind_mesa)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-            cont_total_jogadas = (level_conta - int(level_conta))
+            # cont_total_jogadas = (level_conta - int(level_conta))
             conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de fazer as tarefas de upar, conta level {str(level_conta)}.  🆙', True)
             # Limpa.limpa_total(x_origem, y_origem)
