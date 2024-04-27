@@ -293,7 +293,7 @@ def upar_t1():
 
     level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
                                                               roleta='roleta_2')
-
+    level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     if HoraT.fim_tempo_tarefa():
         Limpa.limpa_total(x_origem, y_origem)
         print('Fim do horario destinado a tarefas')
