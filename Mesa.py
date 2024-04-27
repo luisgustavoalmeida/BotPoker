@@ -1078,7 +1078,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     cont_slot = 0
     JOGADAS_UPAR = 160
     SLOT_UPAR = 120
-    LEVEL_UPAR = 10
+    LEVEL_UPAR = 6
     JOGADAS_SLOT_SOMA = 280
 
     indice_atual = None
@@ -1103,7 +1103,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if upar:
         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-        xp2.pega_2xp(x_origem, y_origem)
+        # xp2.pega_2xp(x_origem, y_origem)
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
@@ -1210,7 +1210,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-                        xp2.pega_2xp(x_origem, y_origem)
+                        # xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
                         if level_conta >= LEVEL_UPAR:
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
@@ -1463,7 +1463,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     num_vezes_minimo = 2
     # limite de fichas minimo para jogar
     LIMITE_FICHAS = 10000
-    LEVEL_UPAR = 0.028
+    LEVEL_UPAR = 6
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
         # nao joga se ja for mais tarde que o horario definido
@@ -1497,7 +1497,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
 
-        if (cont_total_jogadas < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+        if (level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)

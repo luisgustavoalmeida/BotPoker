@@ -52,6 +52,13 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
+        elif 'Alcançar Nível 3' in lista_tarefa_upar:
+            print("\n\n Alcançar Nível 3 \n\n")
+            Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
+            recolher_tarefa_upando(x_origem, y_origem)
+            time.sleep(2)
+            lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
+
         if 'Gire 10 vezes no caça-níqueis' in lista_tarefa_upar:
             print("\n\n 'Gire 10 vezes no caça-níqueis' \n\n")
             slot_joga_vezes_upando(x_origem, y_origem)
