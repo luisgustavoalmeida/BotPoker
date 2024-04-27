@@ -280,9 +280,19 @@ def roletas():
                 break
             time.sleep(0.3)
 
-    # level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
-    #                                                           roleta)
+    return
 
+
+def upar_t1():
+    global x_origem, y_origem, conta_upada, level_conta, valor_fichas_perfil, dia_da_semana
+
+    conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
+    level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+    print('Level_conta: ', level_conta)
+    print('Valor_fichas_perfil: ', valor_fichas_perfil)
+
+    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
+                                                              roleta='roleta_2')
     return
 
 
@@ -692,7 +702,8 @@ while True:
             # Tarefas
             elif guia == "T1":
                 print('Inicia a execução das Tarefas')
-                tarefas()
+                # tarefas()
+                upar_t1()
         # Recolher
         elif confg_funcao == 'Recolher':
             print('Inicia a execução do Recolher')

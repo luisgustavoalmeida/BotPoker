@@ -344,7 +344,6 @@ def tratar_valor_numerico(texto):
 
 
 def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
-
     """
     Esta função realiza a leitura do valor das fichas em uma determinada região da tela.
 
@@ -355,7 +354,6 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     Returns:
     - int: O valor das fichas lido, ou 0 se nenhum valor válido for encontrado.
     """
-
 
     # Configurações para o processo OCR
     inveter_cor = True
@@ -999,12 +997,11 @@ def remover_caracteres_especiais(texto):
     - str: Texto sem caracteres especiais e espaços duplos.
     """
     # Define a expressão regular para encontrar caracteres especiais
-    caracteres_especiais = r'[Í:;.,()=+*—/]'  # Ponto, parênteses, sinal de igual, mais, traço, barra
-    texto_sem_especiais = re.sub(caracteres_especiais, '', texto)
-
-    # Remove a sequência "ms"
-    texto_sem_especiais = texto_sem_especiais.replace('ms', '').replace('md', '').replace('E', '').replace('-', '')
-
+    caracteres_especiais = r'[x&Í:;.,()=+*—/]'  # Ponto, parênteses, sinal de igual, mais, traço, barra
+    texto = re.sub(caracteres_especiais, '', texto)
+    # Remove
+    texto_sem_especiais = (texto.replace('ms', '').replace('md', '').replace('f em', '').
+                           replace('E', '').replace('fm', '').replace('-', ''))
     # Remove espaços duplos
     texto_sem_especiais = re.sub(r'\s+', ' ', texto_sem_especiais)
 
@@ -1030,12 +1027,12 @@ def remover_termos_upando(texto, metodo=1):
 
     tarefas_upando = ['Gire 10 vezes no caça-níqueis', 'Jogar o Casino Poker Genius 5 vezes', 'Jogar no Casino Genius Pro 5 vezes',
                       'Jogar 1 mão em qualquer mesa', 'Jogar 5 mãos em qualquer mesa', 'Jogar 10 mãos em qualquer mesa',
-                      'Conclua suas tarefas atuais para desbloquear a próxima rodada']
+                      'Conclua suas tarefas atuais para desbloquear a próxima rodada', 'Alcançar Nível 3', 'Alcançar Nível 4']
 
     lista_original = texto.split('\n')
 
     # Remove itens com menos de 25 caracteres da lista original
-    lista_original = [item for item in lista_original if len(item) >= 25]
+    lista_original = [item for item in lista_original if len(item) >= 16]
 
     # Remove caracteres especiais de cada item na lista original
     lista_original = [remover_caracteres_especiais(item) for item in lista_original]
@@ -1047,7 +1044,7 @@ def remover_termos_upando(texto, metodo=1):
 
     if metodo == 1:
         # Defina a tolerância para a comparação
-        tolerancia = 0.9
+        tolerancia = 0.95
 
         # Percorra a lista de tarefas limpas
         for item in tarefas_upando:
@@ -1299,7 +1296,6 @@ def valor_apostar(x_origem, y_origem):
                 valor = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
 
                 if valor is not None:
-
                     valor = int(valor)
                     print(Fore.YELLOW + f'Valor aposta: {valor}' + Fore.RESET)
                     return valor
@@ -1512,3 +1508,5 @@ def jogos_totais(x_origem, y_origem):
 
     total_jogos = 0
     return total_jogos
+
+

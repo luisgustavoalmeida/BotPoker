@@ -13,7 +13,7 @@ minutos_roleta = 0
 tempo_total_ciclo = 5
 
 
-def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
+def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
     global tempo_total, tempo_tarefa, tempo_total_ciclo, hora_roleta, minutos_roleta
     print('mudar_guia', config_tempo_roleta)
 
@@ -26,7 +26,7 @@ def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
                     hora_roleta = int(tempo_separado[0])
                 except ValueError:
                     print("Erro: A hora não é um número válido")
-                    hora_roleta = 5
+                    hora_roleta = 4
 
                 try:
                     minutos_roleta = int(tempo_separado[1])
@@ -60,7 +60,7 @@ def mudar_guia(id, guia, config_tempo_roleta='5:00:5'):
 
     while tempo_atual > 86100:  # se maior que 23:55:00
         print('Espera virar 0h')
-        time.sleep(30)
+        time.sleep(45)
         hora_atual = datetime.datetime.now().time()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
