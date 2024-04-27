@@ -1078,7 +1078,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     cont_slot = 0
     JOGADAS_UPAR = 160
     SLOT_UPAR = 120
-    LEVEL_UPAR = 6
+    LEVEL_UPAR = 7
     JOGADAS_SLOT_SOMA = 280
 
     indice_atual = None
@@ -1463,7 +1463,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     num_vezes_minimo = 2
     # limite de fichas minimo para jogar
     LIMITE_FICHAS = 10000
-    LEVEL_UPAR = 6
+    LEVEL_UPAR = 7
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
         # nao joga se ja for mais tarde que o horario definido
