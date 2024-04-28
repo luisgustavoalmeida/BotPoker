@@ -62,24 +62,24 @@ def escolher_configuracao_e_db():
         configuracao = config2
         print('Sera usado o banco 2')
 
-    elif 11 <= dia_atual < 15:
+    elif 11 <= dia_atual < 16:
         configuracao = config3
         print('Sera usado o banco 3')
 
-    elif 15 <= dia_atual < 18:
+    elif 16 <= dia_atual < 21:
         configuracao = config4
         print('Sera usado o banco 4')
 
-    elif 18 <= dia_atual < 22:
+    elif 21 <= dia_atual < 26:
         configuracao = config6
         print('Sera usado o banco 6')
 
-    elif 22 <= dia_atual < 26:
-        configuracao = config6
+    elif 26 <= dia_atual < 31:
+        configuracao = config7
         print('Sera usado o banco 6')
 
     else:
-        configuracao = config7
+        configuracao = config1
         print('Sera usado o banco 7')
 
     # Inicializa o Firebase com a configuração escolhida
