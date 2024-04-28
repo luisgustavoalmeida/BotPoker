@@ -798,3 +798,5 @@ while True:
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)
 
+
+
