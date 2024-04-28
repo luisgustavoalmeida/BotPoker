@@ -598,7 +598,7 @@ def identifica_funcao():
         print(e)
         print('Sera usado o pradrao roleta_auto')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '5:00:5'
+        config_tempo_roleta = '4:00:5'
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
@@ -677,7 +677,6 @@ if id == '':
     identifica_funcao()
     id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
 
-
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
 dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
@@ -688,8 +687,6 @@ print(Fore.GREEN + f'Novos dados...\n'
                    f'\nContagem de IP: {cont_IP},'
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
-
-
 
 while True:
     ip = ""
@@ -797,6 +794,3 @@ while True:
                            f'\nContagem de IP: {cont_IP},'
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)
-
-
-
