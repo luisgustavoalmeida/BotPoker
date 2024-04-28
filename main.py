@@ -590,7 +590,7 @@ def recolher_automatico():
 
 
 def identifica_funcao():
-    global id, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
+    global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
@@ -601,7 +601,7 @@ def identifica_funcao():
         config_tempo_roleta = '5:00:5'
 
     if confg_funcao == 'roleta_auto':
-        guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
+        guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
 
     elif confg_funcao in ('Face', 'Remover', 'Recolher', 'Recolher_automatico', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if confg_funcao == 'Face':
@@ -671,6 +671,13 @@ guia_anterior = guia
 # Obter as credenciais da conta do facebook
 id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
 
+if id == '':
+    id_novo = id
+    Google.apagar_numerodo_pc([""], guia, linha)  # apaga o nume do pc
+    identifica_funcao()
+    id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
+
+
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
 dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
@@ -681,6 +688,8 @@ print(Fore.GREEN + f'Novos dados...\n'
                    f'\nContagem de IP: {cont_IP},'
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
+
+
 
 while True:
     ip = ""
@@ -789,4 +798,3 @@ while True:
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)
 
-print("Este script será interrompido!")
