@@ -37,6 +37,22 @@ config7 = {"apiKey": "AIzaSyA7ol3mz6E36vEvEnUbCzeASTLhZYgyrVQ", "authDomain": "c
            "databaseURL": "https://config7-f487a-default-rtdb.firebaseio.com", "projectId": "config7-f487a",
            "storageBucket": "config7-f487a.appspot.com", "messagingSenderId": "702319895919", "appId": "1:702319895919:web:df25fdca2ecfe75fb3b49a"}
 
+config8 = {"apiKey": "AIzaSyDQ0xDgtSBV5oVH4GN2qEO_Q3KH1P9j5y4", "authDomain": "config8-e0575.firebaseapp.com",
+           "databaseURL": "https://config8-e0575-default-rtdb.firebaseio.com", "projectId": "config8-e0575",
+           "storageBucket": "config8-e0575.appspot.com", "messagingSenderId": "232802811692", "appId": "1:232802811692:web:fd7179331ea1429563f689"}
+
+config9 = {"apiKey": "AIzaSyCq6gTJoLYsa3TOnZthLTQRYZv38baICX0", "authDomain": "config9-e2073.firebaseapp.com",
+           "databaseURL": "https://config9-e2073-default-rtdb.firebaseio.com", "projectId": "config9-e2073",
+           "storageBucket": "config9-e2073.appspot.com", "messagingSenderId": "696118180138", "appId": "1:696118180138:web:bf826bad3b87d1aff28653"}
+
+config10 = {"apiKey": "AIzaSyCyoPVlThZLAVWFuYgqCrUGIeCoFz6MRC0", "authDomain": "config10-332a7.firebaseapp.com",
+            "databaseURL": "https://config10-332a7-default-rtdb.firebaseio.com", "projectId": "config10-332a7",
+            "storageBucket": "config10-332a7.appspot.com", "messagingSenderId": "771719475801", "appId": "1:771719475801:web:962e452654babdb7ba3748"}
+
+config11 = {"apiKey": "AIzaSyAZRtBB1qXwQ9GfPilEMUuIBKBJbgUbUAk", "authDomain": "config11-39c6f.firebaseapp.com",
+            "databaseURL": "https://config11-39c6f-default-rtdb.firebaseio.com", "projectId": "config11-39c6f",
+            "storageBucket": "config11-39c6f.appspot.com", "messagingSenderId": "254326604770", "appId": "1:254326604770:web:770f278e9842c230a82fbb"}
+
 # Variável para armazenar a última data de acesso
 ultima_data_acesso = None
 
@@ -54,33 +70,45 @@ def escolher_configuracao_e_db():
     global configuracao_banco
     dia_atual = datetime.datetime.now().day
 
-    if dia_atual < 6:
+    if dia_atual < 4:
         configuracao = config1
         print('Sera usado o banco 1')
 
-    elif 6 <= dia_atual < 11:
+    elif 4 <= dia_atual < 7:
         configuracao = config2
         print('Sera usado o banco 2')
 
-    elif 11 <= dia_atual < 16:
+    elif 7 <= dia_atual < 10:
         configuracao = config3
         print('Sera usado o banco 3')
 
-    elif 16 <= dia_atual < 21:
+    elif 10 <= dia_atual < 13:
         configuracao = config4
         print('Sera usado o banco 4')
 
-    elif 21 <= dia_atual < 26:
+    elif 13 <= dia_atual < 17:
         configuracao = config6
         print('Sera usado o banco 6')
 
-    elif 26 <= dia_atual < 31:
+    elif 17 <= dia_atual < 21:
         configuracao = config7
-        print('Sera usado o banco 6')
+        print('Sera usado o banco 7')
+
+    elif 21 <= dia_atual < 24:
+        configuracao = config8
+        print('Sera usado o banco 8')
+
+    elif 24 <= dia_atual < 27:
+        configuracao = config9
+        print('Sera usado o banco 9')
+
+    elif 27 <= dia_atual < 30:
+        configuracao = config10
+        print('Sera usado o banco 10')
 
     else:
-        configuracao = config1
-        print('Sera usado o banco 7')
+        configuracao = config11
+        print('Sera usado o banco 11')
 
     # Inicializa o Firebase com a configuração escolhida
     firebase = pyrebase.initialize_app(configuracao)
@@ -102,6 +130,10 @@ def unir_e_atualizar_dados():
     firebase_5 = pyrebase.initialize_app(config5)
     firebase_6 = pyrebase.initialize_app(config6)
     firebase_7 = pyrebase.initialize_app(config7)
+    firebase_8 = pyrebase.initialize_app(config8)
+    firebase_9 = pyrebase.initialize_app(config9)
+    firebase_10 = pyrebase.initialize_app(config10)
+    firebase_11 = pyrebase.initialize_app(config11)
 
     # Obtém referências para os bancos de dados
     db_1 = firebase_1.database()
@@ -111,6 +143,10 @@ def unir_e_atualizar_dados():
     db_5 = firebase_5.database()
     db_6 = firebase_6.database()
     db_7 = firebase_7.database()
+    db_8 = firebase_8.database()
+    db_9 = firebase_9.database()
+    db_10 = firebase_10.database()
+    db_11 = firebase_11.database()
 
     try:
         # Obtém os dados da referência 'ips' em ambos os bancos
@@ -121,6 +157,10 @@ def unir_e_atualizar_dados():
         dados_5 = db_5.child('ips').get().val()
         dados_6 = db_6.child('ips').get().val()
         dados_7 = db_7.child('ips').get().val()
+        dados_8 = db_8.child('ips').get().val()
+        dados_9 = db_9.child('ips').get().val()
+        dados_10 = db_10.child('ips').get().val()
+        dados_11 = db_11.child('ips').get().val()
 
         dados_1_banidos = db_1.child('ips_banidos').get().val()
         dados_2_banidos = db_2.child('ips_banidos').get().val()
@@ -129,6 +169,10 @@ def unir_e_atualizar_dados():
         dados_5_banidos = db_5.child('ips_banidos').get().val()
         dados_6_banidos = db_6.child('ips_banidos').get().val()
         dados_7_banidos = db_7.child('ips_banidos').get().val()
+        dados_8_banidos = db_8.child('ips_banidos').get().val()
+        dados_9_banidos = db_9.child('ips_banidos').get().val()
+        dados_10_banidos = db_10.child('ips_banidos').get().val()
+        dados_11_banidos = db_11.child('ips_banidos').get().val()
 
         # Se as listas de IPs estão vazias ou não existem, inicializa listas vazias
         if dados_1 is None:
@@ -145,6 +189,15 @@ def unir_e_atualizar_dados():
             dados_6 = []
         if dados_7 is None:
             dados_7 = []
+        if dados_8 is None:
+            dados_8 = []
+        if dados_9 is None:
+            dados_9 = []
+        if dados_10 is None:
+            dados_10 = []
+        if dados_11 is None:
+            dados_11 = []
+
 
         if dados_1_banidos is None:
             dados_1_banidos = []
@@ -160,12 +213,22 @@ def unir_e_atualizar_dados():
             dados_6_banidos = []
         if dados_7_banidos is None:
             dados_7_banidos = []
+        if dados_8_banidos is None:
+            dados_8_banidos = []
+        if dados_9_banidos is None:
+            dados_9_banidos = []
+        if dados_10_banidos is None:
+            dados_10_banidos = []
+        if dados_11_banidos is None:
+            dados_11_banidos = []
+
 
         # Combina os dados de ambos os bancos
-        dados_combinados = dados_1 + dados_2 + dados_3 + dados_4 + dados_5 + dados_6 + dados_7
+        dados_combinados = dados_1 + dados_2 + dados_3 + dados_4 + dados_5 + dados_6 + dados_7 + dados_8 + dados_9 + dados_10 + dados_11
 
         dados_combinados_banidos = (
-                dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos + dados_5_banidos + dados_6_banidos + dados_7_banidos)
+                dados_1_banidos + dados_2_banidos + dados_3_banidos + dados_4_banidos + dados_5_banidos + dados_6_banidos + dados_7_banidos +
+                dados_8_banidos + dados_9_banidos + dados_10_banidos + dados_11_banidos)
 
         # Remove IPs duplicados
         dados_combinados = [dict(t) for t in {tuple(d.items()) for d in dados_combinados}]
@@ -189,6 +252,10 @@ def unir_e_atualizar_dados():
         db_5.child('ips').set(dados_combinados)
         db_6.child('ips').set(dados_combinados)
         db_7.child('ips').set(dados_combinados)
+        db_8.child('ips').set(dados_combinados)
+        db_9.child('ips').set(dados_combinados)
+        db_10.child('ips').set(dados_combinados)
+        db_11.child('ips').set(dados_combinados)
 
         db_1.child('ips_banidos').set(dados_combinados_banidos)
         db_2.child('ips_banidos').set(dados_combinados_banidos)
@@ -197,6 +264,10 @@ def unir_e_atualizar_dados():
         db_5.child('ips_banidos').set(dados_combinados_banidos)
         db_6.child('ips_banidos').set(dados_combinados_banidos)
         db_7.child('ips_banidos').set(dados_combinados_banidos)
+        db_8.child('ips_banidos').set(dados_combinados_banidos)
+        db_9.child('ips_banidos').set(dados_combinados_banidos)
+        db_10.child('ips_banidos').set(dados_combinados_banidos)
+        db_11.child('ips_banidos').set(dados_combinados_banidos)
 
         print("Dados unidos, duplicatas removidas e IPs antigos removidos. Atualização concluída!")
 
