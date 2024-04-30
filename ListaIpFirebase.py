@@ -198,7 +198,6 @@ def unir_e_atualizar_dados():
         if dados_11 is None:
             dados_11 = []
 
-
         if dados_1_banidos is None:
             dados_1_banidos = []
         if dados_2_banidos is None:
@@ -221,7 +220,6 @@ def unir_e_atualizar_dados():
             dados_10_banidos = []
         if dados_11_banidos is None:
             dados_11_banidos = []
-
 
         # Combina os dados de ambos os bancos
         dados_combinados = dados_1 + dados_2 + dados_3 + dados_4 + dados_5 + dados_6 + dados_7 + dados_8 + dados_9 + dados_10 + dados_11
