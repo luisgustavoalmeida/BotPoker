@@ -283,7 +283,7 @@ def roletas():
 
 
 def upar_t1():
-    global x_origem, y_origem, conta_upada, level_conta, valor_fichas_perfil, dia_da_semana, hora_fim_tarefa
+    global x_origem, y_origem, conta_upada, level_conta, valor_fichas_perfil, dia_da_semana, hora_fim_tarefa, hora_que_rodou
 
     conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
@@ -293,6 +293,7 @@ def upar_t1():
     level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
                                                               roleta='roleta_2')
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
     if HoraT.fim_tempo_tarefa():
         Limpa.limpa_total(x_origem, y_origem)
         print('Fim do horario destinado a tarefas')
