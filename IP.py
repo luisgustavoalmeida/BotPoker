@@ -227,28 +227,32 @@ def ip(LIMITE_IP=6):
         # tem_internet() # testa se tem internete ativa
 
         if com_internete:
-            cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
-            if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
+            try:
+                cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
+                if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
 
-                if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
-                    print("Vai par a função de trocar ip")
-                    conexao()  # chama a função que troca ip
-                    print('espera a internete estar estavel')
-                    tem_internet()  # testa ate que internete esteja estavel
-                    meu_ip_agora, teste = meu_ip()
-                    if testa_lista_negra_ip(meu_ip_agora):
-                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                            print("Vai para a função que zera a contagem")
-                            Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
-                            return
-                else:
-                    print("Espera liberar IP")
-                    nao_tem_internet()
-                    continue
+                    if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
+                        print("Vai par a função de trocar ip")
+                        conexao()  # chama a função que troca ip
+                        print('espera a internete estar estavel')
+                        tem_internet()  # testa ate que internete esteja estavel
+                        meu_ip_agora, teste = meu_ip()
+                        if testa_lista_negra_ip(meu_ip_agora):
+                            if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                                print("Vai para a função que zera a contagem")
+                                Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
+                                return
+                    else:
+                        print("Espera liberar IP")
+                        nao_tem_internet()
+                        continue
 
-            else:
-                print("Continua não tem que trocar IP")
-                return
+                elif cont_IP < LIMITE_IP:
+                    print("Continua não tem que trocar IP")
+                    return
+            except Exception as e:
+                print(e)
+                time.sleep(3)
 
 
 def conexao():

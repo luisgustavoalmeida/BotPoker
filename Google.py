@@ -41,23 +41,29 @@ def credencial():
     """Mostra o uso básico da Sheets API.
     Imprime valores de uma planilha de amostra.
     """
-    creds = None
-    # Verifique se o arquivo de token existe
-    if os.path.exists(token_path):
-        creds = Credentials.from_authorized_user_file(token_path, SCOPES)
+    while True:
+        try:
+            creds = None
+            # Verifique se o arquivo de token existe
+            if os.path.exists(token_path):
+                creds = Credentials.from_authorized_user_file(token_path, SCOPES)
 
-    # Se não houver credenciais válidas, solicite ao usuário que faça login
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(credencial_path, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Salve as credenciais para a próxima execução
-        with open(token_path, 'w') as token_nome:
-            token_nome.write(creds.to_json())
+            # Se não houver credenciais válidas, solicite ao usuário que faça login
+            if not creds or not creds.valid:
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                else:
+                    flow = InstalledAppFlow.from_client_secrets_file(credencial_path, SCOPES)
+                    creds = flow.run_local_server(port=0)
+                # Salve as credenciais para a próxima execução
+                with open(token_path, 'w') as token_nome:
+                    token_nome.write(creds.to_json())
 
-    return creds
+            return creds
+        except Exception as e:
+            print(e)
+            time.sleep(3)
+            IP.tem_internet()
 
 
 def gerar_tokens():

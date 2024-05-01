@@ -134,7 +134,6 @@ def logar_carregar():
     if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
         IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
-    # print('\n Manda iniciar a tarefa independete\n ')
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
     iniciar_tarefa.release()
