@@ -1065,7 +1065,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level_conta=4):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level_conta=4, subir_level=False):
     print('mesa_upar_jogar')
 
     global dicionario_salas, indice_inicial
@@ -1109,7 +1109,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if upar:
         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-        # xp2.pega_2xp(x_origem, y_origem)
+
+    if subir_level:
+        xp2.pega_2xp(x_origem, y_origem)
+        LEVEL_UPAR = 12
+        cont_slot = 130
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
@@ -1216,12 +1220,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-                        # xp2.pega_2xp(x_origem, y_origem)
+                        if subir_level:
+                            xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
                         if level_conta >= LEVEL_UPAR:
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
                     if level_conta >= LEVEL_UPAR:
+                        if subir_level:
+                            break
                         if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
                             print(Fore.YELLOW + f"Terminou de upoar. "
                                                 f"\nJogou vezes igua a: {cont_jogou}."
@@ -1237,6 +1244,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                                                 f"\n Jogadas total: {cont_total_jogadas}."
                                                 f"\nJogadas + Slote" + Fore.RESET)
                             break
+
+                    if HoraT.fim_tempo_tarefa():
+                        Limpa.limpa_total(x_origem, y_origem)
+                        print('Fim do horario destinado a tarefas')
+                        break
 
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
@@ -1483,6 +1495,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         print('\n valor de fichar inferior ao definido \n')
         return level_conta, valor_fichas_perfil
 
+    if HoraT.fim_tempo_tarefa():
+        print('Fim do horario destinado a tarefas')
+        return level_conta, valor_fichas_perfil
+
     if roleta == 'roleta_2':
         print('numero total de jogadas:', (level_conta - int(level_conta)))
         if (cont_total_jogadas >= LEVEL_UPAR) and conta_upada:
@@ -1503,6 +1519,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
 
+        if HoraT.fim_tempo_tarefa():
+            print('Fim do horario destinado a tarefas')
+            return level_conta, valor_fichas_perfil
+
         if (level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
@@ -1515,7 +1535,26 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
             Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}.  🆙', True)
             mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
-                            level_conta=level_conta)
+                            level_conta=level_conta, subir_level=False)
+            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+            Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
+
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+
+        elif (level_conta < 12) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+            blind_mesa = '100200'
+            # blind_mesa = '5001K'
+            Limpa.fecha_tarefa(x_origem, y_origem)
+            Limpa.limpa_promocao(x_origem, y_origem)
+            print('level_conta: ', level_conta)
+            print('valor_fichas_perfil: ', valor_fichas_perfil)
+            time.sleep(2)
+            Limpa.limpa_total(x_origem, y_origem)
+
+            Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}. par ao level 12  🆙', True)
+            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
+                            level_conta=level_conta, subir_level=True)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
             Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
 
