@@ -410,6 +410,10 @@ def limpa_promocao(x_origem, y_origem):
             pyautogui.click(821 + x_origem, 138 + y_origem)
             print("Promoção padrão clica no fechar")
 
+    # A carta final 8
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (62, 71, 76), tolerance=20):
+        pyautogui.click(821 + x_origem, 138 + y_origem)
+        print("A carta final 8")
     # # TEMA DE PARCOA
     # if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 103), (72, 71, 75), tolerance=20):
     #     pyautogui.click(827 + x_origem, 109 + y_origem)
