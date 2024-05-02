@@ -50,7 +50,6 @@ ativado = r"Imagens\Conexao\ativado.png"
 desativado = r"Imagens\Conexao\desativado.png"
 regiao_ativado_desativado = (conexao_x + 75, conexao_y + 292, 73, 22)
 
-
 sites = [
     'http://www.google.com',
     'http://www.facebook.com',

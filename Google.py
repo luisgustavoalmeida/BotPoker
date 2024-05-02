@@ -8,12 +8,12 @@ import os.path
 import random
 import time
 
+import requests
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-import IP
 from OCR_tela import tratar_valor_numerico
 from Requerimentos import dicionari_token_credencial_n, nome_completo
 
@@ -37,7 +37,7 @@ guia_antiga = None
 
 
 def credencial():
-    # IP.tem_internet()
+    # tem_internet()
     """Mostra o uso básico da Sheets API.
     Imprime valores de uma planilha de amostra.
     """
@@ -63,7 +63,7 @@ def credencial():
         except Exception as e:
             print(e)
             time.sleep(3)
-            IP.tem_internet()
+            tem_internet()
 
 
 def gerar_tokens():
@@ -125,7 +125,7 @@ service = build('sheets', 'v4', credentials=cred)
 #             print(f"Ocorreu um erro ao obter o valor da célula:")
 #             print(f"Erro: {str(error)}")
 #             time.sleep(5)
-#             IP.tem_internet()
+#             tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
 
@@ -195,7 +195,7 @@ def primeira_celula_vazia(guia):
             print(f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula:", e)
             print("Erro primeira_celula_vazia. Tentando novamente em 5 segundos...")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -223,7 +223,7 @@ def escrever_celula(valor, guia, endereco):
             print(f"escrever_celula Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -253,7 +253,7 @@ def escrever_valores(valores, guia, endereco):
             print(f"escrever_valores Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -289,7 +289,7 @@ def escrever_valores_lote(valores, guia, linha):
             print(f" escrever_valores_lote Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -385,7 +385,7 @@ def lote_valor(guia, linha):
             print(f"lote_valor Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -410,7 +410,7 @@ def lote_valor(guia, linha):
 #         except Exception as error:
 #             print(f"pega_valor Ocorreu um erro ao obter o valor da célula:")
 #             print(f"Erro: {str(error)}")
-#             IP.tem_internet()
+#             tem_internet()
 #             # return None
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
@@ -436,7 +436,7 @@ def pega_valor_endereco(endereco):
         except Exception as error:
             print(f"pega_valor Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
-            IP.tem_internet()
+            tem_internet()
             # return None
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
@@ -488,7 +488,7 @@ def pega_valor_endereco(endereco):
 #         except Exception as error:
 #             print(f"pega_valores_em_lote Ocorreu um erro ao obter os valores das células:")
 #             print(f"Erro: {str(error)}")
-#             IP.tem_internet()
+#             tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
 
@@ -554,7 +554,7 @@ def zera_cont_IP(endereco):
             print(f"zera_cont_IP Ocorreu um erro ao obter o valor da célula:")
             print(f"Erro: {str(error)}")
             # time.sleep(5)
-            IP.tem_internet()
+            tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
 
@@ -583,7 +583,7 @@ def zera_cont_IP(endereco):
 #             print(f"Erro: {str(error)}")
 #             print("Erro pega_ID_senha. Tentando novamente em 5 segundos...")
 #             time.sleep(5)
-#             IP.tem_internet()
+#             tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
 
@@ -648,7 +648,7 @@ def zera_cont_IP(endereco):
 #             print(f"Erro: {str(error)}")
 #             print("Tentando novamente em 5 segundos...")
 #             # time.sleep(5)
-#             IP.tem_internet()
+#             tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
 
@@ -685,9 +685,29 @@ def zera_cont_IP(endereco):
 #         except Exception as error:
 #             print(f"lista_ip_banidos: Ocorreu um erro ao obter os valores da coluna:")
 #             print(f"Erro: {str(error)}")
-#             IP.tem_internet()
+#             tem_internet()
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
+
+
+def tem_internet():
+    print('Google tem_internet')
+
+    com_internete = True
+    while com_internete:
+        print('Google testa a internete')
+        try:
+            response = requests.get('http://www.google.com', timeout=5)
+            if response.status_code == 200:
+                print("Conexão com a internet ativa...")
+                com_internete = False
+                return True
+
+        except Exception as e:
+            print(f"Sem conexão com a internet. Erro: {e}")
+            time.sleep(3)
+
+    return True
 
 
 def credenciais(guia, salta_linhas=True):
@@ -748,7 +768,7 @@ def marca_caida(status, guia, linha):
 
 # def marca_ip(guia, linha):
 #     endereco = f"H{linha}"
-#     ip, com_internete = IP.tem_internet()
+#     ip, com_internete = tem_internet()
 #     escrever_celula(ip, guia, endereco)
 
 

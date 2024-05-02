@@ -1,7 +1,7 @@
 import datetime
 import time
 
-import IP
+from IP import ip_troca_agora
 
 guias = ["R1", "R2", "R3", "R4", "R5"]
 
@@ -74,7 +74,7 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
                 return guia_atual
             elif tempo_tarefa <= 0:
                 # print('hora teste 3')
-                IP.ip_troca_agora()
+                ip_troca_agora()
                 while True:
                     hora_atual = datetime.datetime.now().time()
                     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
@@ -106,7 +106,7 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
     elif guia == "T1":
         if id == "":
             print('Fim do tarefas, espera a hora para começar os Rs')
-            IP.ip_troca_agora()
+            ip_troca_agora()
             while True:
                 hora_atual = datetime.datetime.now().time()
                 tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
