@@ -83,7 +83,7 @@ cont_lista_negra = 0
 def testa_trocar_IP():
     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-        ip(LIMITE_IP)
+        testa_contagem_ip(LIMITE_IP)
         return
     else:
         return
@@ -220,7 +220,7 @@ def ip_troca_agora():
             return
 
 
-def ip(LIMITE_IP=6):
+def testa_contagem_ip(LIMITE_IP=6):
     while True:
         com_internete = tem_internet()
         # tem_internet() # testa se tem internete ativa

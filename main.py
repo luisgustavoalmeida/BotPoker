@@ -10,9 +10,9 @@ import Cartas
 import Cofre
 import Firebase
 import Genius
-import Google
+from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
 import HoraT
-import IP
+from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip
 import Limpa
 import Mesa
 import OCR_tela
@@ -64,7 +64,7 @@ linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
 
-url = str(Google.pega_valor_endereco('Dados!F1'))
+url = str(pega_valor_endereco('Dados!F1'))
 
 navegador = Seleniun.cria_nevegador()
 
@@ -94,15 +94,15 @@ def tarefa_independente():
                 if entrou_corretamente_fim:  # se nao entrou no face
                     if hora_fim_tarefa_fim:
                         #  apaga os valore quando da a hoara de sair do tarefas
-                        Google.apagar_numerodo_pc([""], guia_fim, linha_fim)  # apaga o nume do pc
+                        apagar_numerodo_pc([""], guia_fim, linha_fim)  # apaga o nume do pc
                     else:
                         # escreve os valores na planilha
-                        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
+                        escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
                 else:  # se nao entrou no face
-                    Google.marca_caida(status_fim, guia_fim, linha_fim)
+                    marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
-            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = Google.credenciais(guia)
+            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = credenciais(guia)
             # pega id e senha para o proximo login
             time_id = time.perf_counter()
             continuar_tarefa = False
@@ -129,7 +129,7 @@ def logar_carregar():
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
     if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
-        IP.ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+        testa_contagem_ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
@@ -229,7 +229,7 @@ def roletas():
         # para pegar os pontos das tarefas
         conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
         if conta_upada:
-            IP.f5_quando_internete_ocila()
+            f5_quando_internete_ocila()
             entrou_corretamente, stataus_facebook = Seleniun.teste_logado()
             if not entrou_corretamente:  # se nao entrou no face
                 return
@@ -468,7 +468,7 @@ def recolher():
 
         if comando == 'Trocarip':
             status_comando = "Trocando ip"
-            IP.ip_troca_agora()
+            ip_troca_agora()
 
         elif comando == "Limpa":
             status_comando = "Limpando"
@@ -609,8 +609,8 @@ def identifica_funcao():
             guia = confg_funcao
 
     elif confg_funcao == "Atualizar_codigo":
-        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
+        escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
@@ -618,8 +618,8 @@ def identifica_funcao():
         exit(0)
 
     elif confg_funcao == "Substituir_codigo":
-        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
+        escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'Atualização local de codigo {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
@@ -627,15 +627,15 @@ def identifica_funcao():
         exit(0)
 
     elif confg_funcao == "Parar_codigo":
-        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
+        escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         Telegran.monta_mensagem(f'A execução do programa foi interrompida {str(confg_funcao)}.  ⚙️', False)
         print("Este script será interrompido!")
         exit(0)
 
     elif confg_funcao == "Pausar_codigo":
-        Google.escrever_valores_lote(valores_fim, guia_fim, linha_fim)
-        Google.apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
+        escrever_valores_lote(valores_fim, guia_fim, linha_fim)
+        apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
         while confg_funcao == "Pausar_codigo":
             Telegran.monta_mensagem(f'A execução do programa foi pausada {str(confg_funcao)}.  ⚙️', False)
             print("Este script será pausado!")
@@ -666,13 +666,13 @@ identifica_funcao()
 print('Guia: ', guia)
 guia_anterior = guia
 # Obter as credenciais da conta do facebook
-id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
+id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)
 
 if id == '':
     id_novo = id
-    Google.apagar_numerodo_pc([""], guia, linha)  # apaga o nume do pc
+    apagar_numerodo_pc([""], guia, linha)  # apaga o nume do pc
     identifica_funcao()
-    id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)
+    id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
@@ -731,7 +731,7 @@ while True:
 
         print(Fore.GREEN + '\nTerminou as atividades\n' + Fore.RESET)
     # ################################################################################################################################################
-    ip, com_internet = IP.meu_ip()  # obtem meu endereço de IP
+    ip, com_internet = meu_ip()  # obtem meu endereço de IP
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
     Seleniun.sair_face(url)
@@ -775,14 +775,14 @@ while True:
             Seleniun.busca_link()
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
-            url = str(Google.pega_valor_endereco('Dados!F1'))
+            url = str(pega_valor_endereco('Dados!F1'))
 
         valores_apagar = [""]
 
-        Google.apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
+        apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
 
         guia_anterior = guia
-        id, senha, fichas_planilha, linha, cont_IP, level_conta = Google.credenciais(guia)  # pega id e senha par o proximo login
+        id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)  # pega id e senha par o proximo login
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo

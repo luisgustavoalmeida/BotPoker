@@ -16,6 +16,7 @@ from googleapiclient.discovery import build
 
 from OCR_tela import tratar_valor_numerico
 from Requerimentos import dicionari_token_credencial_n, nome_completo
+from colorama import Fore
 
 # Define o escopo, desta forma tem permição total a plania e ao google drive
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']  # permite que a aplicação tenha acesso de leitura e escrita a planilhas do Google Sheets.
@@ -61,7 +62,7 @@ def credencial():
 
             return creds
         except Exception as e:
-            print(e)
+            print(Fore.RED + f"{e}" + Fore.RESET)
             time.sleep(3)
             tem_internet()
 
@@ -192,9 +193,7 @@ def primeira_celula_vazia(guia):
                     linha_vazia_anterior += intervalo_de_busca
 
         except Exception as e:
-            print(f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula:", e)
-            print("Erro primeira_celula_vazia. Tentando novamente em 5 segundos...")
-            # time.sleep(5)
+            print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
@@ -219,9 +218,8 @@ def escrever_celula(valor, guia, endereco):
             break
             # print('{0} células atualizadas.'.format(result.get('updatedCells')))
         # except (socket.gaierror, TransportError, ServerNotFoundError) as error:
-        except Exception as error:
-            print(f"escrever_celula Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
+        except Exception as e:
+            print(Fore.RED + f"escrever_celula. Erro: {e}" + Fore.RESET)
             # time.sleep(5)
             tem_internet()
             cred = credencial()
@@ -249,9 +247,8 @@ def escrever_valores(valores, guia, endereco):
             break
             # print('{0} células atualizadas.'.format(result.get('updatedCells')))
         # except (socket.gaierror, TransportError, ServerNotFoundError) as error:
-        except Exception as error:
-            print(f"escrever_valores Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
+        except Exception as e:
+            print(Fore.RED + f"escrever_valores. Erro: {e}" + Fore.RESET)
             # time.sleep(5)
             tem_internet()
             cred = credencial()
@@ -285,10 +282,8 @@ def escrever_valores_lote(valores, guia, linha):
             ).execute()
             break
 
-        except Exception as error:
-            print(f" escrever_valores_lote Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
-            # time.sleep(5)
+        except Exception as e:
+            print(Fore.RED + f"escrever_valores_lote. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
@@ -381,10 +376,8 @@ def lote_valor(guia, linha):
                 level = 1
             return n_pc, id, senha, fichas, cont_IP, level
 
-        except Exception as error:
-            print(f"lote_valor Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
-            # time.sleep(5)
+        except Exception as e:
+            print(Fore.RED + f"lote_valor. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
@@ -433,9 +426,8 @@ def pega_valor_endereco(endereco):
             return values[0][0]
 
         # except (socket.gaierror, TransportError, ServerNotFoundError) as error:
-        except Exception as error:
-            print(f"pega_valor Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
+        except Exception as e:
+            print(Fore.RED + f"pega_valor_endereco. Erro: {e}" + Fore.RESET)
             tem_internet()
             # return None
             cred = credencial()
@@ -550,9 +542,8 @@ def zera_cont_IP(endereco):
                 print('{0} células atualizadas.'.format(result.get('updatedCells')))
                 return
         # except (socket.gaierror, TransportError, ServerNotFoundError) as error:
-        except Exception as error:
-            print(f"zera_cont_IP Ocorreu um erro ao obter o valor da célula:")
-            print(f"Erro: {str(error)}")
+        except Exception as e:
+            print(Fore.RED + f"zera_cont_IP. Erro: {e}" + Fore.RESET)
             # time.sleep(5)
             tem_internet()
             cred = credencial()
@@ -691,8 +682,6 @@ def zera_cont_IP(endereco):
 
 
 def tem_internet():
-    print('Google tem_internet')
-
     com_internete = True
     while com_internete:
         print('Google testa a internete')
@@ -704,7 +693,7 @@ def tem_internet():
                 return True
 
         except Exception as e:
-            print(f"Sem conexão com a internet. Erro: {e}")
+            print(Fore.RED + f"tem_internet. Erro: {e}" + Fore.RESET)
             time.sleep(3)
 
     return True
