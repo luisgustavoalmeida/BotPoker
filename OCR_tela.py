@@ -1044,7 +1044,7 @@ def remover_termos_upando(texto, metodo=1):
 
     if metodo == 1:
         # Defina a tolerância para a comparação
-        tolerancia = 0.87
+        tolerancia = 0.9
 
         # Percorra a lista de tarefas limpas
         for item in tarefas_upando:
