@@ -1541,8 +1541,9 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
+            return level_conta, valor_fichas_perfil
 
-        elif (level_conta < 12) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+        if (level_conta < 12) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
