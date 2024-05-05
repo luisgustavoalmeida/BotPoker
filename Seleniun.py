@@ -17,7 +17,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import IP
 import Telegran
 from F5_navegador import atualizar_navegador
-from Google import escrever_celula
+from Google import *
 from Requerimentos import nome_usuario
 
 # Desabilitar o fail-safe
