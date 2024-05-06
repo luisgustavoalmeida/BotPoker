@@ -10,9 +10,7 @@ import Cartas
 import Cofre
 import Firebase
 import Genius
-from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
 import HoraT
-from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip
 import Limpa
 import Mesa
 import OCR_tela
@@ -24,8 +22,13 @@ import Slot
 import Tarefas
 import Telegran
 from Firebase import ler_configuracao
+from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
+from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
+
+# testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
+tem_internet()
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
