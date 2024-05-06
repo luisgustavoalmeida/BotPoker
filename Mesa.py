@@ -1201,6 +1201,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('\nPara de jogar atingiu o limite de 23:30\n')
                 break
 
+            if HoraT.fim_tempo_tarefa():
+                Limpa.limpa_total(x_origem, y_origem)
+                print('Fim do horario destinado a tarefas')
+                break
+
             if upar and (cont_slot < SLOT_UPAR):
                 if gira_niquel(x_origem, y_origem):
                     cont_slot += 10
@@ -1244,11 +1249,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                                                 f"\n Jogadas total: {cont_total_jogadas}."
                                                 f"\nJogadas + Slote" + Fore.RESET)
                             break
-
-                    if HoraT.fim_tempo_tarefa():
-                        Limpa.limpa_total(x_origem, y_origem)
-                        print('Fim do horario destinado a tarefas')
-                        break
 
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)

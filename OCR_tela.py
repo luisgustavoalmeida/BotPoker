@@ -8,11 +8,12 @@ import cv2
 import numpy
 import pyautogui
 import pytesseract
+from colorama import Fore
 from fuzzywuzzy import fuzz
 
 import IP
+import Origem_pg
 from F5_navegador import atualizar_navegador
-from colorama import Fore, Back, Style, init, deinit
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -675,7 +676,9 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
     # Verifica se o OCR retornou algum texto
     if texto is not None:
-        lista = remover_termos(texto)
+        lista = remover_termos(x_origem, y_origem, texto)
+        tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
+        lista = lista[:tarefa_feita]
         # Retorna a lista de tarefas
         return lista
     else:
@@ -701,7 +704,7 @@ def tarefas_diaris_posicao2(x_origem, y_origem):
     if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 280), (87, 0, 176), tolerance=3):
         # Itera para rolar e verificar se há mais tarefas
         for _ in range(50):
-            pyautogui.doubleClick(708 + x_origem, 419 + y_origem)  # rola para ver se a tarefa esta na segunda parte
+            pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
             # Testa se há barra de rolagem na lista de tarefas
             if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 410), (87, 0, 176), tolerance=3):
                 break
@@ -721,75 +724,14 @@ def tarefas_diaris_posicao2(x_origem, y_origem):
         # Executa o OCR na região de interesse
         texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
         if texto is not None:
-            lista = remover_termos(texto)
+            lista = remover_termos(x_origem, y_origem, texto)
+            tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
+            lista = lista[:tarefa_feita]
             # Retorna a lista de tarefas
             return lista
         else:
             # Se não foram encontradas tarefas, retorna uma lista vazia
             return lista
-    return lista
-
-
-def tarefas_diaris(x_origem, y_origem):
-    """
-    Esta função realiza a leitura das tarefas diárias em uma região específica da tela.
-
-    Parameters:
-    - x_origem (int): Coordenada x da origem da região.
-    - y_origem (int): Coordenada y da origem da região.
-
-    Returns:
-    - list: Uma lista de tarefas diárias lidas.
-    """
-    print('tarefas_diaris')
-    lista = []
-    lista2 = []
-
-    # Configurações para o OCR
-    config = '--psm 6 --oem 1'
-    inveter_cor = True
-    esca_ciza = True
-    fator_ampliacao = 1
-    contraste_pre = 1
-    contraste_pos = 1
-
-    # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 274, y_origem + 267, x_origem + 589, y_origem + 551)
-
-    # Clica duas vezes no ícone de tarefas diárias para abrir a janela
-    pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
-    time.sleep(0.2)
-
-    # Executa o OCR na região de interesse
-    texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-
-    # Verifica se o OCR retornou algum texto
-    if texto is not None:
-        lista = remover_termos(texto)
-        # Testa se há barra de rolagem na lista de tarefas
-        if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 280), (87, 0, 176), tolerance=3):
-            # Itera para rolar e verificar se há mais tarefas
-            for i in range(50):
-                pyautogui.doubleClick(708 + x_origem, 419 + y_origem)  # rola para ver se a tarefa esta na segunda parte
-                # Testa se há barra de rolagem na lista de tarefas
-                if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 410), (87, 0, 176), tolerance=3):
-                    break
-                time.sleep(0.1)
-
-            # Executa o OCR na região de interesse novamente
-            texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-
-            # Verifica se o OCR retornou algum texto
-            if texto is not None:
-                lista2 = remover_termos(texto)
-                # Testa se há tarefas na segunda parte e inclui na lista as não repetidas
-                if lista2:  # testa se esta vazia
-                    for item in lista2:
-                        if item not in lista:
-                            # inclui na lista o itens nao repitidos
-                            lista.append(item)
-        # time.sleep(2)
-    print(f'Lista de tarefas diarias; {lista}')
     return lista
 
 
@@ -917,10 +859,105 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                 print("Tarefa trocada com sucesso.")
                 time.sleep(1)
                 break
-    print('Não há tarefa na lista de troca.')
+                print('Não há tarefa na lista de troca.')
 
 
-def remover_termos(texto):
+def tarefas_diaris(x_origem, y_origem):
+    """
+    Esta função realiza a leitura das tarefas diárias em uma região específica da tela.
+
+    Parameters:
+    - x_origem (int): Coordenada x da origem da região.
+    - y_origem (int): Coordenada y da origem da região.
+
+    Returns:
+    - list: Uma lista de tarefas diárias lidas.
+    """
+    print('tarefas_diaris')
+    lista = []
+    lista2 = []
+
+    # Configurações para o OCR
+    config = '--psm 6 --oem 1'
+    inveter_cor = True
+    esca_ciza = True
+    fator_ampliacao = 1
+    contraste_pre = 1
+    contraste_pos = 1
+
+
+    # Região de interesse para a leitura das tarefas diárias
+    regiao = (x_origem + 274, y_origem + 267, x_origem + 589, y_origem + 551)
+
+    # Clica duas vezes no ícone de tarefas diárias para abrir a janela
+    pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
+    time.sleep(0.2)
+
+    # Testa se tem tarefa extra
+    if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
+        pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+        tarefa_extra = True
+    else:
+        tarefa_extra = False
+
+    # Executa o OCR na região de interesse
+    texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+
+    # Verifica se o OCR retornou algum texto
+    if texto is not None:
+        lista = remover_termos(x_origem, y_origem, texto, tarefa_extra)
+        # Testa se há barra de rolagem na lista de tarefas
+        if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 280), (87, 0, 176), tolerance=3):
+            # Itera para rolar e verificar se há mais tarefas
+            for i in range(50):
+                if tarefa_extra:
+                    pyautogui.doubleClick(708 + x_origem, 420 + y_origem)  # rola para ver se a tarefa esta na segunda parte
+                else:
+                    pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
+
+                # Testa se há barra de rolagem na lista de tarefas
+                if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 410), (87, 0, 176), tolerance=3):
+                    break
+                time.sleep(0.1)
+
+            # Executa o OCR na região de interesse novamente
+            texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+
+            # Verifica se o OCR retornou algum texto
+            if texto is not None:
+                lista2 = remover_termos(x_origem, y_origem, texto, tarefa_extra)
+                # Testa se há tarefas na segunda parte e inclui na lista as não repetidas
+                if lista2:  # testa se esta vazia
+                    for item in lista2:
+                        if item not in lista:
+                            # inclui na lista o itens nao repitidos
+                            lista.append(item)
+        # time.sleep(2)
+    print(f'Lista de tarefas diarias:\n {lista}')
+    return lista
+
+
+def testar_tarefa_feita(x_origem, y_origem, tarefa_extra=False):
+    """
+    testa se na lista tem tarefas que ja foram feitas, as que ja foram feitas fica em opaco no final da lista
+    retornar o numero de tarefas ainda a serem feitas iniciando pelo indice zero
+    """
+    # Term que fazer um logica para testa qudno se tem tarefas extas para ajusta a posição em Y
+    if tarefa_extra:
+        posicao_y = (304, 384, 464, 544)
+    else:
+        posicao_y = (307, 387, 467, 547)
+    tarefa_feita = 0
+
+    for indice, y in enumerate(posicao_y):
+        if pyautogui.pixelMatchesColor(x_origem + 647, y_origem + y, (18, 204, 36), tolerance=30):
+            print(f"Índice: {indice}")
+            tarefa_feita = indice + 1
+
+    return tarefa_feita
+
+
+def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     """
     Remove termos indesejados do texto, realiza formatações e retorna uma lista de itens.
 
@@ -972,18 +1009,22 @@ def remover_termos(texto):
     texto = re.sub(r'caca\nniquel', 'caca niquel', texto)
 
     # Dividir o texto em linhas
-    linhas = texto.split('\n')
-
-    # Filtrar linhas relevantes usando um dicionário ou condição específica
-    texto_formatado = '\n'.join([linha for linha in linhas if linha.strip() in dicionario_tarefas_fazer.keys() or linha.strip() == ''])
-
-    # Extrair itens de texto formatado
-    itens = texto_formatado.split('\n')
+    lista_tarefas = texto.split('\n')
 
     # Remover caracteres indesejados e formar a lista final
-    lista = [re.sub(r'\s+', ' ', item.replace('\n', ' ').strip()) for item in itens if len(item) > 34]
+    lista_tarefas = [re.sub(r'\s+', ' ', item.replace('\n', ' ').strip()) for item in lista_tarefas if len(item) > 29]
 
-    return lista
+    tarefa_feita = testar_tarefa_feita(x_origem, y_origem, tarefa_extra)
+    # remove a tarefas feitas da lista
+    lista_tarefas = lista_tarefas[:tarefa_feita]
+
+    # Filtrar linhas relevantes usando um dicionário ou condição específica
+    lista_tarefas = '\n'.join([linha for linha in lista_tarefas if linha.strip() in dicionario_tarefas_fazer.keys() or linha.strip() == ''])
+
+    # Extrair itens de texto formatado
+    lista_tarefas = lista_tarefas.split('\n')
+
+    return lista_tarefas
 
 
 def remover_caracteres_especiais(texto):
@@ -1510,3 +1551,6 @@ def jogos_totais(x_origem, y_origem):
     return total_jogos
 
 
+# x_origem, y_origem = Origem_pg.x_y()
+# tarefas_diaris(x_origem, y_origem)
+# testar_tarefa_feita(x_origem, y_origem)

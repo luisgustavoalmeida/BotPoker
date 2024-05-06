@@ -258,14 +258,6 @@ def roletas():
 
     elif roleta == 'roleta_2':
 
-        # if (level_conta - int(level_conta)) < LEVEL_UPAR:
-        #     conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
-        #     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        #     print('Level_conta: ', level_conta)
-        #     print('Valor_fichas_perfil: ', valor_fichas_perfil)
-        # else:
-        #     valor_fichas_perfil = int(fichas_planilha)
-
         for _ in range(20):
             pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
             time_sair = time.perf_counter()
@@ -286,9 +278,9 @@ def upar_t1():
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     print('Level_conta: ', level_conta)
     print('Valor_fichas_perfil: ', valor_fichas_perfil)
-
-    level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
-                                                              roleta='roleta_2')
+    if not HoraT.fim_tempo_tarefa():
+        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
+                                                                  roleta='roleta_2')
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
     if HoraT.fim_tempo_tarefa():
