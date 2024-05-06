@@ -5,6 +5,7 @@ import time
 import pyautogui
 from colorama import Fore
 
+from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
 import Aneis
 import Cartas
 import Cofre
@@ -22,7 +23,6 @@ import Slot
 import Tarefas
 import Telegran
 from Firebase import ler_configuracao
-from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo

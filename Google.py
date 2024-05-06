@@ -17,6 +17,7 @@ from googleapiclient.discovery import build
 from OCR_tela import tratar_valor_numerico
 from Requerimentos import dicionari_token_credencial_n, nome_completo
 from colorama import Fore
+from IP import tem_internet
 
 # Define o escopo, desta forma tem permição total a plania e ao google drive
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']  # permite que a aplicação tenha acesso de leitura e escrita a planilhas do Google Sheets.
@@ -681,22 +682,22 @@ def zera_cont_IP(endereco):
 #             service = build('sheets', 'v4', credentials=cred)
 
 
-def tem_internet():
-    com_internete = True
-    while com_internete:
-        print('Google testa a internete')
-        try:
-            response = requests.get('http://www.google.com', timeout=5)
-            if response.status_code == 200:
-                print("Conexão com a internet ativa...")
-                com_internete = False
-                return True
-
-        except Exception as e:
-            print(Fore.RED + f"tem_internet. Erro: {e}" + Fore.RESET)
-            time.sleep(3)
-
-    return True
+# def tem_internet():
+#     com_internete = True
+#     while com_internete:
+#         print('Google testa a internete')
+#         try:
+#             response = requests.get('http://www.google.com', timeout=5)
+#             if response.status_code == 200:
+#                 print("Conexão com a internet ativa...")
+#                 com_internete = False
+#                 return True
+#
+#         except Exception as e:
+#             print(Fore.RED + f"tem_internet. Erro: {e}" + Fore.RESET)
+#             time.sleep(3)
+#
+#     return True
 
 
 def credenciais(guia, salta_linhas=True):
