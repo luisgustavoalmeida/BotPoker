@@ -5,7 +5,7 @@ import time
 import pyautogui
 from colorama import Fore
 
-from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco
+from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula
 import Aneis
 import Cartas
 import Cofre
@@ -673,8 +673,8 @@ Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  �
 
 dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
 print('dia_da_semana: ', dia_da_semana)
-print(Fore.GREEN + f'Novos dados...\n'
-                   f'ID: {id},'
+print(Fore.GREEN + f'Novos dados...'
+                   f'\nID: {id},'
                    f'\nSenha: {senha},'
                    f'\nContagem de IP: {cont_IP},'
                    f'\nFichas planilha: {fichas_planilha},'
@@ -764,25 +764,31 @@ while True:
         print(Fore.CYAN + 'Mudando de guia' + Fore.RESET)
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
-        if (nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP"):
-            Seleniun.busca_link()
-        elif nome_computador == "PC-I7-9700KF":
-            Seleniun.busca_link()
+        if ((nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP")) or (nome_computador == "PC-I7-9700KF"):
+            encontrado, link = Seleniun.busca_link()
+            if encontrado:
+                escrever_celula(link, 'Dados', 'F2')
+                data_hora_atual = str(datetime.datetime.now())
+                print('escreve a data da atialização: ', data_hora_atual)
+                escrever_celula(data_hora_atual, 'Dados', 'F3')
+                Telegran.monta_mensagem(f'Link fan page feito com sucesso. ', False)
+            else:
+                escrever_celula(link, 'Dados', 'F3')
+                Telegran.monta_mensagem(f'  FALHA LINK FAN PAGE.    A T E N Ç Ã O !!! ', False)
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
             url = str(pega_valor_endereco('Dados!F1'))
 
-        valores_apagar = [""]
-
-        apagar_numerodo_pc(valores_apagar, guia_fim, linha_novo_fim)  # apaga o nume do pc
+        apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
 
         guia_anterior = guia
         id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)  # pega id e senha par o proximo login
 
     else:
         id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
-        print(Fore.GREEN + f'Novos dados...\n'
-                           f'ID: {id},\nSenha: {senha},'
+        print(Fore.GREEN + f'Novos dados...'
+                           f'\nID: {id},'
+                           f'\nSenha: {senha},'
                            f'\nContagem de IP: {cont_IP},'
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)

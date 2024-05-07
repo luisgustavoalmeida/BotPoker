@@ -1,4 +1,3 @@
-import datetime
 import os
 import time
 
@@ -15,9 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 import IP
-import Telegran
 from F5_navegador import atualizar_navegador
-from Google import *
 from Requerimentos import nome_usuario
 
 # Desabilitar o fail-safe
@@ -544,6 +541,7 @@ def clicar_por_xpath(driver, elemento):
         print(f'Elemento "{elemento}" não encontrado usando XPath: {seletor_xpath}')
         return False
 
+
 def clicar_por_xpath_botao(driver, elemento):
     try:
         seletor_xpath = f"//button[@value='{elemento}']"
@@ -729,19 +727,16 @@ def busca_link():
     if nome_usuario == "PokerIP":  # and (nome_computador == "PC-I5-8600K"):
         id = "Luis.gustavo.almeida88"
         senha = "020996Pa"
-        endereco_falha = 'F3'
 
     elif nome_usuario == "lgagu":  # and (nome_computador == "PC-I7-9700KF"):
         id = "Luis.gustavo.almeida88"
         senha = "020996Pa"
         # id = "stefaniaalmeida.jf"
         # senha = "$TE20091992te"
-        endereco_falha = 'F4'
 
     else:  # nome_usuario == "PokerIP": #and (nome_computador == "PC-i3-8145U"):
         id = "Luis.gustavo.almeida88"
         senha = "020996Pa"
-        endereco_falha = 'F5'
 
     url = "https://pt-br.facebook.com/"
 
@@ -782,7 +777,7 @@ def busca_link():
                 time.sleep(7)
                 break
     except Exception as e:
-        escrever_celula("erro ao buscar elemento da pagina", 'Dados', endereco_falha)
+        print(e)
 
     # Obtém todos os identificadores de guias abertas
     guias_abertas = navegador.window_handles
@@ -806,33 +801,19 @@ def busca_link():
         if link_da_barra_de_endereco.startswith(padrao_desejado):
             print("A URL começa com o padrão desejado.")
             print(link_da_barra_de_endereco)
-            print('escreve o link')
-            escrever_celula(link_da_barra_de_endereco, 'Dados', 'F2')
-            # Obtenha a data e hora atual
-            data_hora_atual = str(datetime.datetime.now())
-            print('escreve a data da atialização: ', data_hora_atual)
-            escrever_celula(data_hora_atual, 'Dados', endereco_falha)
-            Telegran.monta_mensagem(f'Link fan page feito com sucesso. ', False)
-            print('Link copiado com sucesso')
-            return
+            return True, link_da_barra_de_endereco
         else:
-            escrever_celula("link fanpag fora do padrão", 'Dados', endereco_falha)
-            Telegran.monta_mensagem(f'FALHA LINK FAN PAGE. ATENÇÃO!!!', False)
             print("link fanpag fora do padrão")
-        return
+        return False, "link fanpag fora do padrão"
     else:
         print("Não existem duas guias abertas.")
-        escrever_celula('url fora do padrao ou nao encontrada a imagem com clique burro ', 'Dados', endereco_falha)
-
         guias_abertas = navegador.window_handles
-
         # Verifica se há mais de uma guia aberta
         if len(guias_abertas) > 1:
             # Fecha todas as guias adicionais, exceto a primeira
             for guia_id in guias_abertas[1:]:
                 navegador.switch_to.window(guia_id)  # Alterna para a guia que será fechada
                 navegador.close()  # Fecha a guia ativa
-
             # Após fechar as guias adicionais, volta para a primeira guia
             navegador.switch_to.window(guias_abertas[0])
 
@@ -840,14 +821,10 @@ def busca_link():
         else:
             print("Apenas uma guia já está aberta.")
 
-        escrever_celula("link nao encontrado", 'Dados', endereco_falha)
-        Telegran.monta_mensagem(f'FALHA LINK FAN PAGE. ATENÇÃO!!!', False)
-        return
+        return False, "link nao encontrado"
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
 # cria_nevegador()
 # busca_link()
 # time.sleep(10000)
-
-
