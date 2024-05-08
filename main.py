@@ -707,6 +707,7 @@ while True:
                 print('Inicia a execução das Tarefas')
                 # tarefas()
                 upar_t1()
+
         # Recolher
         elif confg_funcao == 'Recolher':
             print('Inicia a execução do Recolher')
@@ -718,6 +719,15 @@ while True:
         # Remover
         elif confg_funcao == 'Remover' or confg_funcao == 'Face':
             print('Inicia a execução do remover Poker')
+            roletas()
+
+        elif confg_funcao == "T1":
+            print('Inicia a execução das Tarefas')
+            # tarefas()
+            upar_t1()
+
+        elif confg_funcao in ["R1", "R2", "R3", "R4", "R5"]:
+            print('Inicia a execução das Roletas')
             roletas()
 
         Tarefas.recolher_tarefa_upando(x_origem, y_origem)
