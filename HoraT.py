@@ -5,7 +5,7 @@ from IP import ip_troca_agora
 
 guias = ["R1", "R2", "R3", "R4", "R5"]
 
-faixa_tempo = 4000  # janela de tempo para sair das contas no tarefas
+faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
 hora_roleta = 5
