@@ -22,7 +22,7 @@ import Seleniun
 import Slot
 import Tarefas
 import Telegran
-from Firebase import ler_configuracao
+# from Firebase import ler_configuracao
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
@@ -584,7 +584,7 @@ def recolher_automatico():
 def identifica_funcao():
     global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
     try:
-        confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+        confg_funcao, config_tempo_roleta, blind_recolher_auto = Firebase.ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
     except Exception as e:
         print(e)
@@ -635,7 +635,7 @@ def identifica_funcao():
             Telegran.monta_mensagem(f'A execução do programa foi pausada {str(confg_funcao)}.  ⚙️', False)
             print("Este script será pausado!")
             time.sleep(180)
-            confg_funcao, config_tempo_roleta, blind_recolher_auto = ler_configuracao()
+            confg_funcao, config_tempo_roleta, blind_recolher_auto = Firebase.ler_configuracao()
         Telegran.monta_mensagem(f'A execução do programa foi retomada {str(confg_funcao)}.  ⚙️', False)
         Seleniun.finaliza_navegador()
         print("Este script será interrompido e inicializado novamente!")
