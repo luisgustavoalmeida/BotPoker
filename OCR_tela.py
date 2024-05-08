@@ -570,7 +570,7 @@ def tempo_roleta(x_origem, y_origem):
             if tempo is not None:
                 tempo = tratar_valor_numerico(tempo)
                 print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
-                if tempo < 50000:
+                if tempo <= 45959:
                     return tempo
                 else:
                     time.sleep(1.5)
