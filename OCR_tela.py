@@ -572,6 +572,8 @@ def tempo_roleta(x_origem, y_origem):
                 print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
                 if tempo < 50000:
                     return tempo
+                else:
+                    time.sleep(1.5)
             else:
                 print('OCR não reconheceu a imagem')
     return 0
