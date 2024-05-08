@@ -564,14 +564,16 @@ def tempo_roleta(x_origem, y_origem):
 
     for config in configuracoes:
         # print(config)
-        tempo = OCR_regiao(regiao, config, inverter_cor, fator_ampliacao, contraste_pre, contraste_pos, escala_cinza)
-        # print(tempo)
-        if tempo is not None:
-            tempo = tratar_valor_numerico(tempo)
-            print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
-            return tempo
-        else:
-            print('OCR não reconheceu a imagem')
+        for _ in range(2):
+            tempo = OCR_regiao(regiao, config, inverter_cor, fator_ampliacao, contraste_pre, contraste_pos, escala_cinza)
+            # print(tempo)
+            if tempo is not None:
+                tempo = tratar_valor_numerico(tempo)
+                print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
+                if tempo < 50000:
+                    return tempo
+            else:
+                print('OCR não reconheceu a imagem')
     return 0
 
 

@@ -16,9 +16,9 @@ pyautogui.PAUSE = 0
 def roletas(x_origem, y_origem):
     time_entrou_na_funcao = time.perf_counter()
     cont_roleta1 = 0
-    TEMPO_ESPERA = 3600  # tempo de tolerancia para esperar em, segundos
+    TEMPO_ESPERA = 1200  # tempo de tolerancia para esperar em, segundos
     roleta = "sem_roleta"
-    tempo2 = 1200
+    tempo2 = 3600
     while True:
         print('roletas')
 
@@ -73,7 +73,7 @@ def roletas(x_origem, y_origem):
                 tempo = tempo_roleta(x_origem, y_origem)
                 print("tempo restante: ", tempo)
                 # converte o tempo que esta escrito na roleta para segundos
-                tempo = tempo // 10000 * 3600 + (tempo % 10000) // 100 * 60 + (tempo % 100)
+                tempo = (tempo // 10000 * 3600) + (tempo % 10000 // 100 * 60) + (tempo % 100)
                 print(tempo)
 
                 if tempo < tempo2:
@@ -83,12 +83,12 @@ def roletas(x_origem, y_origem):
                 if tempo > TEMPO_ESPERA:  # testa se o tempo é maior que o predeterminado se sim si fora
                     pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
                     time.sleep(2)
-                    tempo = tempo_roleta(x_origem, y_origem)
-                    print("tempo restante: ", tempo)
+                    tempo1 = tempo_roleta(x_origem, y_origem)
+                    print("tempo restante: ", tempo1)
                     # converte o tempo que esta escrito na roleta para segundos
-                    tempo = tempo // 10000 * 3600 + (tempo % 10000) // 100 * 60 + (tempo % 100)
+                    tempo1 = (tempo1 // 10000 * 3600) + (tempo1 % 10000 // 100 * 60) + (tempo1 % 100)
 
-                    if tempo > TEMPO_ESPERA:  # testa se o tempo é maior que o predeterminado se sim si fora
+                    if (tempo > TEMPO_ESPERA) and (tempo < 18000) and (tempo > tempo1):  # testa se o tempo é maior que o predeterminado se sim si fora
                         print("não espera, tempo para a roleta maior que o determindao")
 
                         hora_atual = datetime.datetime.now().time()
