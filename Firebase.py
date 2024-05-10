@@ -37,7 +37,7 @@ arranjo3_pc = tuple(f"Comandos3/{pc}" for pc in global_variables['group3'])
 
 #  lista com os computadores que vao dar comando nos escravos, colocar nesta lista para funcionar como metre
 lista_PC_meste = ('xPC-I7-9700KF', 'xPC-i3-8145U', 'xPC-R5-7600')
-
+# 'roleta_auto' 'Atualizar_codigo'
 # Dados padrões de configuração a serem escritos
 dados_config = {
     'PC01': {'confg_funcao': 'Atualizar_codigo', 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400'},
