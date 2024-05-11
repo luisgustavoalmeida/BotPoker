@@ -1200,6 +1200,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if datetime.datetime.now().time() > datetime.time(23, 30, 0):
                 print('\nPara de jogar atingiu o limite de 23:30\n')
                 break
+
             if not recolher:
                 if HoraT.fim_tempo_tarefa():
                     Limpa.limpa_total(x_origem, y_origem)
