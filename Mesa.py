@@ -1222,7 +1222,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                     print(Fore.YELLOW + f"Esta upando a conta. Jogou vezes igua a: {cont_jogou}."
                                         f"\nSlote vezes: {cont_slot}."
                                         f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
-                    if cont_jogou % 10 == 0:  # testa se tem que trocar ip a casa 5 jogadas
+                    if cont_jogou % 5 == 0:  # testa se tem que trocar ip a casa 5 jogadas
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
                         if subir_level:
