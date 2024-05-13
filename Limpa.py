@@ -411,10 +411,17 @@ def limpa_promocao(x_origem, y_origem):
             print("Promoção padrão clica no fechar")
 
     # chave de saque diario
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (166, 197, 58), tolerance=20):
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (62, 71, 76), tolerance=20):
+        print("Chave de saque diario")
+        pyautogui.click(819 + x_origem, 140 + y_origem)
+
+    # chave de saque diario
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (29, 28, 30), tolerance=20):
         print("Chave de saque diario")
         pyautogui.click(498 + x_origem, 454 + y_origem)
+        time.sleep(2)
         pyautogui.click(819 + x_origem, 140 + y_origem)
+
 
     # # A carta final 8
     # if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (67, 35, 10), tolerance=20):
