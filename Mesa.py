@@ -1482,7 +1482,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     num_vezes_maximo = 4
     num_vezes_minimo = 2
     # limite de fichas minimo para jogar
-    LIMITE_FICHAS = 10000
+    LIMITE_FICHAS = 1000
     LEVEL_UPAR = 7
 
     if datetime.datetime.now().time() < datetime.time(23, 00, 0):
@@ -1525,7 +1525,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('Fim do horario destinado a tarefas')
             return level_conta, valor_fichas_perfil
 
-        if (level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+        if (level_conta < LEVEL_UPAR) and (valor_fichas_perfil > (LIMITE_FICHAS * 5)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
@@ -1549,7 +1549,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('Fim do horario destinado a tarefas')
             return level_conta, valor_fichas_perfil
 
-        if (level_conta < 12.0411) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
+        if (level_conta < 12.0411) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 10)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
