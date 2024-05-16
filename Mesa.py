@@ -1101,8 +1101,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     valor_aposta2 = dicionario_salas[blind_mesa][1]
     lista_salas = dicionario_salas[blind_mesa][2]
 
-    print('\n\nlista_salas', lista_salas, '\n')
-    print('valores', valor_aposta1, valor_aposta2, '\n\n')
+    print('\nlista_salas', lista_salas, '\n')
+    print('valores', valor_aposta1, valor_aposta2, '\n')
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
@@ -1543,6 +1543,10 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
 
             print('level_conta: ', level_conta)
             print('valor_fichas_perfil: ', valor_fichas_perfil)
+            conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)
+            # return level_conta, valor_fichas_perfil
+        if HoraT.fim_tempo_tarefa():
+            print('Fim do horario destinado a tarefas')
             return level_conta, valor_fichas_perfil
 
         if (level_conta < 12.0411) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 2)) and conta_upada:
