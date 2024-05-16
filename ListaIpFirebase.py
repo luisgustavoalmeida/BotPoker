@@ -86,23 +86,27 @@ def escolher_configuracao_e_db():
         configuracao = config4
         print('Sera usado o banco 4')
 
-    elif 13 <= dia_atual < 17:
+    elif 13 <= dia_atual < 16:
         configuracao = config6
         print('Sera usado o banco 6')
 
-    elif 17 <= dia_atual < 21:
+    elif 16 <= dia_atual < 19:
+        configuracao = config5
+        print('Sera usado o banco 5')
+
+    elif 19 <= dia_atual < 22:
         configuracao = config7
         print('Sera usado o banco 7')
 
-    elif 21 <= dia_atual < 24:
+    elif 22 <= dia_atual < 25:
         configuracao = config8
         print('Sera usado o banco 8')
 
-    elif 24 <= dia_atual < 27:
+    elif 25 <= dia_atual < 28:
         configuracao = config9
         print('Sera usado o banco 9')
 
-    elif 27 <= dia_atual < 30:
+    elif 28 <= dia_atual < 31:
         configuracao = config10
         print('Sera usado o banco 10')
 
