@@ -261,10 +261,11 @@ def escrever_valores_lote(valores, guia, linha):
     global service
     range_start = f"{guia}!E{linha}:I{linha}"
 
-    # Verifica se o quinto valor é vazio
-    if valores[4] == "":
-        # Se for vazio, exclui o quinto valor da lista
-        valores = valores[:4]
+    if len(valores) >= 5:
+        # Verifica se o quinto valor está vazio
+        if valores[4] == "":
+            # Remove o quinto valor se estiver vazio
+            valores = valores[:4]
 
     data = {
         'range': range_start,
