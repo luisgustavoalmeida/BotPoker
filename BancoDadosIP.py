@@ -286,27 +286,24 @@ def limpar_tabela():
     except sqlite3.Error as e:
         print(f"Erro ao limpar tabela: {e}")
 
+# conn = criar_conexao()
+# criar_tabela(conn)
+# Script 1
+# inserir_info_inicial(0, 0, 0, 0, 0)
+# atualizar_info(0, 0, 0, 0, 0)
+# atualizar_dado(40, 3)
+# atualizar_dado(40, 2)
+# atualizar_dado(40, 1)
+# zera_contagem_ip()
+# atualizar_soma_ip()
 
-# Exemplo de como usar as funções definidas acima
-if __name__ == "__main__":
-    # conn = criar_conexao()
-    # criar_tabela(conn)
-    # Script 1
-    # inserir_info_inicial(0, 0, 0, 0, 0)
-    # atualizar_info(0, 0, 0, 0, 0)
-    # atualizar_dado(40, 3)
-    # atualizar_dado(40, 2)
-    # atualizar_dado(40, 1)
-    # zera_contagem_ip()
-    # atualizar_soma_ip()
+# incrementa_dado(1)
+# incrementa_dado(2)
+# incrementa_dado(3)
+# zera_contagem_ip()
 
-    incrementa_dado(1)
-    incrementa_dado(2)
-    incrementa_dado(3)
-    # zera_contagem_ip()
+#
 
-    #
-
-    # Limpar tabela
-    # limpar_tabela()
-    dados = visualizar_tabela()
+# Limpar tabela
+# limpar_tabela()
+# dados = visualizar_tabela()
