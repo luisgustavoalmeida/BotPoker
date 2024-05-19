@@ -26,7 +26,7 @@ import Telegran
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
-from BancoDadosIP import incrementa_contagem_ip
+from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 tem_internet()
@@ -129,6 +129,7 @@ def logar_carregar():
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
     testa_contagem_ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+    incrementa_contagem_ip()
 
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
@@ -711,8 +712,6 @@ while True:
     # ################################################################################################################################################
     if logar_carregar():
 
-        incrementa_contagem_ip()
-
         if confg_funcao == 'roleta_auto':
             # Roletas
             if guia in ["R1", "R2", "R3", "R4", "R5"]:
@@ -758,11 +757,12 @@ while True:
     Seleniun.sair_face(url)
 
     if not entrou_corretamente:  # se nao entrou no face
+        decrementa_contagem_ip()
         status_fim = stataus_facebook
         print("Conta não entrou, o Statos é: ", stataus_facebook)
 
     elif status_poker == 'Banida' or status_poker == 'Bloqueado Temporariamente':
-        incrementa_contagem_ip()
+
         status_fim = status_poker
         entrou_corretamente = False
         print("Conta não entrou, o Statos é: ", status_poker)
