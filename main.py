@@ -604,12 +604,13 @@ def identifica_funcao():
             novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400',
                            'confg_secundaria': 'auto'}
             Firebase.atualizar_configuracao_pc(novos_dados)
-            if confg_secundaria == 'Face':
+            confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
+            if confg_funcao == 'Face':
                 guia = 'Remover'
-            elif confg_secundaria == 'Recolher_automatico':
+            elif confg_funcao == 'Recolher_automatico':
                 guia = 'Recolher'
             else:
-                guia = confg_secundaria
+                guia = confg_funcao
 
     elif confg_funcao in ('Face', 'Remover', 'Recolher', 'Recolher_automatico', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if confg_funcao == 'Face':
