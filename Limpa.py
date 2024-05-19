@@ -410,17 +410,7 @@ def limpa_promocao(x_origem, y_origem):
             pyautogui.click(821 + x_origem, 138 + y_origem)
             print("Promoção padrão clica no fechar")
 
-    # chave de saque diario
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (62, 71, 76), tolerance=20):
-        print("Chave de saque diario")
-        pyautogui.click(819 + x_origem, 140 + y_origem)
 
-    # chave de saque diario
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (29, 28, 30), tolerance=20):
-        print("Chave de saque diario")
-        pyautogui.click(498 + x_origem, 454 + y_origem)
-        time.sleep(2)
-        pyautogui.click(819 + x_origem, 140 + y_origem)
 
 
     # # A carta final 8
@@ -443,12 +433,13 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(777 + x_origem, 217 + y_origem, button='left')
         time.sleep(0.5)
         pyautogui.click(821 + x_origem, 138 + y_origem, button='left')
-        print("Banco do poker")
+        print("Banco do poker regras aberto")
 
     # Banco do poker
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (115, 96, 64), tolerance=20):
         pyautogui.click(821 + x_origem, 138 + y_origem, button='left')
         print("Banco do poker")
+        time.sleep(0.5)
 
     # VS pegar a carta
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 30), tolerance=8):
@@ -501,6 +492,19 @@ def limpa_promocao(x_origem, y_origem):
         time.sleep(0.4)
         pyautogui.mouseUp(895 + x_origem, 82 + y_origem)  # aperta e segura
         print("Valete ou mais")
+
+
+    # chave de saque diario
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (62, 71, 76), tolerance=20):
+        print("Chave de saque diario")
+        pyautogui.click(819 + x_origem, 140 + y_origem)
+
+    # chave de saque diario
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (29, 28, 30), tolerance=20):
+        print("Chave de saque diario 2")
+        pyautogui.click(498 + x_origem, 454 + y_origem)
+        time.sleep(2)
+        pyautogui.click(819 + x_origem, 140 + y_origem)
 
 
 def limpa_total(x_origem, y_origem):

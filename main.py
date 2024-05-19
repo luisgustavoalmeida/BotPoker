@@ -26,6 +26,7 @@ import Telegran
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
+from BancoDadosIP import incrementa_contagem_ip
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 tem_internet()
@@ -56,7 +57,6 @@ senha_novo = ''
 fichas_planilha_novo = ''
 linha_novo = ''
 level_novo = ''
-cont_IP_novo = ""
 continuar_tarefa = False
 
 status_fim = None
@@ -83,7 +83,7 @@ tarefa_concluida = threading.Semaphore(0)
 
 # Função que será executada na tarefa independente
 def tarefa_independente():
-    global continuar_tarefa, guia, id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo, time_id
+    global continuar_tarefa, guia, id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo, time_id
     global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim
 
     while True:
@@ -105,7 +105,7 @@ def tarefa_independente():
                     marca_caida(status_fim, guia_fim, linha_fim)
 
             # Atualizar as variáveis
-            id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo = credenciais(guia)
+            id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo = credenciais(guia)
             # pega id e senha para o proximo login
             time_id = time.perf_counter()
             continuar_tarefa = False
@@ -126,13 +126,9 @@ tarefa.start()
 def logar_carregar():
     global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker, url, confg_funcao
 
-    time_atual = time.perf_counter()
-    time_decorrido_id = time_atual - time_id
-
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
-    if ((1 + cont_IP) >= LIMITE_IP) or (cont_IP < 0) or (time_decorrido_id > 120):  # se a contagem de ip ta fora da faixa vai para a função
-        testa_contagem_ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+    testa_contagem_ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
 
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
@@ -583,17 +579,35 @@ def recolher_automatico():
 
 def identifica_funcao():
     global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
+
     try:
-        confg_funcao, config_tempo_roleta, blind_recolher_auto = Firebase.ler_configuracao()
+        confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
         print(confg_funcao, config_tempo_roleta, blind_recolher_auto)
     except Exception as e:
         print(e)
         print('Sera usado o pradrao roleta_auto')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '4:00:5'
+        config_tempo_roleta = '3:55:5'
+
+    if id_novo == "" and confg_funcao != 'roleta_auto':
+        # Se a planilha chegou no final força atualização do fire base para o padrao
+        print("Fim das atividades escolhidas manualmente, o programa retornara para o padrão Role'roleta_auto'")
+        novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400', 'confg_secundaria': 'auto'}
+        Firebase.atualizar_configuracao_pc(novos_dados)
+        confg_funcao = 'roleta_auto'
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
+        if guia != "R1" and confg_secundaria != 'auto':
+            novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400',
+                           'confg_secundaria': 'auto'}
+            Firebase.atualizar_configuracao_pc(novos_dados)
+            if confg_funcao == 'Face':
+                guia = 'Remover'
+            elif confg_funcao == 'Recolher_automatico':
+                guia = 'Recolher'
+            else:
+                guia = confg_secundaria
 
     elif confg_funcao in ('Face', 'Remover', 'Recolher', 'Recolher_automatico', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if confg_funcao == 'Face':
@@ -661,13 +675,13 @@ identifica_funcao()
 print('Guia: ', guia)
 guia_anterior = guia
 # Obter as credenciais da conta do facebook
-id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)
+id, senha, fichas_planilha, linha, level_conta = credenciais(guia)
 
 if id == '':
     id_novo = id
     apagar_numerodo_pc([""], guia, linha)  # apaga o nume do pc
     identifica_funcao()
-    id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)
+    id, senha, fichas_planilha, linha, level_conta = credenciais(guia)
 
 Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
@@ -675,8 +689,7 @@ dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2
 print('dia_da_semana: ', dia_da_semana)
 print(Fore.GREEN + f'Novos dados...'
                    f'\nID: {id},'
-                   f'\nSenha: {senha},'
-                   f'\nContagem de IP: {cont_IP},'
+                   f'\nSenha: {senha},'                   
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
 
@@ -697,6 +710,9 @@ while True:
 
     # ################################################################################################################################################
     if logar_carregar():
+
+        incrementa_contagem_ip()
+
         if confg_funcao == 'roleta_auto':
             # Roletas
             if guia in ["R1", "R2", "R3", "R4", "R5"]:
@@ -746,6 +762,7 @@ while True:
         print("Conta não entrou, o Statos é: ", stataus_facebook)
 
     elif status_poker == 'Banida' or status_poker == 'Bloqueado Temporariamente':
+        incrementa_contagem_ip()
         status_fim = status_poker
         entrou_corretamente = False
         print("Conta não entrou, o Statos é: ", status_poker)
@@ -792,13 +809,13 @@ while True:
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
 
         guia_anterior = guia
-        id, senha, fichas_planilha, linha, cont_IP, level_conta = credenciais(guia)  # pega id e senha par o proximo login
+        id, senha, fichas_planilha, linha, level_conta = credenciais(guia)  # pega id e senha par o proximo login
 
     else:
-        id, senha, fichas_planilha, linha, cont_IP, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, cont_IP_novo, level_novo
+        id, senha, fichas_planilha, linha, level_conta = id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo
+
         print(Fore.GREEN + f'Novos dados...'
                            f'\nID: {id},'
-                           f'\nSenha: {senha},'
-                           f'\nContagem de IP: {cont_IP},'
+                           f'\nSenha: {senha},'                           
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)

@@ -11,6 +11,7 @@ import requests
 
 import Google
 import ListaIpFirebase
+from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, teste_novo_dia
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
@@ -200,7 +201,7 @@ def nao_tem_internet():
             falhou = True
 
 
-def ip_troca_agora():
+def ip_troca_agora2():
     while True:
         print('Troca IP imediatamente')
         if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
@@ -220,7 +221,7 @@ def ip_troca_agora():
             return
 
 
-def testa_contagem_ip(LIMITE_IP=6):
+def testa_contagem_ip2(LIMITE_IP=6):
     while True:
         com_internete = tem_internet()
         # tem_internet() # testa se tem internete ativa
@@ -252,6 +253,56 @@ def testa_contagem_ip(LIMITE_IP=6):
             except Exception as e:
                 print(e)
                 time.sleep(3)
+
+
+def ip_troca_agora():
+    """Usando banco sql"""
+    while True:
+        print('Troca IP imediatamente')
+        if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
+            # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
+            print("Vai par a função de trocar ip")
+            conexao()  # chama a função que troca ip
+            print('espera a internete estar estavel')
+            tem_internet()  # testa ate que internete esteja estavel
+            meu_ip_agora, teste = meu_ip()
+            if testa_lista_negra_ip(meu_ip_agora):
+                if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                    print("Vai para a função que zera a contagem")
+                    zera_contagem_ip_banco()
+                    return
+        else:
+            print('Troca IP imediatamente não é um computador principal')
+            return
+
+
+def testa_contagem_ip(LIMITE_IP=6):
+    """usando banco sql"""
+    while True:
+        try:
+            cont_IP = contagem_ip_banco()
+            print(f"A contagem de IP esta em: {cont_IP}")
+            if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
+                if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
+                    print("Vai par a função de trocar ip")
+                    conexao()  # chama a função que troca ip
+                    print('espera a internete estar estavel')
+                    tem_internet()  # testa ate que internete esteja estavel
+                    meu_ip_agora, teste = meu_ip()
+                    if testa_lista_negra_ip(meu_ip_agora):
+                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                            print("Vai para a função que zera a contagem")
+                            zera_contagem_ip_banco()
+                            return
+                else:
+                    print("Espera liberar IP...")
+                    time.sleep(1)
+
+            elif cont_IP < LIMITE_IP:
+                print("Continua não tem que trocar IP")
+                return
+        except Exception as e:
+            print(f"Erro em testa_contagem_ip_banco. Erro : {e}")
 
 
 def conexao():
@@ -580,3 +631,5 @@ def testa_lista_negra_ip(meu_ip_agora):
 # conexao(tipo_conexao)
 
 # conexao()
+
+

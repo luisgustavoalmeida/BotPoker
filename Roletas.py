@@ -110,11 +110,11 @@ def roletas(x_origem, y_origem):
 
                 else:
                     print("esperando pela roleta 2")
-                    if (time_entrou_na_funcao + 300) < time.perf_counter():
+                    if (time_entrou_na_funcao + 120) < time.perf_counter():
                         print('Esperando pela roleta 2, verifica se tem que trocar ip para liberar outros computadores')
                         IP.testa_trocar_IP()
-                        time_entrou_na_funcao = time.perf_counter() - 150
-                    time.sleep(15)
+                        time_entrou_na_funcao = time.perf_counter() - 60
+                    time.sleep(5)
 
         # faz roleta 1 # se tem roleta 1 tem que ta com o icone da roleta amarelo e nao pode ter barra vermelha nem amarela nem amerela mio cinza
         else:

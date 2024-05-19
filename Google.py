@@ -310,26 +310,26 @@ def reservar_linha(guia, endereco, salta_linhas=True):
             time.sleep(10.5)  # tempo entre pegar o id e testa se nao teve concorrencia
         else:
             time.sleep(5.5)  # tempo entre pegar o id e testa se nao teve concorrencia
-        n_pc, id, senha, fichas, contagem_ip, level = lote_valor(guia, linha)
+        n_pc, id, senha, fichas, level = lote_valor(guia, linha)
         try:
             n_pc = int(n_pc)
             if valor_pc == n_pc:
                 print("Não teve concorrencia pela celula")
-                return True, id, senha, fichas, linha, contagem_ip, level  # Retorna o valor testado, id, senha e linha
+                return True, id, senha, fichas, linha, level  # Retorna o valor testado, id, senha e linha
             else:
                 print("Pego por outro computador")
                 if salta_linhas:
                     linha_vazia_anterior += random.randint(10, 40)
                 else:
                     linha_vazia_anterior += random.randint(5, 30)
-                return False, id, senha, fichas, linha, contagem_ip, level
+                return False, id, senha, fichas, linha, level
             # print("values :",values)
         except:
             if salta_linhas:
                 linha_vazia_anterior += random.randint(10, 40)
             else:
                 linha_vazia_anterior += random.randint(5, 30)
-            return False, id, senha, fichas, linha, contagem_ip, level
+            return False, id, senha, fichas, linha, level
 
     else:
         print('A chave não existe no dicionário')
@@ -339,9 +339,9 @@ def lote_valor(guia, linha):
     global cred, service
 
     regiao2 = f"{guia}!B{linha}:I{linha}"  # regiao com a informação id senha e numero computador
-    regiao1 = f"{end_contagem_ip}"  # pega a contagem de ip
+    # regiao1 = f"{end_contagem_ip}"  # pega a contagem de ip
 
-    regiao = [regiao1, regiao2]
+    regiao = [regiao2]
 
     while True:
 
@@ -361,28 +361,79 @@ def lote_valor(guia, linha):
 
             # print("Os valores são:", values)
 
-            if len(values) > 4:
-                cont_IP = values[0]
-                id = values[1]
-                senha = values[2]
-                n_pc = values[3]
-                fichas = values[4]
+            if len(values) > 3:
+                # cont_IP = values[0]
+                id = values[0]
+                senha = values[1]
+                n_pc = values[2]
+                fichas = values[3]
                 level = values[-1]
 
             else:
-                cont_IP = values[0]
-                id = values[1]
-                senha = values[2]
-                n_pc = values[3]
+                # cont_IP = values[0]
+                id = values[0]
+                senha = values[1]
+                n_pc = values[2]
                 fichas = 0
                 level = 1
-            return n_pc, id, senha, fichas, cont_IP, level
+            return n_pc, id, senha, fichas, level
 
         except Exception as e:
             print(Fore.RED + f"lote_valor. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
+
+
+# def lote_valor(guia, linha):
+#     global cred, service
+#
+#     regiao2 = f"{guia}!B{linha}:I{linha}"  # regiao com a informação id senha e numero computador
+#     regiao1 = f"{end_contagem_ip}"  # pega a contagem de ip
+#
+#     regiao = [regiao1, regiao2]
+#
+#     while True:
+#
+#         try:
+#             result = service.spreadsheets().values().batchGet(
+#                 spreadsheetId=planilha_id,
+#                 ranges=regiao
+#             ).execute()
+#
+#             value_ranges = result.get('valueRanges', [])
+#             values = []
+#
+#             for range_data in value_ranges:
+#                 range_values = range_data.get('values', [])
+#                 if range_values:
+#                     values.extend(range_values[0])
+#
+#             # print("Os valores são:", values)
+#
+#             if len(values) > 4:
+#                 cont_IP = values[0]
+#                 id = values[1]
+#                 senha = values[2]
+#                 n_pc = values[3]
+#                 fichas = values[4]
+#                 level = values[-1]
+#
+#             else:
+#                 cont_IP = values[0]
+#                 id = values[1]
+#                 senha = values[2]
+#                 n_pc = values[3]
+#                 fichas = 0
+#                 level = 1
+#             return n_pc, id, senha, fichas, cont_IP, level
+#
+#         except Exception as e:
+#             print(Fore.RED + f"lote_valor. Erro: {e}" + Fore.RESET)
+#             tem_internet()
+#             cred = credencial()
+#             service = build('sheets', 'v4', credentials=cred)
+
 
 
 # def pega_valor(guia, endereco):
@@ -709,7 +760,7 @@ def credenciais(guia, salta_linhas=True):
 
         endereco = primeira_celula_vazia(guia)
 
-        reservado, id, senha, fichas, linha, cont_IP, level = reservar_linha(guia, endereco, salta_linhas)
+        reservado, id, senha, fichas, linha, level = reservar_linha(guia, endereco, salta_linhas)
 
         if reservado:
             try:
@@ -722,14 +773,7 @@ def credenciais(guia, salta_linhas=True):
             except Exception as error:
                 print(error)
                 fichas = 1
-            try:
-                cont_IP = tratar_valor_numerico(cont_IP)
-            except Exception as error:
-                print(error)
-                cont_IP = 6
-
-            print('credenciais', level, fichas, cont_IP)
-            return id, senha, fichas, linha, cont_IP, level
+            return id, senha, fichas, linha, level
 
         print('tentar credenciaias')
 
