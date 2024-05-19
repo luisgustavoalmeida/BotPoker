@@ -42,6 +42,7 @@ id = "x"
 guia = ""
 guia_anterior = ""
 confg_funcao = 'roleta_auto'
+confg_secundaria = 'auto'
 confg_funcao_anterior = ''
 blind_recolher_auto = ''
 
@@ -579,7 +580,7 @@ def recolher_automatico():
 
 
 def identifica_funcao():
-    global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim
+    global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim, confg_secundaria
 
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
@@ -599,7 +600,7 @@ def identifica_funcao():
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
-        if guia != "R1" and confg_secundaria != 'auto':
+        if (guia != "R1") and (confg_secundaria != 'auto'):
             novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400',
                            'confg_secundaria': 'auto'}
             Firebase.atualizar_configuracao_pc(novos_dados)
