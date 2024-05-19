@@ -365,8 +365,16 @@ def contagem_ip_banco():
 
 
 # incrementa_contagem_ip()
-#
-# cont = contagem_ip_banco()
-# print(cont)
+
+# inserir_info_inicial()
+
+# conn = criar_conexao()
+# criar_tabela(conn)
+# inserir_info_inicial()
+# contagem_ip_banco()
+
+
+
+
 
 
