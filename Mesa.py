@@ -1485,7 +1485,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
     LIMITE_FICHAS = 1000
     LEVEL_UPAR = 7
 
-    if datetime.datetime.now().time() < datetime.time(23, 00, 0):
+    if datetime.datetime.now().time() < datetime.time(23, 50, 0):
         # nao joga se ja for mais tarde que o horario definido
         if level_conta == '' or level_conta == 1 or valor_fichas_perfil == 0 or valor_fichas_perfil == '':
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
