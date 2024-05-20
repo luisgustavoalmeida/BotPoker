@@ -13,10 +13,8 @@ CRIAR_TABELA = '''CREATE TABLE IF NOT EXISTS contagem_ip (
                             zera_IP NOT NULL DEFAULT 1
                         )'''
 VERIFICAR_TABELA = "SELECT name FROM sqlite_master WHERE type='table' AND name='contagem_ip'"
-
 INSERIR_INFO_INICIAL = "INSERT INTO contagem_ip (dado_PC_1, dado_PC_2, dado_PC_3, soma_IP, zera_IP) VALUES (?, ?, ?, ?, ?)"
 ATUALIZAR_INFO_INICIAL = "UPDATE contagem_ip SET dado_PC_1 = ?, dado_PC_2 = ?, dado_PC_3 = ?, soma_IP = ?, zera_IP = ? WHERE id = 1"
-
 SELECIONAR_INFO_LINHA_1 = "SELECT * FROM contagem_ip WHERE id = 1;"
 ATUALIZAR_DADO_PC_1 = "UPDATE contagem_ip SET dado_PC_1 = ? WHERE id = 1;"
 ATUALIZAR_DADO_PC_2 = "UPDATE contagem_ip SET dado_PC_2 = ? WHERE id = 1;"
@@ -59,6 +57,7 @@ def teste_novo_dia():
     if data_atual != data_anterior:
         atualizar_info()
         salvar_data_anterior(data_atual)
+        data_anterior = data_atual
 
 
 def criar_conexao():
