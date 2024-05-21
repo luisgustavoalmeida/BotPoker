@@ -609,7 +609,7 @@ def identifica_funcao():
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
-        if (guia == "R2") and (confg_secundaria != 'auto'):
+        if ((guia == "R2") or (guia == "T1"))and (confg_secundaria != 'auto'):
             novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400',
                            'confg_secundaria': 'auto'}
             Firebase.atualizar_configuracao_pc(novos_dados)
