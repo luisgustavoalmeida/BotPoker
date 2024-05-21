@@ -131,6 +131,12 @@ service = build('sheets', 'v4', credentials=cred)
 #             cred = credencial()
 #             service = build('sheets', 'v4', credentials=cred)
 
+def retona_para_inicio_planilha():
+    global linha_vazia_anterior
+    linha_vazia_anterior = 2
+    print('Cursor da planiilha retonardo para a primeira linha')
+    return
+
 
 def primeira_celula_vazia(guia):
     """

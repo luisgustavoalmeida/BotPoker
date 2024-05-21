@@ -5,7 +5,8 @@ import time
 import pyautogui
 from colorama import Fore
 
-from Google import apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula
+from Google import (apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula,
+                    retona_para_inicio_planilha)
 import Aneis
 import Cartas
 import Cofre
@@ -648,16 +649,28 @@ def identifica_funcao():
     elif confg_funcao == "Pausar_codigo":
         escrever_valores_lote(valores_fim, guia_fim, linha_fim)
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)
+        retona_para_inicio_planilha()
+
         while confg_funcao == "Pausar_codigo":
             Telegran.monta_mensagem(f'A execução do programa foi pausada {str(confg_funcao)}.  ⚙️', False)
-            print("Este script será pausado!")
-            time.sleep(180)
-            confg_funcao, config_tempo_roleta, blind_recolher_auto = Firebase.ler_configuracao()
+            print("Este script está pausado!")
+            time.sleep(60)
+            confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
+
         Telegran.monta_mensagem(f'A execução do programa foi retomada {str(confg_funcao)}.  ⚙️', False)
-        Seleniun.finaliza_navegador()
-        print("Este script será interrompido e inicializado novamente!")
-        fecha_cmd_atualisa_codigo()
-        exit(0)
+        if confg_funcao == 'roleta_auto':
+            guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
+        elif confg_funcao == 'Face':
+            guia = 'Remover'
+        elif confg_funcao == 'Recolher_automatico':
+            guia = 'Recolher'
+        else:
+            guia = confg_funcao
+
+        # Seleniun.finaliza_navegador()
+        # print("Este script será interrompido e inicializado novamente!")
+        # fecha_cmd_atualisa_codigo()
+        # exit(0)
 
     else:
         print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
@@ -692,7 +705,7 @@ dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2
 print('dia_da_semana: ', dia_da_semana)
 print(Fore.GREEN + f'Novos dados...'
                    f'\nID: {id},'
-                   f'\nSenha: {senha},'                   
+                   f'\nSenha: {senha},'
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
 
@@ -818,6 +831,6 @@ while True:
 
         print(Fore.GREEN + f'Novos dados...'
                            f'\nID: {id},'
-                           f'\nSenha: {senha},'                           
+                           f'\nSenha: {senha},'
                            f'\nFichas planilha: {fichas_planilha},'
                            f'\nLevel da conta {level_conta},' + Fore.RESET)
