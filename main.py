@@ -573,10 +573,10 @@ def recolher_automatico():
         if valor_minimo_mesa >= valor_fichas:
             print(f'Fichas insuficiente para recolher:  {valor_fichas}. Mínimo para o blide é: {valor_minimo_mesa}')
             break
-        elif (valor_fichas_inicial * 2) < valor_fichas:
+        elif (valor_fichas_inicial * 3) < valor_fichas:
             print(f'Conta ganhou no recolher automático: {valor_fichas}')
             break
-        elif (valor_fichas_inicial / 2) > valor_fichas:
+        elif (valor_fichas_inicial / 3) > valor_fichas:
             print(f'Conta perdeu no recolher automático: {valor_fichas}')
             break
 
