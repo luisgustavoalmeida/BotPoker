@@ -566,18 +566,26 @@ def recolher_automatico():
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
     valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
-    Limpa.limpa_total(x_origem, y_origem)
+    valor_fichas_inicial = valor_fichas
 
-    print('\nFichas Disponiveis: ', valor_fichas, '.Mínimo para o blide: ', valor_minimo_mesa, '\n')
+    for _ in range(10):
 
-    if valor_minimo_mesa < valor_fichas:
+        if valor_minimo_mesa >= valor_fichas:
+            print(f'Fichas insuficiente para recolher:  {valor_fichas}. Mínimo para o blide é: {valor_minimo_mesa}')
+            break
+        elif (valor_fichas_inicial * 2) < valor_fichas:
+            print(f'Conta ganhou no recolher automático: {valor_fichas}')
+            break
+        elif (valor_fichas_inicial / 2) > valor_fichas:
+            print(f'Conta perdeu no recolher automático: {valor_fichas}')
+            break
+
         Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
-        Limpa.limpa_total(x_origem, y_origem)
-    else:
-        print('Fichas insuficiente para recolher: ', valor_fichas, '.Mínimo para o blide é: ', valor_minimo_mesa)
+        valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
+        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
 
+    Limpa.limpa_total(x_origem, y_origem)
     hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
-    valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
 
 
 def identifica_funcao():
