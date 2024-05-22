@@ -1111,11 +1111,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if upar:
         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
 
-    if subir_level:
-        xp2.pega_2xp(x_origem, y_origem)
-        LEVEL_UPAR = 12.0511
-        cont_slot = 130
-
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
     Limpa.limpa_promocao(x_origem, y_origem)
