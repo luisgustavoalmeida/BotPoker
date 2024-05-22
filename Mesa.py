@@ -1131,6 +1131,13 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if not ficha_suficiente:
         continua_jogando = False
 
+    if subir_level:
+        xp2.pega_2xp(x_origem, y_origem)
+        LEVEL_UPAR = 12.0511
+        cont_slot = 130
+        if datetime.datetime.now().time() > datetime.time(23, 50, 0):
+            continua_jogando = False
+
     while continua_jogando:  # permanece joghando
 
         if reinicia_variaveis:
@@ -1488,7 +1495,8 @@ def blind_do_dia(dia_da_semana=10):
 
 def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, conta_upada=True, dia_da_semana=0, roleta='roleta_1'):
     cont_total_jogadas = (level_conta - int(level_conta))
-    print("dia_de_jogar_mesa", level_conta, valor_fichas_perfil, conta_upada, dia_da_semana, cont_total_jogadas)
+    print(f"dia_de_jogar_mesa - level_conta: {level_conta},valor_fichas_perfil: {valor_fichas_perfil}, conta_upada: {conta_upada}, "
+          f"dia_da_semana: {dia_da_semana}, cont_total_jogadas: {cont_total_jogadas}")
     # define o numero maximo e minimo que ira joga na mesa
     num_vezes_maximo = 4
     num_vezes_minimo = 2
@@ -1513,12 +1521,6 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
         return level_conta, valor_fichas_perfil
 
     if roleta == 'roleta_2':
-        print('numero total de jogadas:', (level_conta - int(level_conta)))
-        if (cont_total_jogadas >= LEVEL_UPAR) and conta_upada:
-            print('\nLevel da conta ja superior a 10 e conta upada\n')
-            return level_conta, valor_fichas_perfil
-
-        # if not conta_upada:
         if (4 >= level_conta) or (not conta_upada):
             blind_mesa = '100200'
             # blind_mesa = '5001K'
@@ -1570,7 +1572,9 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             time.sleep(2)
             Limpa.limpa_total(x_origem, y_origem)
 
-            Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}. par ao level 12  🆙', True)
+            print(f'vai upar uma conta level  {level_conta}. para o level 12.0511')
+
+            Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}. para o level 12.0511  🆙', True)
             mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
                             level_conta=level_conta, subir_level=True)
             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
