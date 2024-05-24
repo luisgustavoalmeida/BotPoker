@@ -1087,7 +1087,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     SLOT_UPAR = 0
     LEVEL_UPAR = 7
     JOGADAS_SLOT_SOMA = 280
-
     indice_atual = None
     pular_sala = False
     reinicia_variaveis = True
