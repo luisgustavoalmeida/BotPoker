@@ -1083,8 +1083,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     cont_total_jogadas = 0
     cont_slot = 0
-    JOGADAS_UPAR = 160
-    SLOT_UPAR = 120
+    JOGADAS_UPAR = 280
+    SLOT_UPAR = 0
     LEVEL_UPAR = 7
     JOGADAS_SLOT_SOMA = 280
 
@@ -1128,7 +1128,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if subir_level:
         xp2.pega_2xp(x_origem, y_origem)
-        LEVEL_UPAR = 12.0511
+        LEVEL_UPAR = 20.1511
         cont_slot = 130
         if datetime.datetime.now().time() > datetime.time(23, 50, 0):
             continua_jogando = False
@@ -1557,7 +1557,7 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('Fim do horario destinado a tarefas')
             return level_conta, valor_fichas_perfil
 
-        if (level_conta < 12.0511) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 10)) and conta_upada:
+        if (level_conta < 20.1511) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 10)) and conta_upada:
             blind_mesa = '100200'
             # blind_mesa = '5001K'
             Limpa.fecha_tarefa(x_origem, y_origem)
