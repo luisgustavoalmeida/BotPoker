@@ -1128,7 +1128,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if subir_level:
         xp2.pega_2xp(x_origem, y_origem)
         LEVEL_UPAR = 20.1511
-        cont_slot = 130
+        cont_slot = 0
         if datetime.datetime.now().time() > datetime.time(23, 50, 0):
             continua_jogando = False
 
