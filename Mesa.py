@@ -1122,6 +1122,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if datetime.datetime.now().time() > datetime.time(23, 00, 0):
         continua_jogando = False
+
     if not ficha_suficiente:
         continua_jogando = False
 
