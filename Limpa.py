@@ -92,8 +92,8 @@ def limpa_jogando(x_origem, y_origem):
 
     # Laranja
     elif (pyautogui.pixelMatchesColor((x_origem + 235), (y_origem + 158), (235, 52, 3), tolerance=20)
-        or pyautogui.pixelMatchesColor((x_origem + 238), (y_origem + 163), (227, 18, 5), tolerance=20)
-        or pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 159), (236, 55, 4), tolerance=20)):
+          or pyautogui.pixelMatchesColor((x_origem + 238), (y_origem + 163), (227, 18, 5), tolerance=20)
+          or pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 159), (236, 55, 4), tolerance=20)):
 
         pyautogui.click(768 + x_origem, 160 + y_origem)
         print("promoçao laranja")
@@ -414,6 +414,16 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(884 + x_origem, 135 + y_origem, button='left')
         print("Mega Giro e roleta2")
 
+    # Festa dos grandes apostadores
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 31), tolerance=5):
+        pyautogui.click(821 + x_origem, 138 + y_origem)
+        print("Festa dos grandes apostadores")
+        time.sleep(0.5)
+        if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 31), tolerance=5):
+            pyautogui.click(821 + x_origem, 138 + y_origem)
+            print("Festa dos grandes apostadores")
+            time.sleep(0.5)
+
     # Fecha promoçoes exceto tarefas (72, 71, 76) padrao 100% . usado (62, 71, 76) para pegar outrasd propaganas mais claras
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (62, 71, 76), tolerance=20):
         print("Promoção padrão")
@@ -422,14 +432,6 @@ def limpa_promocao(x_origem, y_origem):
         else:
             pyautogui.click(821 + x_origem, 138 + y_origem)
             print("Promoção padrão clica no fechar")
-
-    # Festa dos grandes apostadores
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 31), tolerance=5):
-        pyautogui.click(821 + x_origem, 138 + y_origem)
-        print("Festa dos grandes apostadores")
-
-
-
 
     # # A carta final 8
     # if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (67, 35, 10), tolerance=20):
@@ -514,7 +516,6 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.mouseUp(895 + x_origem, 82 + y_origem)  # aperta e segura
         print("Valete ou mais")
 
-
     # chave de saque diario
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 122), (62, 71, 76), tolerance=20):
         print("Chave de saque diario")
@@ -526,8 +527,6 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(498 + x_origem, 454 + y_origem)
         time.sleep(2)
         pyautogui.click(819 + x_origem, 140 + y_origem)
-
-
 
 
 def limpa_total(x_origem, y_origem):
