@@ -1135,6 +1135,10 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     while continua_jogando:  # permanece joghando
 
+        if not ficha_suficiente:
+            print('Não tem fichas suficientes')
+            break
+
         if reinicia_variaveis:
             print('reiniciando as variaveis')
             if recolher:
@@ -1211,7 +1215,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 reinicia_variaveis = True
                 continue
 
-            if datetime.datetime.now().time() > datetime.time(23, 30, 0):
+            if datetime.datetime.now().time() > datetime.time(23, 50, 0):
                 print('\nPara de jogar atingiu o limite de 23:30\n')
                 break
 
@@ -1846,10 +1850,12 @@ def levantar_mesa(x_origem, y_origem):
 
     return sentado
 
+# import Origem_pg
+#
 # x_origem, y_origem = Origem_pg.x_y()
-# mesa_sem_humanos(x_origem, y_origem, tolerancia=8)
-# escolher_blind(x_origem, y_origem, blind='2K/4K', lugares=5)
-# sentar_mesa(x_origem, y_origem, True, '20/40', True)
+# # mesa_sem_humanos(x_origem, y_origem, tolerancia=8)
+# # escolher_blind(x_origem, y_origem, blind='2K/4K', lugares=5)
+# sentar_mesa(x_origem, y_origem, True, '200/400', True)
 # mesa_recolher(x_origem, y_origem, 2, '20/40')
 # x_origem, y_origem = Origem_pg.x_y()
 # mesa_sem_humanos(x_origem, y_origem)

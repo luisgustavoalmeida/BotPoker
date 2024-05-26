@@ -51,7 +51,7 @@ def limpa_jogando(x_origem, y_origem):
     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5) or
             pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (22, 21, 23), tolerance=5)):
         pyautogui.click(821 + x_origem, 138 + y_origem)  # clica no fechar tarefa
-        print('fecha lista tarefas')
+        print('fecha lista tarefas dentro do limpa jogando')
 
     # voce ganhou 2500
     elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 179), (71, 0, 148), tolerance=6):
@@ -91,9 +91,10 @@ def limpa_jogando(x_origem, y_origem):
         print("aviso do sistema dentro da mesa")
 
     # Laranja
-    elif (pyautogui.pixelMatchesColor((x_origem + 237), (y_origem + 165), (224, 9, 5), tolerance=20)
-          or pyautogui.pixelMatchesColor((x_origem + 240), (y_origem + 167), (228, 22, 5), tolerance=20)
-          or pyautogui.pixelMatchesColor((x_origem + 237), (y_origem + 167), (239, 68, 3), tolerance=20)):
+    elif (pyautogui.pixelMatchesColor((x_origem + 235), (y_origem + 158), (235, 52, 3), tolerance=20)
+        or pyautogui.pixelMatchesColor((x_origem + 238), (y_origem + 163), (227, 18, 5), tolerance=20)
+        or pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 159), (236, 55, 4), tolerance=20)):
+
         pyautogui.click(768 + x_origem, 160 + y_origem)
         print("promoçao laranja")
 
@@ -137,13 +138,13 @@ def limpa_pequeno(x_origem, y_origem):
 
     # voce ganhou 2500
     elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 179), (71, 0, 148), tolerance=15):
-        pyautogui.click(x_origem + 490, y_origem + 480, button='left')
+        pyautogui.click(x_origem + 490, y_origem + 480)
         print("Voce ganhou 2500")
 
     # Subiu de nivel
     elif (pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (25, 118, 188), tolerance=15)
           or pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 443), (29, 139, 200), tolerance=15)):
-        pyautogui.click(x_origem + 492, y_origem + 443, button='left')
+        pyautogui.click(x_origem + 492, y_origem + 443)
         print("Subiu de nivel")
 
     # Resutado da temporada - Bronse 1
@@ -153,17 +154,17 @@ def limpa_pequeno(x_origem, y_origem):
 
     # nivel 2
     elif pyautogui.pixelMatchesColor((x_origem + 492), (y_origem + 390), (237, 105, 0), tolerance=10):
-        pyautogui.click(x_origem + 492, y_origem + 390, button='left')
+        pyautogui.click(x_origem + 492, y_origem + 390)
         print("nivel 2")
 
     # Quebou seu recorde
     elif pyautogui.pixelMatchesColor((x_origem + 772), (y_origem + 170), (242, 246, 0), tolerance=15):
-        pyautogui.click(x_origem + 703, y_origem + 170, button='left')
+        pyautogui.click(x_origem + 703, y_origem + 170)
         print("Quebou seu recorde")
 
     # Você avançou para broinse II e ganhou 100 fichas
     elif pyautogui.pixelMatchesColor((x_origem + 365), (y_origem + 235), (255, 237, 151), tolerance=20):
-        pyautogui.click(x_origem + 490, y_origem + 435, button='left')  # continuar
+        pyautogui.click(x_origem + 490, y_origem + 435)  # continuar
         print("Você avançou para broinse II e ganhou 100 fichas")
 
     # aviso do sistema "tem certesa de que quer sair da mesa?" "vc so pode jogar depois de estar sentado""
@@ -213,6 +214,7 @@ def limpa_pequeno(x_origem, y_origem):
     # voce esta convidado a participar de uma festa em las vegasuma surpresa esta esperando por vc
     elif pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 480), (64, 37, 165), tolerance=15):
         pyautogui.click(490 + x_origem, 485 + y_origem)
+        print("Festa em lasvegas")
 
     elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 370), (224, 227, 229), tolerance=15):
         aviso_sistema, resposta = ocr_aviso_sistema(x_origem, y_origem)
@@ -293,6 +295,17 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
     elif (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=19)
           or pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 64, 109), tolerance=19)):
         # testa se esta dentro da mesa
+
+        if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (43, 14, 10), tolerance=10):
+            print("Desafios do alvo vermelho")
+            for _ in range(30):
+                pyautogui.click(895 + x_origem, 22 + y_origem)
+                time.sleep(0.3)
+                if pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 100), (21, 6, 45), tolerance=10):
+                    pyautogui.click(919 + x_origem, 105 + y_origem)
+                    print("Desafios do alvo aberto")
+                    time.sleep(0.5)
+                    break
 
         pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
         time.sleep(0.3)
@@ -410,6 +423,11 @@ def limpa_promocao(x_origem, y_origem):
             pyautogui.click(821 + x_origem, 138 + y_origem)
             print("Promoção padrão clica no fechar")
 
+    # Festa dos grandes apostadores
+    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 31), tolerance=5):
+        pyautogui.click(821 + x_origem, 138 + y_origem)
+        print("Festa dos grandes apostadores")
+
 
 
 
@@ -425,26 +443,27 @@ def limpa_promocao(x_origem, y_origem):
 
     # Oferta de primeira recarga
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 176), (252, 123, 0), tolerance=20):
-        pyautogui.click(826 + x_origem, 176 + y_origem, button='left')
+        pyautogui.click(826 + x_origem, 176 + y_origem)
         print("Oferta de primeira recarga")
 
     # Banco do poker regras aberto
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (46, 38, 26), tolerance=20):
-        pyautogui.click(777 + x_origem, 217 + y_origem, button='left')
+        pyautogui.click(777 + x_origem, 217 + y_origem)
         time.sleep(0.5)
-        pyautogui.click(821 + x_origem, 138 + y_origem, button='left')
+        pyautogui.click(821 + x_origem, 138 + y_origem)
         print("Banco do poker regras aberto")
+        time.sleep(1)
 
     # Banco do poker
     if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (115, 96, 64), tolerance=20):
-        pyautogui.click(821 + x_origem, 138 + y_origem, button='left')
+        pyautogui.click(821 + x_origem, 138 + y_origem)
         print("Banco do poker")
-        time.sleep(0.5)
+        time.sleep(1)
 
-    # VS pegar a carta
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 30), tolerance=8):
-        pyautogui.click(477 + x_origem, 500 + y_origem, button='left')
-        print("VS pegar a carta")
+    # # VS pegar a carta
+    # if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (29, 28, 30), tolerance=8):
+    #     pyautogui.click(477 + x_origem, 500 + y_origem)
+    #     print("VS pegar a carta")
 
     # Roleta 1
     if pyautogui.pixelMatchesColor((x_origem + 495), (y_origem + 315), (211, 110, 12), tolerance=25):
@@ -459,10 +478,12 @@ def limpa_promocao(x_origem, y_origem):
     # Laranja
     if (pyautogui.pixelMatchesColor((x_origem + 235), (y_origem + 158), (235, 52, 3), tolerance=20)
             or pyautogui.pixelMatchesColor((x_origem + 238), (y_origem + 163), (227, 18, 5), tolerance=20)
-            or pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 159), (236, 55, 4), tolerance=20)):
+            or pyautogui.pixelMatchesColor((x_origem + 241), (y_origem + 159), (236, 55, 4), tolerance=20)
+            or pyautogui.pixelMatchesColor((x_origem + 220), (y_origem + 180), (233, 24, 6), tolerance=20)):
         # area dos campeoes
         # comprar
         # meus objetos
+        # Voce perdeu tudo
         pyautogui.click(771 + x_origem, 156 + y_origem)
         print("promoçao laranja")
         time.sleep(0.5)
@@ -505,6 +526,8 @@ def limpa_promocao(x_origem, y_origem):
         pyautogui.click(498 + x_origem, 454 + y_origem)
         time.sleep(2)
         pyautogui.click(819 + x_origem, 140 + y_origem)
+
+
 
 
 def limpa_total(x_origem, y_origem):
