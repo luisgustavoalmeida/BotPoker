@@ -2,6 +2,9 @@ import datetime
 import json
 import sqlite3
 import time
+from Requerimentos import nome_usuario
+
+pc_ativado = False
 
 ARQUIVO_BD = 'tabele_ip.db'
 CRIAR_TABELA = '''CREATE TABLE IF NOT EXISTS contagem_ip (
@@ -10,11 +13,16 @@ CRIAR_TABELA = '''CREATE TABLE IF NOT EXISTS contagem_ip (
                             dado_PC_2 NOT NULL DEFAULT 1,
                             dado_PC_3 NOT NULL DEFAULT 1,
                             soma_IP NOT NULL DEFAULT 1,
-                            zera_IP NOT NULL DEFAULT 1
+                            zera_IP NOT NULL DEFAULT 1,
+                            ativo_PC_1 BOOLEAN DEFAULT 0,
+                            ativo_PC_2 BOOLEAN DEFAULT 0,
+                            ativo_PC_3 BOOLEAN DEFAULT 0
                         )'''
 VERIFICAR_TABELA = "SELECT name FROM sqlite_master WHERE type='table' AND name='contagem_ip'"
-INSERIR_INFO_INICIAL = "INSERT INTO contagem_ip (dado_PC_1, dado_PC_2, dado_PC_3, soma_IP, zera_IP) VALUES (?, ?, ?, ?, ?)"
-ATUALIZAR_INFO_INICIAL = "UPDATE contagem_ip SET dado_PC_1 = ?, dado_PC_2 = ?, dado_PC_3 = ?, soma_IP = ?, zera_IP = ? WHERE id = 1"
+INSERIR_INFO_INICIAL = ("INSERT INTO contagem_ip (dado_PC_1, dado_PC_2, dado_PC_3, soma_IP, zera_IP, ativo_PC_1, ativo_PC_2, ativo_PC_3) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+ATUALIZAR_INFO_INICIAL = ("UPDATE contagem_ip SET dado_PC_1 = ?, dado_PC_2 = ?, dado_PC_3 = ?, soma_IP = ?, zera_IP = ?, "
+                          "ativo_PC_1 = ?, ativo_PC_2 = ?, ativo_PC_3 = ? WHERE id = 1")
 SELECIONAR_INFO_LINHA_1 = "SELECT * FROM contagem_ip WHERE id = 1;"
 ATUALIZAR_DADO_PC_1 = "UPDATE contagem_ip SET dado_PC_1 = ? WHERE id = 1;"
 ATUALIZAR_DADO_PC_2 = "UPDATE contagem_ip SET dado_PC_2 = ? WHERE id = 1;"
@@ -27,8 +35,12 @@ DECREMENTA_PC_2 = "UPDATE contagem_ip SET dado_PC_2 = dado_PC_2 - 1 WHERE id = 1
 DECREMENTA_PC_3 = "UPDATE contagem_ip SET dado_PC_3 = dado_PC_2 - 1 WHERE id = 1;"
 ATUALIZAR_SOMA = "UPDATE contagem_ip SET soma_IP = dado_PC_1 + dado_PC_2 + dado_PC_3 WHERE id = 1;"
 ZERA_CONTAGEM_IP = "UPDATE contagem_ip SET zera_IP = soma_IP;"
-
-from Requerimentos import nome_usuario
+ATIVADO_PC_1 = "UPDATE contagem_ip SET ativo_PC_1 = 1 WHERE id = 1;"
+ATIVADO_PC_2 = "UPDATE contagem_ip SET ativo_PC_2 = 1 WHERE id = 1;"
+ATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 1 WHERE id = 1;"
+DESATIVADO_PC_1 = "UPDATE contagem_ip SET ativo_PC_1 = 0 WHERE id = 1;"
+DESATIVADO_PC_2 = "UPDATE contagem_ip SET ativo_PC_2 = 0 WHERE id = 1;"
+DESATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 0 WHERE id = 1;"
 
 tentativas_maximas = 5
 intervalo_entre_tentativas = 1
@@ -99,7 +111,7 @@ def criar_tabela(conn):
         print(f"Erro ao criar tabela: {e}")
 
 
-def atualizar_info(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0):
+def atualizar_info(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0, ativo_PC_1=0, ativo_PC_2=0, ativo_PC_3=0):
     """
     Função para inserir informações nas três primeiras colunas da tabela 'contagem_ip'.
     """
@@ -108,12 +120,14 @@ def atualizar_info(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0):
         if conn:
             # criar_tabela(conn)  # Chamada para criar a tabela
             with conn:
-                conn.execute(ATUALIZAR_INFO_INICIAL, (dado_1, dado_2, dado_3, soma_ip, zera_ip))
+                conn.execute(ATUALIZAR_INFO_INICIAL, (dado_1, dado_2, dado_3, soma_ip, zera_ip, ativo_PC_1, ativo_PC_2, ativo_PC_3))
+                conn.commit()  # Confirma as alterações
+            return
     except sqlite3.Error as e:
         print(f"Erro atualizar_info: {e}")
 
 
-def inserir_info_inicial(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0):
+def inserir_info_inicial(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0, ativo_PC_1=0, ativo_PC_2=0, ativo_PC_3=0):
     """
     Função para inserir informações nas três primeiras colunas da tabela 'contagem_ip'.
     """
@@ -125,7 +139,7 @@ def inserir_info_inicial(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0):
             if conn:
                 # criar_tabela(conn)  # Chamada para criar a tabela
                 with conn:
-                    conn.execute(INSERIR_INFO_INICIAL, (dado_1, dado_2, dado_3, soma_ip, zera_ip))
+                    conn.execute(INSERIR_INFO_INICIAL, (dado_1, dado_2, dado_3, soma_ip, zera_ip, ativo_PC_1, ativo_PC_2, ativo_PC_3))
                     conn.commit()  # Confirma as alterações
                     print(f"Todas as colunas atualizadas com sucesso na tentativa {tentativa + 1}!")
                 return
@@ -251,8 +265,93 @@ def decrementa_contagem_ip():
                 time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
             else:
                 raise  # Propaga o erro na última tentativa
-
     print(f"Falha na decrementa_contagem_ip após {tentativas_maximas} tentativas.")
+
+
+def indicar_pc_ativo():
+    """
+    Função para indicar computatador dentro da mesa.
+    """
+    global pc_ativado
+    if pc_ativado:
+        return
+    for tentativa in range(tentativas_maximas):
+        try:
+            # Tentativa de atualização
+            conn = criar_conexao()
+            if conn:
+                # criar_tabela(conn)  # Chamada para criar a tabela
+                with conn:
+                    match nome_usuario:
+                        case 'PokerIP':
+                            conn.execute(ATIVADO_PC_1)
+                            conn.commit()  # Confirma as alterações
+                        case 'lgagu':
+                            conn.execute(ATIVADO_PC_2)
+                            conn.commit()  # Confirma as alterações
+                        case 'Poker':
+                            conn.execute(ATIVADO_PC_3)
+                            conn.commit()  # Confirma as alterações
+                        case _:
+                            print(f'A T E N Ç Ã O Computador com nome de usuario errado')
+
+                    conn.commit()  # Confirma as alterações
+                    pc_ativado = True
+                print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                return  # Retorna caso a atualização seja bem-sucedida
+            else:
+                print("Falha ao conectar ao banco de dados")
+        except sqlite3.Error as e:
+            print(f"Erro na tentativa {tentativa + 1}: {e}")
+            if tentativa < tentativas_maximas - 1:
+                time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
+            else:
+                raise  # Propaga o erro na última tentativa
+
+    print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
+
+
+def indicar_pc_desativo():
+    """
+    Função para indicar que o computador nao esta na mesa.
+    """
+    global pc_ativado
+    if not pc_ativado:
+        return
+    for tentativa in range(tentativas_maximas):
+        try:
+            # Tentativa de atualização
+            conn = criar_conexao()
+            if conn:
+                # criar_tabela(conn)  # Chamada para criar a tabela
+                with conn:
+                    match nome_usuario:
+                        case 'PokerIP':
+                            conn.execute(DESATIVADO_PC_1)
+                            conn.commit()  # Confirma as alterações
+                        case 'lgagu':
+                            conn.execute(DESATIVADO_PC_2)
+                            conn.commit()  # Confirma as alterações
+                        case 'Poker':
+                            conn.execute(DESATIVADO_PC_3)
+                            conn.commit()  # Confirma as alterações
+                        case _:
+                            print(f'A T E N Ç Ã O Computador com nome de usuario errado')
+
+                    conn.commit()  # Confirma as alterações
+                    pc_ativado = False
+                print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                return  # Retorna caso a atualização seja bem-sucedida
+            else:
+                print("Falha ao conectar ao banco de dados")
+        except sqlite3.Error as e:
+            print(f"Erro na tentativa {tentativa + 1}: {e}")
+            if tentativa < tentativas_maximas - 1:
+                time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
+            else:
+                raise  # Propaga o erro na última tentativa
+
+    print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
 
 
 def atualizar_soma_ip():
@@ -362,7 +461,6 @@ def contagem_ip_banco():
 
     return int(dados[4] - dados[5])
 
-
 # incrementa_contagem_ip()
 
 # inserir_info_inicial()
@@ -371,9 +469,7 @@ def contagem_ip_banco():
 # criar_tabela(conn)
 # inserir_info_inicial()
 # contagem_ip_banco()
-
-
-
-
-
-
+# atualizar_info()
+# indicar_pc_ativo()
+# indicar_pc_desativo()
+# visualizar_tabela_banco()

@@ -27,7 +27,7 @@ import Telegran
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
-from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip
+from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 tem_internet()
@@ -716,6 +716,8 @@ print(Fore.GREEN + f'Novos dados...'
                    f'\nSenha: {senha},'
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
+
+indicar_pc_desativo()
 
 while True:
     ip = ""

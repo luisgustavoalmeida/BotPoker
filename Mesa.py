@@ -16,6 +16,7 @@ from F5_navegador import atualizar_navegador
 from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa
 from Requerimentos import nome_computador
 from UparAuto import upar
+from BancoDadosIP import indicar_pc_desativo, indicar_pc_ativo
 
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
@@ -1143,6 +1144,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             print('reiniciando as variaveis')
             if recolher:
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
+                indicar_pc_desativo()
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1186,6 +1188,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
             if (not sentou) and recolher:
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
+                indicar_pc_desativo()
 
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
@@ -1342,6 +1345,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if not humano:
                 if recolher:
                     atualizar_estatos_mesa(num_mesa)
+                    indicar_pc_ativo()
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
@@ -1366,6 +1370,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             humano = False
             reinicia_variaveis = False
             print("ainda nao esta sentado")
+            if recolher:
+                indicar_pc_desativo()
             for i in range(3):
                 print('indice_inicial', indice_inicial)
                 if not indice_inicial:
@@ -1407,6 +1413,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         if sentou and aposta and auto10 and ficha_suficiente:
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
+                                indicar_pc_ativo()
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
                             time_encher_mesa = time_fazer_jogada = time.perf_counter()
@@ -1452,6 +1459,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if recolher:
         atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
+        indicar_pc_desativo()
 
     if indice_atual:
         indice_inicial = indice_atual

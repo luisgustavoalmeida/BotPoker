@@ -297,6 +297,7 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
         # testa se esta dentro da mesa
 
         if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (43, 14, 10), tolerance=10):
+            # testa se ano esta limpo a regiao
             print("Desafios do alvo vermelho")
             for _ in range(30):
                 pyautogui.click(895 + x_origem, 22 + y_origem)
