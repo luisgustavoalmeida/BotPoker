@@ -691,6 +691,7 @@ def sair_face(url_novo=''):
 
             except Exception as e:
                 print("Erro ao sair.", e)
+                atualizar_navegador()
 
             try:
                 # Esperar até que o elemento "Não é você?" seja clicável
@@ -704,6 +705,7 @@ def sair_face(url_novo=''):
 
             except Exception as e:
                 print("Elemento não encontrado na página.", e)
+                atualizar_navegador()
 
 
 def atualizar_pagina():
