@@ -130,7 +130,7 @@ def logar_carregar():
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
-    testa_contagem_ip(LIMITE_IP)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+    testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
     incrementa_contagem_ip()
 
     # Comando para iniciar a tarefa independente

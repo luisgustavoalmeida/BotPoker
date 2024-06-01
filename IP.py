@@ -11,7 +11,7 @@ import requests
 
 import Google
 import ListaIpFirebase
-from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, teste_novo_dia
+from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, teste_novo_dia, verificar_pc_ativo
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
@@ -276,14 +276,21 @@ def ip_troca_agora():
             return
 
 
-def testa_contagem_ip(LIMITE_IP=6):
+def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
     """usando banco sql"""
     while True:
+
         try:
             cont_IP = contagem_ip_banco()
             print(f"A contagem de IP esta em: {cont_IP}")
             if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
                 if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
+                    if confg_funcao == 'Recolher_automatico':
+                        pc_ativo = verificar_pc_ativo()
+                        while pc_ativo:
+                            print('Aguardando todos os computadores estarem fora da mesa')
+                            time.sleep(2)
+                            pc_ativo = verificar_pc_ativo()
                     print("Vai par a função de trocar ip")
                     conexao()  # chama a função que troca ip
                     print('espera a internete estar estavel')
@@ -296,7 +303,7 @@ def testa_contagem_ip(LIMITE_IP=6):
                             return
                 else:
                     print("Espera liberar IP...")
-                    time.sleep(1)
+                    time.sleep(2)
 
             elif cont_IP < LIMITE_IP:
                 print("Continua não tem que trocar IP")

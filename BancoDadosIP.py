@@ -4,7 +4,7 @@ import sqlite3
 import time
 from Requerimentos import nome_usuario
 
-pc_ativado = False
+pc_ativado = True
 
 ARQUIVO_BD = 'tabele_ip.db'
 CRIAR_TABELA = '''CREATE TABLE IF NOT EXISTS contagem_ip (
@@ -41,6 +41,8 @@ ATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 1 WHERE id = 1;"
 DESATIVADO_PC_1 = "UPDATE contagem_ip SET ativo_PC_1 = 0 WHERE id = 1;"
 DESATIVADO_PC_2 = "UPDATE contagem_ip SET ativo_PC_2 = 0 WHERE id = 1;"
 DESATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 0 WHERE id = 1;"
+TESTA_PC_ATIVO = "SELECT CASE WHEN EXISTS(SELECT 1 FROM contagem_ip WHERE ativo_PC_1 = 1 OR ativo_PC_2 = 1 OR ativo_PC_3 = 1) THEN 1 ELSE 0 END;"
+
 
 tentativas_maximas = 5
 intervalo_entre_tentativas = 1
@@ -354,6 +356,31 @@ def indicar_pc_desativo():
     print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
 
 
+def verificar_pc_ativo():
+    """
+    Verifica se há pelo menos um PC ativo no banco de dados.
+
+    Retorna True se houver PC ativo, False caso contrário.
+    """
+    try:
+        conn = criar_conexao()
+        if conn:
+            with conn:
+                cursor = conn.cursor()
+                cursor.execute(TESTA_PC_ATIVO)  # Utilize o comando SQL criado anteriormente
+                resultado = cursor.fetchone()  # Obter o resultado da consulta
+                if resultado[0] == 1:  # Verificar se há PC ativo (valor 1)
+                    return True
+                else:
+                    return False
+        else:
+            print("Falha ao conectar ao banco de dados")
+    except sqlite3.Error as e:
+        print(f"Erro ao verificar PC ativo: {e}")
+    return False  # Retorna False por padrão caso haja algum erro
+
+
+
 def atualizar_soma_ip():
     """
     Função para atualizar a quarta coluna da tabela 'contagem_ip', que é a soma das três primeiras colunas.
@@ -473,3 +500,4 @@ def contagem_ip_banco():
 # indicar_pc_ativo()
 # indicar_pc_desativo()
 # visualizar_tabela_banco()
+# print(verificar_pc_ativo())
