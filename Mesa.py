@@ -1156,7 +1156,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             cont_limpa_jogando = 45
             time_encher_mesa = time_fazer_jogada = time.perf_counter()
             reinicia_variaveis = False
-            IP.testa_trocar_IP()  # ve se tem que trocar ip
+            if not recolher:
+                IP.testa_trocar_IP()  # ve se tem que trocar ip
 
         cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
