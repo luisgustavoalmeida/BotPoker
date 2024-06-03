@@ -154,6 +154,11 @@ def carregado_origem():  # navegador
                         or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
                     print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
                     pyautogui.click(830, 466)
+                # Você entrou anteriormente no poker brasil com o facebook
+                if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
+                        or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
+                    print('Você entrou anteriormente no poker brasil com o facebook')
+                    pyautogui.click(640, 688, )
 
                 recolhe_fan()
 

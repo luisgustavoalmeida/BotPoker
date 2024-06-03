@@ -255,8 +255,16 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     continue
 
                             if verificar_janelas():
-                                print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
-                                pyautogui.click(830, 466)
+
+                                if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
+                                        or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
+                                    print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
+                                    pyautogui.click(830, 466)
+
+                                if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
+                                        or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
+                                    print('Você entrou anteriormente no poker brasil com o facebook')
+                                    pyautogui.click(640, 688,)
 
                             print("A conta está certa.")
                             entrou = True
