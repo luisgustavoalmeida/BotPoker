@@ -180,6 +180,18 @@ def teste_logado():
         return entrou, status
 
 
+def verificar_janelas():
+    """Função para verificar o número de janelas abertas"""
+    global navegador
+    window_handles = navegador.window_handles
+    numero_de_janelas = len(window_handles)
+    print(f"Número de janelas abertas: {numero_de_janelas}")
+    if numero_de_janelas >= 2:
+        return True
+    else:
+        return False
+
+
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     global navegador, url, id, senha
 
@@ -241,6 +253,10 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     return entrou, status
                                 except NoSuchElementException:
                                     continue
+
+                            if verificar_janelas():
+                                print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
+                                pyautogui.click(830, 466)
 
                             print("A conta está certa.")
                             entrou = True

@@ -149,6 +149,12 @@ def carregado_origem():  # navegador
                     time.sleep(25)
                     continue
 
+                # Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?
+                if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
+                        or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
+                    print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
+                    pyautogui.click(830, 466)
+
                 recolhe_fan()
 
                 cont_erro_fundo_preto += 1
