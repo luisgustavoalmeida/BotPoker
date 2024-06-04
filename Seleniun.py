@@ -585,31 +585,46 @@ def abrir_fechar_guia(max_tentativas=5):
 
     while tentativas < max_tentativas:
         try:
-            pyautogui.hotkey('ctrl', 't')
+            # Verifique se há mais de uma guia aberta
+            if len(navegador.window_handles) > 1:
+                # Mude para a segunda guia
+                navegador.switch_to.window(navegador.window_handles[1])
 
-            # Aguarde até que haja pelo menos duas guias abertas
-            WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) >= 2)
+                # Feche a segunda guia
+                navegador.close()
 
-            # Mude para a primeira guia
-            navegador.switch_to.window(navegador.window_handles[0])
+                # Mude para a primeira guia
+                navegador.switch_to.window(navegador.window_handles[0])
 
-            # Feche a primeira guia
-            navegador.close()
+                # Aguarde até que a primeira guia esteja ativa
+                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
-            # Mude para a segunda guia
-            navegador.switch_to.window(navegador.window_handles[0])
-
-            # Aguarde até que a segunda guia esteja ativa
-            WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
-
-            # Verifique se o foco está na primeira guia
-            if navegador.current_window_handle != navegador.window_handles[0]:
-                print("O foco não está na primeira guia.")
             else:
-                print("O foco está na primeira guia.")
-                # Recarregue a página
-                navegador.get(url)
-                return
+                pyautogui.hotkey('ctrl', 't')
+
+                # Aguarde até que haja pelo menos duas guias abertas
+                WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) >= 2)
+
+                # Mude para a primeira guia
+                navegador.switch_to.window(navegador.window_handles[0])
+
+                # Feche a primeira guia
+                navegador.close()
+
+                # Mude para a segunda guia
+                navegador.switch_to.window(navegador.window_handles[0])
+
+                # Aguarde até que a segunda guia esteja ativa
+                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
+
+                # Verifique se o foco está na primeira guia
+                if navegador.current_window_handle != navegador.window_handles[0]:
+                    print("O foco não está na primeira guia.")
+                else:
+                    print("O foco está na primeira guia.")
+                    # Recarregue a página
+                    navegador.get(url)
+                    return
 
         except TimeoutException as e:
             print(f"Tentativa {tentativas + 1} falhou. {e}")
