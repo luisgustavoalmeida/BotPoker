@@ -626,7 +626,7 @@ def abrir_fechar_guia(max_tentativas=5):
                     navegador.get(url)
                     return
 
-        except TimeoutException as e:
+        except Exception as e:
             print(f"Tentativa {tentativas + 1} falhou. {e}")
             tentativas += 1
 
