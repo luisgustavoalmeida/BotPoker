@@ -798,7 +798,7 @@ def credenciais(guia, salta_linhas=True):
 
 
 def marca_caida(status, guia, linha):
-    if status != 'Banida' and status != 'Senha incorreta':
+    if status != 'Banida' or status != 'Senha incorreta':
         endereco = f"D{linha}"
         escrever_celula('x', guia, endereco)
     elif status == 'Senha incorreta':
