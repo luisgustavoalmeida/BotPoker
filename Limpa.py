@@ -583,7 +583,7 @@ def limpa_abre_tarefa(x_origem, y_origem):  # abre o tarefas
 
         cont_limpa_tarefas = 0
         for _ in range(60):
-            for _ in range(20):
+            for _ in range(15):
                 f5_quando_internete_ocila()
                 pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
                 print("Limpa Tarefas diarias")
@@ -609,7 +609,7 @@ def limpa_abre_tarefa(x_origem, y_origem):  # abre o tarefas
             limpa_promocao(x_origem, y_origem)
 
             cont_limpa_tarefas += 1
-            if cont_limpa_tarefas >= 60:
+            if cont_limpa_tarefas >= 5:
                 cont_limpa_tarefas = 0
                 # da um F5
                 tem_internet()
