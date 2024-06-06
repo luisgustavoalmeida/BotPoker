@@ -231,7 +231,8 @@ def limpa_pequeno(x_origem, y_origem):
     if not teste_limpo(x_origem, y_origem):  # se ta limpo nem entra
 
         # Valete ou mais
-        if pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (12, 6, 42), tolerance=10):
+        if (pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (7, 4, 25), tolerance=10)
+                or pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (20, 10, 69), tolerance=10)):
             return
 
         teste_logado()
@@ -499,7 +500,8 @@ def limpa_promocao(x_origem, y_origem):
         print("Gostaria de começar a Liga do Finde?")
 
     # Valete ou mais
-    if pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (12, 6, 42), tolerance=10):
+    if (pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (7, 4, 25), tolerance=10)
+            or pyautogui.pixelMatchesColor((x_origem + 400), (y_origem + 70), (20, 10, 69), tolerance=10)):
         pyautogui.mouseDown(895 + x_origem, 82 + y_origem)  # aperta e segura
         time.sleep(0.4)
         pyautogui.mouseUp(895 + x_origem, 82 + y_origem)  # aperta e segura
