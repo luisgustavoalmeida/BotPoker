@@ -746,8 +746,8 @@ while True:
             # Tarefas
             elif guia == "T1":
                 print('Inicia a execução das Tarefas')
-                # tarefas()
                 upar_t1()
+                tarefas()
 
         # Recolher
         elif confg_funcao == 'Recolher':

@@ -1085,9 +1085,9 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     cont_total_jogadas = 0
     cont_slot = 0
     JOGADAS_UPAR = 280
-    SLOT_UPAR = 0
+    SLOT_UPAR = 200
     LEVEL_UPAR = 7
-    JOGADAS_SLOT_SOMA = 280
+    JOGADAS_SLOT_SOMA = 511
     indice_atual = None
     pular_sala = False
     reinicia_variaveis = True
@@ -1110,6 +1110,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if upar:
         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
+        xp2.pega_2xp(x_origem, y_origem)
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
@@ -1129,7 +1130,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
     if subir_level:
         xp2.pega_2xp(x_origem, y_origem)
-        LEVEL_UPAR = 19.1511
+        LEVEL_UPAR = 19.0511
         cont_slot = 0
         if datetime.datetime.now().time() > datetime.time(23, 50, 0):
             continua_jogando = False
@@ -1566,30 +1567,31 @@ def dia_de_jogar_mesa(x_origem, y_origem, level_conta=1, valor_fichas_perfil=0, 
             print('valor_fichas_perfil: ', valor_fichas_perfil)
             conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)
             # return level_conta, valor_fichas_perfil
-        if HoraT.fim_tempo_tarefa():
-            print('Fim do horario destinado a tarefas')
-            return level_conta, valor_fichas_perfil
 
-        if (level_conta < 19.1511) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 10)) and conta_upada:
-            blind_mesa = '100200'
-            # blind_mesa = '5001K'
-            Limpa.fecha_tarefa(x_origem, y_origem)
-            Limpa.limpa_promocao(x_origem, y_origem)
-            print('level_conta: ', level_conta)
-            print('valor_fichas_perfil: ', valor_fichas_perfil)
-            time.sleep(2)
-            Limpa.limpa_total(x_origem, y_origem)
-
-            print(f'vai upar uma conta level  {level_conta}. para o level 12.0511')
-
-            Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}. para o level 12.0511  🆙', True)
-            mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
-                            level_conta=level_conta, subir_level=True)
-            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-            Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
-
-            print('level_conta: ', level_conta)
-            print('valor_fichas_perfil: ', valor_fichas_perfil)
+        # if HoraT.fim_tempo_tarefa():
+        #     print('Fim do horario destinado a tarefas')
+        #     return level_conta, valor_fichas_perfil
+        #
+        # if (level_conta < 8.0511) and (level_conta >= 7) and (valor_fichas_perfil > (LIMITE_FICHAS * 10)) and conta_upada:
+        #     blind_mesa = '100200'
+        #     # blind_mesa = '5001K'
+        #     Limpa.fecha_tarefa(x_origem, y_origem)
+        #     Limpa.limpa_promocao(x_origem, y_origem)
+        #     print('level_conta: ', level_conta)
+        #     print('valor_fichas_perfil: ', valor_fichas_perfil)
+        #     time.sleep(2)
+        #     Limpa.limpa_total(x_origem, y_origem)
+        #
+        #     print(f'vai upar uma conta level  {level_conta}. para o level 12.0511')
+        #
+        #     Telegran.monta_mensagem(f'vai upar uma conta level  {str(level_conta)}. para o level 7.0511  🆙', True)
+        #     mesa_upar_jogar(x_origem, y_origem, numero_jogadas=0, upar=True, blind_mesa=blind_mesa, apostar=False, recolher=False,
+        #                     level_conta=level_conta, subir_level=True)
+        #     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+        #     Telegran.monta_mensagem(f'terminou de upar conta level {str(level_conta)}.  📈⬆️', True)
+        #
+        #     print('level_conta: ', level_conta)
+        #     print('valor_fichas_perfil: ', valor_fichas_perfil)
         # Limpa.limpa_total(x_origem, y_origem)
         print('\n level da conta nao adequado ou conta ja upada\n')
         return level_conta, valor_fichas_perfil
