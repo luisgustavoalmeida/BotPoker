@@ -65,6 +65,7 @@ status_fim = None
 entrou_corretamente_fim = True
 hora_fim_tarefa_fim = False
 guia_fim = ''
+ip_fim = ''
 linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
@@ -86,7 +87,7 @@ tarefa_concluida = threading.Semaphore(0)
 # Função que será executada na tarefa independente
 def tarefa_independente():
     global continuar_tarefa, guia, id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo, time_id
-    global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim
+    global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim, ip_fim
 
     while True:
         # Aguardar o comando para iniciar a execução
@@ -104,7 +105,7 @@ def tarefa_independente():
                         # escreve os valores na planilha
                         escrever_valores_lote(valores_fim, guia_fim, linha_fim)  # escreve as informaçoes na planilha apartir da coluna E
                 else:  # se nao entrou no face
-                    marca_caida(status_fim, guia_fim, linha_fim)
+                    marca_caida(status_fim, guia_fim, linha_fim, ip_fim)
 
             # Atualizar as variáveis
             id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo = credenciais(guia)
@@ -808,6 +809,7 @@ while True:
     linha_fim = linha
     linha_novo_fim = linha_novo
     valores_fim = valores
+    ip_fim = ip
     entrou_corretamente_fim = entrou_corretamente
     hora_fim_tarefa_fim = hora_fim_tarefa
 

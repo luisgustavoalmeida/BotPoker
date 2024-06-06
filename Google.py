@@ -797,7 +797,7 @@ def credenciais(guia, salta_linhas=True):
 #     escrever_celula(status, guia, endereco)
 
 
-def marca_caida(status, guia, linha):
+def marca_caida(status, guia, linha, ip):
     if (status != 'Banida') and (status != "Senha incorreta"):
         endereco = f"D{linha}"
         escrever_celula('x', guia, endereco)
@@ -805,7 +805,9 @@ def marca_caida(status, guia, linha):
         endereco = f"D{linha}"
         # escrever_celula("", guia, endereco)
         escrever_valores([""], guia, endereco)
-
+    if status == "Banida":
+        endereco = f"H{linha}"
+        escrever_celula(ip, guia, endereco)
     endereco = f"G{linha}"
     escrever_celula(status, guia, endereco)
     # endereco = f"L{linha}"
