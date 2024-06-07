@@ -48,6 +48,7 @@ options.add_argument("--disable-geolocation")  # desativar a funcionalidade de l
 options.add_argument("--window-size=1380,1050")  # Definir o tamanho da janela # largura altura options.add_argument("--window-size=1440,1045")
 options.add_argument("--window-position=-8,-5")  # Mover a janela para a posição (0,0) da tela
 options.add_argument("--mute-audio")  # desativar o áudio
+
 # options.add_argument("--disable-extensions")
 # options.add_argument("--disable-gpu") # Desabilita o uso da GPU pelo navegador.
 # options.add_argument("--disable-translate") # Desabilita a tradução automática de páginas pelo navegador
@@ -56,6 +57,7 @@ options.add_argument("--mute-audio")  # desativar o áudio
 # options.add_argument("--disable-session-storage") # Desabilita o uso de armazenamento de sessão pelo navegador. Isso inclui o armazenamento temporário de dados relacionados a sessões de navegação.
 
 options.add_experimental_option("detach", True)  # para manter o navegador aberto
+
 
 # options.add_argument("--headless")# faz com que o browser não abra durante o processo
 # options.add_argument("--disable-popup-blocking")                            #desabilitar o bloqueio de pop-ups no Chrome. Quando o Selenium abre o navegador, por padrão, o bloqueio de pop-ups é habilitado
@@ -88,6 +90,18 @@ def cria_nevegador():
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 
+def remover_mensagem_atualizacao():
+    global navegador
+
+    script = """
+    var elements = document.querySelectorAll('*');
+    elements.forEach(function(element) {
+        if (element.innerText && element.innerText.trim() === 'Esta página está desatualizada. Atualize seu navegador. Atualizar') {
+            element.style.display = 'none';
+        }
+    });
+    """
+    navegador.execute_script(script)
 
 def finaliza_navegador():
     global navegador
@@ -165,7 +179,23 @@ def pega_url():
             time.sleep(15)
 
 
+# Função para ocultar o elemento especificado pelo XPath
+def ocultar_elemento_xpath():
+    global navegador
+    xpath = '//*[@id="facebook"]/body/div[5]/ul/li/div[1]'
+    script = f"""
+    var element = document.evaluate('{xpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (element) {{
+        element.style.display = 'none';
+    }}
+    """
+    navegador.execute_script(script)
+
 def teste_logado():
+    # Remover a mensagem de atualização
+    # remover_mensagem_atualizacao()
+    ocultar_elemento_xpath()
+
     url_atual = pega_url()
     if ("/pokerbrasil" in url_atual) or ("/rallyacespoker" in url_atual):
         print("teste_logado: Esta logado corretamente.")
@@ -269,6 +299,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             print("A conta está certa.")
                             entrou = True
                             status = 'Carregada'
+
                             return entrou, status
 
                         elif "pokerbrasil/?ref=bookmarks" in url_atual:
