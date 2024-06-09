@@ -370,7 +370,12 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
         valor = tratar_valor_numerico(fichas_perfil)
         fichas_perfil = tratar_valor_numerico(fichas_perfil)
 
-    if valor_planilha:
+    if valor_planilha == 0:
+        print('planilha zerada')
+        valor = 0
+        valor_planilha = ""
+
+    elif valor_planilha and valor_planilha != 0:
         valor = tratar_valor_numerico(valor_planilha)
         valor_planilha = tratar_valor_numerico(valor_planilha)
 
@@ -453,7 +458,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
                 print('\n valor compativel com valor_planilha \n')
                 return valor
 
-        if fichas_perfil != "":
+        if fichas_perfil != "" and valor_planilha != "":
             if valor_planilha - 15000 < fichas_perfil < valor_planilha + 15000:
                 print('\n fichas_perfil compativel com valor_planilha  \n')
                 return fichas_perfil
@@ -571,6 +576,7 @@ def tempo_roleta(x_origem, y_origem):
                 tempo = tratar_valor_numerico(tempo)
                 print(Fore.YELLOW + f'Tempo lido na roleta {tempo}' + Fore.RESET)
                 if tempo <= 45959:
+                    tempo = (tempo // 10000 * 3600) + (tempo % 10000 // 100 * 60) + (tempo % 100)
                     return tempo
                 else:
                     time.sleep(1.5)

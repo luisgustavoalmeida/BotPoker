@@ -59,9 +59,11 @@ def roletas(x_origem, y_origem):
                         pyautogui.click(884 + x_origem, 135 + y_origem)
                         print("Mega Giro e roleta2")
                         print("clicou na roleta 2")
-                        time_rodou = time.perf_counter()
+                        # time_rodou = time.perf_counter()
+                        tempo = tempo_roleta(x_origem, y_origem)
+                        hora_que_rodou = calcula_hora_que_rodou(tempo)
                         roleta = 'roleta_2'
-                        return roleta, None, time_rodou
+                        return roleta, hora_que_rodou, 0
 
                     if Limpa.limpa_pequeno(x_origem, y_origem) == "sair da conta":
                         roleta = 'sair da conta'
@@ -83,9 +85,6 @@ def roletas(x_origem, y_origem):
                 # OCR para saber quanto tempo falta para rodar
                 tempo = tempo_roleta(x_origem, y_origem)
                 print("tempo restante: ", tempo)
-                # converte o tempo que esta escrito na roleta para segundos
-                tempo = (tempo // 10000 * 3600) + (tempo % 10000 // 100 * 60) + (tempo % 100)
-                print(tempo)
 
                 if tempo < tempo2:
                     tempo2 = tempo
@@ -96,24 +95,11 @@ def roletas(x_origem, y_origem):
                     time.sleep(2)
                     tempo1 = tempo_roleta(x_origem, y_origem)
                     print("tempo restante: ", tempo1)
-                    # converte o tempo que esta escrito na roleta para segundos
-                    tempo1 = (tempo1 // 10000 * 3600) + (tempo1 % 10000 // 100 * 60) + (tempo1 % 100)
 
-                    if (tempo > TEMPO_ESPERA) and (tempo < 18000) and (tempo > tempo1):  # testa se o tempo é maior que o predeterminado se sim si fora
+                    if (tempo > TEMPO_ESPERA) and (tempo < 18000) and (tempo > tempo1):
+                        # testa se o tempo é maior que o predeterminado se sim si fora
                         print("não espera, tempo para a roleta maior que o determindao")
-
-                        hora_atual = datetime.datetime.now().time()
-                        hora_atual_segundos = hora_atual.hour * 3600 + hora_atual.minute * 60 + hora_atual.second
-                        print(hora_atual_segundos)
-
-                        segundos = hora_atual_segundos - (18000 - tempo)
-                        print(segundos)
-
-                        horas = segundos // 3600
-                        minutos = (segundos % 3600) // 60
-                        segundos = segundos % 60
-
-                        hora_que_rodou = f"{horas:02d}:{minutos:02d}:{segundos:02d}"
+                        hora_que_rodou = calcula_hora_que_rodou(tempo)
                         print(hora_que_rodou)
                         roleta = 'roleta_tempo_longo'
                         time_rodou = 0
@@ -161,9 +147,11 @@ def roletas(x_origem, y_origem):
                         pyautogui.click(884 + x_origem, 135 + y_origem)
                         print("Mega Giro e roleta2")
                         print("clicou na roleta 2")
-                        time_rodou = time.perf_counter()
-                        roleta = 'roleta_2'
-                        return roleta, None, time_rodou
+                        # time_rodou = time.perf_counter()
+                        tempo = tempo_roleta(x_origem, y_origem)
+                        hora_que_rodou = calcula_hora_que_rodou(tempo)
+                        roleta = 'roleta_1'
+                        return roleta, hora_que_rodou, 0
 
                     IP.f5_quando_internete_ocila()
                     time.sleep(1)
@@ -217,4 +205,25 @@ def roletas(x_origem, y_origem):
 
         IP.f5_quando_internete_ocila()
         Limpa.limpa_total(x_origem, y_origem)
-    return roleta, "00:00:00", 0
+
+    tempo = tempo_roleta(x_origem, y_origem)
+    hora_que_rodou = calcula_hora_que_rodou(tempo)
+    return roleta, hora_que_rodou, 0
+
+
+def calcula_hora_que_rodou(tempo):
+    hora_atual = datetime.datetime.now().time()
+    hora_atual_segundos = hora_atual.hour * 3600 + hora_atual.minute * 60 + hora_atual.second
+    print(hora_atual_segundos)
+
+    segundos = hora_atual_segundos - (18000 - tempo)
+    print(segundos)
+
+    horas = segundos // 3600
+    minutos = (segundos % 3600) // 60
+    segundos = segundos % 60
+
+    hora_que_rodou = f"{horas:02d}:{minutos:02d}:{segundos:02d}"
+    return hora_que_rodou
+
+
