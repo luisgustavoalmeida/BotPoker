@@ -371,11 +371,10 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
         fichas_perfil = tratar_valor_numerico(fichas_perfil)
 
     if valor_planilha == 0:
-        print('planilha zerada')
         valor = 0
         valor_planilha = ""
 
-    elif valor_planilha and valor_planilha != 0:
+    elif valor_planilha:
         valor = tratar_valor_numerico(valor_planilha)
         valor_planilha = tratar_valor_numerico(valor_planilha)
 
