@@ -42,7 +42,7 @@ def roletas(x_origem, y_origem):
                 # icone da roleta esta mamarelo
                 print("espera abrir a roleta 2")
                 for i in range(100):
-                    print("espera abrir a roleta 2")
+                    print("for espera abrir a roleta 2")
                     pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone roleta, ja roda sozinho
 
                     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 107), (39, 22, 74), tolerance=10)

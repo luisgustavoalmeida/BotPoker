@@ -899,7 +899,9 @@ def tarefas_diaris(x_origem, y_origem):
 
     # Testa se tem tarefa extra
     if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
+        print('tem tarefa extra')
         pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+        time.sleep(0.5)
         tarefa_extra = True
     else:
         tarefa_extra = False
@@ -957,7 +959,6 @@ def testar_tarefa_feita(x_origem, y_origem, tarefa_extra=False):
         if pyautogui.pixelMatchesColor(x_origem + 647, y_origem + y, (18, 204, 36), tolerance=30):
             print(f"Índice: {indice}")
             tarefa_feita = indice + 1
-
     return tarefa_feita
 
 
@@ -1555,6 +1556,6 @@ def jogos_totais(x_origem, y_origem):
     return total_jogos
 
 
-# x_origem, y_origem = Origem_pg.x_y()
-# tarefas_diaris(x_origem, y_origem)
+x_origem, y_origem = Origem_pg.x_y()
+tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)
