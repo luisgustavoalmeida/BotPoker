@@ -400,7 +400,7 @@ def limpa_promocao(x_origem, y_origem):
         print("Desafios do Rallyaces")
 
     # Mega Giro e roleta2
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 107), (38, 24, 77), tolerance=10):
+    if pyautogui.pixelMatchesColor((x_origem + 473), (y_origem + 120), (204, 113, 29), tolerance=10):
         pyautogui.click(884 + x_origem, 135 + y_origem, button='left')
         print("Mega Giro e roleta2")
 
