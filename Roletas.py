@@ -8,6 +8,7 @@ import IP
 import Limpa
 import Seleniun
 from OCR_tela import tempo_roleta
+from F5_navegador import atualizar_navegador
 
 pyautogui.FAILSAFE = False  # Desabilitar o fail-safe
 pyautogui.PAUSE = 0
@@ -15,7 +16,7 @@ pyautogui.PAUSE = 0
 
 def roletas(x_origem, y_origem):
     time_entrou_na_funcao = time.perf_counter()
-    cont_roleta1 = 0
+    cont_erro_roleta = 0
     TEMPO_ESPERA = 1200  # tempo de tolerancia para esperar em, segundos
     roleta = "sem_roleta"
     tempo2 = 3600
@@ -38,7 +39,7 @@ def roletas(x_origem, y_origem):
             if ((not pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248), tolerance=20))
                     and (not pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (146, 172, 208), tolerance=20))):
                 # testa se o icone da roleta NÃO esta cinsa
-                # ricone da roleta esta mamarelo
+                # icone da roleta esta mamarelo
                 print("espera abrir a roleta 2")
                 for i in range(100):
                     print("espera abrir a roleta 2")
@@ -61,7 +62,8 @@ def roletas(x_origem, y_origem):
                     pyautogui.click(490 + x_origem, 70 + y_origem, )  # clique bobo para passar alguma naimação
                     IP.f5_quando_internete_ocila()
 
-                IP.f5_quando_internete_ocila()
+                # IP.f5_quando_internete_ocila()
+                atualizar_navegador()
 
             elif (pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (227, 235, 248), tolerance=20)
                   or pyautogui.pixelMatchesColor((x_origem + 680), (y_origem + 14), (146, 172, 208), tolerance=20)):
@@ -78,7 +80,7 @@ def roletas(x_origem, y_origem):
 
                 if tempo < tempo2:
                     tempo2 = tempo
-                    cont_roleta1 = 0
+                    cont_erro_roleta = 0
 
                 if tempo > TEMPO_ESPERA:  # testa se o tempo é maior que o predeterminado se sim si fora
                     pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
@@ -183,15 +185,15 @@ def roletas(x_origem, y_origem):
 
         Aneis.recolhe_aneis(x_origem, y_origem)
 
-        cont_roleta1 += 1
+        cont_erro_roleta += 1
         time.sleep(2)
-        print("cont tentativa: ", cont_roleta1)
+        print("cont tentativa: ", cont_erro_roleta)
         # testar se tem que trocar IP par alibera computador
-        if cont_roleta1 >= 5:
+        if cont_erro_roleta >= 5:
             print("da um atualizar na pagina")
             IP.tem_internet()
             Seleniun.atualizar_pagina()
-            cont_roleta1 = 0
+            cont_erro_roleta = 0
             time.sleep(15)
             # da um F5
 
