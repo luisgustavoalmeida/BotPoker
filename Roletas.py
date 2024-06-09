@@ -54,6 +54,15 @@ def roletas(x_origem, y_origem):
                         roleta = 'roleta_2'
                         return roleta, None, time_rodou
 
+                    elif pyautogui.pixelMatchesColor((x_origem + 473), (y_origem + 120), (204, 113, 29), tolerance=10):
+                        # testa se roleta mega giro pino dourado apontado para baixo
+                        pyautogui.click(884 + x_origem, 135 + y_origem)
+                        print("Mega Giro e roleta2")
+                        print("clicou na roleta 2")
+                        time_rodou = time.perf_counter()
+                        roleta = 'roleta_2'
+                        return roleta, None, time_rodou
+
                     if Limpa.limpa_pequeno(x_origem, y_origem) == "sair da conta":
                         roleta = 'sair da conta'
                         return roleta, None, 0
@@ -127,7 +136,7 @@ def roletas(x_origem, y_origem):
                 # testa se o icone da roleta NÃO esta cinsa
 
                 print("espera abrir a roleta 1")
-                for i in range(50):
+                for i in range(20):
                     pyautogui.doubleClick(x_origem + 683, y_origem + 14)  # clica no icone da roleta para abir
                     if Limpa.limpa_pequeno(x_origem, y_origem) == "sair da conta":
                         roleta = 'sair da conta'
@@ -145,6 +154,15 @@ def roletas(x_origem, y_origem):
                         # time.sleep(0.8)
                         roleta = 'roleta_1'
                         time_rodou = time.perf_counter()
+                        return roleta, None, time_rodou
+
+                    elif pyautogui.pixelMatchesColor((x_origem + 473), (y_origem + 120), (204, 113, 29), tolerance=10):
+                        # testa se roleta mega giro pino dourado apontado para baixo
+                        pyautogui.click(884 + x_origem, 135 + y_origem)
+                        print("Mega Giro e roleta2")
+                        print("clicou na roleta 2")
+                        time_rodou = time.perf_counter()
+                        roleta = 'roleta_2'
                         return roleta, None, time_rodou
 
                     IP.f5_quando_internete_ocila()
