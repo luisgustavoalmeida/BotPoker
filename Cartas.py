@@ -28,6 +28,7 @@ def abre_cartas_premidas(x_origem, y_origem):
                 # time.sleep(0.5)
         pyautogui.doubleClick(x_origem + 737, y_origem + 22)  # abre o cartas premidas
         time.sleep(0.2)
+    return False
 
 
 def cartas_premidas_joga_vezes(x_origem, y_origem):
@@ -133,6 +134,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                      'Ganhar 4.000 fichas nas Cartas Premiadas')
 
     tarefa = ""
+    cliques = 0
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
@@ -164,7 +166,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
 
         cartas_aberto = abre_cartas_premidas(x_origem, y_origem)  # abre o cartas premidas
         confirmar = False
-        if cartas_aberto == True:
+        if cartas_aberto:
 
             print("tem cartas vezes")
             for i in range(100):
@@ -174,52 +176,84 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                     print("ta com as cartas viradas para baixo")
                     if tarefa == 'Ganhar 100.000 fichas nas Cartas Premiadas':
                         print('cartas 100k')
+                        if valor_fichas <= 8560:
+                            print(f'valor de fichas muito baixo: {valor_fichas}')
+                            return
                         # valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem)
-                        if valor_fichas > 110000:
-                            for i in range(264):
-                                pyautogui.click(x_origem + 658, y_origem + 341)  # clica nas cartas vermelhas
-                                time.sleep(0.01)
-                            for i in range(264):
-                                pyautogui.click(x_origem + 690, y_origem + 279)  # clica nas cartas prestas
-                                time.sleep(0.01)
-                            time.sleep(1)
-                            pyautogui.doubleClick(x_origem + 711, y_origem + 422)  # clica em comfirmar
-                            break
+                        # para se ganhar 100 k se perde 5440 / 5280 fichas
 
-                        else:  # quando nao tem ficha par ajogar de uma so vez
-                            for i in range(90):
-                                pyautogui.click(x_origem + 658, y_origem + 341)  # clica nas cartas vermelhas
-                                time.sleep(0.01)
-                            for i in range(90):
-                                pyautogui.click(x_origem + 690, y_origem + 279)  # clica nas cartas prestas
-                                time.sleep(0.01)
-                            time.sleep(1)
-                            pyautogui.doubleClick(x_origem + 711, y_origem + 422)  # clica em comfirmar
-                            break
+                        if valor_fichas > 106600:  # joga 1 vez
+                            cliques = 264
+                        elif valor_fichas > 56440:  # joga 2 vez
+                            cliques = 132
+                        elif valor_fichas > 31360:  # joga 4 vez
+                            cliques = 66
+                        elif valor_fichas > 18820:  # joga 8 vez
+                            cliques = 33
+                        elif valor_fichas > 12520:  # joga 17 vez
+                            cliques = 16
+                        elif valor_fichas > 9320:  # joga 33 vez
+                            cliques = 8
+                        elif valor_fichas > 8560:  # joga 44 vez
+                            cliques = 6
+                        # elif valor_fichas > 8200:  # joga 53 vez
+                        #     cliques = 5
+                        # elif valor_fichas > 7800:  # joga 66 vez
+                        #     cliques = 4
+                        # elif valor_fichas > 7420:  # joga 88 vez
+                        #     cliques = 3
+                        # elif valor_fichas > 7040:  # joga 132 vez
+                        #     cliques = 2
+                        # elif valor_fichas > 6660:  # joga 264 vez
+                        #     cliques = 1
 
                     elif tarefa == 'Ganhar 30.000 fichas nas Cartas Premiadas':
+                        # para se ganhar 30 k se perde 1600 fichas
                         print('cartas 30k')
-                        for i in range(79):
-                            pyautogui.click(x_origem + 658, y_origem + 341)  # clica nas cartas vermelhas
-                            time.sleep(0.01)
-                        for i in range(79):
-                            pyautogui.click(x_origem + 690, y_origem + 279)  # clica nas cartas prestas
-                            time.sleep(0.01)
-                        time.sleep(1)
-                        pyautogui.doubleClick(x_origem + 711, y_origem + 422)  # clica em comfirmar
-                        break
+                        if valor_fichas <= 4120:
+                            print(f'valor de fichas muito baixo: {valor_fichas}')
+                            return
+
+                        if valor_fichas > 32600:  # joga 1 vez
+                            cliques = 79
+                        elif valor_fichas > 17800:  # joga 2 vez
+                            cliques = 40
+                        elif valor_fichas > 10200:  # joga 4 vez
+                            cliques = 20
+                        elif valor_fichas > 6400:  # joga 8 vez
+                            cliques = 10
+                        elif valor_fichas > 4500:  # joga 16 vez
+                            cliques = 5
+                        elif valor_fichas > 4120:  # joga 20 vez
+                            cliques = 4
+                        # elif valor_fichas > 3360:  # joga 40 vez
+                        #     cliques = 2
+                        # elif valor_fichas > 2980:  # joga 80 vez
+                        #     cliques = 1
 
                     elif tarefa == 'Ganhar 4.000 fichas nas Cartas Premiadas':
+                        # para se ganhar 4 k se perde 240 fichas
                         print('cartas 4k')
-                        for i in range(11):
-                            pyautogui.click(x_origem + 658, y_origem + 341)  # clica nas cartas vermelhas
-                            time.sleep(0.01)
-                        for i in range(11):
-                            pyautogui.click(x_origem + 690, y_origem + 279)  # clica nas cartas prestas
-                            time.sleep(0.01)
-                        time.sleep(1)
-                        pyautogui.doubleClick(x_origem + 711, y_origem + 422)  # clica em comfirmar
-                        break
+                        if valor_fichas > 5400:  # joga 1 vez
+                            cliques = 11
+                        elif valor_fichas > 3520:  # joga 2 vez
+                            cliques = 6
+                        elif valor_fichas > 2760:  # joga 3 vez
+                            cliques = 4
+                        elif valor_fichas > 2380:  # joga 4 vez
+                            cliques = 3
+                        elif valor_fichas > 1600:  # joga 11 vez
+                            cliques = 1
+
+                    for _ in range(cliques):
+                        pyautogui.click(x_origem + 658, y_origem + 341)  # clica nas cartas vermelhas
+                        time.sleep(0.01)
+                    for _ in range(cliques):
+                        pyautogui.click(x_origem + 690, y_origem + 279)  # clica nas cartas prestas
+                        time.sleep(0.01)
+                    time.sleep(1)
+                    pyautogui.doubleClick(x_origem + 711, y_origem + 422)  # clica em comfirmar
+                    break
 
                 time.sleep(0.3)
         # time.sleep(3)

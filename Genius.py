@@ -7,6 +7,7 @@ import HoraT
 import IP
 import Limpa
 import Tarefas
+import OCR_tela
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -194,7 +195,7 @@ def genius_joga_vezes(x_origem, y_origem):
     return
 
 
-def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel):
+def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas):
     regiao = (473 + x_origem, 101 + y_origem, 20, 32)  # (x, y, largura, altura)
     imagem1 = r'Imagens\Genius\tempo6.png'
     precisao = 0.9
@@ -242,7 +243,11 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel):
                     print("faz a aposta")
                     if tarefa == 'Ganhar 100.000 fichas no Casino Genius Pro':
 
-                        # valor = 2000
+                        if valor_fichas < 20000:
+                            print(f'valor de fichas muito baixo: {valor_fichas}')
+                            return
+
+                            # valor = 2000
                         # ajustar_valor(x_origem, y_origem, valor)
                         # pyautogui.click(x_origem + 370, y_origem + 223)  # 2000 lado esquedo
                         # time.sleep(0.25)
@@ -274,6 +279,10 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel):
 
                     elif tarefa == 'Ganhar 30.000 fichas no Casino Genius Pro':
 
+                        if valor_fichas < 35000:
+                            print(f'valor de fichas muito baixo: {valor_fichas}')
+                            return
+
                         valor = 2000
                         ajustar_valor(x_origem, y_origem, valor)
                         pyautogui.click(x_origem + 370, y_origem + 223)  # 2000 lado esquedo
@@ -286,6 +295,9 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel):
                         time.sleep(0.01)
 
                     elif tarefa == 'Ganhar 4.000 fichas no Casino Genius Pro':
+                        if valor_fichas < 5000:
+                            print(f'valor de fichas muito baixo: {valor_fichas}')
+                            return
 
                         valor = 200
                         ajustar_valor(x_origem, y_origem, valor)
@@ -327,6 +339,8 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel):
                 if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
                     return "sair da conta"
                 return
+
+        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem)
 
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_genius(x_origem, y_origem)

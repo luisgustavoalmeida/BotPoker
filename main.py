@@ -368,7 +368,7 @@ def tarefas():
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no Casino Genius Pro' in item_tarefa:
                     print("\n\n Ganhar fichas no Casino Genius Pro \n\n")
-                    Genius.genius_joga_valor(x_origem, y_origem, lista_tarefas_fazer)
+                    Genius.genius_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 

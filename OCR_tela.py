@@ -681,21 +681,30 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
     time.sleep(0.2)
 
+    # Testa se tem tarefa extra
+    if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
+        print('tem tarefa extra')
+        pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+        time.sleep(0.5)
+        tarefa_extra = True
+    else:
+        tarefa_extra = False
+
     # Executa o OCR na região de interesse
     texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
     # Verifica se o OCR retornou algum texto
     if texto is not None:
-        lista = remover_termos(x_origem, y_origem, texto)
-        tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
-        lista = lista[:tarefa_feita]
+        lista = remover_termos(x_origem, y_origem, texto, tarefa_extra)
+        # tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
+        # lista = lista[:tarefa_feita]
         # Retorna a lista de tarefas
-        return lista
+        return lista, tarefa_extra
     else:
         # Se não foram encontradas tarefas, retorna uma lista vazia
-        return lista
+        return lista, tarefa_extra
 
 
-def tarefas_diaris_posicao2(x_origem, y_origem):
+def tarefas_diaris_posicao2(x_origem, y_origem, tarefa_extra=False):
     """
     Esta função realiza a leitura das tarefas diárias em uma região específica da tela.
     Caso haja uma barra de rolagem, a função rola para garantir a leitura completa.
@@ -713,7 +722,10 @@ def tarefas_diaris_posicao2(x_origem, y_origem):
     if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 280), (87, 0, 176), tolerance=3):
         # Itera para rolar e verificar se há mais tarefas
         for _ in range(50):
-            pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
+            if tarefa_extra:
+                pyautogui.doubleClick(708 + x_origem, 420 + y_origem)  # rola para ver se a tarefa esta na segunda parte
+            else:
+                pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
             # Testa se há barra de rolagem na lista de tarefas
             if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 410), (87, 0, 176), tolerance=3):
                 break
@@ -733,9 +745,9 @@ def tarefas_diaris_posicao2(x_origem, y_origem):
         # Executa o OCR na região de interesse
         texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
         if texto is not None:
-            lista = remover_termos(x_origem, y_origem, texto)
-            tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
-            lista = lista[:tarefa_feita]
+            lista = remover_termos(x_origem, y_origem, texto, tarefa_extra)
+            # tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
+            # lista = lista[:tarefa_feita]
             # Retorna a lista de tarefas
             return lista
         else:
@@ -920,7 +932,7 @@ def tarefas_diaris(x_origem, y_origem):
         # Testa se há barra de rolagem na lista de tarefas
         if pyautogui.pixelMatchesColor((x_origem + 707), (y_origem + 280), (87, 0, 176), tolerance=3):
             # Itera para rolar e verificar se há mais tarefas
-            for i in range(50):
+            for _ in range(50):
                 if tarefa_extra:
                     pyautogui.doubleClick(708 + x_origem, 420 + y_origem)  # rola para ver se a tarefa esta na segunda parte
                 else:

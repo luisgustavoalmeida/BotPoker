@@ -139,7 +139,7 @@ def comparar_listas(x_origem, y_origem, dia_da_semana):
 def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
     lista_comum = []
     continua_jogando = False
-    lista_tarefas_disponivel = OCR_tela.tarefas_diaris_posicao1(x_origem, y_origem)
+    lista_tarefas_disponivel, tarefa_extra = OCR_tela.tarefas_diaris_posicao1(x_origem, y_origem)
 
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
@@ -147,7 +147,7 @@ def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
             continua_jogando = True
             return continua_jogando, chave
 
-    lista_tarefas_disponivel = OCR_tela.tarefas_diaris_posicao2(x_origem, y_origem)
+    lista_tarefas_disponivel = OCR_tela.tarefas_diaris_posicao2(x_origem, y_origem, tarefa_extra)
 
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
@@ -318,7 +318,7 @@ def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):
     elif Limpa.ja_esta_logado(x_origem, y_origem) == "sair da conta":
         print('Ja esta logado')
         parar_tarefas = True
-    elif valor_fichas < 40000:  # se a conta tem menos de 110K vai para a proxima
+    elif valor_fichas < 5000:  # se a conta tem menos de 110K vai para a proxima
         print('Quantidade de fichas insuficiente para jogar')
         parar_tarefas = True
     elif not lista_tarefas_fazer:
