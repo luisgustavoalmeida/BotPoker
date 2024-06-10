@@ -598,7 +598,7 @@ def limpa_total_fazendo_tarefa(x_origem, y_origem):
     # fecha_tarefa(x_origem, y_origem) # fecha a lista de tarefas diarias
 
 
-def limpa_abre_tarefa(x_origem, y_origem):  # abre o tarefas
+def limpa_abre_tarefa(x_origem, y_origem, com_pausa=True):  # abre o tarefas
     print('limpa_abre_tarefa')
     # testa se a tarefa diaria é de conta sem upar cadeado na cartas premidas
     if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
@@ -624,7 +624,8 @@ def limpa_abre_tarefa(x_origem, y_origem):  # abre o tarefas
                 if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (47, 0, 90), tolerance=5)
                         and pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5)):
                     print("Tarefas diarias pausa")
-                    time.sleep(1.5)
+                    if com_pausa:
+                        time.sleep(1.5)
                     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (47, 0, 90), tolerance=5)
                             and pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5)):
                         print("Tarefas diarias limpo conta upada, missoes padroes")

@@ -105,7 +105,7 @@ def cartas_premidas_joga_vezes(x_origem, y_origem):
                 return "sair da conta"
 
         # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
-        Limpa.limpa_abre_tarefa(x_origem, y_origem)
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
         Tarefas.recolher_tarefa(x_origem, y_origem)
         meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
 
@@ -268,7 +268,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                 return "sair da conta"
 
         # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
-        Limpa.limpa_abre_tarefa(x_origem, y_origem)
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
         Tarefas.recolher_tarefa(x_origem, y_origem)
         meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
 

@@ -181,12 +181,13 @@ def solot_joga_vezes(x_origem, y_origem, joga_vezes):
                 time.sleep(0.3)
 
         # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
-        Limpa.limpa_abre_tarefa(x_origem, y_origem)
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
         Tarefas.recolher_tarefa(x_origem, y_origem)
         meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
         continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)  # procura com ocr
 
         if (not continua_jogando) or (meta_atigida):
+            print('\n\n\nsegundo testes\n\n\n')
             time.sleep(0.5)
             # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
             Limpa.limpa_abre_tarefa(x_origem, y_origem)

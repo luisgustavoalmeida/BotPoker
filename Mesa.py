@@ -982,7 +982,7 @@ def joga(x_origem, y_origem, ajusta_aposta):
             auto10 = gira_10auto(x_origem, y_origem)
             if auto10:
                 # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
-                Limpa.limpa_abre_tarefa(x_origem, y_origem)
+                Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
                 print('manda recolher')
                 Tarefas.recolher_tarefa(x_origem, y_origem)
                 print('procura se aidna tem tarefa')

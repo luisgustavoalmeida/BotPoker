@@ -170,7 +170,7 @@ def genius_joga_vezes(x_origem, y_origem):
                     break
                 time.sleep(0.3)
 
-        Limpa.limpa_abre_tarefa(x_origem, y_origem)
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
         # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
         Tarefas.recolher_tarefa(x_origem, y_origem)
         meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
@@ -321,7 +321,7 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
                     break
                 time.sleep(0.3)
 
-        Limpa.limpa_abre_tarefa(x_origem, y_origem)
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
         # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
         Tarefas.recolher_tarefa(x_origem, y_origem)
         meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
