@@ -94,13 +94,14 @@ def testa_slot_lipo(x_origem, y_origem):
                 pyautogui.click(x_origem + 681, y_origem + 199)  # outra mensagem nao sei qual é nesse lugar
 
         cont_erro += 1
-        if cont_erro > 50:
+        if cont_erro > 20:
             print('numero de tentativas superadas vai da um F5')
             # pyautogui.press('f5')
             atualizar_navegador()
             print('espera 25 segundos')
             time.sleep(25)
             print('continua')
+            Limpa.limpa_total(x_origem, y_origem)
             return True
         time.sleep(0.3)
 
