@@ -1066,8 +1066,8 @@ def joga(x_origem, y_origem, ajusta_aposta):
     return
 
 
-def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa='2550', apostar=True, recolher=False, level_conta=4,
-                    subir_level=False):
+def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=True, recolher=False, level_conta=4,
+                    subir_level=False, jogar=False, slot=False, ajusta_aposta=200):
     print('mesa_upar_jogar')
 
     global dicionario_salas, indice_inicial
@@ -1096,6 +1096,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     else:
         senta_com_maximo = False
 
+    meta_atigida = False
+
     # Use a lista apropriada com base no valor da variável blind_mesa
     # Captura os valores do dicionário em função dos blindes das mesas
     valor_aposta1 = dicionario_salas[blind_mesa][0]
@@ -1111,6 +1113,15 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
     if upar:
         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
         xp2.pega_2xp(x_origem, y_origem)
+
+    if slot:
+        if ajusta_aposta == 200:
+            tarefas_fazer = ('Jogar o caca-niquel da mesa 150 vezes', 'Jogar o caca-niquel da mesa 70 vezes', 'Jogar o caca-niquel da mesa 10 vezes')
+
+        elif ajusta_aposta == 2000:
+            tarefas_fazer = (
+                'Ganhar 100.000 fichas no caca niquel da mesa', 'Ganhar 30.000 fichas no caca niquel da mesa',
+                'Ganhar 10.000 fichas no caca niquel da mesa')
 
     Limpa.fecha_tarefa(x_origem, y_origem)
     Limpa.limpa_jogando(x_origem, y_origem)
@@ -1206,7 +1217,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 print('Não tem fichas suficientes')
                 break
 
-            if (tempo_decorrido >= 300) and (not upar) and (not recolher):
+            if (tempo_decorrido >= 300) and (not upar) and (not recolher) and (not jogar) and (not slot):
                 print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
                 break
 
@@ -1215,7 +1226,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                 reinicia_variaveis = True
                 continue
 
-            if time.perf_counter() - time_fazer_jogada > 100:
+            if (time.perf_counter() - time_fazer_jogada > 100) and (not jogar) and (not slot):
                 print('\nLimite de tempo sem jogar, 100 segundos\n')
                 reinicia_variaveis = True
                 continue
@@ -1233,6 +1244,36 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
             if upar and (cont_slot < SLOT_UPAR):
                 if gira_niquel(x_origem, y_origem):
                     cont_slot += 10
+
+            if slot or jogar:
+                if HoraT.fim_tempo_tarefa():
+                    continua_jogando = False
+                    break
+
+                meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
+
+                if gira_10auto(x_origem, y_origem):
+                    Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+                    print('manda recolher')
+                    Tarefas.recolher_tarefa(x_origem, y_origem)
+                    print('procura se ainda tem tarefa')
+
+                    continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+                    meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+
+                    if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
+                        return "sair da conta"
+                    IP.testa_trocar_IP()  # ve se tem que trocar ip
+
+                if (not continua_jogando) or meta_atigida:
+                    continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+                    meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+                    if (not continua_jogando) or meta_atigida:
+                        Limpa.limpa_total(x_origem, y_origem)
+                        print('Atingiu a meta de pontos do dia')
+                        break
+
+                gira_niquel(x_origem, y_origem)
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1276,7 +1317,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
 
                 else:
                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
-                    if (cont_jogou >= numero_jogadas) and (not recolher):
+                    if (cont_jogou >= numero_jogadas) and (not recolher) and (not jogar) and (not slot):
                         break
 
                 jogou_uma_vez = False
@@ -1407,7 +1448,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=3, upar=False, blind_mesa
                         lista_salas.append(item_removido)
 
                     if blind_certo:
-                        if upar:
+                        if upar or joga or slot:
                             aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200)
                         else:
                             aposta, auto10 = True, True

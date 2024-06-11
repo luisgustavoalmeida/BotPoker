@@ -269,7 +269,7 @@ def tem_tarefa_para_recolher(x_origem, y_origem):
         return meta, pontos
 
     else:
-        return None, None
+        return False, 0
 
 
 def testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana):

@@ -325,7 +325,9 @@ def tarefas():
                 if 'Jogar o caca-niquel da mesa' in item_tarefa:
                     print("\n\n Jogar o caca-niquel da mesa vezes \n\n")
 
-                    Mesa.joga(x_origem, y_origem, 200)
+                    # Mesa.joga(x_origem, y_origem, 200)
+                    Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
+                                         level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=200)
 
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -398,7 +400,9 @@ def tarefas():
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no caca niquel da mesa' in item_tarefa:
                     print("\n\n Ganhar fichas no caca niquel da mesa \n\n")
-                    Mesa.joga(x_origem, y_origem, 2000)
+                    # Mesa.joga(x_origem, y_origem, 2000)
+                    Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
+                                         level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=2000)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
