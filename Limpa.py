@@ -321,8 +321,10 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
 
     # Casino Genius
     elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 612), (111, 100, 105), tolerance=19):
+        if ((not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (96, 85, 110), tolerance=10))
+                and (not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (61, 53, 75), tolerance=10))):
 
-        if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (234, 225, 228), tolerance=10):
+
             # testa se nao esta limpo a regiao
             print("Desafios do alvo vermelho")
             for _ in range(30):
@@ -341,8 +343,7 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
     elif (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 668), (46, 22, 9), tolerance=5)
           or pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 668), (18, 9, 4), tolerance=5)):
 
-        if ((not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (96, 85, 110), tolerance=10))
-                and (not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (61, 53, 75), tolerance=10))):
+        if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (234, 225, 228), tolerance=10):
             # testa se nao esta limpo a regiao
             print("Desafios do alvo vermelho")
             for _ in range(30):
