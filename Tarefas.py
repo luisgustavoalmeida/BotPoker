@@ -403,7 +403,7 @@ def recolher_tarefa_upando(x_origem, y_origem):
                         break
                 else:
                     print('Tarefas abertas, conta Upada limpa tarefa...')
-                    conta_upada = Limpa.limpa_abre_tarefa2(x_origem, y_origem)  # retorna se a conta ta upada ou nao
+                    conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)  # retorna se a conta ta upada ou nao
                     if conta_upada:
                         print('Tarefas abertas, conta Upada')
                         recolher_tarefa(x_origem, y_origem)  # recolhe se tiver alguma tarefa batida

@@ -60,6 +60,7 @@ def testa_slot_lipo(x_origem, y_origem):
     cont_erro = 0
 
     while True:
+        pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
         Limpa.aviso_canto_lobby(x_origem, y_origem)  # fecha propaganda
         Limpa.fecha_tarefa(x_origem, y_origem)
 
@@ -162,6 +163,7 @@ def solot_joga_vezes(x_origem, y_origem, joga_vezes):
     cont_jogadas_troca_ip = 0
 
     while continua_jogando:  # permanece joghando cartas premiadas ate nao ter mais a mição jogar x vezes
+        pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
         if HoraT.fim_tempo_tarefa():
             return
         if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":

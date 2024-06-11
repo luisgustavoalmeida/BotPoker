@@ -138,6 +138,7 @@ def genius_joga_vezes(x_origem, y_origem):
     cont_jogadas_troca_ip = 0
 
     while continua_jogando:  # permanece joghando cartas premiadas ate nao ter mais a mição jogar x vezes
+        pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
 
         if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
             return "sair da conta"
@@ -223,6 +224,7 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
     cont_jogadas_troca_ip = 0
 
     while continua_jogando:  # permanece joghando cartas premiadas ate nao ter mais a mição jogar x vezes
+        pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
         if HoraT.fim_tempo_tarefa():
             return
         if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":

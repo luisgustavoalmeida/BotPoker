@@ -15,7 +15,7 @@ pyautogui.PAUSE = 0
 def teste_limpo(x_origem, y_origem):
     print('teste_limpo')
     # pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
-    pyautogui.click(686 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
+    pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     # barra azul do looby
     if pyautogui.pixelMatchesColor((x_origem + 685), (y_origem + 360), (215, 234, 244), tolerance=1):
         print("teste_limpo: Esta no Lobby, ta limpo")
@@ -43,6 +43,7 @@ def ja_esta_logado(x_origem, y_origem):
 
 def limpa_jogando(x_origem, y_origem):
     print('limpa_jogando')
+    pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
 
     if (not pyautogui.pixelMatchesColor((x_origem + 43), (y_origem + 388), (76, 37, 30), tolerance=10)
             and not pyautogui.pixelMatchesColor((x_origem + 43), (y_origem + 388), (64, 34, 8), tolerance=10)):
@@ -125,6 +126,7 @@ def limpa_jogando(x_origem, y_origem):
 
 def limpa_pequeno(x_origem, y_origem):
     print('limpa_pequeno')
+    pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
     if ja_esta_logado(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
 
@@ -323,7 +325,6 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
     elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 612), (111, 100, 105), tolerance=19):
         if ((not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (96, 85, 110), tolerance=10))
                 and (not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (61, 53, 75), tolerance=10))):
-
 
             # testa se nao esta limpo a regiao
             print("Desafios do alvo vermelho")
@@ -601,6 +602,7 @@ def limpa_total_fazendo_tarefa(x_origem, y_origem):
 
 def limpa_abre_tarefa(x_origem, y_origem, com_pausa=True):  # abre o tarefas
     print('limpa_abre_tarefa')
+    pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
     # testa se a tarefa diaria é de conta sem upar cadeado na cartas premidas
     if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
             or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
