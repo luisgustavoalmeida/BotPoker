@@ -315,6 +315,7 @@ def OCR_regiao(regiao, config, inveter_cor=True, fator_ampliacao=1, contraste_pr
         if texto.strip():
             # Remove os espaços em branco no início e no final do texto
             texto = texto.strip()
+            # print(texto)
             return texto
         else:
             print("Nenhum texto foi detectado.")
@@ -675,7 +676,7 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     contraste_pos = 1
 
     # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 274, y_origem + 267, x_origem + 589, y_origem + 551)
+    regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
 
     # Clica duas vezes no ícone de tarefas diárias para abrir a janela
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
@@ -740,7 +741,7 @@ def tarefas_diaris_posicao2(x_origem, y_origem, tarefa_extra=False):
         contraste_pos = 1
 
         # Região de interesse para a leitura das tarefas diárias
-        regiao = (x_origem + 274, y_origem + 267, x_origem + 589, y_origem + 551)
+        regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
 
         # Executa o OCR na região de interesse
         texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
@@ -908,7 +909,7 @@ def tarefas_diaris(x_origem, y_origem):
 
 
     # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 274, y_origem + 267, x_origem + 589, y_origem + 551)
+    regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
 
     # Clica duas vezes no ícone de tarefas diárias para abrir a janela
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
@@ -974,8 +975,10 @@ def testar_tarefa_feita(x_origem, y_origem, tarefa_extra=False):
 
     for indice, y in enumerate(posicao_y):
         if pyautogui.pixelMatchesColor(x_origem + 647, y_origem + y, (18, 204, 36), tolerance=30):
-            print(f"Índice: {indice}")
+            # print(f"Índice: {indice}")
             tarefa_feita = indice + 1
+
+    print(f"tarefa feita apartir do indice: {tarefa_feita}")
     return tarefa_feita
 
 
@@ -1037,6 +1040,7 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     lista_tarefas = [re.sub(r'\s+', ' ', item.replace('\n', ' ').strip()) for item in lista_tarefas if len(item) > 29]
 
     tarefa_feita = testar_tarefa_feita(x_origem, y_origem, tarefa_extra)
+
     # remove a tarefas feitas da lista
     lista_tarefas = lista_tarefas[:tarefa_feita]
 
@@ -1576,3 +1580,4 @@ def jogos_totais(x_origem, y_origem):
 # x_origem, y_origem = Origem_pg.x_y()
 # tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)
+
