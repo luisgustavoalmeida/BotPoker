@@ -795,29 +795,25 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                        'Ganhe 50.000 fichas do JACKS OR BETTER',
                        'Ganhe 200.000 fichas do JACKS OR BETTER',
                        'Consiga Flush ou qualquer mao superior nas mesas OMAHA',
-                       'Ganhar 10 maos em uma mesa com blinds acima de 25',
-                       'Jogar 20 mao em uma mesa com blinds acima de 25',
                        'Tirar Sequencia 1 vezes em mesas com blinds maiores que 25',
                        'Tirar trinca 1 vez em mesa com blinds maiores que 25',
-                       'Tirar um flush ou quaquer maos superior 1 vez em mesas com blinds laiores que 25',
-                       'Ganhar 10 maos em uma mesa com blinds acima de 50',
-                       'Ganhar 20 maos em uma mesa com blinds acima de 50',
+                       'Tirar um flush ou qualquer maos superior 1 vez em mesas com blinds maiores que 25',
                        'Ganhar 30.000 fichas em mesas com blinds acima da 50',
-                       'Jogar 20 mao em uma mesa com blinds acima de 50',
-                       'Jogar 40 mao em uma mesa com blinds acima de 50',
                        'Tirar Flush ou qualquer mao superior 1 vez em mesas com blindes maiores que 25',
                        'Tirar Sequencia 1 vez em mesas com blinds maiores que 50',
                        'Tirar Sequencia 2 vezes em mesas com blinds maiores que 50',
                        'Tirar trinca 1 vez em mesas com blinds maiores que 50',
-                       'Ganhar 20 maos em uma mesa com blinds acima de 100',
                        'Ganhar 100.000 fichas em mesas com blinds acima de 50',
                        'Ganhe 200.000 fichas em mesas com blinds acima de 100',
-                       'Jogar 20 mao em uma mesa com blinds acima de 100',
-                       'Jogar 40 mao em uma mesa com blinds acima de 100',
                        'Tirar Flush ou qualquer mao superior 1 vez em mesas com blindes maiores que 50',
                        'Tirar Flush ou qualquer mao superior 2 vezes em mesas com blinds maiores que 100',
                        'Tirar Sequencia 2 vezes em mesas com blinds maiores que 100',
-                       'Tirar Trinca 2 vezes em mesas com blinds maiores que 100']
+                       'Tirar Trinca 2 vezes em mesas com blinds maiores que 100',
+                       'Ganhar 10 maos em uma mesa com blinds acima de 25',
+                       'Ganhar 10 maos em uma mesa com blinds acima de 50',
+                       'Ganhar 20 maos em uma mesa com blinds acima de 50',
+                       'Ganhar 20 maos em uma mesa com blinds acima de 100',
+                       ]
 
         # Configurações para o OCR
         config = '--psm 6 --oem 1'
@@ -907,7 +903,6 @@ def tarefas_diaris(x_origem, y_origem):
     contraste_pre = 1
     contraste_pos = 1
 
-
     # Região de interesse para a leitura das tarefas diárias
     regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
 
@@ -996,7 +991,8 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     if texto is None:
         return []
 
-    dicionario_tarefas_fazer = {  # caça-níquel da mesa
+    dicionario_tarefas_fazer = {
+        # caça-níquel da mesa
         'Jogar o caca-niquel da mesa 150 vezes': 30,
         'Jogar o caca-niquel da mesa 70 vezes': 20,
         'Jogar o caca-niquel da mesa 10 vezes': 10,
@@ -1023,12 +1019,22 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10,
         'Ganhar 100.000 fichas no caca niquel Slot Poker': 30,
         'Ganhar 30.000 fichas no caca niquel Slot Poker': 20,
-        'Ganhar 10.000 fichas no caca niquel Slot Poker': 10}
+        'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
+        # # Jogar Mesa
+        # 'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
+        # 'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
+        # 'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
+        # 'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
+        # 'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
+        # 'jogar 10 maos em qualqer mesa': 10,
+        # 'jogar 5 maos em qualqer mesa': 10,
+    }
 
     # Substituir caracteres especiais
     texto = texto + '\n'
     texto = re.sub(r'ç', 'c', texto)
     texto = re.sub(r'í', 'i', texto)
+    texto = re.sub(r'ã', 'a', texto)
     texto = re.sub(r'\.\n', '\n', texto)
     texto = re.sub(r'caca\n\nniquel', 'caca niquel', texto)
     texto = re.sub(r'caca\nniquel', 'caca niquel', texto)
@@ -1576,8 +1582,6 @@ def jogos_totais(x_origem, y_origem):
     total_jogos = 0
     return total_jogos
 
-
 # x_origem, y_origem = Origem_pg.x_y()
 # tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)
-
