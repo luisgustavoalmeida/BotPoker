@@ -1246,9 +1246,6 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
                     cont_slot += 10
 
             if slot or jogar:
-                if HoraT.fim_tempo_tarefa():
-                    continua_jogando = False
-                    break
 
                 meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
 
@@ -1468,7 +1465,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
                             indice_inicial = 0
                             reinicia_variaveis = False
                             pular_sala = False
-                            if upar and cont_slot < SLOT_UPAR:
+                            if (upar and cont_slot < SLOT_UPAR) or slot:
                                 gira_niquel(x_origem, y_origem)
                             break
                         else:
