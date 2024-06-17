@@ -938,7 +938,7 @@ def gira_10auto(x_origem, y_origem):
         gira = True
         return gira
     else:
-        print("não tem 10 auto")
+        # print("não tem 10 auto")
         gira = False
         return gira
 
@@ -1245,32 +1245,41 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
                 if gira_niquel(x_origem, y_origem):
                     cont_slot += 10
 
-            if slot or jogar:
+        if slot or jogar:
 
-                meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
+            meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
 
-                if gira_10auto(x_origem, y_origem):
-                    Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
-                    print('manda recolher')
-                    Tarefas.recolher_tarefa(x_origem, y_origem)
-                    print('procura se ainda tem tarefa')
+            if gira_10auto(x_origem, y_origem):
+                Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+                print('manda recolher')
+                Tarefas.recolher_tarefa(x_origem, y_origem)
+                print('procura se ainda tem tarefa')
 
-                    continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
-                    meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+                continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+                meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
 
-                    if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
-                        return "sair da conta"
-                    IP.testa_trocar_IP()  # ve se tem que trocar ip
+                if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
+                    return "sair da conta"
+                IP.testa_trocar_IP()  # ve se tem que trocar ip
 
+            if (not continua_jogando) or meta_atigida:
+                Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+                print('manda recolher')
+                Tarefas.recolher_tarefa(x_origem, y_origem)
+                print('procura se ainda tem tarefa')
+                continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+                meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
                 if (not continua_jogando) or meta_atigida:
-                    continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
-                    meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
-                    if (not continua_jogando) or meta_atigida:
-                        Limpa.limpa_total(x_origem, y_origem)
-                        print('Atingiu a meta de pontos do dia')
-                        break
+                    Limpa.limpa_total(x_origem, y_origem)
+                    print('Atingiu a meta de pontos do dia')
+                    break
 
-                gira_niquel(x_origem, y_origem)
+            if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5) or
+                    pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (22, 21, 23), tolerance=5)):
+                pyautogui.click(821 + x_origem, 138 + y_origem)  # clica no fechar tarefa
+                print('fecha lista tarefas jogando')
+
+            gira_niquel(x_origem, y_origem)
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
