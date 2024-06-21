@@ -162,7 +162,7 @@ def fim_tempo_tarefa():
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second  # hora atual em segundos
     print("tempo_atual: ", tempo_atual)
 
-    if tempo_atual > 86280:  # proximo das 24H
+    if tempo_atual > 85800:  # proximo das 24H
         print('Interrompe a tarefa e vai pra o R1, proximo das 0h')
         return True
     elif 0 < tempo_atual < tempo_total:  # se menor que 5H
@@ -170,13 +170,11 @@ def fim_tempo_tarefa():
         return False
 
     for i in range(1, 5):
-
         if ((tempo_total * i) - tempo_tarefa) <= tempo_atual <= (((tempo_total * i) - tempo_tarefa) + tempo_tarefa):
             print("Continua fazendo tarefas")
             return False
 
     for i in range(0, 5):  # do 0 ate o 4
-
         if (tempo_total * i) < tempo_atual < ((tempo_total * i) + faixa_tempo):
             print('Interrompe a tarefa e vai para o R')
             return True

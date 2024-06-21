@@ -1,4 +1,5 @@
 import time
+import datetime
 
 import pyautogui
 
@@ -164,10 +165,15 @@ def solot_joga_vezes(x_origem, y_origem, joga_vezes):
 
     while continua_jogando:  # permanece joghando cartas premiadas ate nao ter mais a mição jogar x vezes
         pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
+
         if HoraT.fim_tempo_tarefa():
+            Limpa.limpa_total(x_origem, y_origem)
+            print('Fim do horario destinado a tarefas')
             return
+
         if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
             return "sair da conta"
+
         if cont_jogadas_troca_ip >= 5:
             cont_jogadas_troca_ip = 0
             IP.testa_trocar_IP()
@@ -204,6 +210,7 @@ def solot_joga_vezes(x_origem, y_origem, joga_vezes):
         # cartas_vezes = True
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_slot(x_origem, y_origem, joga_vezes)
+
     return
 
 # def solot_joga_vezes_upando(x_origem, y_origem, joga_vezes = True):
