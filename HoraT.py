@@ -156,13 +156,12 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
 
 
 def fim_tempo_tarefa():
-    print("Testa se esta na hora de parar o tarefas")
     hora_atual = datetime.datetime.now().time()
 
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second  # hora atual em segundos
-    print("tempo_atual: ", tempo_atual)
+    print("Testa se esta na hora de parar o tarefas, tempo_atual: ", tempo_atual)
 
-    if tempo_atual > 85800:  # proximo das 24H
+    if tempo_atual > 85800:  # proximo das 24H - 10 minutos
         print('Interrompe a tarefa e vai pra o R1, proximo das 0h')
         return True
     elif 0 < tempo_atual < tempo_total:  # se menor que 5H
