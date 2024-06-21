@@ -267,7 +267,6 @@ def tem_tarefa_para_recolher(x_origem, y_origem):
         Limpa.limpa_abre_tarefa(x_origem, y_origem)
         meta, pontos = meta_tarefas(x_origem, y_origem)
         return meta, pontos
-
     else:
         return False, 0
 
