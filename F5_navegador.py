@@ -65,4 +65,4 @@ def atualizar_navegador():
         time.sleep(15)
     return
 
-atualizar_navegador()
+# atualizar_navegador()
