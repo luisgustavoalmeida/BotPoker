@@ -20,7 +20,7 @@ botao_recarregar = r'Imagens\botao_recarregar.png'
 
 # Define a região da tela onde a imagem será buscada
 regiao_busca = (50, 35, 140, 100)  # (x, y, largura, altura)
-precisao_origem = 0.99
+precisao = 0.9
 
 
 def localizar_imagem(imagem, regiao, precisao):
@@ -40,14 +40,14 @@ def atualizar_navegador():
         for _ in range(10):
             print('localizando botões')
             if not clicou_atualizar:
-                posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao_origem)
+                posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao)
                 if posicao is not None:  # Verifica se a imagem foi encontrada
                     pyautogui.click(94, 59)  # clica no atualizar
                     print('clicou no atualizar')
                     time.sleep(0.5)
                     clicou_atualizar = True
 
-            posicao = localizar_imagem(botao_parar_carregamento, regiao_busca, precisao_origem)
+            posicao = localizar_imagem(botao_parar_carregamento, regiao_busca, precisao)
             if posicao is not None:  # Verifica se a imagem foi encontrada
                 print('pagina recarregando...')
                 break
@@ -55,7 +55,7 @@ def atualizar_navegador():
 
         for _ in range(30):
             print('esperando resposta do navegador...')
-            posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao_origem)
+            posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao)
             if posicao is not None:  # Verifica se a imagem foi encontrada
                 print('pagina recarregada!')
                 return
@@ -65,4 +65,4 @@ def atualizar_navegador():
         time.sleep(15)
     return
 
-# atualizar_navegador()
+atualizar_navegador()
