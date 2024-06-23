@@ -7,27 +7,29 @@ import HoraT
 import IP
 import Limpa
 import Tarefas
-
+from F5_navegador import atualizar_navegador
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
 
 def abre_cartas_premidas(x_origem, y_origem):
-    for i in range(30):
-        # testa se ta aberto o trofel azul claro do cartas pemidas
-        if pyautogui.pixelMatchesColor((x_origem + 686), (y_origem + 222), (73, 124, 181), tolerance=5):
-            # testa se  o valor escolhido é o 200
-            if pyautogui.pixelMatchesColor((x_origem + 379), (y_origem + 481), (217, 28, 18), tolerance=5):
-                pyautogui.doubleClick(x_origem + 270, y_origem + 425)  # clica no limpar
-                return True
-            else:
-                pyautogui.click(x_origem + 346, y_origem + 472)  # setinha para cima
-                time.sleep(0.3)
-                # pyautogui.click(x_origem + 407, y_origem + 432)  # setinha para cima
-                # time.sleep(0.5)
-        pyautogui.doubleClick(x_origem + 737, y_origem + 22)  # abre o cartas premidas
-        time.sleep(0.2)
+    for _ in range(3):
+        for _ in range(30):
+            # testa se ta aberto o trofel azul claro do cartas pemidas
+            if pyautogui.pixelMatchesColor((x_origem + 686), (y_origem + 222), (73, 124, 181), tolerance=5):
+                # testa se  o valor escolhido é o 200
+                if pyautogui.pixelMatchesColor((x_origem + 379), (y_origem + 481), (217, 28, 18), tolerance=5):
+                    pyautogui.doubleClick(x_origem + 270, y_origem + 425)  # clica no limpar
+                    return True
+                else:
+                    pyautogui.click(x_origem + 346, y_origem + 472)  # setinha para cima
+                    time.sleep(0.3)
+                    # pyautogui.click(x_origem + 407, y_origem + 432)  # setinha para cima
+                    # time.sleep(0.5)
+            pyautogui.doubleClick(x_origem + 737, y_origem + 22)  # abre o cartas premidas
+            time.sleep(0.2)
+        atualizar_navegador()
     return False
 
 
@@ -58,8 +60,7 @@ def cartas_premidas_joga_vezes(x_origem, y_origem):
 
         cartas_aberto = abre_cartas_premidas(x_origem, y_origem)  # abre o cartas premidas
         confirmar = False
-        if cartas_aberto == True:
-
+        if cartas_aberto:
             print("tem cartas vezes")
             for i in range(100):
                 print('espera as cartas virado para baixo')
@@ -274,13 +275,12 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
 
         continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)  # procura com ocr
 
-        if (not continua_jogando) or (meta_atigida):
+        if (not continua_jogando) or meta_atigida:
             time.sleep(0.5)
-            # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
             Limpa.limpa_abre_tarefa(x_origem, y_origem)
             continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)  # procura com ocr
             meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
-            if (not continua_jogando) or (meta_atigida):
+            if (not continua_jogando) or meta_atigida:
                 print("FIM")
                 if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
                     return "sair da conta"
