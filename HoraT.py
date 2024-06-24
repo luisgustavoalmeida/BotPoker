@@ -8,6 +8,7 @@ guias = ["R1", "R2", "R3", "R4", "R5"]
 faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
+fim_dia = 85800
 hora_roleta = 5
 minutos_roleta = 0
 tempo_total_ciclo = 5
@@ -58,10 +59,10 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
         hora_atual = datetime.datetime.now().time()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
-    if tempo_atual > 86100:
+    if tempo_atual > fim_dia:
         ip_troca_agora()
 
-    while tempo_atual > 86100:  # se maior que 23:55:00
+    while tempo_atual > fim_dia:  # se maior que 23:55:00
         print('Espera virar 0h')
         time.sleep(45)
         hora_atual = datetime.datetime.now().time()
