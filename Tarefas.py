@@ -19,37 +19,8 @@ posicao_recolher_presentes = (215, 400, 585, 770)
 # from fuzzywuzzy import fuzz #pip install fuzzywuzzy
 # import Levenshtein #pip install python-Levenshtein
 
-
-tarefas_fazerF = (  # caça-níquel da mesa
-    'Jogar o caca-niquel da mesa 150 vezes',
-    'Jogar o caca-niquel da mesa 70 vezes',
-    'Jogar o caca-niquel da mesa 10 vezes',
-    'Ganhar 100.000 fichas no caca niquel da mesa',
-    'Ganhar 30.000 fichas no caca niquel da mesa',
-    'Ganhar 10.000 fichas no caca niquel da mesa',
-    # Casino Genius
-    'Jogar no Casino Genius Pro 100 vezes',
-    'Jogar no Casino Genius Pro 50 vezes',
-    'Jogar no Casino Genius Pro 10 vezes',
-    'Ganhar 100.000 fichas no Casino Genius Pro',
-    'Ganhar 30.000 fichas no Casino Genius Pro',
-    'Ganhar 4.000 fichas no Casino Genius Pro',
-    # Cartas Premiadas
-    'Jogar 100 vezes nas Cartas Premiadas',
-    'Jogar 50 vezes nas Cartas Premiadas',
-    'Jogar 10 vezes nas Cartas Premiadas',
-    'Ganhar 100.000 fichas nas Cartas Premiadas',
-    'Ganhar 30.000 fichas nas Cartas Premiadas',
-    'Ganhar 4.000 fichas nas Cartas Premiadas',
-    # Poker Slot
-    'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes',
-    'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes',
-    'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes',
-    'Ganhar 100.000 fichas no caca niquel Slot Poker',
-    'Ganhar 30.000 fichas no caca niquel Slot Poker',
-    'Ganhar 10.000 fichas no caca niquel Slot Poker')
-
-dicionario_tarefas_fazer = {  # caça-níquel da mesa
+dicionario_tarefas_fazer = {
+    # caça-níquel da mesa
     'Jogar o caca-niquel da mesa 150 vezes': 30,
     'Jogar o caca-niquel da mesa 70 vezes': 20,
     'Jogar o caca-niquel da mesa 10 vezes': 10,
@@ -70,10 +41,52 @@ dicionario_tarefas_fazer = {  # caça-níquel da mesa
     # Poker Slot
     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes': 30,
     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes': 20,
-    'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10
+    'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10,
+    # Tarefa de mesa
+    'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
+    'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
+    'Jogar 40 maos em uma mesa com blinds acima de': 30,
+    'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de': 20,
+    'Jogar 10 maos em qualquer mesa': 10,
+    'Jogar 5 maos em qualquer mesa': 10,
 }
 
-dicionario_tarefas_fazer_sabado = {  # caça-níquel da mesa
+# tarefas_fazerF = (
+#     # caça-níquel da mesa
+#     'Jogar o caca-niquel da mesa 150 vezes',
+#     'Jogar o caca-niquel da mesa 70 vezes',
+#     'Jogar o caca-niquel da mesa 10 vezes',
+#     'Ganhar 100.000 fichas no caca niquel da mesa',
+#     'Ganhar 30.000 fichas no caca niquel da mesa',
+#     'Ganhar 10.000 fichas no caca niquel da mesa',
+#     # Casino Genius
+#     'Jogar no Casino Genius Pro 100 vezes',
+#     'Jogar no Casino Genius Pro 50 vezes',
+#     'Jogar no Casino Genius Pro 10 vezes',
+#     'Ganhar 100.000 fichas no Casino Genius Pro',
+#     'Ganhar 30.000 fichas no Casino Genius Pro',
+#     'Ganhar 4.000 fichas no Casino Genius Pro',
+#     # Cartas Premiadas
+#     'Jogar 100 vezes nas Cartas Premiadas',
+#     'Jogar 50 vezes nas Cartas Premiadas',
+#     'Jogar 10 vezes nas Cartas Premiadas',
+#     'Ganhar 100.000 fichas nas Cartas Premiadas',
+#     'Ganhar 30.000 fichas nas Cartas Premiadas',
+#     'Ganhar 4.000 fichas nas Cartas Premiadas',
+#     # Poker Slot
+#     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes',
+#     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes',
+#     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes',
+#     'Ganhar 100.000 fichas no caca niquel Slot Poker',
+#     'Ganhar 30.000 fichas no caca niquel Slot Poker',
+#     'Ganhar 10.000 fichas no caca niquel Slot Poker')
+
+
+dicionario_tarefas_fazer_sabado = {
+    # caça-níquel da mesa
     'Jogar o caca-niquel da mesa 150 vezes': 30,
     'Jogar o caca-niquel da mesa 70 vezes': 20,
     'Jogar o caca-niquel da mesa 10 vezes': 10,
@@ -100,7 +113,17 @@ dicionario_tarefas_fazer_sabado = {  # caça-níquel da mesa
     'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10,
     'Ganhar 100.000 fichas no caca niquel Slot Poker': 30,
     'Ganhar 30.000 fichas no caca niquel Slot Poker': 20,
-    'Ganhar 10.000 fichas no caca niquel Slot Poker': 10
+    'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
+    # Tarefa de mesa
+    'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
+    'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
+    'Jogar 40 maos em uma mesa com blinds acima de': 30,
+    'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
+    'Jogar 20 maos em uma mesa com blinds acima de': 20,
+    'Jogar 10 maos em qualquer mesa': 10,
+    'Jogar 5 maos em qualquer mesa': 10,
 }
 
 
@@ -139,8 +162,9 @@ def comparar_listas(x_origem, y_origem, dia_da_semana):
 def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
     lista_comum = []
     continua_jogando = False
+    # print('tarefas_fazer', tarefas_fazer)
     lista_tarefas_disponivel, tarefa_extra = OCR_tela.tarefas_diaris_posicao1(x_origem, y_origem)
-
+    # print('lista_tarefas_disponivel', lista_tarefas_disponivel)
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
             print('comparar_listas_fazendo_tarefa', chave)

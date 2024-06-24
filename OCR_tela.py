@@ -952,7 +952,7 @@ def tarefas_diaris(x_origem, y_origem):
                             # inclui na lista o itens nao repitidos
                             lista.append(item)
         # time.sleep(2)
-    print(f'Lista de tarefas diarias:\n {lista}')
+    print(f'Lista de tarefas diarias:\n {lista}\n\n ')
     return lista
 
 
@@ -1020,14 +1020,16 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Ganhar 100.000 fichas no caca niquel Slot Poker': 30,
         'Ganhar 30.000 fichas no caca niquel Slot Poker': 20,
         'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
-        # # Jogar Mesa
-        # 'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
-        # 'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
-        # 'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
-        # 'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
-        # 'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
-        # 'jogar 10 maos em qualqer mesa': 10,
-        # 'jogar 5 maos em qualqer mesa': 10,
+        # Tarefa de mesa
+        'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
+        'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
+        'Jogar 40 maos em uma mesa com blinds acima de': 30,
+        'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
+        'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
+        'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
+        'Jogar 20 maos em uma mesa com blinds acima de': 20,
+        'Jogar 10 maos em qualquer mesa': 10,
+        'Jogar 5 maos em qualquer mesa': 10,
     }
 
     # Substituir caracteres especiais
@@ -1041,10 +1043,10 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
 
     # Dividir o texto em linhas
     lista_tarefas = texto.split('\n')
-
+    # print('1', lista_tarefas)
     # Remover caracteres indesejados e formar a lista final
     lista_tarefas = [re.sub(r'\s+', ' ', item.replace('\n', ' ').strip()) for item in lista_tarefas if len(item) > 29]
-
+    # print('2', lista_tarefas)
     tarefa_feita = testar_tarefa_feita(x_origem, y_origem, tarefa_extra)
 
     # remove a tarefas feitas da lista

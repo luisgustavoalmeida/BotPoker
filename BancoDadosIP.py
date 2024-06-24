@@ -46,6 +46,7 @@ TESTA_PC_ATIVO = "SELECT CASE WHEN EXISTS(SELECT 1 FROM contagem_ip WHERE ativo_
 
 tentativas_maximas = 50
 intervalo_entre_tentativas = 2
+antes_incremetar = 0
 
 
 def carregar_data_anterior():
@@ -89,7 +90,7 @@ def criar_conexao():
         return None
 
 
-def criar_tabela(conn):
+def criar_tabela():
     """
     Função para criar a tabela 'contagem_ip' no banco de dados, se ela não existir.
 
@@ -97,19 +98,20 @@ def criar_tabela(conn):
         conn: Objeto de conexão com o banco de dados.
     """
     try:
-        cursor = conn.cursor()
+        conn = criar_conexao()
+        if conn:
+            cursor = conn.cursor()
+            # Verificando se a tabela já existe
+            cursor.execute(VERIFICAR_TABELA)
+            tabela_existe = cursor.fetchone() is not None
 
-        # Verificando se a tabela já existe
-        cursor.execute(VERIFICAR_TABELA)
-        tabela_existe = cursor.fetchone() is not None
+            if tabela_existe:
+                # deleta a tabela
+                cursor.execute(DELETAR_TABELA)
 
-        if tabela_existe:
-            # deleta a tabela
-            cursor.execute(DELETAR_TABELA)
-
-        cursor.execute(CRIAR_TABELA)
-        print("Tabela 'contagem_ip' criada com sucesso!")
-        inserir_info_inicial(dado_1=2, dado_2=2, dado_3=2, soma_ip=6, zera_ip=0, ativo_PC_1=0, ativo_PC_2=0, ativo_PC_3=0)
+            cursor.execute(CRIAR_TABELA)
+            print("Tabela 'contagem_ip' criada com sucesso!")
+            inserir_info_inicial(dado_1=2, dado_2=2, dado_3=2, soma_ip=6, zera_ip=0, ativo_PC_1=0, ativo_PC_2=0, ativo_PC_3=0)
     except sqlite3.Error as e:
         print(f"Erro ao criar tabela: {e}")
 
@@ -134,7 +136,6 @@ def inserir_info_inicial(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0, ati
     """
     Função para inserir informações nas três primeiras colunas da tabela 'contagem_ip'.
     """
-
     for tentativa in range(tentativas_maximas):  # Utilize as variáveis definidas na função `atualizar_dado`
         try:
             # Tentativa de atualização
@@ -194,9 +195,6 @@ def atualizar_contagem_ip(data):
     print(f"Falha na atualizar_dado após {tentativas_maximas} tentativas.")
 
 
-antes_incremetar = 0
-
-
 def incrementa_contagem_ip():
     """
     Função para incrementar a informação da tabela 'contagem_ip' referente a contagem de cada computador.
@@ -247,7 +245,6 @@ def incrementa_contagem_ip():
 
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
         time.sleep(5)
-
 
 
 def decrementa_contagem_ip():
@@ -487,7 +484,6 @@ def visualizar_tabela_banco():
         time.sleep(5)
 
 
-
 def limpar_tabela():
     """
     Função para limpar toda a tabela 'contagem_ip'.
@@ -507,18 +503,16 @@ def contagem_ip_banco():
     # print(int(dados[4] - dados[5]))
     return int(dados[4] - dados[5])
 
-
 # incrementa_contagem_ip()
 
 
 # inserir_info_inicial()
 
-# conn = criar_conexao()
-# criar_tabela(conn)
+
+# criar_tabela()
 # contagem_ip_banco()
 # atualizar_info()
 # indicar_pc_ativo()
 # indicar_pc_desativo()
 # visualizar_tabela_banco()
 # print(verificar_pc_ativo())
-

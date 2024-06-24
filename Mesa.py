@@ -922,7 +922,7 @@ def gira_niquel(x_origem, y_origem):
         gira = True
         return gira
     else:
-        print("não tem 10 auto")
+        # print("não tem 10 auto")
         gira = False
         return gira
 
@@ -1525,465 +1525,557 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
     return
 
 
-# def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcao='', blind_mesa='100200', level_conta=4, numero_jogadas=40, ajusta_aposta=200):
-#     print('mesa_upar_jogar_recolher_slote')
-#
-#     """ a função pode executar upar, apostar , recolher, subir_level, jogar, slot"""
-#     def funcao_reinicia_variaveis():
-#         global jogou_uma_vez, humano, teste_humano, pular_sala, mesa_completa, sentou, cont_limpa_jogando, time_encher_mesa, time_fazer_jogada, reinicia_variaveis
-#         if funcao in 'recolher':
-#             atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-#             indicar_pc_desativo()
-#         else:
-#             IP.testa_trocar_IP()  # ve se tem que trocar ip
-#         Limpa.limpa_total(x_origem, y_origem)
-#         Limpa.limpa_jogando(x_origem, y_origem)
-#         jogou_uma_vez = False
-#         humano = False
-#         teste_humano = False
-#         pular_sala = True
-#         mesa_completa = False
-#         sentou = False
-#         cont_limpa_jogando = 45
-#         time_encher_mesa = time_fazer_jogada = time.perf_counter()
-#         reinicia_variaveis = False
-#
-#     global dicionario_salas, indice_inicial
-#
-#     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
-#         return "sair da conta"
-#
-#     valor_aposta1 = dicionario_salas[blind_mesa][0]
-#     valor_aposta2 = dicionario_salas[blind_mesa][1]
-#     lista_salas = dicionario_salas[blind_mesa][2]
-#
-#     print(f'\nLista_salas: {lista_salas}, valores: {valor_aposta1}, {valor_aposta2}\n')
-#
-#
-#     jogou_uma_vez = False
-#     humano = False
-#     sentou = False
-#     teste_humano = False
-#     continua_jogando = True
-#     jogou_uma_vez_mesa_completa = False
-#     mesa_completa = False
-#     num_mesa = ''
-#     cont_jogou = 0
-#     cont_limpa_jogando = 0
-#     cont_total_jogadas = 0
-#     cont_slot = 0
-#     JOGADAS_UPAR = 280
-#     SLOT_UPAR = 200
-#     LEVEL_UPAR = 7
-#     JOGADAS_SLOT_SOMA = 511
-#     indice_atual = None
-#     pular_sala = False
-#     reinicia_variaveis = True
-#     meta_atigida = False
-#
-#     if funcao in 'recolher':
-#         senta_com_maximo = True
-#     else:
-#         senta_com_maximo = False
-#
-#     if upar:
-#         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-#         xp2.pega_2xp(x_origem, y_origem)
-#
-#     if slot:
-#         if ajusta_aposta == 200:
-#             tarefas_fazer = ('Jogar o caca-niquel da mesa 150 vezes', 'Jogar o caca-niquel da mesa 70 vezes', 'Jogar o caca-niquel da mesa 10 vezes')
-#
-#         elif ajusta_aposta == 2000:
-#             tarefas_fazer = (
-#                 'Ganhar 100.000 fichas no caca niquel da mesa', 'Ganhar 30.000 fichas no caca niquel da mesa',
-#                 'Ganhar 10.000 fichas no caca niquel da mesa')
-#
-#     Limpa.fecha_tarefa(x_origem, y_origem)
-#     Limpa.limpa_jogando(x_origem, y_origem)
-#     Limpa.limpa_promocao(x_origem, y_origem)
-#     sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
-#
-#     time_encher_mesa = time_comecou = time_fazer_jogada = time.perf_counter()
-#
-#     print('entra no loop do mesa_upar_jogar')
-#     print('status do sentar : ', sentou)
-#
-#     if datetime.datetime.now().time() > datetime.time(23, 00, 0):
-#         continua_jogando = False
-#
-#     if not ficha_suficiente:
-#         continua_jogando = False
-#
-#     if subir_level:
-#         xp2.pega_2xp(x_origem, y_origem)
-#         LEVEL_UPAR = 19.0511
-#         cont_slot = 0
-#         if datetime.datetime.now().time() > datetime.time(23, 50, 0):
-#             continua_jogando = False
-#
-#     while continua_jogando:  # permanece joghando
-#
-#         if not ficha_suficiente:
-#             print('Não tem fichas suficientes')
-#             break
-#
-#         if reinicia_variaveis:
-#             funcao_reinicia_variaveis()
-#
-#
-#         cont_limpa_jogando += 1
-#         if cont_limpa_jogando > 10:
-#             cont_limpa_jogando = 0
-#             # testa se a mesa esta limpa
-#             if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
-#                     or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
-#                 print('Mesa esta limpa')
-#
-#             else:
-#                 print('Mesa nao esta limpa')
-#                 Limpa.fecha_tarefa(x_origem, y_origem, jogando=True)
-#                 Limpa.limpa_jogando(x_origem, y_origem)
-#                 Limpa.limpa_promocao(x_origem, y_origem)
-#
-#             if pyautogui.pixelMatchesColor((x_origem + 38), (y_origem + 526), (187, 153, 111), tolerance=19):
-#                 print("Presentinho de dentro da mesa")
-#                 pyautogui.click(x_origem + 38, y_origem + 526)
-#
-#             if not pyautogui.pixelMatchesColor((x_origem + 637), (y_origem + 68), (43, 14, 10), tolerance=19):
-#                 print("Presente de fazer tarefa")
-#                 pyautogui.click(x_origem + 637, y_origem + 68)
-#
-#             if pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10):
-#                 print('Não esta sentado')
-#                 reinicia_variaveis = True
-#                 continue
-#
-#             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
-#             if (not sentou) and recolher:
-#                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-#                 indicar_pc_desativo()
-#
-#             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
-#             tempo_decorrido = time.perf_counter() - time_comecou
-#             # Conversão de segundos para horas, minutos e segundos
-#             horas = int(tempo_decorrido // 3600)
-#             minutos = int((tempo_decorrido % 3600) // 60)
-#             segundos = int(tempo_decorrido % 60)
-#
-#             # Impressão do tempo decorrido
-#             print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
-#
-#             if not ficha_suficiente:
-#                 print('Não tem fichas suficientes')
-#                 break
-#
-#             if (tempo_decorrido >= 300) and (not upar) and (not recolher) and (not jogar) and (not slot):
-#                 print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
-#                 break
-#
-#             if ((time.perf_counter() - time_encher_mesa) > 120) and recolher and (not mesa_completa):
-#                 print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
-#                 reinicia_variaveis = True
-#                 continue
-#
-#             if (time.perf_counter() - time_fazer_jogada > 100) and (not jogar) and (not slot):
-#                 print('\nLimite de tempo sem jogar, 100 segundos\n')
-#                 reinicia_variaveis = True
-#                 continue
-#
-#             if datetime.datetime.now().time() > datetime.time(23, 50, 0):
-#                 print('\nPara de jogar atingiu o limite de 23:30\n')
-#                 break
-#
-#             if not recolher:
-#                 if HoraT.fim_tempo_tarefa():
-#                     Limpa.limpa_total(x_origem, y_origem)
-#                     print('Fim do horario destinado a tarefas')
-#                     break
-#
-#             if upar and (cont_slot < SLOT_UPAR):
-#                 if gira_niquel(x_origem, y_origem):
-#                     cont_slot += 10
-#
-#         if slot or jogar:
-#
-#             meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
-#
-#             if gira_10auto(x_origem, y_origem):
-#                 Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
-#                 print('manda recolher')
-#                 Tarefas.recolher_tarefa(x_origem, y_origem)
-#                 print('procura se ainda tem tarefa')
-#
-#                 continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
-#                 meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
-#
-#                 if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
-#                     return "sair da conta"
-#                 IP.testa_trocar_IP()  # ve se tem que trocar ip
-#
-#             if (not continua_jogando) or meta_atigida:
-#                 Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
-#                 print('manda recolher')
-#                 Tarefas.recolher_tarefa(x_origem, y_origem)
-#                 print('procura se ainda tem tarefa')
-#                 continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
-#                 meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
-#                 if (not continua_jogando) or meta_atigida:
-#                     Limpa.limpa_total(x_origem, y_origem)
-#                     print('Atingiu a meta de pontos do dia')
-#                     break
-#
-#             if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5) or
-#                     pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (22, 21, 23), tolerance=5)):
-#                 pyautogui.click(821 + x_origem, 138 + y_origem)  # clica no fechar tarefa
-#                 print('fecha lista tarefas jogando')
-#
-#             gira_niquel(x_origem, y_origem)
-#
-#         if jogou_uma_vez:
-#             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
-#                 # testa se apareceu as mensagens verdes na parte de baixo
-#                 print('Fim da partida')
-#                 cont_jogou += 1
-#                 if jogou_uma_vez_mesa_completa and recolher:
-#                     print('Jogou uma partida com a mesa completa')
-#                     break
-#                 if upar:
-#                     print(Fore.YELLOW + f"Esta upando a conta. Jogou vezes igua a: {cont_jogou}."
-#                                         f"\nSlote vezes: {cont_slot}."
-#                                         f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
-#                     if cont_jogou % 5 == 0:  # testa se tem que trocar ip a casa 5 jogadas
-#                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-#                         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-#                         if subir_level:
-#                             xp2.pega_2xp(x_origem, y_origem)
-#                         IP.testa_trocar_IP()  # ve se tem que trocar ip
-#                         if level_conta >= LEVEL_UPAR:
-#                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-#
-#                     if level_conta >= LEVEL_UPAR:
-#                         if subir_level:
-#                             break
-#                         if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
-#                             print(Fore.YELLOW + f"Terminou de upoar. "
-#                                                 f"\nJogou vezes igua a: {cont_jogou}."
-#                                                 f"\nSlote vezes: {cont_slot}."
-#                                                 f"\n Jogadas total: {cont_total_jogadas}."
-#                                                 f"\nJogadas + Slote" + Fore.RESET)
-#                             break
-#
-#                         if (cont_total_jogadas + cont_slot) >= JOGADAS_SLOT_SOMA:
-#                             print(Fore.YELLOW + f"Terminou de upoar. "
-#                                                 f"\nJogou vezes igua a: {cont_jogou}."
-#                                                 f"\nSlote vezes: {cont_slot}."
-#                                                 f"\n Jogadas total: {cont_total_jogadas}."
-#                                                 f"\nJogadas + Slote" + Fore.RESET)
-#                             break
-#
-#                 else:
-#                     print('Não esta upando. Jogou vezes igua a: ', cont_jogou, ' .Limite de jogadas: ', numero_jogadas)
-#                     if (cont_jogou >= numero_jogadas) and (not recolher) and (not jogar) and (not slot):
-#                         break
-#
-#                 jogou_uma_vez = False
-#                 if not mesa_sem_humanos(x_origem, y_origem, 5):
-#                     print('Sair da mesa fim da jogada com humanos na mesa')
-#                     humano = True
-#                 else:
-#                     humano = False
-#
-#         else:
-#             # mensagem verde
-#             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
-#                 print('Mensagem verde fim da jogada')
-#                 for i in range(10):
-#                     time.sleep(0.3)
-#                     if not mesa_sem_humanos(x_origem, y_origem, 5):
-#                         print('Sair da mesa fim da jogada com humanos na mesa')
-#                         humano = True
-#                         reinicia_variaveis = True
-#                         break
-#                     else:
-#                         humano = False
-#                 print('Terminou o for humanos :', humano)
-#
-#                 if (not humano) and recolher:
-#                     mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
-#                     print('Reconhecimenteo de mesa completa: ', mesa_completa)
-#                     lugares_ocupados = contar_pessoas_mesa(num_mesa)
-#                     print('Firebase mesa com lugares ocupadas:', lugares_ocupados)
-#
-#                     if mesa_completa and (lugares_ocupados < 5):
-#                         # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
-#                         if teste_humano:  # para levantar so na segunada rodada
-#                             humano = True
-#                             print('\nJogador humano na mesa, troca de mesa\n')
-#                             reinicia_variaveis = True
-#                             continue
-#                         teste_humano = True
-#                     else:
-#                         teste_humano = False
-#
-#                     if lugares_ocupados >= 5:
-#                         mesa_completa = True
-#                         time_encher_mesa = time_fazer_jogada = time.perf_counter()
-#                     elif lugares_ocupados == 4:
-#                         time_encher_mesa = time_fazer_jogada = time.perf_counter()
-#                         mesa_completa = False
-#                     else:
-#                         mesa_completa = False
-#                     print('Mesa esta com todas as caderas completas: ', mesa_completa)
-#
-#             else:
-#                 if not mesa_sem_humanos(x_origem, y_origem, 5):
-#                     print('Sair da mesa, humanos na mesa')
-#                     humano = True
-#                     print('\nJogador humano na mesa, troca de mesa\n')
-#                     reinicia_variaveis = True
-#                     continue
-#                 else:
-#                     humano = False
-#
-#         if humano:
-#             print('\nJogador humano na mesa, troca de mesa\n')
-#             reinicia_variaveis = True
-#             continue
-#
-#         if sentou:
-#             if not humano:
-#                 if recolher:
-#                     atualizar_estatos_mesa(num_mesa)
-#                     indicar_pc_ativo()
-#                     if mesa_completa:
-#                         jogou = apostar_pagar(x_origem, y_origem)
-#                         if jogou:
-#                             jogou_uma_vez_mesa_completa = True
-#                     else:
-#                         lugares_ocupados = contar_pessoas_mesa(num_mesa)
-#                         if lugares_ocupados < 5:
-#                             lento = True
-#                         else:
-#                             lento = False
-#                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento)
-#                 else:
-#                     if apostar:
-#                         jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
-#                     else:
-#                         (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento=False)
-#                 if jogou:
-#                     time_fazer_jogada = time.perf_counter()
-#                     jogou_uma_vez = True
-#
-#         else:
-#             humano = False
-#             reinicia_variaveis = False
-#             print("ainda nao esta sentado")
-#             if recolher:
-#                 indicar_pc_desativo()
-#             for i in range(3):
-#                 print('indice_inicial', indice_inicial)
-#                 if not indice_inicial:
-#                     indice_inicial = 0
-#                 if not indice_atual:
-#                     indice_atual = 0
-#                 for indice, num_mesa in enumerate(lista_salas):
-#                     try:
-#                         if indice_inicial > indice:
-#                             print('Porcurando o indece / mesa: ', indice, num_mesa)
-#                             # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
-#                             # troca o valor para que na proxima interação possamos iniciar do inicios da lista
-#                             continue
-#
-#                         if (indice == indice_atual) and pular_sala:
-#                             print('Pula o indice / mesa: ', indice, num_mesa)
-#                             continue  # Pule a primeira iteração, começando pelo segundo item
-#                     except Exception as e:
-#                         print(e)
-#
-#                     print('Continuar, indece / mesa para tentar sentar: ', indice, num_mesa)
-#                     IP.tem_internet()
-#                     Limpa.limpa_jogando(x_origem, y_origem)
-#                     Limpa.limpa_total(x_origem, y_origem)
-#                     blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=5)
-#
-#                     if not sala_existe:
-#                         # Remova o item da posição específica
-#                         item_removido = lista_salas.pop(indice)
-#                         # Adicione o item ao final da lista
-#                         lista_salas.append(item_removido)
-#
-#                     if blind_certo:
-#                         if upar or joga or slot:
-#                             aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200)
-#                         else:
-#                             aposta, auto10 = True, True
-#                         sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
-#                         if sentou and aposta and auto10 and ficha_suficiente:
-#                             if recolher:
-#                                 atualizar_estatos_mesa(num_mesa)
-#                                 indicar_pc_ativo()
-#                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
-#
-#                             time_encher_mesa = time_fazer_jogada = time.perf_counter()
-#                             print('esta tudo ok, sentado na mesa:', num_mesa)
-#                             if indice:
-#                                 indice_atual = indice
-#                             else:
-#                                 indice_atual = 0
-#                             indice_inicial = 0
-#                             reinicia_variaveis = False
-#                             pular_sala = False
-#                             if (upar and cont_slot < SLOT_UPAR) or slot:
-#                                 gira_niquel(x_origem, y_origem)
-#                             break
-#                         else:
-#                             reinicia_variaveis = True
-#
-#                     if indice_inicial == indice and indice_inicial != 0:
-#                         indice_inicial = 0
-#                         i = 0
-#                         break
-#
-#                     indice_inicial = 0
-#
-#                 if i == 1:
-#                     pular_sala = False
-#
-#                 if sentou:
-#                     reinicia_variaveis = False
-#                     break
-#                 else:
-#                     reinicia_variaveis = True
-#
-#             if not sentou:
-#                 indice_inicial = 0
-#                 reinicia_variaveis = True
-#                 print("rodou a lista de mesas 2x, da um F5 para recarregar as mesas")
-#                 IP.tem_internet()
-#                 print('f5')
-#                 # pyautogui.press('f5')
-#                 atualizar_navegador()
-#                 time.sleep(25)
-#
-#     if recolher:
-#         atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
-#         indicar_pc_desativo()
-#
-#     if indice_atual:
-#         indice_inicial = indice_atual
-#     else:
-#         indice_inicial = 0
-#
-#         # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
-#     dicionario_salas[blind_mesa][2] = lista_salas
-#
-#     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
-#         return "sair da conta"
-#
-#     Limpa.limpa_jogando(x_origem, y_origem)
-#     return
+def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False, blind_mesa='100200', ajusta_aposta=200, lugares=5,
+                                   level_conta=4, numero_jogadas=40):
+    print('mesa_upar_jogar_recolher_slote')
+
+    """ a função pode executar 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'"""
+
+    global dicionario_salas, indice_inicial
+
+    if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
+        return "sair da conta"
+    Limpa.fecha_tarefa(x_origem, y_origem)
+    Limpa.limpa_jogando(x_origem, y_origem)
+    Limpa.limpa_promocao(x_origem, y_origem)
+
+    valor_aposta1 = dicionario_salas[blind_mesa][0]
+    valor_aposta2 = dicionario_salas[blind_mesa][1]
+    lista_salas = dicionario_salas[blind_mesa][2]
+
+    print(f'\nLista_salas: {lista_salas}, valores: {valor_aposta1}, {valor_aposta2}\n')
+
+    continua_jogando = True
+    cont_limpa_jogando = 0
+    reinicia_variaveis = True
+    tarefas_fazer = ()
+
+    jogou_uma_vez = False
+    humano = False
+    sentou = False
+    teste_humano = False
+    jogou_uma_vez_mesa_completa = False
+    mesa_completa = False
+    num_mesa = ''
+    cont_jogou = 0
+    cont_total_jogadas = 0
+    cont_slot = 0
+    JOGADAS_UPAR = 280
+    SLOT_UPAR = 200
+    LEVEL_UPAR = 7
+    JOGADAS_SLOT_SOMA = 511
+    indice_atual = None
+    pular_sala = False
+
+    # 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'
+    match funcoes:
+        case 'recolher':
+            print('case recolher')
+            senta_com_maximo = True
+
+        case 'upar':
+            print('case upar')
+            senta_com_maximo = False
+            cont_total_jogadas = (level_conta - int(level_conta)) * 10000
+            xp2.pega_2xp(x_origem, y_origem)
+
+        case 'subir_level':
+            print('case subir_level')
+            senta_com_maximo = False
+            xp2.pega_2xp(x_origem, y_origem)
+            LEVEL_UPAR = 19.0511
+            cont_slot = 0
+
+        case 'slot':
+            print('case slot')
+            senta_com_maximo = False
+            if ajusta_aposta == 200:
+                tarefas_fazer = (
+                    'Jogar o caca-niquel da mesa 150 vezes',
+                    'Jogar o caca-niquel da mesa 70 vezes',
+                    'Jogar o caca-niquel da mesa 10 vezes')
+            elif ajusta_aposta == 2000:
+                tarefas_fazer = (
+                    'Ganhar 100.000 fichas no caca niquel da mesa',
+                    'Ganhar 30.000 fichas no caca niquel da mesa',
+                    'Ganhar 10.000 fichas no caca niquel da mesa')
+
+        case 'tarefa_mesa':
+            print('case tarefa_mesa')
+            senta_com_maximo = False
+            tarefas_fazer = (
+                'Jogar 5 maos em qualquer mesa',
+                'Jogar 10 maos em qualquer mesa',
+                'Jogar 20 maos em uma mesa com blinds acima de',
+                'Jogar 20 maos em uma mesa com blinds acima de 25',
+                'Jogar 20 maos em uma mesa com blinds acima de 50',
+                'Jogar 20 maos em uma mesa com blinds acima de 100',
+                'Jogar 40 maos em uma mesa com blinds acima de',
+                'Jogar 40 maos em uma mesa com blinds acima de 50',
+                'Jogar 40 maos em uma mesa com blinds acima de 100')
+
+        case 'jogar':
+            print('case jogar')
+            senta_com_maximo = False
+
+        case _:
+            senta_com_maximo = False
+            print(f' passou o primeiro match, função {funcoes} não tem ajustes')
+
+    sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+
+    print(f'Iniciando ações. Statos do sentar: {sentou}. Fichas suficiente para sentar: {ficha_suficiente}')
+    if not ficha_suficiente:
+        continua_jogando = False
+
+    time_encher_mesa = time_comecou = time_fazer_jogada = time.perf_counter()  # zera os times que serao usados na funação
+
+    while continua_jogando:  # permanece joghando
+
+        if not ficha_suficiente:
+            print('Não tem fichas suficientes')
+            break
+
+        if reinicia_variaveis:
+            if 'recolher' in funcoes:
+                atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
+                indicar_pc_desativo()
+            else:
+                IP.testa_trocar_IP()  # ve se tem que trocar ip
+            Limpa.limpa_total(x_origem, y_origem)
+            Limpa.limpa_jogando(x_origem, y_origem)
+            jogou_uma_vez = False
+            humano = False
+            teste_humano = False
+            pular_sala = True
+            mesa_completa = False
+            sentou = False
+            cont_limpa_jogando = 45
+            time_encher_mesa = time_fazer_jogada = time.perf_counter()
+            reinicia_variaveis = False
+
+        cont_limpa_jogando += 1
+        if cont_limpa_jogando > 10:
+            cont_limpa_jogando = 0
+            # testa as condiçoes para continuar jogando ou nao
+            if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
+                    or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+                print('Mesa esta limpa')
+            else:
+                print('Mesa não esta limpa')
+                Limpa.fecha_tarefa(x_origem, y_origem, jogando=True)
+                Limpa.limpa_jogando(x_origem, y_origem)
+                Limpa.limpa_promocao(x_origem, y_origem)
+
+            if pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10):
+                print('Não esta sentado')
+                reinicia_variaveis = True
+                continue
+
+            sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+
+            if not ficha_suficiente:
+                print('Não tem fichas suficientes')
+                break
+            if pyautogui.pixelMatchesColor((x_origem + 38), (y_origem + 526), (187, 153, 111), tolerance=19):
+                print("Presentinho de dentro da mesa")
+                pyautogui.click(x_origem + 38, y_origem + 526)
+            if funcoes not in ('tarefa_mesa', 'slot'):
+                if not pyautogui.pixelMatchesColor((x_origem + 637), (y_origem + 68), (43, 14, 10), tolerance=19):
+                    print("Presente de fazer tarefa")
+                    pyautogui.click(x_origem + 637, y_origem + 68)
+
+            tempo_decorrido, horas, minutos, segundos = cacular_tempo_decorrido(time_comecou)
+            print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
+
+            if funcoes in 'jogar':
+                if tempo_decorrido >= 300:
+                    print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
+                    break
+            if funcoes in 'recolher':
+                if not sentou:
+                    atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
+                    indicar_pc_desativo()
+                if ((time.perf_counter() - time_encher_mesa) > 150) and (not mesa_completa):
+                    print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
+                    reinicia_variaveis = True
+                    continue
+            if funcoes in ('recolher', 'tarefa_mesa', 'upar', 'subir_level', 'jogar'):
+                if time.perf_counter() - time_fazer_jogada > 120:
+                    print('\nLimite de tempo sem jogar, 120 segundos\n')
+                    reinicia_variaveis = True
+                    continue
+            if funcoes in ('upar', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'):
+                if HoraT.fim_tempo_tarefa():
+                    Limpa.limpa_total(x_origem, y_origem)
+                    print('Fim do horario destinado a tarefas')
+                    break
+
+        # parte dedicada as funçoes especificas
+        if funcoes in 'slot':
+            if slot_mesa_testa_parar(x_origem, y_origem, tarefas_fazer):
+                break
+
+        if funcoes in 'tarefa_mesa':
+            if tarefa_mesa_testa_parar(x_origem, y_origem, tarefas_fazer):
+                break
+
+        if funcoes in 'upar':
+            if cont_slot < SLOT_UPAR:
+                if gira_niquel(x_origem, y_origem):
+                    cont_slot += 10
+
+        if jogou_uma_vez:
+            if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
+                # testa se apareceu as mensagens verdes na parte de baixo
+                cont_jogou += 1
+                print(f'Fim da partida. Jogou vezes igua a: {cont_jogou}. Limite de jogadas: {numero_jogadas}')
+
+                if funcoes in 'recolher':
+                    if jogou_uma_vez_mesa_completa:
+                        print('Jogou uma partida com a mesa completa')
+                        break
+
+                if funcoes in ('upar', 'subir_level'):
+                    print(Fore.YELLOW + f"Esta upando a conta. Jogou vezes igua a: {cont_jogou}."
+                                        f"\nSlote vezes: {cont_slot}."
+                                        f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
+                    if cont_jogou % 5 == 0:  # testa se tem que trocar ip a casa 5 jogadas
+                        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                        cont_total_jogadas = (level_conta - int(level_conta)) * 10000
+                        if funcoes in 'subir_level':
+                            xp2.pega_2xp(x_origem, y_origem)
+                        IP.testa_trocar_IP()  # ve se tem que trocar ip
+                        if level_conta >= LEVEL_UPAR:
+                            level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+
+                    if level_conta >= LEVEL_UPAR:
+                        if funcoes in 'subir_level':
+                            break
+                        if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
+                            print(Fore.YELLOW + f"Terminou de upoar. "
+                                                f"\nJogou vezes igua a: {cont_jogou}."
+                                                f"\nSlote vezes: {cont_slot}."
+                                                f"\n Jogadas total: {cont_total_jogadas}."
+                                                f"\nJogadas + Slote" + Fore.RESET)
+                            break
+
+                        if (cont_total_jogadas + cont_slot) >= JOGADAS_SLOT_SOMA:
+                            print(Fore.YELLOW + f"Terminou de upoar. "
+                                                f"\nJogou vezes igua a: {cont_jogou}."
+                                                f"\nSlote vezes: {cont_slot}."
+                                                f"\n Jogadas total: {cont_total_jogadas}."
+                                                f"\nJogadas + Slote" + Fore.RESET)
+                            break
+                if funcoes in 'tarefa_mesa':
+                    if tarefa_mesa_testa_parar(x_origem, y_origem, tarefas_fazer, abrir=True):
+                        break
+
+                if funcoes in 'jogar':
+                    if cont_jogou >= numero_jogadas:
+                        break
+
+                jogou_uma_vez = False
+                if not mesa_sem_humanos(x_origem, y_origem, lugares):
+                    print('Sair da mesa fim da jogada com humanos na mesa')
+                    humano = True
+                    reinicia_variaveis = True
+                    continue
+                else:
+                    humano = False
+
+        else:
+            # mensagem verde
+            if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
+                print('Mensagem verde fim da jogada')
+                for i in range(10):
+                    time.sleep(0.3)
+                    if not mesa_sem_humanos(x_origem, y_origem, lugares):
+                        print('Sair da mesa, fim da jogada, humanos na mesa')
+                        humano = True
+                        reinicia_variaveis = True
+                        break
+                    else:
+                        humano = False
+
+                if funcoes in 'recolher':
+                    if not humano:
+                        mesa_completa = testa_mesa_completa(x_origem, y_origem, lugares)
+                        print('Reconhecimenteo de mesa completa: ', mesa_completa)
+                        lugares_ocupados = contar_pessoas_mesa(num_mesa)
+                        print('Firebase mesa com lugares ocupadas:', lugares_ocupados)
+
+                        if mesa_completa and (lugares_ocupados < 5):
+                            # testa se a mesa esta completa porem no firebase nao tem 5 pessoas
+                            if teste_humano:  # para levantar so na segunada rodada
+                                humano = True
+                                print('\nJogador humano na mesa, troca de mesa\n')
+                                reinicia_variaveis = True
+                                continue
+                            teste_humano = True
+                        else:
+                            teste_humano = False
+
+                        if lugares_ocupados >= 5:
+                            mesa_completa = True
+                            time_encher_mesa = time_fazer_jogada = time.perf_counter()
+                        elif lugares_ocupados == 4:
+                            time_encher_mesa = time_fazer_jogada = time.perf_counter()
+                            mesa_completa = False
+                        else:
+                            mesa_completa = False
+                        print('Mesa esta com todas as caderas completas: ', mesa_completa)
+
+            else:
+                if not mesa_sem_humanos(x_origem, y_origem, lugares):
+                    print('Sair da mesa, humanos na mesa')
+                    humano = True
+                    print('\nJogador humano na mesa, troca de mesa\n')
+                    reinicia_variaveis = True
+                    continue
+                else:
+                    humano = False
+
+        if humano:
+            print('\nJogador humano na mesa, troca de mesa\n')
+            reinicia_variaveis = True
+            continue
+
+        if sentou:
+            if not humano:
+                if funcoes in 'recolher':
+                    atualizar_estatos_mesa(num_mesa)
+                    indicar_pc_ativo()
+                    if mesa_completa:
+                        jogou = apostar_pagar(x_origem, y_origem)
+                        if jogou:
+                            jogou_uma_vez_mesa_completa = True
+                    else:
+                        lugares_ocupados = contar_pessoas_mesa(num_mesa)
+                        if lugares_ocupados < 5:
+                            lento = True
+                        else:
+                            lento = False
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento)
+                else:
+                    if apostar:
+                        jogou = apostar_pagar_jogar_mesa(x_origem, y_origem)
+                    else:
+                        (jogou, humano) = passa_corre_joga(x_origem, y_origem, valor_aposta1, valor_aposta2, lento=False)
+                if jogou:
+                    time_fazer_jogada = time.perf_counter()
+                    jogou_uma_vez = True
+
+        else:
+            humano = False
+            reinicia_variaveis = False
+            print("ainda nao esta sentado")
+            if funcoes in 'recolher':
+                indicar_pc_desativo()
+            for i in range(3):
+                print('indice_inicial', indice_inicial)
+                if not indice_inicial:
+                    indice_inicial = 0
+                if not indice_atual:
+                    indice_atual = 0
+                for indice, num_mesa in enumerate(lista_salas):
+                    try:
+                        if indice_inicial > indice:
+                            print('Porcurando o indece / mesa: ', indice, num_mesa)
+                            # faz o for interagir ate chegar na ultima sala que foi usada anteriormente
+                            # troca o valor para que na proxima interação possamos iniciar do inicios da lista
+                            continue
+
+                        if (indice == indice_atual) and pular_sala:
+                            print('Pula o indice / mesa: ', indice, num_mesa)
+                            continue  # Pule a primeira iteração, começando pelo segundo item
+                    except Exception as e:
+                        print(e)
+
+                    print('Continuar, indece / mesa para tentar sentar: ', indice, num_mesa)
+                    IP.tem_internet()
+                    Limpa.limpa_jogando(x_origem, y_origem)
+                    Limpa.limpa_total(x_origem, y_origem)
+                    blind_certo, sala_existe = escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=5)
+
+                    if not sala_existe:
+                        # Remova o item da posição específica
+                        item_removido = lista_salas.pop(indice)
+                        # Adicione o item ao final da lista
+                        lista_salas.append(item_removido)
+
+                    if blind_certo:
+                        if funcoes in ('upar', 'joga', 'slot'):
+                            aposta, auto10 = ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200)
+                        else:
+                            aposta, auto10 = True, True
+                        sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+                        if sentou and aposta and auto10 and ficha_suficiente:
+                            if funcoes in 'recolher':
+                                atualizar_estatos_mesa(num_mesa)
+                                indicar_pc_ativo()
+                                mesa_completa = testa_mesa_completa(x_origem, y_origem, lugares)
+
+                            time_encher_mesa = time_fazer_jogada = time.perf_counter()
+                            print('esta tudo ok, sentado na mesa:', num_mesa)
+                            if indice:
+                                indice_atual = indice
+                            else:
+                                indice_atual = 0
+                            indice_inicial = 0
+                            reinicia_variaveis = False
+                            pular_sala = False
+                            if funcoes in ('upar', 'joga', 'slot'):
+                                if cont_slot < SLOT_UPAR:
+                                    gira_niquel(x_origem, y_origem)
+                            if funcoes in 'slot':
+                                gira_niquel(x_origem, y_origem)
+                            break
+                        else:
+                            reinicia_variaveis = True
+
+                    if indice_inicial == indice and indice_inicial != 0:
+                        indice_inicial = 0
+                        i = 0
+                        break
+
+                    indice_inicial = 0
+
+                if i == 1:
+                    pular_sala = False
+
+                if sentou:
+                    reinicia_variaveis = False
+                    break
+                else:
+                    reinicia_variaveis = True
+
+            if not sentou:
+                indice_inicial = 0
+                reinicia_variaveis = True
+                print("rodou a lista de mesas 2x, da um F5 para recarregar as mesas")
+                IP.tem_internet()
+                print('f5')
+                # pyautogui.press('f5')
+                atualizar_navegador()
+                time.sleep(25)
+
+    print("FIM Mesa")
+
+    if funcoes in 'recolher':
+        atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
+        indicar_pc_desativo()
+
+    if indice_atual:
+        indice_inicial = indice_atual
+    else:
+        indice_inicial = 0
+
+        # # Ao final da função, atribui o valor da lista utilizada dentro da função à lista global
+    dicionario_salas[blind_mesa][2] = lista_salas
+
+    if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
+        return "sair da conta"
+
+    Limpa.limpa_jogando(x_origem, y_origem)
+    return
+
+
+def cacular_tempo_decorrido(time_comecou):
+    # Cálculo do tempo decorrido desde que o jogador entrou no jogo
+    tempo_decorrido = time.perf_counter() - time_comecou
+    # Conversão de segundos para horas, minutos e segundos
+    horas = int(tempo_decorrido // 3600)
+    minutos = int((tempo_decorrido % 3600) // 60)
+    segundos = int(tempo_decorrido % 60)
+
+    # Impressão do tempo decorrido
+    # print(f"Tempo jogando: {horas:02d}:{minutos:02d}:{segundos:02d}")
+    return tempo_decorrido, horas, minutos, segundos
+
+
+def tarefa_mesa_testa_parar(x_origem, y_origem, tarefas_fazer, abrir=False):
+    """Função que giro o eslote caso precise ou retorna True quando terminou"""
+    # print("tarefa_mesa_testa_parar")
+    finalizar = False
+    continua_jogando = True
+    meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
+
+    if abrir:
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+        print('manda recolher')
+        Tarefas.recolher_tarefa(x_origem, y_origem)
+        print('procura se ainda tem tarefa')
+
+        continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+        meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+
+        if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
+            finalizar = True
+            return finalizar
+        IP.testa_trocar_IP()  # ve se tem que trocar ip
+
+    if (not continua_jogando) or meta_atigida:
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+        print('manda recolher')
+        Tarefas.recolher_tarefa(x_origem, y_origem)
+        print('procura se ainda tem tarefa')
+        continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+        meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+        if (not continua_jogando) or meta_atigida:
+            Limpa.limpa_total(x_origem, y_origem)
+            print('Atingiu a meta de pontos do dia ou terminou a missão')
+            finalizar = True
+            return finalizar
+
+    if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5) or
+            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (22, 21, 23), tolerance=5)):
+        pyautogui.click(821 + x_origem, 138 + y_origem)  # clica no fechar tarefa
+        print('fecha lista tarefas jogando')
+
+    return finalizar
+
+
+def slot_mesa_testa_parar(x_origem, y_origem, tarefas_fazer):
+    """Função que giro o eslote caso precise ou retorna True quando terminou"""
+    finalizar = False
+    continua_jogando = True
+    meta_atigida, pontos = Tarefas.tem_tarefa_para_recolher(x_origem, y_origem)
+
+    if gira_10auto(x_origem, y_origem):
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+        print('manda recolher')
+        Tarefas.recolher_tarefa(x_origem, y_origem)
+        print('procura se ainda tem tarefa')
+
+        continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+        meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+
+        if Limpa.limpa_total_fazendo_tarefa(x_origem, y_origem) == "sair da conta":
+            finalizar = True
+            return finalizar
+        IP.testa_trocar_IP()  # ve se tem que trocar ip
+
+    if (not continua_jogando) or meta_atigida:
+        Limpa.limpa_abre_tarefa(x_origem, y_origem, com_pausa=False)
+        print('manda recolher')
+        Tarefas.recolher_tarefa(x_origem, y_origem)
+        print('procura se ainda tem tarefa')
+        continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)
+        meta_atigida, pontos = Tarefas.meta_tarefas(x_origem, y_origem)
+        if (not continua_jogando) or meta_atigida:
+            Limpa.limpa_total(x_origem, y_origem)
+            print('Atingiu a meta de pontos do dia ou terminou a missão')
+            finalizar = True
+            return finalizar
+
+    if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5) or
+            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (22, 21, 23), tolerance=5)):
+        pyautogui.click(821 + x_origem, 138 + y_origem)  # clica no fechar tarefa
+        print('fecha lista tarefas jogando')
+
+    gira_niquel(x_origem, y_origem)
+    return finalizar
 
 
 def blind_do_dia(dia_da_semana=10):
@@ -2371,7 +2463,11 @@ def levantar_mesa(x_origem, y_origem):
 
 # import Origem_pg
 #
-# x_origem, y_origem = Origem_pg.x_y()
+
+
+
+
+
 # # mesa_sem_humanos(x_origem, y_origem, tolerancia=8)
 # # escolher_blind(x_origem, y_origem, blind='2K/4K', lugares=5)
 # sentar_mesa(x_origem, y_origem, True, '200/400', True)

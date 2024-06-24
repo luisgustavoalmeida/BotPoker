@@ -317,22 +317,29 @@ def tarefas():
             (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
              hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
+            print("--------------parte 1---------------")
             if parar_tarefas:
                 break
-
-            print("--------------parte 1---------------")
             for item_tarefa in lista_tarefas_fazer:
                 if 'Jogar o caca-niquel da mesa' in item_tarefa:
                     print("\n\n Jogar o caca-niquel da mesa vezes \n\n")
-
-                    # Mesa.joga(x_origem, y_origem, 200)
-                    Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
-                                         level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=200)
-
+                    Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=200)
+                    # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
+                    #                      level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=200)
+                    (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
+                     hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+            print("--------------parte 2---------------")
+            if parar_tarefas:
+                break
+            for item_tarefa in lista_tarefas_fazer:
+                print(item_tarefa)
+                if ('maos em uma mesa com blinds acima de' in item_tarefa) or ('maos em qualquer mesa' in item_tarefa):
+                    print("\n\n Jogar mão em uma mesa vezes \n\n")
+                    Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='tarefa_mesa')
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 2---------------")
+            print("--------------parte 3---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -343,7 +350,7 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 3---------------")
+            print("--------------parte 4---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -354,7 +361,7 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 4---------------")
+            print("--------------parte 5---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -364,7 +371,7 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 5---------------")
+            print("--------------parte 6---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -374,7 +381,7 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 6---------------")
+            print("--------------parte 7---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -384,7 +391,7 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 7---------------")
+            print("--------------parte 8---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
@@ -394,19 +401,19 @@ def tarefas():
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 8---------------")
+            print("--------------parte 9---------------")
             if parar_tarefas:
                 break
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no caca niquel da mesa' in item_tarefa:
                     print("\n\n Ganhar fichas no caca niquel da mesa \n\n")
-                    # Mesa.joga(x_origem, y_origem, 2000)
-                    Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
-                                         level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=2000)
+                    Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=2000)
+                    # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
+                    #                      level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=2000)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
 
-            print("--------------parte 9---------------")
+            print("--------------parte 10---------------")
             if parar_tarefas:
                 break
 
