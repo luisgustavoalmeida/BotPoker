@@ -200,54 +200,56 @@ def incrementa_contagem_ip():
     Função para incrementar a informação da tabela 'contagem_ip' referente a contagem de cada computador.
     """
     global antes_incremetar
-    for tentativa in range(tentativas_maximas):
-        try:
-            # Tentativa de atualização
-            conn = criar_conexao()
-            if conn:
-                # criar_tabela(conn)  # Chamada para criar a tabela
-                with conn:
-                    match nome_usuario:
-                        case 'PokerIP':
-                            conn.execute(INCREMENTA_PC_1)
-                            conn.commit()  # Confirma as alterações
-                            pc = 1
-                        case 'lgagu':
-                            conn.execute(INCREMENTA_PC_2)
-                            conn.commit()  # Confirma as alterações
-                            pc = 2
-                        case 'Poker':
-                            conn.execute(INCREMENTA_PC_3)
-                            conn.commit()  # Confirma as alterações
-                            pc = 3
-                        case _:
-                            print(f'A T E N Ç Ã O Computador com nome de usuario errado')
-                            pc = 4
-
-                    # conn.commit()  # Confirma as alterações
-
-                dados = visualizar_tabela_banco()
-                depois_incremetar = int(dados[pc])
-
-                if depois_incremetar != antes_incremetar:
-                    antes_incremetar = depois_incremetar
-                    print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
-                    return  # Retorna caso a atualização seja bem-sucedida
-                else:
-                    print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
-                    time.sleep(3)
-            else:
-                print("Falha ao conectar ao banco de dados")
-        except sqlite3.Error as e:
-            print(f"Erro na tentativa {tentativa + 1}: {e}")
-            if tentativa < tentativas_maximas - 1:
-                time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
-            else:
-                raise  # Propaga o erro na última tentativa
-
     while True:
+        for tentativa in range(tentativas_maximas):
+            try:
+                # Tentativa de atualização
+                conn = criar_conexao()
+                if conn:
+                    # criar_tabela(conn)  # Chamada para criar a tabela
+                    with conn:
+                        match nome_usuario:
+                            case 'PokerIP':
+                                conn.execute(INCREMENTA_PC_1)
+                                conn.commit()  # Confirma as alterações
+                                pc = 1
+                            case 'lgagu':
+                                conn.execute(INCREMENTA_PC_2)
+                                conn.commit()  # Confirma as alterações
+                                pc = 2
+                            case 'Poker':
+                                conn.execute(INCREMENTA_PC_3)
+                                conn.commit()  # Confirma as alterações
+                                pc = 3
+                            case _:
+                                print(f'A T E N Ç Ã O Computador com nome de usuario errado')
+                                pc = 4
+
+                        # conn.commit()  # Confirma as alterações
+
+                    dados = visualizar_tabela_banco()
+                    depois_incremetar = int(dados[pc])
+
+                    if depois_incremetar != antes_incremetar:
+                        antes_incremetar = depois_incremetar
+                        print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                        return  # Retorna caso a atualização seja bem-sucedida
+                    else:
+                        print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
+                        time.sleep(5)
+                else:
+                    print("Falha ao conectar ao banco de dados")
+            except sqlite3.Error as e:
+                print(f"Erro na tentativa {tentativa + 1}: {e}")
+                if tentativa < tentativas_maximas - 1:
+                    time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
+                else:
+                    raise  # Propaga o erro na última tentativa
+
+
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
         time.sleep(60)
+
 
 
 def decrementa_contagem_ip():
@@ -459,32 +461,33 @@ def visualizar_tabela_banco():
     """
     Função para visualizar toda a tabela 'contagem_ip'.
     """
+    while True:
+        for tentativa in range(tentativas_maximas):  # Utilize as variáveis definidas na função `atualizar_dado`
+            try:
+                # Tentativa de visualização
+                conn = criar_conexao()
+                if conn:
+                    # criar_tabela(conn)  # Chamada para criar a tabela
+                    with conn:
+                        conn.execute(ATUALIZAR_SOMA)
+                        conn.commit()  # Confirma as alterações
+                        cursor = conn.execute(SELECIONAR_INFO_LINHA_1)
+                        primeira_linha = cursor.fetchall()[0]  # obtem a tupla da primeira linha na lista de linhas
+                    print(f"\nValores da contagem de IP: {primeira_linha}\n")
+                    return primeira_linha  # Retorna a lista de linhas
+                else:
+                    print("Falha ao conectar ao banco de dados")
 
-    for tentativa in range(tentativas_maximas):  # Utilize as variáveis definidas na função `atualizar_dado`
-        try:
-            # Tentativa de visualização
-            conn = criar_conexao()
-            if conn:
-                # criar_tabela(conn)  # Chamada para criar a tabela
-                with conn:
-                    conn.execute(ATUALIZAR_SOMA)
-                    conn.commit()  # Confirma as alterações
-                    cursor = conn.execute(SELECIONAR_INFO_LINHA_1)
-                    primeira_linha = cursor.fetchall()[0]  # obtem a tupla da primeira linha na lista de linhas
-                print(f"\nValores da contagem de IP: {primeira_linha}\n")
-                return primeira_linha  # Retorna a lista de linhas
-            else:
-                print("Falha ao conectar ao banco de dados")
+            except sqlite3.Error as e:
+                print(f"Erro na tentativa {tentativa + 1}: {e}")
+                if tentativa < tentativas_maximas - 1:
+                    time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
+                else:
+                    raise  # Propaga o erro na última tentativa
 
-        except sqlite3.Error as e:
-            print(f"Erro na tentativa {tentativa + 1}: {e}")
-            if tentativa < tentativas_maximas - 1:
-                time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
-            else:
-                raise  # Propaga o erro na última tentativa
+        print(f"Falha na visualizar_tabela após {tentativas_maximas} tentativas.")
+        time.sleep(5)
 
-    print(f"Falha na visualizar_tabela após {tentativas_maximas} tentativas.")
-    return None  # Retorna `None` em caso de falha após todas as tentativas
 
 
 def limpar_tabela():
