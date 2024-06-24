@@ -835,19 +835,23 @@ def busca_link():
     print('Endereço da fanpage')
     pagina_do_facebook = "https://www.facebook.com/people/Poker-Brasil/100064546038812/"
     navegador.get(pagina_do_facebook)
-    print('agurade 7 segundas para a pagina carregar')
+    print(' agurade 7 segundas para a pagina carregar')
     time.sleep(7)
+    # Procurar o primeiro link que começa com o padrão especificado postado na descrição da imagem
     try:
         links = navegador.find_elements(By.CSS_SELECTOR, "a[href]")
         for link in links:
             # print(link.get_attribute("href"))
             href = link.get_attribute("href")
+            # Verificar se a URL começa com o padrão especificado
             if href.startswith("https://l.facebook.com/l.php?u=https%3A%2F%2Fbr-texas.rallyacespoker.com%2Fapplink%"):
-                print(f"Link encontrado: {href}")
+                print(f"\nURL valida:\n {href}")
                 link.click()
                 print('Espera a pagina ficar carregada...')
                 time.sleep(7)
                 break
+            else:
+                print(f"\nURL invalida:\n {href}")
     except Exception as e:
         print(e)
 
@@ -858,27 +862,41 @@ def busca_link():
     if len(guias_abertas) == 2:
 
         print("Existem duas guias abertas, continua.")
-        # Alterne o foco para a nova guia (segunda guia)
-        navegador.switch_to.window(navegador.window_handles[1])
-        time.sleep(5)
-        # Pegar o link da barra de endereço do navegador
-        link_da_barra_de_endereco = navegador.current_url
-        print('link da barra de endereços: ', link_da_barra_de_endereco)
-        # Feche a segunda guia
-        navegador.close()
-        # Volte para a primeira guia, se necessário
-        navegador.switch_to.window(navegador.window_handles[0])
-        # Verificar se a URL começa com o padrão desejado
-        padrao_desejado = "https://apps.facebook.com/pokerbrasil?"
-        if link_da_barra_de_endereco.startswith(padrao_desejado):
-            print("A URL começa com o padrão desejado.")
-            print(link_da_barra_de_endereco)
-            return True, link_da_barra_de_endereco
-        else:
-            print("link fanpag fora do padrão")
-        return False, "link fanpag fora do padrão"
+        encontrado, descricao = link_segunda_guia()
+        if encontrado:
+            print('Link encontrado')
+            return encontrado, descricao
     else:
-        print("Não existem duas guias abertas.")
+        print("\n\n Não existem duas guias abertas, tentativa se achar uma imagem com o link.")
+        # Procurar uma imagem que tenha o link guardado dentro
+        try:
+            # Encontrar todos os elementos de imagem na página
+            elementos_imagem = navegador.find_elements(By.TAG_NAME, 'img')
+            # Iterar sobre os elementos de imagem e verificar se a URL começa com o padrão desejado
+            for elemento in elementos_imagem:
+                url_imagem = elemento.get_attribute('src')
+                # print(url_imagem)
+                # Verificar se a URL começa com o padrão especificado
+                if url_imagem.startswith("https://external.fjdf"):
+                    print(f"\nURL valida:\n {url_imagem}")
+                    # Se encontrar a URL válida, clicar no elemento e sair do loop
+                    elemento.click()
+                    print('Espera a pagina ficar carregada...')
+                    time.sleep(7)
+                    break
+                else:
+                    print(f"\nURL invalida:\n {url_imagem}")
+
+            guias_abertas = navegador.window_handles
+            if len(guias_abertas) == 2:
+                print("Existem duas guias abertas, continua.")
+                encontrado, descricao = link_segunda_guia()
+                if encontrado:
+                    print('Link encontrado')
+                    return encontrado, descricao
+        except Exception as e:
+            print(e)
+
         guias_abertas = navegador.window_handles
         # Verifica se há mais de uma guia aberta
         if len(guias_abertas) > 1:
@@ -894,6 +912,29 @@ def busca_link():
             print("Apenas uma guia já está aberta.")
 
         return False, "link nao encontrado"
+
+
+def link_segunda_guia():
+    print('Procurando link na segunda guia ')
+    # Alterne o foco para a nova guia (segunda guia)
+    navegador.switch_to.window(navegador.window_handles[1])
+    time.sleep(5)
+    # Pegar o link da barra de endereço do navegador
+    link_da_barra_de_endereco = navegador.current_url
+    print('link da barra de endereços: ', link_da_barra_de_endereco)
+    # Feche a segunda guia
+    navegador.close()
+    # Volte para a primeira guia, se necessário
+    navegador.switch_to.window(navegador.window_handles[0])
+    # Verificar se a URL começa com o padrão desejado
+    padrao_desejado = "https://apps.facebook.com/pokerbrasil?"
+    if link_da_barra_de_endereco.startswith(padrao_desejado):
+        print("A URL começa com o padrão desejado.")
+        print(link_da_barra_de_endereco)
+        return True, link_da_barra_de_endereco
+    else:
+        print("link fanpag fora do padrão")
+    return False, "link fanpag fora do padrão"
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
