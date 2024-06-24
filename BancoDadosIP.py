@@ -18,6 +18,7 @@ CRIAR_TABELA = '''CREATE TABLE IF NOT EXISTS contagem_ip (
                             ativo_PC_2 BOOLEAN DEFAULT 0,
                             ativo_PC_3 BOOLEAN DEFAULT 0
                         )'''
+DELETAR_TABELA = "DROP TABLE contagem_ip;"
 VERIFICAR_TABELA = "SELECT name FROM sqlite_master WHERE type='table' AND name='contagem_ip'"
 INSERIR_INFO_INICIAL = ("INSERT INTO contagem_ip (dado_PC_1, dado_PC_2, dado_PC_3, soma_IP, zera_IP, ativo_PC_1, ativo_PC_2, ativo_PC_3) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
@@ -44,7 +45,7 @@ DESATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 0 WHERE id = 1;"
 TESTA_PC_ATIVO = "SELECT CASE WHEN EXISTS(SELECT 1 FROM contagem_ip WHERE ativo_PC_1 = 1 OR ativo_PC_2 = 1 OR ativo_PC_3 = 1) THEN 1 ELSE 0 END;"
 
 tentativas_maximas = 50
-intervalo_entre_tentativas = 1
+intervalo_entre_tentativas = 2
 
 
 def carregar_data_anterior():
@@ -102,12 +103,13 @@ def criar_tabela(conn):
         cursor.execute(VERIFICAR_TABELA)
         tabela_existe = cursor.fetchone() is not None
 
-        if not tabela_existe:
-            # Criando a tabela se ela não existir
-            cursor.execute(CRIAR_TABELA)
-            print("Tabela 'contagem_ip' criada com sucesso!")
-        else:
-            print("Tabela 'contagem_ip' já existe.")
+        if tabela_existe:
+            # deleta a tabela
+            cursor.execute(DELETAR_TABELA)
+
+        cursor.execute(CRIAR_TABELA)
+        print("Tabela 'contagem_ip' criada com sucesso!")
+        inserir_info_inicial(dado_1=2, dado_2=2, dado_3=2, soma_ip=6, zera_ip=0, ativo_PC_1=0, ativo_PC_2=0, ativo_PC_3=0)
     except sqlite3.Error as e:
         print(f"Erro ao criar tabela: {e}")
 
@@ -231,8 +233,7 @@ def incrementa_contagem_ip():
                             return  # Retorna caso a atualização seja bem-sucedida
                         else:
                             print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
-                            if conn:
-                                conn.close()
+                            conn.close()
                             time.sleep(5)
                 else:
                     print("Falha ao conectar ao banco de dados")
@@ -245,7 +246,7 @@ def incrementa_contagem_ip():
                     raise  # Propaga o erro na última tentativa
 
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
-        time.sleep(60)
+        time.sleep(5)
 
 
 
@@ -474,8 +475,7 @@ def visualizar_tabela_banco():
                     return primeira_linha  # Retorna a lista de linhas
                 else:
                     print("Falha ao conectar ao banco de dados")
-                    if conn:
-                        conn.close()
+                    conn.close()
                     time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
 
             except sqlite3.Error as e:
@@ -515,10 +515,10 @@ def contagem_ip_banco():
 
 # conn = criar_conexao()
 # criar_tabela(conn)
-# inserir_info_inicial()
 # contagem_ip_banco()
 # atualizar_info()
 # indicar_pc_ativo()
 # indicar_pc_desativo()
 # visualizar_tabela_banco()
 # print(verificar_pc_ativo())
+
