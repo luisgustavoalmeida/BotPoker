@@ -43,8 +43,7 @@ DESATIVADO_PC_2 = "UPDATE contagem_ip SET ativo_PC_2 = 0 WHERE id = 1;"
 DESATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 0 WHERE id = 1;"
 TESTA_PC_ATIVO = "SELECT CASE WHEN EXISTS(SELECT 1 FROM contagem_ip WHERE ativo_PC_1 = 1 OR ativo_PC_2 = 1 OR ativo_PC_3 = 1) THEN 1 ELSE 0 END;"
 
-
-tentativas_maximas = 5
+tentativas_maximas = 50
 intervalo_entre_tentativas = 1
 
 
@@ -193,10 +192,14 @@ def atualizar_contagem_ip(data):
     print(f"Falha na atualizar_dado após {tentativas_maximas} tentativas.")
 
 
+antes_incremetar = 0
+
+
 def incrementa_contagem_ip():
     """
     Função para incrementar a informação da tabela 'contagem_ip' referente a contagem de cada computador.
     """
+    global antes_incremetar
     for tentativa in range(tentativas_maximas):
         try:
             # Tentativa de atualização
@@ -208,18 +211,31 @@ def incrementa_contagem_ip():
                         case 'PokerIP':
                             conn.execute(INCREMENTA_PC_1)
                             conn.commit()  # Confirma as alterações
+                            pc = 1
                         case 'lgagu':
                             conn.execute(INCREMENTA_PC_2)
                             conn.commit()  # Confirma as alterações
+                            pc = 2
                         case 'Poker':
                             conn.execute(INCREMENTA_PC_3)
                             conn.commit()  # Confirma as alterações
+                            pc = 3
                         case _:
                             print(f'A T E N Ç Ã O Computador com nome de usuario errado')
+                            pc = 4
 
-                    conn.commit()  # Confirma as alterações
-                print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
-                return  # Retorna caso a atualização seja bem-sucedida
+                    # conn.commit()  # Confirma as alterações
+
+                dados = visualizar_tabela_banco()
+                depois_incremetar = int(dados[pc])
+
+                if depois_incremetar != antes_incremetar:
+                    antes_incremetar = depois_incremetar
+                    print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                    return  # Retorna caso a atualização seja bem-sucedida
+                else:
+                    print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
+                    time.sleep(3)
             else:
                 print("Falha ao conectar ao banco de dados")
         except sqlite3.Error as e:
@@ -229,7 +245,9 @@ def incrementa_contagem_ip():
             else:
                 raise  # Propaga o erro na última tentativa
 
-    print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
+    while True:
+        print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
+        time.sleep(60)
 
 
 def decrementa_contagem_ip():
@@ -338,7 +356,7 @@ def indicar_pc_desativo():
                             conn.execute(DESATIVADO_PC_3)
                             conn.commit()  # Confirma as alterações
                         case _:
-                            print(f'A T E N Ç Ã O Computador com nome de usuario errado')
+                            print(f'\n\nA T E N Ç Ã O Computador com nome de usuario errado\n\n')
 
                     conn.commit()  # Confirma as alterações
                     pc_ativado = False
@@ -378,7 +396,6 @@ def verificar_pc_ativo():
     except sqlite3.Error as e:
         print(f"Erro ao verificar PC ativo: {e}")
     return False  # Retorna False por padrão caso haja algum erro
-
 
 
 def atualizar_soma_ip():
@@ -442,6 +459,7 @@ def visualizar_tabela_banco():
     """
     Função para visualizar toda a tabela 'contagem_ip'.
     """
+
     for tentativa in range(tentativas_maximas):  # Utilize as variáveis definidas na função `atualizar_dado`
         try:
             # Tentativa de visualização
@@ -486,9 +504,13 @@ def limpar_tabela():
 def contagem_ip_banco():
     dados = visualizar_tabela_banco()
 
+    # print(int(dados[4] - dados[5]))
+
     return int(dados[4] - dados[5])
 
+
 # incrementa_contagem_ip()
+
 
 # inserir_info_inicial()
 
