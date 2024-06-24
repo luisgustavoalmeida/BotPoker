@@ -246,7 +246,6 @@ def incrementa_contagem_ip():
                 else:
                     raise  # Propaga o erro na última tentativa
 
-
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
         time.sleep(60)
 
