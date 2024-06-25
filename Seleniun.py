@@ -850,8 +850,8 @@ def busca_link():
                 print('Espera a pagina ficar carregada...')
                 time.sleep(7)
                 break
-            else:
-                print(f"\nURL invalida:\n {href}")
+            # else:
+            #     print(f"\nURL invalida:\n {href}")
     except Exception as e:
         print(e)
 
@@ -884,8 +884,8 @@ def busca_link():
                     print('Espera a pagina ficar carregada...')
                     time.sleep(7)
                     break
-                else:
-                    print(f"\nURL invalida:\n {url_imagem}")
+                # else:
+                #     print(f"\nURL invalida:\n {url_imagem}")
 
             guias_abertas = navegador.window_handles
             if len(guias_abertas) == 2:
