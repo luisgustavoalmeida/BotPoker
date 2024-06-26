@@ -119,7 +119,7 @@ def identifica_guia(tempo_atual=0):
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
     print('identifica_guia')
     for j, guia_atual in enumerate(guias):
-        print("j", j)
+        # print("j", j)
         if j == 0:
             inicio_faixa = tempo_total * j
         else:
@@ -151,7 +151,8 @@ def func_identifica_guia_inicial(tempo_atual):
 
 def fim_tempo_tarefa():
     print('teste fim_tempo_tarefa')
-    if identifica_guia():
+    guia_atual = identifica_guia()
+    if guia_atual != 'T1':
         return True
 
     hora_atual = datetime.datetime.now().time()
