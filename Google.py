@@ -325,16 +325,16 @@ def reservar_linha(guia, endereco, salta_linhas=True):
             else:
                 print("Pego por outro computador")
                 if salta_linhas:
-                    linha_vazia_anterior += random.randint(10, 40)
+                    linha_vazia_anterior += random.randint(3, 30)
                 else:
-                    linha_vazia_anterior += random.randint(5, 30)
+                    linha_vazia_anterior += random.randint(3, 20)
                 return False, id, senha, fichas, linha, level
             # print("values :",values)
         except:
             if salta_linhas:
-                linha_vazia_anterior += random.randint(10, 40)
+                linha_vazia_anterior += random.randint(1, 30)
             else:
-                linha_vazia_anterior += random.randint(5, 30)
+                linha_vazia_anterior += random.randint(1, 20)
             return False, id, senha, fichas, linha, level
 
     else:

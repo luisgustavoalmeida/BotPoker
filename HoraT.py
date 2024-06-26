@@ -8,10 +8,12 @@ guias = ["R1", "R2", "R3", "R4", "R5"]
 faixa_tempo = 1200  # janela de tempo para sair das contas no tarefas
 tempo_total = 18000
 tempo_tarefa = 1200
-fim_dia = 85800
+fim_dia = 85800  # proximo das 24H - 10 minutos
 hora_roleta = 5
 minutos_roleta = 0
 tempo_total_ciclo = 5
+atrasos_roleta = 1800  # valor fixo de tempo que vai atrazar o inicio do Rs secundarios
+atrasos_roleta_incremento = 600  # pequeno temo que vai ser agregado ao iniciar as roletas ex 10, 20, 30, 40 minutos
 
 
 def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
@@ -53,11 +55,14 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
 
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
-    while (17580 < tempo_atual < 18000) or (35580 < tempo_atual < 36000) or (53580 < tempo_atual < 54000) or (71580 < tempo_atual < 72000):
-        print('espera 7 minutoa para organisar a planilha')
-        time.sleep(45)
-        hora_atual = datetime.datetime.now().time()
-        tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
+    # while (((tempo_total * 1 - 600) < tempo_atual < tempo_total * 1)
+    #        or ((tempo_total * 2 - 600) < tempo_atual < tempo_total * 2)
+    #        or ((tempo_total * 3 - 600) < tempo_atual < tempo_total * 3)
+    #        or ((tempo_total * 4 - 600) < tempo_atual < tempo_total * 4)):
+    #     print('espera 10 minutoa para organisar a planilha')
+    #     time.sleep(45)
+    #     hora_atual = datetime.datetime.now().time()
+    #     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
     if tempo_atual > fim_dia:
         ip_troca_agora()
@@ -68,7 +73,7 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
         hora_atual = datetime.datetime.now().time()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
-    if guia in ["R1", "R2", "R3", "R4", "R5"]:
+    if guia in guias:
         if id == "":  # se a cabou o R vai para tarefa
             if tempo_tarefa > 0:  # se tem algim tempo destinado as tarefas
                 print('Fim do R, vai para as tarefas')
@@ -80,31 +85,13 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
                 # print('hora teste 3')
                 ip_troca_agora()
                 while True:
-                    hora_atual = datetime.datetime.now().time()
-                    tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-                    print('Fim da lista, espera horario para iniciar novo R\n Hora: ', hora_atual)
                     time.sleep(30)
-
-                    for j in range(0, 5):
-                        inicio_faixa = tempo_total * j
-                        fim_faixa = inicio_faixa + faixa_tempo
-                        if inicio_faixa <= tempo_atual <= fim_faixa:
-                            print("tempo atigido, inicia novo R")
-                            for i, guia_atual in enumerate(guias):
-                                print("gia atual:", guia_atual)
-                                if (i * tempo_total) <= tempo_atual <= ((i + 1) * tempo_total - tempo_tarefa):
-                                    print('vai para a guia', guia_atual)
-                                    return guia_atual
+                    guia_atual = identifica_guia()
+                    if guia_atual != 'T1':
+                        return guia_atual
 
         else:
-            for i, guia_atual in enumerate(guias):
-                # print("gia atual:", guia_atual)
-                if (i * tempo_total) <= tempo_atual <= ((i + 1) * tempo_total - tempo_tarefa):
-                    print('vai para a guia', guia_atual)
-                    return guia_atual
-            # T1
-            guia_atual = "T1"
-            print('vai para a guia', guia_atual)
+            guia_atual = func_identifica_guia_inicial(tempo_atual)
             return guia_atual
 
     elif guia == "T1":
@@ -112,71 +99,68 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
             print('Fim do tarefas, espera a hora para começar os Rs')
             ip_troca_agora()
             while True:
-                hora_atual = datetime.datetime.now().time()
-                tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-                print('Fim da lista, espera pelo horario para iniciar novo R. \n Hora: ', hora_atual)
                 time.sleep(30)
-
-                for j in range(0, 5):
-                    inicio_faixa = tempo_total * j
-                    fim_faixa = inicio_faixa + faixa_tempo
-                    if inicio_faixa <= tempo_atual <= fim_faixa:
-                        print("tempo atigido, inicia novo R")
-                        for i, guia_atual in enumerate(guias):
-                            print("gia atual:", guia_atual)
-                            if (i * tempo_total) <= tempo_atual <= ((i + 1) * tempo_total - tempo_tarefa):
-                                print('vai para a guia', guia_atual)
-                                return guia_atual
+                guia_atual = identifica_guia()
+                if guia_atual != 'T1':
+                    return guia_atual
         else:
             print('não acabou o tarefa')
-            for j in range(0, 5):
-                inicio_faixa = tempo_total * j
-                fim_faixa = inicio_faixa + faixa_tempo
-                if inicio_faixa <= tempo_atual <= fim_faixa:
-                    print("tempo atigido, inicia novo R")
-                    for i, guia_atual in enumerate(guias):
-                        if (i * tempo_total) <= tempo_atual <= ((i + 1) * tempo_total - tempo_tarefa):
-                            print('vai para a guia', guia_atual)
-                            return guia_atual
-                # T1
-            guia_atual = "T1"
-            print('vai para a guia', guia_atual)
+            guia_atual = identifica_guia(tempo_atual)
             return guia_atual
 
     else:
-        for i, guia_atual in enumerate(guias):
-            # print("gia atual:", guia_atual)
-            if (i * tempo_total) <= tempo_atual <= ((i + 1) * tempo_total - tempo_tarefa):
-                print('vai para a guia', guia_atual)
-                return guia_atual
-        # T1
-        guia_atual = "T1"
-        print('vai para a guia', guia_atual)
+        guia_atual = func_identifica_guia_inicial(tempo_atual)
         return guia_atual
 
 
-def fim_tempo_tarefa():
-    hora_atual = datetime.datetime.now().time()
+def identifica_guia(tempo_atual=0):
+    if tempo_atual == 0:
+        hora_atual = datetime.datetime.now().time()
+        tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
+    print('identifica_guia')
+    for j, guia_atual in enumerate(guias):
+        print("j", j)
+        if j == 0:
+            inicio_faixa = tempo_total * j
+        else:
+            inicio_faixa = (tempo_total * j) + atrasos_roleta + (atrasos_roleta_incremento * j)
 
+        fim_faixa = inicio_faixa + faixa_tempo
+
+        if inicio_faixa <= tempo_atual <= fim_faixa:
+            print("Tempo atingido, inicia novo R, a nova guia será:", guia_atual)
+            return guia_atual
+    return "T1"
+
+
+def func_identifica_guia_inicial(tempo_atual):
+    for j, guia_atual in enumerate(guias):
+        if j == 0:
+            inicio_faixa = tempo_total * j
+        else:
+            inicio_faixa = (tempo_total * j) + atrasos_roleta + (atrasos_roleta_incremento * j)
+
+        if inicio_faixa <= tempo_atual <= ((j + 1) * tempo_total - tempo_tarefa):
+            print('vai para a guia', guia_atual)
+            return guia_atual
+
+    guia_atual = "T1"
+    print('vai para a guia', guia_atual)
+    return guia_atual
+
+
+def fim_tempo_tarefa():
+    print('teste fim_tempo_tarefa')
+    if identifica_guia():
+        return True
+
+    hora_atual = datetime.datetime.now().time()
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second  # hora atual em segundos
     print("Testa se esta na hora de parar o tarefas, tempo_atual: ", tempo_atual)
 
-    if tempo_atual > 85800:  # proximo das 24H - 10 minutos
+    if tempo_atual > fim_dia:  # proximo das 24H - 10 minutos
         print('Interrompe a tarefa e vai pra o R1, proximo das 0h')
         return True
-    elif 0 < tempo_atual < tempo_total:  # se menor que 5H
-        print("Continua fazendo tarefas, tempo menor que 5H")
-        return False
 
-    for i in range(1, 5):
-        if ((tempo_total * i) - tempo_tarefa) <= tempo_atual <= (((tempo_total * i) - tempo_tarefa) + tempo_tarefa):
-            print("Continua fazendo tarefas")
-            return False
-
-    for i in range(0, 5):  # do 0 ate o 4
-        if (tempo_total * i) < tempo_atual < ((tempo_total * i) + faixa_tempo):
-            print('Interrompe a tarefa e vai para o R')
-            return True
-
-    print("outro, Continua fazendo tarefas")
+    print("Outro, Continua fazendo tarefas")
     return False
