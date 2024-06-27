@@ -18,6 +18,19 @@ from OCR_tela import tratar_valor_numerico
 from Requerimentos import dicionari_token_credencial_n, nome_completo
 from colorama import Fore
 from IP import tem_internet
+from Requerimentos import nome_usuario, nome_computador
+if nome_computador == 'PC-I7-9700KF':
+    linha_usuario = 3
+else:
+    match nome_usuario:
+        case 'PokerIP':
+            linha_usuario = 1
+        case 'lgagu':
+            linha_usuario = 2
+        case 'Poker':
+            linha_usuario = 3
+        case _:
+            linha_usuario = 0
 
 # Define o escopo, desta forma tem permição total a plania e ao google drive
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']  # permite que a aplicação tenha acesso de leitura e escrita a planilhas do Google Sheets.
@@ -137,6 +150,74 @@ def retona_para_inicio_planilha():
     print('Cursor da planiilha retonardo para a primeira linha')
     return
 
+# def primeira_celula_vazia(guia):
+#     """
+#     Encontra a primeira célula vazia em uma coluna específica da planilha.
+#
+#     Parameters:
+#     - guia (str): O nome da guia na planilha.
+#
+#     Returns:
+#     - str: O endereço da primeira célula vazia no formato 'D{n}', onde n é o número da linha.
+#     """
+#     global linha_vazia_anterior
+#     global intervalo_de_busca
+#     global guia_antiga
+#     print('primeira celula vazia')
+#     global cred
+#     global service
+#
+#     # Verifica se a guia foi alterada
+#     if guia_antiga != guia:
+#         guia_antiga = guia
+#         linha_vazia_anterior = 2
+#
+#     # Chama a API Sheets
+#     sheet = service.spreadsheets()
+#
+#     while True:
+#         print('linha vazia: ', linha_vazia_anterior)
+#         try:
+#             # Obtém os valores do intervalo
+#             result = sheet.values().get(
+#                 spreadsheetId=planilha_id,
+#                 range=f"{guia}!D{linha_vazia_anterior}:D{linha_vazia_anterior + intervalo_de_busca}",
+#                 majorDimension="COLUMNS",
+#                 valueRenderOption="UNFORMATTED_VALUE"
+#             ).execute()
+#             values = result.get('values', [[]])[0]
+#             print('primeira_celula_vazia', values)
+#
+#             # Tenta encontrar a célula vazia no intervalo
+#             try:
+#                 i = values.index("")
+#                 print('i', i)
+#                 linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
+#                 print('linha encontrada: ', linha_vazia_anterior)
+#                 endereco = f"D{linha_vazia_anterior}"
+#                 print(endereco)
+#                 return f"D{linha_vazia_anterior}"
+#
+#             except ValueError:
+#                 i = len(values)
+#                 # print(i)
+#                 if i < intervalo_de_busca + 1:
+#                     linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
+#                     print('linha encontrada: ', linha_vazia_anterior)
+#                     endereco = f"D{linha_vazia_anterior}"
+#                     print(endereco)
+#                     return f"D{linha_vazia_anterior}"
+#
+#                 else:
+#                     linha_vazia_anterior += intervalo_de_busca
+#
+#         except Exception as e:
+#             print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
+#             tem_internet()
+#             cred = credencial()
+#             service = build('sheets', 'v4', credentials=cred)
+
+
 
 def primeira_celula_vazia(guia):
     """
@@ -174,36 +255,60 @@ def primeira_celula_vazia(guia):
                 valueRenderOption="UNFORMATTED_VALUE"
             ).execute()
             values = result.get('values', [[]])[0]
-            # print(values)
+            # print('primeira_celula_vazia', values)
 
-            # Tenta encontrar a célula vazia no intervalo
+            # Conta as células vazias encontradas
             try:
-                i = values.index("")
-                # print(i)
-                linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-                print('linha encontrada: ', linha_vazia_anterior)
-                endereco = f"D{linha_vazia_anterior}"
-                print(endereco)
-                return f"D{linha_vazia_anterior}"
+                count_empty = 0
+                for i, value in enumerate(values):
+                    # print('i1', i, 'value', value)
+                    if value == '':
+                        # print('i2', i, 'value', value)
+                        count_empty += 1
+                        if count_empty == linha_usuario:
+                            # print('i3', i)
+                            linha_vazia_anterior += i + 1
+                            # print('linha_vazia_anterior', linha_vazia_anterior)
+                            endereco = f"D{linha_vazia_anterior}"
+                            return endereco
+                        if count_empty >= 3:
+                            count_empty = 0
 
             except ValueError:
                 i = len(values)
-                # print(i)
+                # print('len(values)', i)
                 if i < intervalo_de_busca + 1:
-                    linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-                    print('linha encontrada: ', linha_vazia_anterior)
+                    linha_vazia_anterior += i + linha_usuario  # Atualiza a variável global com a próxima linha vazia
+                    # print('linha encontrada: ', linha_vazia_anterior)
                     endereco = f"D{linha_vazia_anterior}"
-                    print(endereco)
-                    return f"D{linha_vazia_anterior}"
+                    return endereco
 
-                else:
-                    linha_vazia_anterior += intervalo_de_busca
+            linha_vazia_anterior += intervalo_de_busca
 
         except Exception as e:
             print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
+
+
+def processa_valor(valor):
+    match valor:
+        case 'PokerIP':
+            print('Executando ação para PokerIP')
+            # Adicione aqui o código específico para 'PokerIP'
+
+        case 'lgagu':
+            print('Executando ação para lgagu')
+            # Adicione aqui o código específico para 'lgagu'
+
+        case 'Poker':
+            print('Executando ação para Poker')
+            # Adicione aqui o código específico para 'Poker'
+
+        case _:
+            print('Valor não reconhecido')
+            # Adicione aqui o código para o caso padrão
 
 
 def escrever_celula(valor, guia, endereco):
@@ -325,16 +430,16 @@ def reservar_linha(guia, endereco, salta_linhas=True):
             else:
                 print("Pego por outro computador")
                 if salta_linhas:
-                    linha_vazia_anterior += random.randint(3, 30)
+                    linha_vazia_anterior += random.randint(5, 30)
                 else:
-                    linha_vazia_anterior += random.randint(3, 20)
+                    linha_vazia_anterior += random.randint(5, 20)
                 return False, id, senha, fichas, linha, level
             # print("values :",values)
         except:
             if salta_linhas:
-                linha_vazia_anterior += random.randint(1, 30)
+                linha_vazia_anterior += random.randint(5, 30)
             else:
-                linha_vazia_anterior += random.randint(1, 20)
+                linha_vazia_anterior += random.randint(5, 20)
             return False, id, senha, fichas, linha, level
 
     else:
