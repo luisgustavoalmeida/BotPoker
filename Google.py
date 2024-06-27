@@ -186,27 +186,27 @@ def primeira_celula_vazia(guia):
                 valueRenderOption="UNFORMATTED_VALUE"
             ).execute()
             values = result.get('values', [[]])[0]
-            print('primeira_celula_vazia', values)
+            # print('primeira_celula_vazia', values)
 
             # Tenta encontrar a célula vazia no intervalo
             try:
                 i = values.index("")
-                print('i', i)
+                # print('i', i)
                 linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-                print('linha encontrada: ', linha_vazia_anterior)
+                # print('linha encontrada: ', linha_vazia_anterior)
                 endereco = f"D{linha_vazia_anterior}"
-                print(endereco)
-                return f"D{linha_vazia_anterior}"
+                # print(endereco)
+                return endereco
 
             except ValueError:
                 i = len(values)
                 # print(i)
                 if i < intervalo_de_busca + 1:
                     linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-                    print('linha encontrada: ', linha_vazia_anterior)
+                    # print('linha encontrada: ', linha_vazia_anterior)
                     endereco = f"D{linha_vazia_anterior}"
-                    print(endereco)
-                    return f"D{linha_vazia_anterior}"
+                    # print(endereco)
+                    return endereco
 
                 else:
                     linha_vazia_anterior += intervalo_de_busca
