@@ -20,7 +20,7 @@ from colorama import Fore
 from IP import tem_internet
 from Requerimentos import nome_usuario, nome_computador
 if nome_computador == 'PC-I7-9700KF':
-    linha_usuario = 3
+    linha_usuario = 1
 else:
     match nome_usuario:
         case 'PokerIP':
@@ -30,7 +30,7 @@ else:
         case 'Poker':
             linha_usuario = 3
         case _:
-            linha_usuario = 0
+            linha_usuario = 1
 
 # Define o escopo, desta forma tem permição total a plania e ao google drive
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']  # permite que a aplicação tenha acesso de leitura e escrita a planilhas do Google Sheets.
