@@ -152,74 +152,6 @@ def retona_para_inicio_planilha():
     return
 
 
-# def primeira_celula_vazia(guia):
-#     """
-#     Encontra a primeira célula vazia em uma coluna específica da planilha.
-#
-#     Parameters:
-#     - guia (str): O nome da guia na planilha.
-#
-#     Returns:
-#     - str: O endereço da primeira célula vazia no formato 'D{n}', onde n é o número da linha.
-#     """
-#     global linha_vazia_anterior
-#     global intervalo_de_busca
-#     global guia_antiga
-#     print('primeira celula vazia')
-#     global cred
-#     global service
-#
-#     # Verifica se a guia foi alterada
-#     if guia_antiga != guia:
-#         guia_antiga = guia
-#         linha_vazia_anterior = 2
-#
-#     # Chama a API Sheets
-#     sheet = service.spreadsheets()
-#
-#     while True:
-#         print('linha vazia: ', linha_vazia_anterior)
-#         try:
-#             # Obtém os valores do intervalo
-#             result = sheet.values().get(
-#                 spreadsheetId=planilha_id,
-#                 range=f"{guia}!D{linha_vazia_anterior}:D{linha_vazia_anterior + intervalo_de_busca}",
-#                 majorDimension="COLUMNS",
-#                 valueRenderOption="UNFORMATTED_VALUE"
-#             ).execute()
-#             values = result.get('values', [[]])[0]
-#             # print('primeira_celula_vazia', values)
-#
-#             # Tenta encontrar a célula vazia no intervalo
-#             try:
-#                 i = values.index("")
-#                 # print('i', i)
-#                 linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-#                 # print('linha encontrada: ', linha_vazia_anterior)
-#                 endereco = f"D{linha_vazia_anterior}"
-#                 # print(endereco)
-#                 return endereco
-#
-#             except ValueError:
-#                 i = len(values)
-#                 # print(i)
-#                 if i < intervalo_de_busca + 1:
-#                     linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-#                     # print('linha encontrada: ', linha_vazia_anterior)
-#                     endereco = f"D{linha_vazia_anterior}"
-#                     # print(endereco)
-#                     return endereco
-#
-#                 else:
-#                     linha_vazia_anterior += intervalo_de_busca
-#
-#         except Exception as e:
-#             print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
-#             tem_internet()
-#             cred = credencial()
-#             service = build('sheets', 'v4', credentials=cred)
-
-
 def primeira_celula_vazia(guia):
     """
     Encontra a primeira célula vazia em uma coluna específica da planilha.
@@ -256,60 +188,128 @@ def primeira_celula_vazia(guia):
                 valueRenderOption="UNFORMATTED_VALUE"
             ).execute()
             values = result.get('values', [[]])[0]
+            # print('primeira_celula_vazia', values)
 
-            # print(values)
-
-            indices_vazio = encontrar_indices_vazios(values, indece_usuario)
-            # print('indices_vazio', indices_vazio)
-
-            if indices_vazio:
+            # Tenta encontrar a célula vazia no intervalo
+            try:
+                i = values.index("")
+                # print('i', i)
+                linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
                 # print('linha encontrada: ', linha_vazia_anterior)
-                linha_vazia_anterior += indices_vazio
-                # print('linha nova: ', linha_vazia_anterior)
-                endereco = f"D{linha_vazia_anterior}"
-                # print("endereco", endereco)
-                return endereco
-
-            tamanho_lista = len(values)
-            # print('tamanho_lista', tamanho_lista)
-
-            if tamanho_lista < intervalo_de_busca + 1:
-                # print('2linha encontrada: ', linha_vazia_anterior)
-                linha_vazia_anterior += (tamanho_lista + indece_usuario - 1)
-                # print('2linha nova: ', linha_vazia_anterior)
                 endereco = f"D{linha_vazia_anterior}"
                 # print(endereco)
                 return endereco
 
-            linha_vazia_anterior += intervalo_de_busca
+            except ValueError:
+                i = len(values)
+                # print(i)
+                if i < intervalo_de_busca + 1:
+                    linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
+                    # print('linha encontrada: ', linha_vazia_anterior)
+                    endereco = f"D{linha_vazia_anterior}"
+                    # print(endereco)
+                    return endereco
 
-            # try:
-            #     i = values.index("")
-            #     # print('i', i)
-            #     linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-            #     # print('linha encontrada: ', linha_vazia_anterior)
-            #     endereco = f"D{linha_vazia_anterior}"
-            #     # print(endereco)
-            #     return endereco
-            #
-            # except ValueError:
-            #     i = len(values)
-            #     # print(i)
-            #     if i < intervalo_de_busca + 1:
-            #         linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
-            #         # print('linha encontrada: ', linha_vazia_anterior)
-            #         endereco = f"D{linha_vazia_anterior}"
-            #         # print(endereco)
-            #         return endereco
-            #
-            #     else:
-            #         linha_vazia_anterior += intervalo_de_busca
+                else:
+                    linha_vazia_anterior += intervalo_de_busca
 
         except Exception as e:
             print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
             tem_internet()
             cred = credencial()
             service = build('sheets', 'v4', credentials=cred)
+
+
+# def primeira_celula_vazia(guia):
+#     """
+#     Encontra a primeira célula vazia em uma coluna específica da planilha.
+#
+#     Parameters:
+#     - guia (str): O nome da guia na planilha.
+#
+#     Returns:
+#     - str: O endereço da primeira célula vazia no formato 'D{n}', onde n é o número da linha.
+#     """
+#     global linha_vazia_anterior
+#     global intervalo_de_busca
+#     global guia_antiga
+#     print('primeira celula vazia')
+#     global cred
+#     global service
+#
+#     # Verifica se a guia foi alterada
+#     if guia_antiga != guia:
+#         guia_antiga = guia
+#         linha_vazia_anterior = 2
+#
+#     # Chama a API Sheets
+#     sheet = service.spreadsheets()
+#
+#     while True:
+#         print('linha vazia: ', linha_vazia_anterior)
+#         try:
+#             # Obtém os valores do intervalo
+#             result = sheet.values().get(
+#                 spreadsheetId=planilha_id,
+#                 range=f"{guia}!D{linha_vazia_anterior}:D{linha_vazia_anterior + intervalo_de_busca}",
+#                 majorDimension="COLUMNS",
+#                 valueRenderOption="UNFORMATTED_VALUE"
+#             ).execute()
+#             values = result.get('values', [[]])[0]
+#
+#             # print(values)
+#
+#             indices_vazio = encontrar_indices_vazios(values, indece_usuario)
+#             # print('indices_vazio', indices_vazio)
+#
+#             if indices_vazio:
+#                 # print('linha encontrada: ', linha_vazia_anterior)
+#                 linha_vazia_anterior += indices_vazio
+#                 # print('linha nova: ', linha_vazia_anterior)
+#                 endereco = f"D{linha_vazia_anterior}"
+#                 # print("endereco", endereco)
+#                 return endereco
+#
+#             tamanho_lista = len(values)
+#             # print('tamanho_lista', tamanho_lista)
+#
+#             if tamanho_lista < intervalo_de_busca + 1:
+#                 # print('2linha encontrada: ', linha_vazia_anterior)
+#                 linha_vazia_anterior += (tamanho_lista + indece_usuario - 1)
+#                 # print('2linha nova: ', linha_vazia_anterior)
+#                 endereco = f"D{linha_vazia_anterior}"
+#                 # print(endereco)
+#                 return endereco
+#
+#             linha_vazia_anterior += intervalo_de_busca
+#
+#             # try:
+#             #     i = values.index("")
+#             #     # print('i', i)
+#             #     linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
+#             #     # print('linha encontrada: ', linha_vazia_anterior)
+#             #     endereco = f"D{linha_vazia_anterior}"
+#             #     # print(endereco)
+#             #     return endereco
+#             #
+#             # except ValueError:
+#             #     i = len(values)
+#             #     # print(i)
+#             #     if i < intervalo_de_busca + 1:
+#             #         linha_vazia_anterior += i  # Atualiza a variável global com a próxima linha vazia
+#             #         # print('linha encontrada: ', linha_vazia_anterior)
+#             #         endereco = f"D{linha_vazia_anterior}"
+#             #         # print(endereco)
+#             #         return endereco
+#             #
+#             #     else:
+#             #         linha_vazia_anterior += intervalo_de_busca
+#
+#         except Exception as e:
+#             print(Fore.RED + f"primeira_celula_vazia Ocorreu um erro ao obter o valor da célula. Erro: {e}" + Fore.RESET)
+#             tem_internet()
+#             cred = credencial()
+#             service = build('sheets', 'v4', credentials=cred)
 
 
 def encontrar_indices_vazios(lista, indece):
