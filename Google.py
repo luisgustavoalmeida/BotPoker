@@ -257,30 +257,30 @@ def primeira_celula_vazia(guia):
             ).execute()
             values = result.get('values', [[]])[0]
 
-            print(values)
+            # print(values)
 
             teste_indece, indices_vazio = encontrar_indices_vazios(values, indece_usuario)
-            print('indices_vazio', indices_vazio)
+            # print('indices_vazio', indices_vazio)
 
             if teste_indece:
-                print('linha encontrada: ', linha_vazia_anterior)
+                # print('linha encontrada: ', linha_vazia_anterior)
                 linha_vazia_anterior += indices_vazio
-                print('linha nova: ', linha_vazia_anterior)
+                # print('linha nova: ', linha_vazia_anterior)
                 endereco = f"D{linha_vazia_anterior}"
                 linha_vazia_anterior += 1
-                print("endereco", endereco)
+                # print("endereco", endereco)
                 return endereco
 
             tamanho_lista = len(values)
-            print('tamanho_lista', tamanho_lista)
+            # print('tamanho_lista', tamanho_lista)
 
             if tamanho_lista <= intervalo_de_busca:
-                print('2linha encontrada: ', linha_vazia_anterior)
+                # print('2linha encontrada: ', linha_vazia_anterior)
                 linha_vazia_anterior += (tamanho_lista + indece_usuario - 1)
-                print('2linha nova: ', linha_vazia_anterior)
+                # print('2linha nova: ', linha_vazia_anterior)
                 endereco = f"D{linha_vazia_anterior}"
                 linha_vazia_anterior += 1
-                print(endereco)
+                # print(endereco)
                 return endereco
 
             linha_vazia_anterior += intervalo_de_busca
