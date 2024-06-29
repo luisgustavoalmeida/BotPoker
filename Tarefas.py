@@ -227,23 +227,13 @@ def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
 
 def recolher_tarefa(x_origem, y_origem):
     posicao_recolher_tarefa_y = (542, 463, 384, 305)
-    print("recolher_tarefa")
-    clique_recolher = []
 
-    if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + 305), (59, 181, 21), tolerance=40):
-        # testa se tem que recolher "verde" apartir da primeira linha
-        print("Tem missão para recolher")
-        for recolher_y in posicao_recolher_tarefa_y:
-            # print(recolher_y)
-            if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + recolher_y), (59, 182, 21), tolerance=40):
-                # testa se tem que recolher "verde"
-                clique_recolher.append(recolher_y)  # adiciona as coordenada de y que deve ser clicadas
+    for i in range(10):
+        print("recolher_tarefa", i)
+        clique_recolher = []
 
-    elif pyautogui.pixelMatchesColor((x_origem + 590), (y_origem + 280), (171, 13, 143), tolerance=40):
-        # testa se tem que recolher tendo missão extra
-        print('missão extra')
-        if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + 384), (59, 182, 21), tolerance=40):
-            # testa se tem que recolher "verde" apartir da segunda linha
+        if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + 305), (59, 181, 21), tolerance=40):
+            # testa se tem que recolher "verde" apartir da primeira linha
             print("Tem missão para recolher")
             for recolher_y in posicao_recolher_tarefa_y:
                 # print(recolher_y)
@@ -251,10 +241,27 @@ def recolher_tarefa(x_origem, y_origem):
                     # testa se tem que recolher "verde"
                     clique_recolher.append(recolher_y)  # adiciona as coordenada de y que deve ser clicadas
 
-    if len(clique_recolher) > 0:
-        for recolhe in clique_recolher:
-            pyautogui.doubleClick(x_origem + 670, y_origem + recolhe)  # clica no recolher
-        time.sleep(1)
+        elif pyautogui.pixelMatchesColor((x_origem + 590), (y_origem + 280), (171, 13, 143), tolerance=40):
+            # testa se tem que recolher tendo missão extra
+            print('Missão extra')
+            if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + 384), (59, 182, 21), tolerance=40):
+                # testa se tem que recolher "verde" apartir da segunda linha
+                print("Tem missão para recolher")
+                for recolher_y in posicao_recolher_tarefa_y:
+                    # print(recolher_y)
+                    if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + recolher_y), (59, 182, 21), tolerance=40):
+                        # testa se tem que recolher "verde"
+                        clique_recolher.append(recolher_y)  # adiciona as coordenada de y que deve ser clicadas
+
+        else:
+            print('Não foi encontrado missão para recolher')
+            return
+
+        if len(clique_recolher) > 0:
+            for recolhe in clique_recolher:
+                pyautogui.doubleClick(x_origem + 670, y_origem + recolhe)  # clica no recolher
+                pyautogui.click(x_origem + 670, y_origem + recolhe)
+            time.sleep(1)
     return
 
 

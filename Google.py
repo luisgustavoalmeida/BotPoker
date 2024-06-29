@@ -27,9 +27,9 @@ else:
         case 'PokerIP':
             indece_usuario = 1
         case 'lgagu':
-            indece_usuario = 3
+            indece_usuario = 2
         case 'Poker':
-            indece_usuario = 5
+            indece_usuario = 3
         case _:
             indece_usuario = 1
 

@@ -146,9 +146,11 @@ def inserir_info_inicial(dado_1=0, dado_2=0, dado_3=0, soma_ip=0, zera_ip=0, ati
                     conn.execute(INSERIR_INFO_INICIAL, (dado_1, dado_2, dado_3, soma_ip, zera_ip, ativo_PC_1, ativo_PC_2, ativo_PC_3))
                     conn.commit()  # Confirma as alterações
                     print(f"Todas as colunas atualizadas com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -182,9 +184,11 @@ def atualizar_contagem_ip(data):
 
                     conn.commit()  # Confirma as alterações
                 print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return  # Retorna caso a atualização seja bem-sucedida
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -222,12 +226,14 @@ def incrementa_contagem_ip():
                                 print(f'A T E N Ç Ã O Computador com nome de usuario errado')
                                 pc = 4
                         conn.commit()  # Confirma as alterações
+
                     dados = visualizar_tabela_banco()
                     if dados:
                         depois_incremetar = int(dados[pc])
                         if depois_incremetar != antes_incremetar:
                             antes_incremetar = depois_incremetar
                             print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                            conn.close()
                             return  # Retorna caso a atualização seja bem-sucedida
                         else:
                             print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
@@ -235,6 +241,7 @@ def incrementa_contagem_ip():
                             time.sleep(5)
                 else:
                     print("Falha ao conectar ao banco de dados")
+                    conn.close()
                     time.sleep(intervalo_entre_tentativas)  # Aguarda antes da próxima tentativa
             except sqlite3.Error as e:
                 print(f"Erro na tentativa {tentativa + 1}: {e}")
@@ -273,9 +280,11 @@ def decrementa_contagem_ip():
 
                     conn.commit()  # Confirma as alterações
                 print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return  # Retorna caso a atualização seja bem-sucedida
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -315,9 +324,11 @@ def indicar_pc_ativo():
                     conn.commit()  # Confirma as alterações
                     pc_ativado = True
                 print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return  # Retorna caso a atualização seja bem-sucedida
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -358,9 +369,11 @@ def indicar_pc_desativo():
                     conn.commit()  # Confirma as alterações
                     pc_ativado = False
                 print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return  # Retorna caso a atualização seja bem-sucedida
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -385,11 +398,14 @@ def verificar_pc_ativo():
                 cursor.execute(TESTA_PC_ATIVO)  # Utilize o comando SQL criado anteriormente
                 resultado = cursor.fetchone()  # Obter o resultado da consulta
                 if resultado[0] == 1:  # Verificar se há PC ativo (valor 1)
+                    conn.close()
                     return True
                 else:
+                    conn.close()
                     return False
         else:
             print("Falha ao conectar ao banco de dados")
+            conn.close()
     except sqlite3.Error as e:
         print(f"Erro ao verificar PC ativo: {e}")
     return False  # Retorna False por padrão caso haja algum erro
@@ -412,6 +428,7 @@ def atualizar_soma_ip():
                 return
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -438,10 +455,13 @@ def zera_contagem_ip_banco():
                     conn.commit()
                     conn.execute(ZERA_CONTAGEM_IP)
                     conn.commit()  # Confirma as alterações
+
                 print(f"Coluna de soma atualizada com sucesso na tentativa {tentativa + 1}!")
+                conn.close()
                 return
             else:
                 print("Falha ao conectar ao banco de dados")
+                conn.close()
         except sqlite3.Error as e:
             print(f"Erro na tentativa {tentativa + 1}: {e}")
             if tentativa < tentativas_maximas - 1:
@@ -469,6 +489,7 @@ def visualizar_tabela_banco():
                         cursor = conn.execute(SELECIONAR_INFO_LINHA_1)
                         primeira_linha = cursor.fetchall()[0]  # obtem a tupla da primeira linha na lista de linhas
                     print(f"\nValores da contagem de IP: {primeira_linha}\n")
+                    conn.close()
                     return primeira_linha  # Retorna a lista de linhas
                 else:
                     print("Falha ao conectar ao banco de dados")

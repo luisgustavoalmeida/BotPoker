@@ -182,14 +182,17 @@ def pega_url():
 # Função para ocultar o elemento especificado pelo XPath
 def ocultar_elemento_xpath():
     global navegador
-    xpath = '//*[@id="facebook"]/body/div[5]/ul/li/div[1]'
-    script = f"""
-    var element = document.evaluate('{xpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    if (element) {{
-        element.style.display = 'none';
-    }}
-    """
-    navegador.execute_script(script)
+    try:
+        xpath = '//*[@id="facebook"]/body/div[5]/ul/li/div[1]'
+        script = f"""
+        var element = document.evaluate('{xpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (element) {{
+            element.style.display = 'none';
+        }}
+        """
+        navegador.execute_script(script)
+    except:
+        print('Falha ao ocultar o elemento xpath, função ocultar_elemento_xpath')
 
 def teste_logado():
     # Remover a mensagem de atualização
