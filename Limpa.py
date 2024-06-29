@@ -226,7 +226,7 @@ def limpa_pequeno(x_origem, y_origem):
                 return "sair da conta"
 
     # o novo banco esta aberto"
-    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 155), (114, 62, 25), tolerance=20):
+    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 195), (124, 77, 27), tolerance=20):
         pyautogui.click(495 + x_origem, 400 + y_origem)
         print("o novo banco esta aberto")
 
@@ -380,8 +380,8 @@ def fecha_tarefa(x_origem, y_origem, jogando=False):  # fecha a lista de tarefas
             return
 
         # o novo banco esta aberto"
-        if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 155), (114, 62, 25), tolerance=20):
-            pyautogui.click(495 + x_origem, 400 + y_origem, button='left')
+        if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 195), (124, 77, 27), tolerance=20):
+            pyautogui.click(495 + x_origem, 400 + y_origem)
             print("o novo banco esta aberto")
 
         time.sleep(0.3)
@@ -409,8 +409,8 @@ def limpa_promocao(x_origem, y_origem):
         print("amigos on line e opiçoes")
 
     # o novo banco esta aberto"
-    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 155), (114, 62, 25), tolerance=20):
-        pyautogui.click(495 + x_origem, 400 + y_origem, button='left')
+    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 195), (124, 77, 27), tolerance=20):
+        pyautogui.click(495 + x_origem, 400 + y_origem)
         print("o novo banco esta aberto")
 
     # Fique milionario jogando

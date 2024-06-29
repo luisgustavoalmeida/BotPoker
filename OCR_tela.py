@@ -779,6 +779,17 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                        'Participe de um GIRE & GANHE/campeonato de eliminacao 2 vezes',
                        'Participe de um GIRE & GANHE/campeonato de eliminacao 3 vezes',
                        'Ganhar um premio em um GIRE & GANHE/torneio de eliminacao',
+                       'Jogue 10 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Jogue 20 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Jogue 40 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Venca 5 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Venca 10 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Venca 20 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Venca 10.000 fichas nas mesas de Royal Holdem',
+                       'Venca 50.000 fichas nas mesas de Royal Holdem',
+                       'Venca 100.000 fichas nas mesas de Royal Holdem',
+                       'Venca 200.000 fichas nas mesas de Royal Holdem',
+                       'Receba Quadra ou qualquer mao superior 1 vez nas mesas de Royal Holdem',
                        'Jogue 10 maos nas mesas OMAHA com blinds acima de 200',
                        'Jogue 20 maos nas mesas OMAHA com blinds acima de 200',
                        'Jogue 40 maos nas mesas OMAHA com blinds acima de 200',
@@ -842,7 +853,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
             texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
             if texto is not None:
                 # Mapear caracteres especiais
-                texto = texto.replace('ç', 'c').replace('í', 'i').replace('ê', 'e').replace('-', ' ').replace('ã', 'a')
+                texto = texto.replace('ç', 'c').replace('í', 'i').replace('ê', 'e').replace('-', ' ').replace('ã', 'a').replace("'", '')
                 texto = texto.replace('\n', ' ').rstrip('.')
                 print(texto)
                 lista_trocar_tarefa.append(texto)
@@ -1585,5 +1596,6 @@ def jogos_totais(x_origem, y_origem):
     return total_jogos
 
 # x_origem, y_origem = Origem_pg.x_y()
+# tarefas_diaris_trocar(x_origem, y_origem)
 # tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)

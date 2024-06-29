@@ -1711,6 +1711,13 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                     print('Fim do horario destinado a tarefas')
                     break
 
+            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+                if valor_fichas_ < 5000:
+                    print('Quantidade de fichas baixa')
+                    break
+
         # parte dedicada as funçoes especificas
         if funcoes in 'slot':
             if slot_mesa_testa_parar(x_origem, y_origem, tarefas_fazer):

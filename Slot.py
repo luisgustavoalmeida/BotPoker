@@ -8,6 +8,7 @@ import IP
 import Limpa
 import Tarefas
 from F5_navegador import atualizar_navegador
+from OCR_tela import valor_fichas
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -210,6 +211,12 @@ def solot_joga_vezes(x_origem, y_origem, joga_vezes):
         # cartas_vezes = True
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_slot(x_origem, y_origem, joga_vezes)
+        valor_fichas_ = valor_fichas(x_origem, y_origem)
+        if valor_fichas_ < 5000:
+            valor_fichas_ = valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                print('Quantidade de fichas baixa')
+                return
 
     return
 

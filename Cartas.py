@@ -8,6 +8,7 @@ import IP
 import Limpa
 import Tarefas
 from F5_navegador import atualizar_navegador
+import OCR_tela
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
@@ -126,6 +127,12 @@ def cartas_premidas_joga_vezes(x_origem, y_origem):
         # cartas_vezes = True
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_cartas_premidas(x_origem, y_origem)
+        valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+        if valor_fichas_ < 5000:
+            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                print('Quantidade de fichas baixa')
+                return
     return
 
 
@@ -288,6 +295,12 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
 
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_cartas_premidas(x_origem, y_origem)
+        valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+        if valor_fichas_ < 5000:
+            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                print('Quantidade de fichas baixa')
+                return
     return
 
 

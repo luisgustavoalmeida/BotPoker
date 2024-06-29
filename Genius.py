@@ -193,6 +193,13 @@ def genius_joga_vezes(x_origem, y_origem):
 
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_genius(x_origem, y_origem)
+        valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+        if valor_fichas_ < 5000:
+            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                print('Quantidade de fichas baixa')
+                return
+
     return
 
 
@@ -346,6 +353,12 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
 
         Limpa.fecha_tarefa(x_origem, y_origem)  # fecha a lista de tarefas diarias
         abre_genius(x_origem, y_origem)
+        valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+        if valor_fichas_ < 5000:
+            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+            if valor_fichas_ < 5000:
+                print('Quantidade de fichas baixa')
+                return
     return
 
 # def genius_joga_vezes_upando(x_origem, y_origem):
