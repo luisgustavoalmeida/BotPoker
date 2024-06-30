@@ -943,10 +943,10 @@ def link_segunda_guia():
         parte_final = link_da_barra_de_endereco.split('Params=')[-1]
         # removendo parte nao exsencial removendo o fim depois do igual
         if "=" in parte_final:
-            parte_final = parte_final.split('=')[0]
+            parte_central = parte_final.split('=')[0]
 
         inicio = "https://apps.facebook.com/pokerbrasil?ref=fb_page&vtype&amfmethod=appLinkFanPageAward&SignedParams="
-        reconstruido = inicio + parte_final
+        reconstruido = inicio + parte_central
         print('Link reconstruido: ', reconstruido)
         return True, reconstruido
     else:
