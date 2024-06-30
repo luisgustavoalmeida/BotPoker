@@ -16,7 +16,7 @@ atrasos_roleta = 1800  # valor fixo de tempo que vai atrazar o inicio do Rs secu
 atrasos_roleta_incremento = 600  # pequeno temo que vai ser agregado ao iniciar as roletas ex 10, 20, 30, 40 minutos
 
 
-def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
+def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
     global tempo_total, tempo_tarefa, tempo_total_ciclo, hora_roleta, minutos_roleta
     print('mudar_guia', config_tempo_roleta)
 
@@ -29,13 +29,13 @@ def mudar_guia(id, guia, config_tempo_roleta='4:00:5'):
                     hora_roleta = int(tempo_separado[0])
                 except ValueError:
                     print("Erro: A hora não é um número válido")
-                    hora_roleta = 4
+                    hora_roleta = 3
 
                 try:
                     minutos_roleta = int(tempo_separado[1])
                 except ValueError:
                     print("Erro: Os minutos não são um número válido")
-                    minutos_roleta = 00
+                    minutos_roleta = 50
 
                 try:
                     tempo_total_ciclo = int(tempo_separado[2])

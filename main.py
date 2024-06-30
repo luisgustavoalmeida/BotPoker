@@ -719,7 +719,7 @@ if id == '':
     identifica_funcao()
     id, senha, fichas_planilha, linha, level_conta = credenciais(guia)
 
-Telegran.monta_mensagem(f'código iniciado com sucesso no modo {str(guia)}.  🚀', True)
+Telegran.monta_mensagem(f'Código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
 dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
 print('dia_da_semana: ', dia_da_semana)
