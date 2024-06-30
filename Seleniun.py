@@ -930,11 +930,21 @@ def link_segunda_guia():
     # Volte para a primeira guia, se necessário
     navegador.switch_to.window(navegador.window_handles[0])
     # Verificar se a URL começa com o padrão desejado
-    padrao_desejado = "https://apps.facebook.com/pokerbrasil?"
-    if link_da_barra_de_endereco.startswith(padrao_desejado):
-        print("A URL começa com o padrão desejado.")
+    padrao_desejado_1 = "https://apps.facebook.com/pokerbrasil?"
+    padrao_desejado_2 = "https://webgame.rallyacespoker.com/index.html?"
+    if link_da_barra_de_endereco.startswith(padrao_desejado_1):
+        print("A URL começa com o padrão desejado 1.")
         print(link_da_barra_de_endereco)
         return True, link_da_barra_de_endereco
+    elif link_da_barra_de_endereco.startswith(padrao_desejado_2):
+        print("A URL começa com o padrão desejado 2.")
+        print(link_da_barra_de_endereco)
+        # Capturando a parte após o último "="
+        parte_final = link_da_barra_de_endereco.split('Params=')[-1]
+        inicio = "https://apps.facebook.com/pokerbrasil?ref=fb_page&vtype&amfmethod=appLinkFanPageAward&SignedParams="
+        reconstruido = inicio + parte_final
+        print('Link reconstruido: ', reconstruido)
+        return True, reconstruido
     else:
         print("link fanpag fora do padrão")
     return False, "link fanpag fora do padrão"
