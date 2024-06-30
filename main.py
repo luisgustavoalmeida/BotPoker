@@ -610,19 +610,19 @@ def identifica_funcao():
         print(e)
         print('Sera usado o pradrao roleta_auto')
         confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '3:55:5'
+        config_tempo_roleta = '3:50:5'
 
     if id_novo == "" and confg_funcao != 'roleta_auto':
         # Se a planilha chegou no final força atualização do fire base para o padrao
         print("Fim das atividades escolhidas manualmente, o programa retornara para o padrão Role'roleta_auto'")
-        novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400', 'confg_secundaria': 'auto'}
+        novos_dados = {'confg_funcao': 'roleta_auto', 'config_tempo_roleta': '3:50:5', 'blind_recolher_auto': '200400', 'confg_secundaria': 'auto'}
         Firebase.atualizar_configuracao_pc(novos_dados)
         confg_funcao = 'roleta_auto'
 
     if confg_funcao == 'roleta_auto':
         guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
         if ((guia == "R2") or (guia == "T1")) and (confg_secundaria != 'auto'):
-            novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:55:5', 'blind_recolher_auto': '200400',
+            novos_dados = {'confg_funcao': confg_secundaria, 'config_tempo_roleta': '3:50:5', 'blind_recolher_auto': '200400',
                            'confg_secundaria': 'auto'}
             Firebase.atualizar_configuracao_pc(novos_dados)
             confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
