@@ -880,7 +880,7 @@ def busca_link():
                 url_imagem = elemento.get_attribute('src')
                 # print(url_imagem)
                 # Verificar se a URL começa com o padrão especificado
-                if url_imagem.startswith("https://external.fjdf"):
+                if url_imagem.startswith("https://external."):
                     print(f"\nURL valida:\n {url_imagem}")
                     # Se encontrar a URL válida, clicar no elemento e sair do loop
                     elemento.click()
