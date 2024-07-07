@@ -12,7 +12,7 @@ fim_dia = 85800  # proximo das 24H - 10 minutos
 hora_roleta = 5
 minutos_roleta = 0
 tempo_total_ciclo = 5
-atrasos_roleta = 1800  # valor fixo de tempo que vai atrazar o inicio do Rs secundarios
+atrasos_roleta = 600  # valor fixo de tempo que vai atrazar o inicio do Rs secundarios
 atrasos_roleta_incremento = 600  # pequeno temo que vai ser agregado ao iniciar as roletas ex 10, 20, 30, 40 minutos
 
 
