@@ -13,7 +13,7 @@ import Tarefas
 import Telegran
 import xp2
 from F5_navegador import atualizar_navegador
-from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa
+from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa, ler_configuracao
 from Requerimentos import nome_computador
 from UparAuto import upar
 from BancoDadosIP import indicar_pc_desativo, indicar_pc_ativo
@@ -1547,6 +1547,8 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
     valor_aposta1 = dicionario_salas[blind_mesa][0]
     valor_aposta2 = dicionario_salas[blind_mesa][1]
     lista_salas = dicionario_salas[blind_mesa][2]
+    indice_atual = None
+    pular_sala = False
 
     print(f'\nLista_salas: {lista_salas}, valores: {valor_aposta1}, {valor_aposta2}\n')
 
@@ -1557,20 +1559,15 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
 
     jogou_uma_vez = False
     humano = False
-    sentou = False
     teste_humano = False
     jogou_uma_vez_mesa_completa = False
     mesa_completa = False
     num_mesa = ''
     cont_jogou = 0
     cont_total_jogadas = 0
-    cont_slot = 0
-    JOGADAS_UPAR = 280
-    SLOT_UPAR = 200
-    LEVEL_UPAR = 7
-    JOGADAS_SLOT_SOMA = 511
-    indice_atual = None
-    pular_sala = False
+
+    LEVEL_SUBIR_LEVEL = 13.0511
+
 
     # 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'
     match funcoes:
@@ -1581,15 +1578,13 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
         case 'upar':
             print('case upar')
             senta_com_maximo = False
-            cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-            xp2.pega_2xp(x_origem, y_origem)
 
         case 'subir_level':
             print('case subir_level')
             senta_com_maximo = False
             xp2.pega_2xp(x_origem, y_origem)
-            LEVEL_UPAR = 19.0511
-            cont_slot = 0
+            cont_total_jogadas = (level_conta - int(level_conta)) * 10000
+            LEVEL_SUBIR_LEVEL = 13.0511
 
         case 'slot':
             print('case slot')
@@ -1642,11 +1637,6 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             break
 
         if reinicia_variaveis:
-            if 'recolher' in funcoes:
-                atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-                indicar_pc_desativo()
-            else:
-                IP.testa_trocar_IP()  # ve se tem que trocar ip
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1658,6 +1648,21 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             cont_limpa_jogando = 45
             time_encher_mesa = time_fazer_jogada = time.perf_counter()
             reinicia_variaveis = False
+
+            if 'recolher' in funcoes:
+                atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
+                indicar_pc_desativo()
+
+                confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = ler_configuracao()
+                if blind_recolher_auto != blind_mesa:
+                    blind_mesa = blind_recolher_auto
+                    valor_aposta1 = dicionario_salas[blind_mesa][0]
+                    valor_aposta2 = dicionario_salas[blind_mesa][1]
+                    lista_salas = dicionario_salas[blind_mesa][2]
+                    indice_atual = None
+                    pular_sala = False
+            else:
+                IP.testa_trocar_IP()  # ve se tem que trocar ip
 
         cont_limpa_jogando += 1
         if cont_limpa_jogando > 10:
@@ -1732,10 +1737,10 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             if tarefa_mesa_testa_parar(x_origem, y_origem, tarefas_fazer):
                 break
 
-        if funcoes in 'upar':
-            if cont_slot < SLOT_UPAR:
-                if gira_niquel(x_origem, y_origem):
-                    cont_slot += 10
+        # if funcoes in 'upar':
+        #     if cont_slot < SLOT_UPAR:
+        #         if gira_niquel(x_origem, y_origem):
+        #             cont_slot += 10
 
         if jogou_uma_vez:
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
@@ -1748,43 +1753,26 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                         print('Jogou uma partida com a mesa completa')
                         break
 
-                if funcoes in ('upar', 'subir_level'):
-                    print(Fore.YELLOW + f"Esta upando a conta. Jogou vezes igua a: {cont_jogou}."
-                                        f"\nSlote vezes: {cont_slot}."
+                if funcoes in ('upar', 'jogar'):
+                    print(Fore.YELLOW + f"Esta {funcoes} a conta. Jogou vezes igua a: {cont_jogou}." + Fore.RESET)
+                    if cont_jogou >= numero_jogadas:
+                        break
+
+                if funcoes in 'subir_level':
+                    print(Fore.YELLOW + f"Esta {funcoes} a conta. Jogou vezes igua a: {cont_jogou}."
                                         f"\n Jogadas total: {cont_total_jogadas}" + Fore.RESET)
                     if cont_jogou % 5 == 0:  # testa se tem que trocar ip a casa 5 jogadas
                         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
                         cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-                        if funcoes in 'subir_level':
-                            xp2.pega_2xp(x_origem, y_origem)
+                        xp2.pega_2xp(x_origem, y_origem)
                         IP.testa_trocar_IP()  # ve se tem que trocar ip
-                        if level_conta >= LEVEL_UPAR:
+                        if level_conta >= LEVEL_SUBIR_LEVEL:
                             level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+                            if level_conta >= LEVEL_SUBIR_LEVEL:
+                                break
 
-                    if level_conta >= LEVEL_UPAR:
-                        if funcoes in 'subir_level':
-                            break
-                        if (cont_total_jogadas >= JOGADAS_UPAR) and (cont_slot >= SLOT_UPAR):
-                            print(Fore.YELLOW + f"Terminou de upoar. "
-                                                f"\nJogou vezes igua a: {cont_jogou}."
-                                                f"\nSlote vezes: {cont_slot}."
-                                                f"\n Jogadas total: {cont_total_jogadas}."
-                                                f"\nJogadas + Slote" + Fore.RESET)
-                            break
-
-                        if (cont_total_jogadas + cont_slot) >= JOGADAS_SLOT_SOMA:
-                            print(Fore.YELLOW + f"Terminou de upoar. "
-                                                f"\nJogou vezes igua a: {cont_jogou}."
-                                                f"\nSlote vezes: {cont_slot}."
-                                                f"\n Jogadas total: {cont_total_jogadas}."
-                                                f"\nJogadas + Slote" + Fore.RESET)
-                            break
                 if funcoes in 'tarefa_mesa':
                     if tarefa_mesa_testa_parar(x_origem, y_origem, tarefas_fazer, abrir=True):
-                        break
-
-                if funcoes in 'jogar':
-                    if cont_jogou >= numero_jogadas:
                         break
 
                 jogou_uma_vez = False
@@ -1937,9 +1925,6 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                             indice_inicial = 0
                             reinicia_variaveis = False
                             pular_sala = False
-                            if funcoes in ('upar', 'joga', 'slot'):
-                                if cont_slot < SLOT_UPAR:
-                                    gira_niquel(x_origem, y_origem)
                             if funcoes in 'slot':
                                 gira_niquel(x_origem, y_origem)
                             break

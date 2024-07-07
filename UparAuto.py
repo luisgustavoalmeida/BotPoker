@@ -7,7 +7,7 @@ from Tarefas import recolher_tarefa_upando
 from Upar import genius_joga_vezes_upando, cartas_premidas_joga_vezes_upando, slot_joga_vezes_upando
 
 
-def upar(x_origem, y_origem, blind_mesa='2550'):
+def upar(x_origem, y_origem, blind_mesa='100200'):
     """
     Função principal para realizar a automação de tarefas de upando em um jogo de poker online.
 
@@ -39,34 +39,39 @@ def upar(x_origem, y_origem, blind_mesa='2550'):
 
         elif 'Jogar 1 mãos em qualquer mesa' in lista_tarefa_upar:
             print("\n\n Jogar 1 mãos em qualquer mesa \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 1, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='upar', numero_jogadas=1)
+            # Mesa.mesa_upar_jogar(x_origem, y_origem, 1, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
         elif 'Jogar 5 mãos em qualquer mesa' in lista_tarefa_upar:
             print("\n\n Jogar 5 mãos em qualquer mesa \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 5, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='upar', numero_jogadas=5)
+            # Mesa.mesa_upar_jogar(x_origem, y_origem, 5, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
         elif 'Jogar 10 mãos em qualquer mesa' in lista_tarefa_upar:
             print("\n\n Jogar 10 mãos em qualquer mesa \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='upar', numero_jogadas=10)
+            # Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
         elif 'Alcançar Nível 3' in lista_tarefa_upar:
             print("\n\n Alcançar Nível 3 \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='upar', numero_jogadas=10)
+            # Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)
 
         elif 'Alcançar Nível 4' in lista_tarefa_upar:
             print("\n\n Alcançar Nível 3 \n\n")
-            Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
+            Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='upar', numero_jogadas=10)
+            # Mesa.mesa_upar_jogar(x_origem, y_origem, 10, False, blind_mesa, False)
             recolher_tarefa_upando(x_origem, y_origem)
             time.sleep(2)
             lista_tarefa_upar = tarefas_diaris_upando(x_origem, y_origem)

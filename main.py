@@ -24,6 +24,7 @@ import Slot
 import Tarefas
 import Telegran
 # from Firebase import ler_configuracao
+from UparAuto import upar
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
@@ -279,17 +280,26 @@ def upar_t1():
 
     conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-    print('Level_conta: ', level_conta)
-    print('Valor_fichas_perfil: ', valor_fichas_perfil)
-    if not HoraT.fim_tempo_tarefa():
-        level_conta, valor_fichas_perfil = Mesa.dia_de_jogar_mesa(x_origem, y_origem, level_conta, valor_fichas_perfil, conta_upada, dia_da_semana,
-                                                                  roleta='roleta_2')
-    level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
-    if HoraT.fim_tempo_tarefa():
-        Limpa.limpa_total(x_origem, y_origem)
-        print('Fim do horario destinado a tarefas')
-        hora_fim_tarefa = True
+    if level_conta < 7:
+        print('Level_conta: ', level_conta)
+        print('Valor_fichas_perfil: ', valor_fichas_perfil)
+        if not HoraT.fim_tempo_tarefa():
+            if (4 >= level_conta) or (not conta_upada):
+                upar(x_origem, y_origem)
+
+        conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
+        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+
+        if not HoraT.fim_tempo_tarefa():
+            if (level_conta < 7) and (valor_fichas_perfil > 5000) and conta_upada:
+                Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='subir_level', )
+
+        level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
+        hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+        if HoraT.fim_tempo_tarefa():
+            Limpa.limpa_total(x_origem, y_origem)
+            print('Fim do horario destinado a tarefas')
+            hora_fim_tarefa = True
     return
 
 
