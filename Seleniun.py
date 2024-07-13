@@ -266,7 +266,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 for _ in range(100):
                     url_atual = pega_url()
                     print(url_atual)
-                    if 'https://www.facebook.com/' == url_atual:
+                    if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
                         navegador.get(url)
                         print('coloca url do jogo')
                         time.sleep(2)
