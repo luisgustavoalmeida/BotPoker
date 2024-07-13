@@ -249,7 +249,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         # print('continua login')
         url_atual = pega_url()
 
-        if (("/login/" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
+        if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')
             try:
                 email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
@@ -262,6 +262,17 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 login_button = navegador.find_element(By.NAME, 'login')
                 login_button.click()
                 print('fez o login. iniciando teste de logado')
+                time.sleep(2)
+                for _ in range(100):
+                    url_atual = pega_url()
+                    print(url_atual)
+                    if 'https://www.facebook.com/' == url_atual:
+                        navegador.get(url)
+                        print('coloca url do jogo')
+                        time.sleep(2)
+                        break
+                    time.sleep(0.05)
+
                 for i in range(20):
 
                     for _ in range(100):
@@ -657,7 +668,9 @@ def abrir_fechar_guia(max_tentativas=5):
                 else:
                     print("O foco está na primeira guia.")
                     # Recarregue a página
-                    navegador.get(url)
+                    # navegador.get(url)
+                    url_sair = 'https://pt-br.facebook.com/'
+                    navegador.get(url_sair)
                     return
 
         except Exception as e:
@@ -678,7 +691,7 @@ def sair_face(url_novo=''):
 
         print("\n   Sair do facebook    \n")
 
-        url_sair = ''
+        url_sair = 'https://pt-br.facebook.com/'
 
         script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDomain() { var cookies = document.cookie.split("; "); for (var c = 0; c < cookies.length; c++) { var d = window.location.hostname.split("."); while (d.length > 0) { var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path='; var p = location.pathname.split('/'); document.cookie = cookieBase + '/'; while (p.length > 0) { document.cookie = cookieBase + p.join('/'); p.pop(); }; d.shift(); } } } deleteAllCookiesFromCurrentDomain(); location.href = '""" + url_sair + """'; })();"""
 
@@ -690,6 +703,8 @@ def sair_face(url_novo=''):
 
             # Exclui todos os cookies
             # navegador.delete_all_cookies()
+            # print('deletar cookes')
+
 
             abrir_fechar_guia()
             print("nova guia ok")
