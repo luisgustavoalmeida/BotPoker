@@ -129,7 +129,7 @@ def carregado_origem():  # navegador
                           "manutenção. Durante esse período, talvez voçê não consiga acessar o jogo. Pedimos desculpas "
                           "por qualquer inconveniente. E obrigado pelo seu apoio e compreensão!\n")
 
-                    if (nome_usuario == "PokerIP") or ((nome_usuario == "lgagu") and (nome_computador == "PC-I7-9700KF")):
+                    if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
                         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                         print('computador principarl vai marcar o IP banido')
                         ip, com_internet = IP.meu_ip()

@@ -774,7 +774,8 @@ def sair_face(url_novo=''):
                 navegador.delete_cookie("xs")
                 navegador.delete_cookie("c_user")
                 IP.tem_internet()
-                navegador.get(url)
+                url_sair = 'https://pt-br.facebook.com/'
+                navegador.get(url_sair)
                 print("testa se tem nao é vc")
 
             except Exception as e:
