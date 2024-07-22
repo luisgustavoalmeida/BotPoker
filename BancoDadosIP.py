@@ -536,4 +536,5 @@ def contagem_ip_banco():
 # indicar_pc_ativo()
 # indicar_pc_desativo()
 # visualizar_tabela_banco()
-# print(verificar_pc_ativo())
+# print(verificar_pc_ativo()
+# incrementa_contagem_ip()
