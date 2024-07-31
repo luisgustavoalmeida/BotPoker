@@ -1,5 +1,6 @@
 import datetime
 import time
+from Horario_atual import horario
 
 from IP import ip_troca_agora
 
@@ -51,18 +52,10 @@ def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
 
     tempo_tarefa = tempo_total - tempo_roletas  # tempo tarefa em segundos # tempo total menos tempo não usado nas roletas
 
-    hora_atual = datetime.datetime.now().time()
+    # hora_atual = datetime.datetime.now().time()
+    hora_atual = horario()
 
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-
-    # while (((tempo_total * 1 - 600) < tempo_atual < tempo_total * 1)
-    #        or ((tempo_total * 2 - 600) < tempo_atual < tempo_total * 2)
-    #        or ((tempo_total * 3 - 600) < tempo_atual < tempo_total * 3)
-    #        or ((tempo_total * 4 - 600) < tempo_atual < tempo_total * 4)):
-    #     print('espera 10 minutoa para organisar a planilha')
-    #     time.sleep(45)
-    #     hora_atual = datetime.datetime.now().time()
-    #     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
     if tempo_atual > fim_dia:
         ip_troca_agora()
@@ -70,7 +63,7 @@ def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
     while tempo_atual > fim_dia:  # se maior que 23:55:00
         print('Espera virar 0h')
         time.sleep(45)
-        hora_atual = datetime.datetime.now().time()
+        hora_atual = horario()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
     if guia in guias:
@@ -115,7 +108,7 @@ def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
 
 def identifica_guia(tempo_atual=0):
     if tempo_atual == 0:
-        hora_atual = datetime.datetime.now().time()
+        hora_atual = horario()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
     print('identifica_guia')
     for j, guia_atual in enumerate(guias):
@@ -155,7 +148,7 @@ def fim_tempo_tarefa():
     if guia_atual != 'T1':
         return True
 
-    hora_atual = datetime.datetime.now().time()
+    hora_atual = horario()
     tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second  # hora atual em segundos
     print("Testa se esta na hora de parar o tarefas, tempo_atual: ", tempo_atual)
 
