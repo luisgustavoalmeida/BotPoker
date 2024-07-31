@@ -791,7 +791,7 @@ def faz_tutorial(x_origem, y_origem):
         time.sleep(1)
 
         if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 173), (34, 0, 109), tolerance=20):
-            for i in range(40):
+            for _ in range(40):
                 print("Recompensa de logim para iniciantes")
                 time.sleep(0.5)
                 if pyautogui.pixelMatchesColor((x_origem + 310), (y_origem + 326), (234, 114, 32), tolerance=30):
