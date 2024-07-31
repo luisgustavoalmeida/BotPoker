@@ -58,7 +58,6 @@ options.add_argument("--mute-audio")  # desativar o áudio
 
 options.add_experimental_option("detach", True)  # para manter o navegador aberto
 
-
 # options.add_argument("--headless")# faz com que o browser não abra durante o processo
 # options.add_argument("--disable-popup-blocking")                            #desabilitar o bloqueio de pop-ups no Chrome. Quando o Selenium abre o navegador, por padrão, o bloqueio de pop-ups é habilitado
 # options.add_experimental_option("excludeSwitches", ["enable-automation"])   # Adicionar uma opção experimental para desabilitar a mensagem "O Chrome está sendo controlado por um software de teste automatizado."
@@ -90,6 +89,7 @@ def cria_nevegador():
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 
+
 def remover_mensagem_atualizacao():
     global navegador
 
@@ -102,6 +102,7 @@ def remover_mensagem_atualizacao():
     });
     """
     navegador.execute_script(script)
+
 
 def finaliza_navegador():
     global navegador
@@ -194,19 +195,20 @@ def ocultar_elemento_xpath():
     except:
         print('Falha ao ocultar o elemento xpath, função ocultar_elemento_xpath')
 
+
 def teste_logado():
     # Remover a mensagem de atualização
     # remover_mensagem_atualizacao()
     ocultar_elemento_xpath()
 
     url_atual = pega_url()
-    if ("/pokerbrasil" in url_atual) or ("/rallyacespoker" in url_atual):
+    if ("/pokerbrasil" in url_atual) or ("/rallyacespoker" in url_atual) or ("/poker_italia" in url_atual):
         print("teste_logado: Esta logado corretamente.")
         entrou = True
         status = 'Carregada'
         return entrou, status
 
-    elif ("/pokerbrasil" not in url_atual) or ("/rallyacespoker" in url_atual):  # se nao esta logado
+    elif ("/pokerbrasil" not in url_atual) or ("/rallyacespoker" not in url_atual) or ("/poker_italia" not in url_atual): # se nao esta logado
         print("teste_logado: Não esta logado!!!")
         # IP.tem_internet()
         entrou, status = fazer_login()
@@ -278,12 +280,24 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     for _ in range(100):
                         url_atual = pega_url()
                         if "/login/" not in url_atual:
+                            print('url com /login/')
                             break
                         time.sleep(0.02)
 
+                        if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
+                            print("senha incorreta")
+                            print('manda sair')
+                            sair_face(url)
+
+                            entrou = False
+                            status = "Senha incorreta"
+                            return entrou, status
+
                     if "/login/" not in url_atual:
 
-                        if ("/pokerbrasil" in url_atual) or ("/rallyacespoker" in url_atual):
+                        print('url: ', url_atual)
+
+                        if '/rallyacespoker' in url_atual or '/pokerbrasil' in url_atual or '/poker_italia' in url_atual:
                             print('URL padrao correta')
                             # https://apps.facebook.com/pokerbrasil?vtype&amfmethod=appLinkFanPageAward&SignedParams=JrLALkSch1wuQxrULK6SWLAcpjTOb9Pmi5QvavvikU0.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjU5ODUifQ&fbclid=IwAR252AFFL560939epg6Ki4tzNtLvgQJiZISVIZXFPjjBpBp5TNLBNX6TFXk
                             time.sleep(1)
@@ -308,7 +322,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
                                         or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
                                     print('Você entrou anteriormente no poker brasil com o facebook')
-                                    pyautogui.click(640, 688,)
+                                    pyautogui.click(640, 688, )
 
                             print("A conta está certa.")
                             entrou = True
@@ -544,7 +558,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             navegador.get(url)
                             time.sleep(5)
 
-                    elif ("/login/?privacy" in url_atual) or ("/device-based/regular/login/?" in url_atual):
+                    elif "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
                         print("senha incorreta")
                         print('manda sair')
                         sair_face(url)
@@ -704,7 +718,6 @@ def sair_face(url_novo=''):
             # Exclui todos os cookies
             # navegador.delete_all_cookies()
             # print('deletar cookes')
-
 
             abrir_fechar_guia()
             print("nova guia ok")
