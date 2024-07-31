@@ -763,11 +763,13 @@ def iniciantes(x_origem, y_origem):
 
 
 def faz_tutorial(x_origem, y_origem):
+    print('Tutorial.')
     for i in range(100):
         print('Tutorial...')
+
         # testa se esta aparecendo o 500 Fichas
-        if pyautogui.pixelMatchesColor((x_origem + 545), (y_origem + 378), (251, 213, 3), tolerance=20):
-            print("500 fichas, clica no OK")
+        if pyautogui.pixelMatchesColor((x_origem + 280), (y_origem + 260), (47, 6, 71), tolerance=20):
+            print("5000 fichas, clica no OK")
             pyautogui.click(x_origem + 550, y_origem + 500)  # clica no ok
             # time.sleep(1)
 
