@@ -839,17 +839,17 @@ while True:
         print(Fore.CYAN + 'Mudando de guia' + Fore.RESET)
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
-        if ((nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP")) or (nome_computador == "PC-I7-9700KF"):
-            encontrado, link = Seleniun.busca_link()
-            if encontrado:
-                escrever_celula(link, 'Dados', 'F2')
-                data_hora_atual = str(datetime.datetime.now())
-                print('escreve a data da atialização: ', data_hora_atual)
-                escrever_celula(data_hora_atual, 'Dados', 'F3')
-                Telegran.monta_mensagem(f'Link fan page feito com sucesso. ', False)
-            else:
-                escrever_celula(link, 'Dados', 'F3')
-                Telegran.monta_mensagem(f'  FALHA LINK FAN PAGE.    A T E N Ç Ã O !!! ', False)
+        # if ((nome_computador == "PC-I5-9400A") and (nome_usuario == "PokerIP")) or (nome_computador == "PC-I7-9700KF"):
+        #     encontrado, link = Seleniun.busca_link()
+        #     if encontrado:
+        #         escrever_celula(link, 'Dados', 'F2')
+        #         data_hora_atual = str(datetime.datetime.now())
+        #         print('escreve a data da atialização: ', data_hora_atual)
+        #         escrever_celula(data_hora_atual, 'Dados', 'F3')
+        #         Telegran.monta_mensagem(f'Link fan page feito com sucesso. ', False)
+        #     else:
+        #         escrever_celula(link, 'Dados', 'F3')
+        #         Telegran.monta_mensagem(f'  FALHA LINK FAN PAGE.    A T E N Ç Ã O !!! ', False)
 
         if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
             url = str(pega_valor_endereco('Dados!F1'))
