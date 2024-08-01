@@ -101,7 +101,7 @@ def limpa_jogando(x_origem, y_origem):
 
     # Fecha promoçoes
     # elif pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 118), (72, 71, 76), tolerance=10):
-    elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (73, 71, 76), tolerance=10):
+    elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 118), (62, 71, 76), tolerance=20):
         pyautogui.click(821 + x_origem, 138 + y_origem)
         print("Promoção padrão, limpa_jogando, clica no fechar")
 
@@ -511,13 +511,14 @@ def limpa_promocao(x_origem, y_origem):
 
     # raliacesses
     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (255, 204, 125), tolerance=19) or
+            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (53, 27, 14), tolerance=19) or
             pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (74, 40, 12), tolerance=19)):  # aneis
-        pyautogui.click(811 + x_origem, 168 + y_origem, button='left')
+        pyautogui.click(811 + x_origem, 168 + y_origem)
         print("aneis")
 
     # Voce Noa Jogou Nehum Jogo De Poker Essasemana
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 225), (13, 17, 41), tolerance=6):
-        pyautogui.click(x_origem + 722, y_origem + 219, button='left')
+        pyautogui.click(x_origem + 722, y_origem + 219)
         print("Voce Noa Jogou Nehum Jogo De Poker Essasemana")
 
     # Gostaria de começar a Liga do Finde?
