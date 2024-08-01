@@ -248,14 +248,18 @@ python
 Copy code
 custom_config = r'--psm 27'
 
-'''
 
-## caminho do tesseract # C:\Program Files\Tesseract-OCR
-## para funcionar corretametne o Tesseract tem que estar instalado a baixo tem links de ajuda
-## https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i?newreg=e845d9256ce84548ab80ff4b5f241429
-## https://github.com/UB-Mannheim/tesseract/wiki
-# https://www.youtube.com/watch?v=Wx3SyNwZtsA&t=751s&ab_channel=HashtagPrograma%C3%A7%C3%A3o
-# tem que coloar o arquivo "por.traineddata" de idioma de protugues no caminho C:\Program Files\Tesseract-OCR\tessdata
+
+caminho do tesseract # C:\Program Files\Tesseract-OCR
+para funcionar corretametne o Tesseract tem que estar instalado a baixo tem links de ajuda
+https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i?newreg=e845d9256ce84548ab80ff4b5f241429
+https://github.com/UB-Mannheim/tesseract/wiki
+https://www.youtube.com/watch?v=Wx3SyNwZtsA&t=751s&ab_channel=HashtagPrograma%C3%A7%C3%A3o
+tem que coloar o arquivo "por.traineddata" de idioma de protugues no caminho C:\Program Files\Tesseract-OCR\tessdata
+https://github.com/tesseract-ocr/tessdata_best
+https://github.com/tesseract-ocr/tessdata
+https://tesseract-ocr.github.io/tessdoc/Data-Files
+'''
 # Caminho para o executável do Tesseract
 caminho_tesseract = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -315,7 +319,7 @@ def OCR_regiao(regiao, config, inveter_cor=True, fator_ampliacao=1, contraste_pr
         if texto.strip():
             # Remove os espaços em branco no início e no final do texto
             texto = texto.strip()
-            # print(texto)
+            print(texto)
             return texto
         else:
             print("Nenhum texto foi detectado.")
@@ -1595,7 +1599,7 @@ def jogos_totais(x_origem, y_origem):
     total_jogos = 0
     return total_jogos
 
-# x_origem, y_origem = Origem_pg.x_y()
+x_origem, y_origem = Origem_pg.x_y()
 # tarefas_diaris_trocar(x_origem, y_origem)
-# tarefas_diaris(x_origem, y_origem)
+tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)

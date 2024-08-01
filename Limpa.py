@@ -287,7 +287,8 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
           or pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 64, 109), tolerance=19)):
         # testa se esta dentro da mesa
 
-        if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (43, 14, 10), tolerance=10):
+        if not pyautogui.pixelMatchesColor((x_origem + 893), (y_origem + 71), (50, 20, 10), tolerance=10):
+            # cor de fundo marrom do lado da setinh apara baixo
             # testa se nao esta limpo a regiao
             print("Desafios do alvo vermelho")
             for _ in range(30):
@@ -605,13 +606,13 @@ def limpa_abre_tarefa(x_origem, y_origem, com_pausa=True):  # abre o tarefas
     print('limpa_abre_tarefa')
     pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
     # testa se a tarefa diaria é de conta sem upar cadeado na cartas premidas
-    if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
-            or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
-        print("Tarefas diarias conta level menor que 4 com cadeado")
-        return False
+    # if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
+    #         or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
+    #     print("Tarefas diarias conta level menor que 4 com cadeado")
+    #     return False
 
-    elif (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (10, 54, 112), tolerance=10)
-          or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (10, 54, 112), tolerance=10)):
+    if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (10, 54, 112), tolerance=10)
+            or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (10, 54, 112), tolerance=10)):
         print("Tarefas diarias conta upada sem o cadeado level maior que 4")
 
         cont_limpa_tarefas = 0
@@ -788,6 +789,7 @@ def faz_tutorial(x_origem, y_origem):
 
         limpa_pequeno(x_origem, y_origem)
         limpa_tarefas(x_origem, y_origem)
+        limpa_promocao(x_origem, y_origem)
 
         time.sleep(1)
 
