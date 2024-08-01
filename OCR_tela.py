@@ -1599,7 +1599,7 @@ def jogos_totais(x_origem, y_origem):
     total_jogos = 0
     return total_jogos
 
-x_origem, y_origem = Origem_pg.x_y()
+# x_origem, y_origem = Origem_pg.x_y()
 # tarefas_diaris_trocar(x_origem, y_origem)
-tarefas_diaris(x_origem, y_origem)
+# tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)
