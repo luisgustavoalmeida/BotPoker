@@ -208,7 +208,7 @@ def teste_logado():
         status = 'Carregada'
         return entrou, status
 
-    elif ("/pokerbrasil" not in url_atual) or ("/rallyacespoker" not in url_atual) or ("/poker_italia" not in url_atual): # se nao esta logado
+    elif ("/pokerbrasil" not in url_atual) or ("/rallyacespoker" not in url_atual) or ("/poker_italia" not in url_atual):  # se nao esta logado
         print("teste_logado: Não esta logado!!!")
         # IP.tem_internet()
         entrou, status = fazer_login()
@@ -264,17 +264,26 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 login_button = navegador.find_element(By.NAME, 'login')
                 login_button.click()
                 print('fez o login. iniciando teste de logado')
-                time.sleep(2)
+                # time.sleep(2)
                 for _ in range(100):
                     url_atual = pega_url()
-                    print(url_atual)
+                    # print(url_atual)
                     if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
                         navegador.get(url)
                         print('coloca url do jogo')
                         time.sleep(2)
                         break
                     time.sleep(0.05)
+                    if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
+                        print("senha incorreta")
+                        print('manda sair')
+                        sair_face(url)
 
+                        entrou = False
+                        status = "Senha incorreta"
+                        return entrou, status
+
+                print('url testa logado ', url_atual)
                 for i in range(20):
 
                     for _ in range(100):
