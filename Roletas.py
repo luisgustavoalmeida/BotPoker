@@ -9,6 +9,8 @@ import Limpa
 import Seleniun
 from OCR_tela import tempo_roleta
 from F5_navegador import atualizar_navegador
+from Horario_atual import horario
+
 
 pyautogui.FAILSAFE = False  # Desabilitar o fail-safe
 pyautogui.PAUSE = 0
@@ -212,7 +214,7 @@ def roletas(x_origem, y_origem):
 
 
 def calcula_hora_que_rodou(tempo):
-    hora_atual = datetime.datetime.now().time()
+    hora_atual = horario().strftime('%H:%M:%S')
     hora_atual_segundos = hora_atual.hour * 3600 + hora_atual.minute * 60 + hora_atual.second
     print(hora_atual_segundos)
 

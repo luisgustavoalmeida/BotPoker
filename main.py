@@ -29,6 +29,7 @@ from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
+from Horario_atual import horario
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 tem_internet()
@@ -219,7 +220,7 @@ def roletas():
     print("Esta fazendo a roleta: ", roleta)
 
     if hora_que_rodou is None:
-        hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+        hora_que_rodou = horario().strftime('%H:%M:%S')
 
     if Limpa.ja_esta_logado(x_origem, y_origem) == "sair da conta":
         return
@@ -295,7 +296,7 @@ def upar_t1():
                 Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='subir_level', )
 
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-        hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+        hora_que_rodou = horario().strftime('%H:%M:%S')
         if HoraT.fim_tempo_tarefa():
             Limpa.limpa_total(x_origem, y_origem)
             print('Fim do horario destinado a tarefas')
@@ -427,7 +428,7 @@ def tarefas():
             if parar_tarefas:
                 break
 
-    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+    hora_que_rodou = horario().strftime('%H:%M:%S')
     return
 
 
@@ -568,7 +569,7 @@ def recolher():
 
     Firebase.confirmacao_comando_resposta('Saindo da conta')
 
-    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+    hora_que_rodou = horario().strftime('%H:%M:%S')
 
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
 
@@ -608,7 +609,7 @@ def recolher_automatico():
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
 
     Limpa.limpa_total(x_origem, y_origem)
-    hora_que_rodou = datetime.datetime.now().strftime('%H:%M:%S')
+    hora_que_rodou = horario().strftime('%H:%M:%S')
 
 
 def identifica_funcao():
