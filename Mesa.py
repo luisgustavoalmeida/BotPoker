@@ -422,18 +422,20 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=5):
         # testa se esta dentro da mesa
 
-        # print("Está dentro da mesa")
+        print("Está dentro da mesa")
 
-        if not (pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10)):
+        if not (pyautogui.pixelMatchesColor(600 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10)): #(11, 159, 220)
             # testa se tem o botao jogar agoar apara seber se ja ta sentado
-            # print('Já está sentado')
+            print('Já está sentado')
             sentou = True
             ficha_suficiente = True
             return sentou, ficha_suficiente
         else:
+            print('NAO está sentado')
             blind_sala = OCR_tela.blind_sala(x_origem, y_origem)
             try:
                 blind = blind.replace("/", "")
+                print('blind',blind)
             except:
                 print('erro blind')
 
