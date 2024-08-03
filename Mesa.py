@@ -804,7 +804,7 @@ def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200):
 
         posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
 
-        if (posicao_10auto is not None) or (posicao_auto10 is None):
+        if (posicao_10auto is not None) or (posicao_auto10 is not None):
             # Verifica se a imagem foi encontrada
             print("Foi encontrado 10 AUTO")
             auto10 = True
@@ -933,7 +933,7 @@ def gira_niquel(x_origem, y_origem):
 
     posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
 
-    if (posicao_10auto is not None) or (posicao_auto10 is None):
+    if (posicao_10auto is not None) or (posicao_auto10 is not None):
         pyautogui.click((x_origem + 233), (y_origem + 660))  # clica no 10auto
         print("foi encontado 10 AUTO")
         gira = True
@@ -955,7 +955,7 @@ def gira_10auto(x_origem, y_origem):
 
     posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
 
-    if (posicao_10auto is not None) or (posicao_auto10 is None):
+    if (posicao_10auto is not None) or (posicao_auto10 is not None):
         print("foi encontado 10 AUTO")
         gira = True
         return gira
