@@ -66,7 +66,7 @@ def limpa_jogando(x_origem, y_origem):
         print("Subiu de nivel")
 
     # Quebou seu recorde
-    elif pyautogui.pixelMatchesColor((x_origem + 639), (y_origem + 266), (255, 136, 29), tolerance=20):
+    elif pyautogui.pixelMatchesColor((x_origem + 639), (y_origem + 270), (255, 138, 32), tolerance=20):
         pyautogui.click(x_origem + 703, y_origem + 170)
         print("Quebou seu recorde")
 
