@@ -98,7 +98,7 @@ def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
                     return guia_atual
         else:
             print('não acabou o tarefa')
-            guia_atual = identifica_guia(tempo_atual)
+            guia_atual = identifica_guia()
             return guia_atual
 
     else:
@@ -106,10 +106,10 @@ def mudar_guia(id, guia, config_tempo_roleta='3:50:5'):
         return guia_atual
 
 
-def identifica_guia(tempo_atual=0):
-    if tempo_atual == 0:
-        hora_atual = horario()
-        tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
+def identifica_guia():
+
+    hora_atual = horario()
+    tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
 
     print('identifica_guia', hora_atual)
     for j, guia_atual in enumerate(guias):
