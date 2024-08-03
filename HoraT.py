@@ -110,7 +110,8 @@ def identifica_guia(tempo_atual=0):
     if tempo_atual == 0:
         hora_atual = horario()
         tempo_atual = (hora_atual.hour * 3600) + (hora_atual.minute * 60) + hora_atual.second
-    print('identifica_guia')
+
+    print('identifica_guia', hora_atual)
     for j, guia_atual in enumerate(guias):
         # print("j", j)
         if j == 0:
