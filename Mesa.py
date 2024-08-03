@@ -808,10 +808,9 @@ def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200):
             # Verifica se a imagem foi encontrada
             print("Foi encontrado 10 AUTO")
             auto10 = True
-            break
+            return aposta, auto10
 
-
-        elif posicao_10auto is None:
+        else:
             # Verifica se a imagem foi encontrada
             print("Não foi encontrado 10 AUTO")
             pyautogui.mouseDown(x_origem + 234, y_origem + 659)  # aperta e segura 10auto
@@ -1584,7 +1583,6 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
     cont_total_jogadas = 0
 
     LEVEL_SUBIR_LEVEL = 13.0511
-
 
     # 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'
     match funcoes:
@@ -2477,9 +2475,6 @@ def levantar_mesa(x_origem, y_origem):
 
 # import Origem_pg
 #
-
-
-
 
 
 # # mesa_sem_humanos(x_origem, y_origem, tolerancia=8)
