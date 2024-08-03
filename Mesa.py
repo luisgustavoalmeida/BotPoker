@@ -21,6 +21,9 @@ from BancoDadosIP import indicar_pc_desativo, indicar_pc_ativo
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
+imagem_10auto = r'Imagens\Niquel\10auto.png'
+imagem_auto10 = r'Imagens\Niquel\auto10.png'
+
 indice_inicial = 0
 
 blinb_rolagem = {'1/2': (534, 478, 2, 4), '2/4': (534, 504, 4, 8), '5/10': (534, 530, 10, 20), '10/20': (534, 556, 20, 40),
@@ -792,18 +795,22 @@ def ajuste_valor_niquel(x_origem, y_origem, ajusta_aposta=200):
 
     for _ in range(20):
         posicao_10auto = None
+        posicao_auto10 = None
         Limpa.aviso_canto_lobby(x_origem, y_origem)  # fecha propaganda
-
         regiao = (207 + x_origem, 652 + y_origem, 58, 13)  # (x, y, largura, altura)
         precisao = 0.9
-        imagem = r'Imagens\Niquel\10auto.png'
-        posicao_10auto = localizar_imagem(imagem, regiao, precisao)
 
-        if posicao_10auto is not None:
+        posicao_10auto = localizar_imagem(imagem_10auto, regiao, precisao)
+
+        posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
+
+        if (posicao_10auto is not None) or (posicao_auto10 is None):
             # Verifica se a imagem foi encontrada
             print("Foi encontrado 10 AUTO")
             auto10 = True
             break
+
+
         elif posicao_10auto is None:
             # Verifica se a imagem foi encontrada
             print("Não foi encontrado 10 AUTO")
@@ -917,11 +924,16 @@ def escolher_sala_por_numero(x_origem, y_origem, num_mesa, blind_mesa, lugares=9
 
 def gira_niquel(x_origem, y_origem):
     posicao_10auto = None
+    posicao_auto10 = None
+
     regiao = (207 + x_origem, 652 + y_origem, 58, 13)  # (x, y, largura, altura)
-    imagem = r'Imagens\Niquel\10auto.png'
     precisao = 0.9
-    posicao_10auto = localizar_imagem(imagem, regiao, precisao)
-    if posicao_10auto is not None:  # Verifica se a imagem foi encontrada
+
+    posicao_10auto = localizar_imagem(imagem_10auto, regiao, precisao)
+
+    posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
+
+    if (posicao_10auto is not None) or (posicao_auto10 is None):
         pyautogui.click((x_origem + 233), (y_origem + 660))  # clica no 10auto
         print("foi encontado 10 AUTO")
         gira = True
@@ -934,11 +946,16 @@ def gira_niquel(x_origem, y_origem):
 
 def gira_10auto(x_origem, y_origem):
     posicao_10auto = None
+    posicao_auto10 = None
+
     regiao = (207 + x_origem, 652 + y_origem, 58, 13)  # (x, y, largura, altura)
-    imagem = r'Imagens\Niquel\10auto.png'
     precisao = 0.9
-    posicao_10auto = localizar_imagem(imagem, regiao, precisao)
-    if posicao_10auto is not None:  # Verifica se a imagem foi encontrada
+
+    posicao_10auto = localizar_imagem(imagem_10auto, regiao, precisao)
+
+    posicao_auto10 = localizar_imagem(imagem_auto10, regiao, precisao)
+
+    if (posicao_10auto is not None) or (posicao_auto10 is None):
         print("foi encontado 10 AUTO")
         gira = True
         return gira
