@@ -1,4 +1,6 @@
 import datetime
+import time
+
 import pytz
 
 # Hora atual no fuso horário local
@@ -21,9 +23,7 @@ print("Hora atual no fuso horário desejado:", hora_sem_fuso)
 
 
 def horario():
-    hora_atual = hora_atual_local.astimezone(pytz.timezone('Europe/Rome'))
-    hora_atual = hora_atual.replace(tzinfo=None)
-    # print(hora_atual)
-    return hora_atual
+    return datetime.datetime.now().astimezone(pytz.timezone('Europe/Rome')).replace(tzinfo=None)
+
 
 
