@@ -603,9 +603,9 @@ def recolher_automatico():
             print(f'Conta perdeu no recolher automático: {valor_fichas}')
             break
 
-        Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
+        # Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
         Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='recolher', blind_mesa=blind_recolher_auto)
-        # valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
+        valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
 
     Limpa.limpa_total(x_origem, y_origem)
