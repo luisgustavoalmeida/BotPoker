@@ -28,4 +28,3 @@ def horario():
     # Remove o fuso horário para exibir apenas a data e hora
     horario_fuso = hora_local.replace(tzinfo=None)
     return horario_fuso
-
