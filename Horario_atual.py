@@ -23,7 +23,9 @@ print("Hora atual no fuso horário desejado:", hora_sem_fuso)
 
 
 def horario():
-    return datetime.datetime.now().astimezone(pytz.timezone('Europe/Rome')).replace(tzinfo=None)
-
-
+    # Obtém a hora atual no fuso horário especificado
+    hora_local = datetime.datetime.now(pytz.timezone('Europe/Rome'))
+    # Remove o fuso horário para exibir apenas a data e hora
+    horario_fuso = hora_local.replace(tzinfo=None)
+    return horario_fuso
 
