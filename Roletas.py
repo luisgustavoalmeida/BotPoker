@@ -214,7 +214,7 @@ def roletas(x_origem, y_origem):
 
 
 def calcula_hora_que_rodou(tempo):
-    hora_atual = horario().strftime('%H:%M:%S')
+    hora_atual = horario()
     hora_atual_segundos = hora_atual.hour * 3600 + hora_atual.minute * 60 + hora_atual.second
     print(hora_atual_segundos)
 
