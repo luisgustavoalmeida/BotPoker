@@ -9,7 +9,7 @@ import numpy
 import pyautogui
 import pytesseract
 from colorama import Fore
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz, process
 
 import IP
 import Origem_pg
@@ -319,7 +319,7 @@ def OCR_regiao(regiao, config, inveter_cor=True, fator_ampliacao=1, contraste_pr
         if texto.strip():
             # Remove os espaços em branco no início e no final do texto
             texto = texto.strip()
-            print(texto)
+            # print(texto)
             return texto
         else:
             print("Nenhum texto foi detectado.")
@@ -1458,6 +1458,74 @@ def aviso_sistema(x_origem, y_origem):
         return False, resposta
 
 
+dic_aviso_sistema = {
+    'Spiacenti, non hai abbastanza fiches per sederti Cambia tavolo oppure compra delle fiches nella sezione shopping. Grazie!': ('Fichas insuficiente', 648, 269),
+    'Spiacenti! Non hai abbastanza fiches!': ('Fichas insuficiente', 648, 269),
+    "Questo posto e' gia' stato occupato, per favore scegline un altro!!": ('Lugar ocupado', 648, 269),
+    'Spiacenti, puoi giocare ala Siot Machine solo dopo esserti seduto.': ('Jogar somente sentado', 648, 269),
+    'Davvero vuoi lasciare questo tavolo?': ('Sair mesa', 410, 415),
+
+    'Desculpe, você não possuí fichas suficientes para sentar. Favor ir a uma sala ou faça uma recarga.': ('Fichas insuficiente', 648, 269),
+    'Desculpe! Não possui fichas suficientes!': ('Fichas insuficiente', 648, 269),
+    'Este lugar já foi ocupado, escolha outro!': ('Lugar ocupado', 648, 269),
+    'Você só pode jogar depois de estar sentado(a).': ('Jogar somente sentado', 648, 269),
+    'Tem certeza de que deseja sair da mesa?': ('Sair mesa', 410, 415),
+    'Você não pode jogar com duas contas ao mesmo tempo!': ('Duas contas', 410, 415),
+    }
+
+
+def mensagem_aviso_do_sistema(x_origem, y_origem):
+    avisodo_sistema_x = 490 + x_origem
+    avisodo_sistema_y = 400 + y_origem
+    cor_aviso_sistema = (209, 211, 213)
+
+    if not pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_aviso_sistema, tolerance=5):
+        # testa se esta aparecendo a emnsagem de aviso do sistema
+        return None
+
+    inveter_cor = False
+    esca_ciza = True
+    fator_ampliacao = 1
+    contraste_pre = 1
+    contraste_pos = 1
+    config = '--psm 3'
+
+    regiao_aviso_sistema = (x_origem + 315, y_origem + 260, x_origem + 655, y_origem + 395)
+    mensagem_aviso_sistema = None
+    mensagem_aviso_sistema = OCR_regiao(regiao_aviso_sistema, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+    print("valor lido pelo aviso do sistema: \n\n", mensagem_aviso_sistema)
+
+    if ('Aviso do sistema' in mensagem_aviso_sistema) or ('Suggerimenti di sistema' in mensagem_aviso_sistema):
+        # testa se a mensagem começa com o padrao esperado
+        print('mensagem padronizada')
+
+        # Dividir a mensagem onde há uma quebra de linha dupla
+        partes = mensagem_aviso_sistema.split('\n\n')
+
+        if len(partes) <= 1:
+            return 'Mensagem não encontada', 648, 269
+
+        # Pegar a mensagem que está depois da quebra de linha dupla
+        mensagem_apos_quebra = partes[1].strip()
+
+        # Remover quebras de linha, espaços em branco no início e no fim, e espaços duplos
+        mensagem = ' '.join(mensagem_apos_quebra.replace('\n', ' ').strip().split())
+
+        # Buscar a chave mais próxima no dicionário
+        chave_mais_proxima, similaridade = process.extractOne(mensagem, dic_aviso_sistema.keys())
+
+        # Verificar a similaridade
+        if chave_mais_proxima and similaridade >= 98:
+            print('similaridade', similaridade)
+            valor = dic_aviso_sistema[chave_mais_proxima]
+        else:
+            valor = ('Mensagem não esperada', 648, 269)
+        print(valor)
+        return valor
+
+    return None
+
+
 def level_conta(x_origem, y_origem):
     """
     Extrai e retorna o nível da conta de uma aplicação gráfica.
@@ -1598,6 +1666,8 @@ def jogos_totais(x_origem, y_origem):
 
     total_jogos = 0
     return total_jogos
+
+
 
 # x_origem, y_origem = Origem_pg.x_y()
 # tarefas_diaris_trocar(x_origem, y_origem)
