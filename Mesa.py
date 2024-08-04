@@ -395,6 +395,215 @@ def clica_seta_sentar(x_origem, y_origem):
     return False
 
 
+def testa_sentado(x_origem, y_origem):
+    """ função que olha a cor do botao jogar agora """
+
+    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=5):
+        dentro_mesa = True
+        if pyautogui.pixelMatchesColor(600 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10):
+            sentado = False
+        else:
+            sentado = True
+    else:
+        dentro_mesa = False
+        sentado = False
+    print(f'Dentro da mesa: {dentro_mesa}. Sentado: {sentado}')
+    return dentro_mesa, sentado
+
+
+# def sentar_mesa_velho(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_celular=False):
+#     print('sentar_mesa')
+#     """
+#     Tenta sentar em uma mesa de poker virtual com base nas coordenadas fornecidas.
+#
+#     Parameters:
+#     - x_origem (int): Coordenada x de origem na tela.
+#     - y_origem (int): Coordenada y de origem na tela.
+#     - senta_com_maximo (bool): Indica se deve tentar sentar com o máximo de fichas.
+#     - blind (str): Valor do blind desejado. Padrão é '2040'.
+#
+#     Returns:
+#     - bool: Retorna True se for bem-sucedido em sentar, False caso contrário.
+#     """
+#
+#     print('sentar_mesa')
+#     sentou = False
+#     ficha_suficiente = True
+#     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 65, 109), tolerance=5):
+#         print('possivel aviso so sistema, roda um limpa jogando')
+#         Limpa.limpa_jogando(x_origem, y_origem)
+#         Limpa.limpa_promocao(x_origem, y_origem)  # time.sleep(0.5)
+#
+#     # testa se esta aparecendo o botao azul "Jogar agora"
+#     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=5):
+#         # testa se esta dentro da mesa
+#
+#         print("Está dentro da mesa")
+#
+#         if not (pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10)):
+#             # testa se tem o botao jogar agoar apara seber se ja ta sentado
+#             # print('Já está sentado')
+#             sentou = True
+#             ficha_suficiente = True
+#             return sentou, ficha_suficiente
+#         else:
+#             blind_sala = OCR_tela.blind_sala(x_origem, y_origem)
+#             try:
+#                 blind = blind.replace("/", "")
+#             except:
+#                 print('erro blind')
+#
+#             if blind == blind_sala:
+#                 print("Sentar mesa: Está na sala certa")
+#             else:
+#                 print("Sentar mesa: Está na sala errada")
+#                 sentou = False
+#                 ficha_suficiente = True
+#                 return sentou, ficha_suficiente
+#
+#             if teste_celular:
+#                 if not mesa_sem_humanos(x_origem, y_origem):
+#                     print('Sai da mesa pq tem humanos')
+#                     sentou = False
+#                     ficha_suficiente = True
+#                     return sentou, ficha_suficiente
+#
+#             for _ in range(9):
+#                 print('Tentando sentar')
+#
+#                 if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
+#                         or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+#                     print('mesa esta limpa')
+#                 else:
+#                     Limpa.fecha_tarefa(x_origem, y_origem)
+#                     Limpa.limpa_jogando(x_origem, y_origem)
+#                     Limpa.limpa_promocao(x_origem, y_origem)
+#
+#                 clica_seta = clica_seta_sentar(x_origem, y_origem)
+#
+#                 if clica_seta:
+#                     posicao_comprar_x = 490 + x_origem
+#                     posicao_comprar_y = 480 + y_origem
+#                     cor_comprar = (30, 140, 206)
+#                     avisodo_sistema_x = 490 + x_origem
+#                     avisodo_sistema_y = 400 + y_origem
+#                     cor_nao_possui_fichas = (209, 211, 213)
+#                     cor_nao_possui_fichas2 = (30, 138, 218)
+#                     compra_ajustada = False
+#
+#                     for _ in range(20):
+#                         # Testa se o botão azul do comprar está visível # testa algumas vezes
+#                         if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, 35):
+#                             print("Tem comprar")
+#                             # testa o tipo de caixa de comprar ficha, testa se a caixa é mais larga, olha uma mao cinsa segurando um dinheiro
+#                             if pyautogui.pixelMatchesColor((x_origem + 313), (y_origem + 445), (55, 57, 62), 20):
+#                                 # print("janela mais alta")
+#                                 if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 407), (255, 255, 255), 10):
+#                                     # testa se a recompra nao esta marcada
+#                                     pyautogui.click((x_origem + 522), (y_origem + 405))  # Marca a re-compra automatica
+#                                 posicao_valor_minimo_x = 324 + x_origem
+#                                 posicao_valor_minimo_y = 354 + y_origem
+#                                 posicao_valor_maximo_x = 659 + x_origem
+#                                 posicao_valor_maximo_y = 354 + y_origem
+#                             else:
+#                                 # print("janela mais baixa")
+#                                 if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 427), (255, 255, 255), 10):
+#                                     # testa se a recompra nao esta marcada
+#                                     pyautogui.click((x_origem + 522), (y_origem + 424))  # Marca a re-compra automatica
+#                                 posicao_valor_minimo_x = 324 + x_origem
+#                                 posicao_valor_minimo_y = 372 + y_origem
+#                                 posicao_valor_maximo_x = 659 + x_origem
+#                                 posicao_valor_maximo_y = 372 + y_origem
+#
+#                             if senta_com_maximo:
+#                                 pyautogui.doubleClick(posicao_valor_maximo_x, posicao_valor_maximo_y)  # clica no ajuste maximo de fichas
+#                                 time.sleep(0.6)
+#
+#                                 for _ in range(500):  # testa algumas vezes
+#
+#                                     if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35):
+#                                         # testa se o botao ta azul
+#                                         compra_ajustada = True
+#                                         break
+#                                     pyautogui.click((x_origem + 290), (y_origem + 363))  # clina no diminuir ate o botao ficar azul
+#
+#                             else:
+#                                 pyautogui.doubleClick(posicao_valor_minimo_x, posicao_valor_minimo_y)  # clica no ajuste minimo de fichas
+#                                 compra_ajustada = True
+#
+#                             if compra_ajustada:
+#
+#                                 for _ in range(15):
+#                                     pyautogui.mouseDown(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
+#                                     print("Clicou no comprar")
+#                                     time.sleep(0.7)
+#                                     pyautogui.mouseUp(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
+#
+#                                     if not (pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35)):
+#                                         break
+#
+#                                 time.sleep(0.5)
+#
+#                                 if pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas, tolerance=5):
+#                                     print('Aviso do sistema')
+#                                     # testa se tem aviso do sistema
+#
+#                                     if pyautogui.pixelMatchesColor((x_origem + 337), (y_origem + 337), (33, 66, 103), tolerance=5):
+#                                         # Desculpex vocês nao possui fichas suficientes para senter. Favor ir a uma sala ou faça uma recarga
+#                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
+#                                         print('Desculpex vocês nao possui fichas suficientes para senter. Favor ir a uma sala ou faça uma recarga')
+#                                         sentou = False
+#                                         ficha_suficiente = False
+#                                         return sentou, ficha_suficiente
+#
+#                                     elif pyautogui.pixelMatchesColor((x_origem + 373), (y_origem + 339), (63, 92, 123), tolerance=5):
+#                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
+#                                         print('Desculpe! Não possui fichas suficientes')
+#                                         sentou = False
+#                                         ficha_suficiente = False
+#                                         return sentou, ficha_suficiente
+#
+#                                     elif pyautogui.pixelMatchesColor((x_origem + 340), (y_origem + 336), (33, 66, 103), tolerance=5):
+#                                         # Você não pode jogar com duas contas ao mesmo tempo
+#                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
+#                                         print('Você não pode jogar com duas contas ao mesmo tempo')
+#                                         sentou = False
+#                                         ficha_suficiente = True
+#                                         return sentou, ficha_suficiente
+#
+#                                     elif pyautogui.pixelMatchesColor((x_origem + 369), (y_origem + 341), (33, 66, 103), tolerance=5):
+#                                         # Este lugar ja foi ocupado
+#                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
+#                                         print("Este lugar ja foi ocupado")
+#                                         sentou = False
+#                                         ficha_suficiente = True
+#                                         break
+#                                     else:
+#                                         pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
+#                                         print('outro amensagem com aviso do sistema')
+#                                         ficha_suficiente = True
+#                                         break
+#
+#                                 else:
+#                                     print('sentar_mesa: Sentou')
+#                                     sentou = True
+#                                     ficha_suficiente = True
+#                                     return sentou, ficha_suficiente
+#
+#                         elif (pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas, tolerance=10)
+#                               or pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas2, tolerance=10)):
+#                             # se assim que clicar na setinha nao ter fichas suficiente
+#                             pyautogui.click((x_origem + 641), (y_origem + 278))  # clica no fechar mensagem de nao tem fichas
+#                             print("Não possui fichas suficiente")
+#                             sentou = False
+#                             ficha_suficiente = False
+#                             return sentou, ficha_suficiente
+#                 else:
+#                     print('Não tem cadeira livre')
+#                     break
+#
+#     print('Não está dentro da mesa')
+#     return sentou, ficha_suficiente
 def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_celular=False):
     print('sentar_mesa')
     """
@@ -410,7 +619,6 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
     - bool: Retorna True se for bem-sucedido em sentar, False caso contrário.
     """
 
-    print('sentar_mesa')
     sentou = False
     ficha_suficiente = True
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (19, 65, 109), tolerance=5):
@@ -418,178 +626,149 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
         Limpa.limpa_jogando(x_origem, y_origem)
         Limpa.limpa_promocao(x_origem, y_origem)  # time.sleep(0.5)
 
+    dentro_mesa, sentado = testa_sentado(x_origem, y_origem)
+
     # testa se esta aparecendo o botao azul "Jogar agora"
-    if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 674), (27, 92, 155), tolerance=5):
-        # testa se esta dentro da mesa
+    if not dentro_mesa:
+        print('Não está dentro da mesa')
+        return sentou, ficha_suficiente
 
-        print("Está dentro da mesa")
+    if sentado:
+        # testa se tem o botao jogar agoar apara seber se ja ta sentado
+        print('Já está sentado')
+        sentou = True
+        ficha_suficiente = True
+        return sentou, ficha_suficiente
 
-        if not (pyautogui.pixelMatchesColor(600 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10)): #(11, 159, 220)
-            # testa se tem o botao jogar agoar apara seber se ja ta sentado
-            print('Já está sentado')
-            sentou = True
+    print('NAO está sentado')
+    blind_sala = OCR_tela.blind_sala(x_origem, y_origem)
+    try:
+        blind = blind.replace("/", "")
+        print('blind', blind)
+    except:
+        print('erro blind')
+
+    if blind == blind_sala:
+        print("Sentar mesa: Está na sala certa")
+    else:
+        print("Sentar mesa: Está na sala errada")
+        sentou = False
+        ficha_suficiente = True
+        return sentou, ficha_suficiente
+
+    if teste_celular:
+        if not mesa_sem_humanos(x_origem, y_origem):
+            print('Sai da mesa pq tem humanos')
+            sentou = False
             ficha_suficiente = True
             return sentou, ficha_suficiente
+
+    for _ in range(9):
+        print('Tentando sentar')
+
+        if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
+                or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
+            print('mesa esta limpa')
         else:
-            print('NAO está sentado')
-            blind_sala = OCR_tela.blind_sala(x_origem, y_origem)
-            try:
-                blind = blind.replace("/", "")
-                print('blind',blind)
-            except:
-                print('erro blind')
+            Limpa.fecha_tarefa(x_origem, y_origem)
+            Limpa.limpa_jogando(x_origem, y_origem)
+            Limpa.limpa_promocao(x_origem, y_origem)
 
-            if blind == blind_sala:
-                print("Sentar mesa: Está na sala certa")
-            else:
-                print("Sentar mesa: Está na sala errada")
-                sentou = False
-                ficha_suficiente = True
-                return sentou, ficha_suficiente
+        clica_seta = clica_seta_sentar(x_origem, y_origem)
 
-            if teste_celular:
-                if not mesa_sem_humanos(x_origem, y_origem):
-                    print('Sai da mesa pq tem humanos')
+        if clica_seta:
+            posicao_comprar_x = 490 + x_origem
+            posicao_comprar_y = 480 + y_origem
+            cor_comprar = (30, 140, 206)
+            compra_ajustada = False
+
+            for _ in range(20):
+                # Testa se o botão azul do comprar está visível # testa algumas vezes
+                if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, 35):
+                    print("Tem comprar")
+                    # testa o tipo de caixa de comprar ficha, testa se a caixa é mais larga, olha uma mao cinsa segurando um dinheiro
+                    if pyautogui.pixelMatchesColor((x_origem + 313), (y_origem + 445), (55, 57, 62), 20):
+                        # print("janela mais alta")
+                        if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 407), (255, 255, 255), 10):
+                            # testa se a recompra nao esta marcada
+                            pyautogui.click((x_origem + 522), (y_origem + 405))  # Marca a re-compra automatica
+                        posicao_valor_minimo_x = 324 + x_origem
+                        posicao_valor_minimo_y = 354 + y_origem
+                        posicao_valor_maximo_x = 659 + x_origem
+                        posicao_valor_maximo_y = 354 + y_origem
+                    else:
+                        # print("janela mais baixa")
+                        if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 427), (255, 255, 255), 10):
+                            # testa se a recompra nao esta marcada
+                            pyautogui.click((x_origem + 522), (y_origem + 424))  # Marca a re-compra automatica
+                        posicao_valor_minimo_x = 324 + x_origem
+                        posicao_valor_minimo_y = 372 + y_origem
+                        posicao_valor_maximo_x = 659 + x_origem
+                        posicao_valor_maximo_y = 372 + y_origem
+
+                    if senta_com_maximo:
+                        pyautogui.doubleClick(posicao_valor_maximo_x, posicao_valor_maximo_y)  # clica no ajuste maximo de fichas
+                        time.sleep(0.6)
+
+                        for _ in range(500):  # testa algumas vezes
+
+                            if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35):
+                                # testa se o botao ta azul
+                                compra_ajustada = True
+                                break
+                            pyautogui.click((x_origem + 290), (y_origem + 363))  # clina no diminuir ate o botao ficar azul
+
+                    else:
+                        pyautogui.doubleClick(posicao_valor_minimo_x, posicao_valor_minimo_y)  # clica no ajuste minimo de fichas
+                        compra_ajustada = True
+
+                    if compra_ajustada:
+
+                        for _ in range(15):
+                            pyautogui.mouseDown(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
+                            print("Clicou no comprar")
+                            time.sleep(0.7)
+                            pyautogui.mouseUp(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
+
+                            if not (pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35)):
+                                break
+
+                        time.sleep(0.5)
+
+                        teste_aviso_sistema = OCR_tela.mensagem_aviso_do_sistema(x_origem, y_origem)
+                        if teste_aviso_sistema:
+                            mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
+                            pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
+                            sentou = False
+                            if 'Fichas insuficiente' in mensagen:
+                                ficha_suficiente = False
+                            else:
+                                ficha_suficiente = True
+
+                            return sentou, ficha_suficiente
+
+                        else:
+                            print('sentar_mesa: Sentou')
+                            sentou = True
+                            ficha_suficiente = True
+                            return sentou, ficha_suficiente
+
+                teste_aviso_sistema = OCR_tela.mensagem_aviso_do_sistema(x_origem, y_origem)
+                if teste_aviso_sistema:
+                    mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
+                    pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
                     sentou = False
-                    ficha_suficiente = True
+                    if 'Fichas insuficiente' in mensagen:
+                        ficha_suficiente = False
+                    else:
+                        ficha_suficiente = True
+
                     return sentou, ficha_suficiente
 
-            for _ in range(9):
-                print('Tentando sentar')
+        else:
+            print('Não tem cadeira livre')
+            break
 
-                if (pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (70, 126, 56), tolerance=10)
-                        or pyautogui.pixelMatchesColor((x_origem + 534), (y_origem + 357), (23, 121, 166), tolerance=10)):
-                    print('mesa esta limpa')
-                else:
-                    Limpa.fecha_tarefa(x_origem, y_origem)
-                    Limpa.limpa_jogando(x_origem, y_origem)
-                    Limpa.limpa_promocao(x_origem, y_origem)
-
-                clica_seta = clica_seta_sentar(x_origem, y_origem)
-
-                if clica_seta:
-                    posicao_comprar_x = 490 + x_origem
-                    posicao_comprar_y = 480 + y_origem
-                    cor_comprar = (30, 140, 206)
-                    avisodo_sistema_x = 490 + x_origem
-                    avisodo_sistema_y = 400 + y_origem
-                    cor_nao_possui_fichas = (209, 211, 213)
-                    cor_nao_possui_fichas2 = (30, 138, 218)
-                    compra_ajustada = False
-
-                    for _ in range(20):
-                        # Testa se o botão azul do comprar está visível # testa algumas vezes
-                        if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, 35):
-                            print("Tem comprar")
-                            # testa o tipo de caixa de comprar ficha, testa se a caixa é mais larga, olha uma mao cinsa segurando um dinheiro
-                            if pyautogui.pixelMatchesColor((x_origem + 313), (y_origem + 445), (55, 57, 62), 20):
-                                # print("janela mais alta")
-                                if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 407), (255, 255, 255), 10):
-                                    # testa se a recompra nao esta marcada
-                                    pyautogui.click((x_origem + 522), (y_origem + 405))  # Marca a re-compra automatica
-                                posicao_valor_minimo_x = 324 + x_origem
-                                posicao_valor_minimo_y = 354 + y_origem
-                                posicao_valor_maximo_x = 659 + x_origem
-                                posicao_valor_maximo_y = 354 + y_origem
-                            else:
-                                # print("janela mais baixa")
-                                if pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 427), (255, 255, 255), 10):
-                                    # testa se a recompra nao esta marcada
-                                    pyautogui.click((x_origem + 522), (y_origem + 424))  # Marca a re-compra automatica
-                                posicao_valor_minimo_x = 324 + x_origem
-                                posicao_valor_minimo_y = 372 + y_origem
-                                posicao_valor_maximo_x = 659 + x_origem
-                                posicao_valor_maximo_y = 372 + y_origem
-
-                            if senta_com_maximo:
-                                pyautogui.doubleClick(posicao_valor_maximo_x, posicao_valor_maximo_y)  # clica no ajuste maximo de fichas
-                                time.sleep(0.6)
-
-                                for _ in range(500):  # testa algumas vezes
-
-                                    if pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35):
-                                        # testa se o botao ta azul
-                                        compra_ajustada = True
-                                        break
-                                    pyautogui.click((x_origem + 290), (y_origem + 363))  # clina no diminuir ate o botao ficar azul
-
-                            else:
-                                pyautogui.doubleClick(posicao_valor_minimo_x, posicao_valor_minimo_y)  # clica no ajuste minimo de fichas
-                                compra_ajustada = True
-
-                            if compra_ajustada:
-
-                                for _ in range(15):
-                                    pyautogui.mouseDown(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
-                                    print("Clicou no comprar")
-                                    time.sleep(0.7)
-                                    pyautogui.mouseUp(posicao_comprar_x, posicao_comprar_y)  # clica no comprar
-
-                                    if not (pyautogui.pixelMatchesColor(posicao_comprar_x, posicao_comprar_y, cor_comprar, tolerance=35)):
-                                        break
-
-                                time.sleep(0.5)
-
-                                if pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas, tolerance=5):
-                                    print('Aviso do sistema')
-                                    # testa se tem aviso do sistema
-
-                                    if pyautogui.pixelMatchesColor((x_origem + 337), (y_origem + 337), (33, 66, 103), tolerance=5):
-                                        # Desculpex vocês nao possui fichas suficientes para senter. Favor ir a uma sala ou faça uma recarga
-                                        pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
-                                        print('Desculpex vocês nao possui fichas suficientes para senter. Favor ir a uma sala ou faça uma recarga')
-                                        sentou = False
-                                        ficha_suficiente = False
-                                        return sentou, ficha_suficiente
-
-                                    elif pyautogui.pixelMatchesColor((x_origem + 373), (y_origem + 339), (63, 92, 123), tolerance=5):
-                                        pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
-                                        print('Desculpe! Não possui fichas suficientes')
-                                        sentou = False
-                                        ficha_suficiente = False
-                                        return sentou, ficha_suficiente
-
-                                    elif pyautogui.pixelMatchesColor((x_origem + 340), (y_origem + 336), (33, 66, 103), tolerance=5):
-                                        # Você não pode jogar com duas contas ao mesmo tempo
-                                        pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
-                                        print('Você não pode jogar com duas contas ao mesmo tempo')
-                                        sentou = False
-                                        ficha_suficiente = False
-                                        return sentou, ficha_suficiente
-
-                                    elif pyautogui.pixelMatchesColor((x_origem + 369), (y_origem + 341), (33, 66, 103), tolerance=5):
-                                        # Este lugar ja foi ocupado
-                                        pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
-                                        print("Este lugar ja foi ocupado")
-                                        sentou = False
-                                        ficha_suficiente = True
-                                        break
-                                    else:
-                                        pyautogui.click((x_origem + 641), (y_origem + 278))  # fecha aviso do sistema
-                                        print('outro amensagem com aviso do sistema')
-                                        ficha_suficiente = True
-                                        break
-
-                                else:
-                                    print('sentar_mesa: Sentou')
-                                    sentou = True
-                                    ficha_suficiente = True
-                                    return sentou, ficha_suficiente
-
-                        elif (pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y, cor_nao_possui_fichas,
-                                                          tolerance=10) or pyautogui.pixelMatchesColor(avisodo_sistema_x, avisodo_sistema_y,
-                                                                                                       cor_nao_possui_fichas2, tolerance=10)):
-                            # se assim que clicar na setinha nao ter fichas suficiente
-                            pyautogui.click((x_origem + 641), (y_origem + 278), button='left')  # clica no fechar mensagem de nao tem fichas
-                            print("Não possui fichas suficiente")
-                            sentou = False
-                            ficha_suficiente = False
-                            return sentou, ficha_suficiente
-                else:
-                    print('Não tem cadeira livre')
-                    break
-
-    print('Não está dentro da mesa')
     return sentou, ficha_suficiente
 
 
@@ -1227,10 +1406,11 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
                 print("Presente de fazer tarefa")
                 pyautogui.click(x_origem + 637, y_origem + 68)
 
-            if pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10):
-                print('Não esta sentado')
-                reinicia_variaveis = True
-                continue
+            # dentro_mesa, sentado = testa_sentado(x_origem, y_origem)
+            # if not sentado:
+            #     print('Não esta sentado')
+            #     reinicia_variaveis = True
+            #     continue
 
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
             if (not sentou) and recolher:
@@ -1705,10 +1885,11 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                 Limpa.limpa_jogando(x_origem, y_origem)
                 Limpa.limpa_promocao(x_origem, y_origem)
 
-            if pyautogui.pixelMatchesColor(495 + x_origem, 627 + y_origem, (15, 160, 220), tolerance=10):
-                print('Não esta sentado')
-                reinicia_variaveis = True
-                continue
+            # dentro_mesa, sentado = testa_sentado(x_origem, y_origem)
+            # if not sentado:
+            #     print('Não esta sentado')
+            #     reinicia_variaveis = True
+            #     continue
 
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
 
