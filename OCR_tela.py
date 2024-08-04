@@ -1464,6 +1464,7 @@ dic_aviso_sistema = {
     "Questo posto e' gia' stato occupato, per favore scegline un altro!!": ('Lugar ocupado', 648, 269),
     'Spiacenti, puoi giocare ala Siot Machine solo dopo esserti seduto.': ('Jogar somente sentado', 648, 269),
     'Davvero vuoi lasciare questo tavolo?': ('Sair mesa', 410, 415),
+    "Hai effettuato raccesso su ur'altra pagina, questa connessione verra' terminata!": ('Logado outra pagina', 648, 269),
 
     'Desculpe, você não possuí fichas suficientes para sentar. Favor ir a uma sala ou faça uma recarga.': ('Fichas insuficiente', 648, 269),
     'Desculpe! Não possui fichas suficientes!': ('Fichas insuficiente', 648, 269),
@@ -1471,6 +1472,7 @@ dic_aviso_sistema = {
     'Você só pode jogar depois de estar sentado(a).': ('Jogar somente sentado', 648, 269),
     'Tem certeza de que deseja sair da mesa?': ('Sair mesa', 410, 415),
     'Você não pode jogar com duas contas ao mesmo tempo!': ('Duas contas', 410, 415),
+    'Você já está logado no jogo em outra página, esta sessão foi cancelada!': ('Logado outra pagina', 648, 269)
     }
 
 
@@ -1666,7 +1668,6 @@ def jogos_totais(x_origem, y_origem):
 
     total_jogos = 0
     return total_jogos
-
 
 
 # x_origem, y_origem = Origem_pg.x_y()

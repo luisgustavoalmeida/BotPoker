@@ -4,7 +4,7 @@ import pyautogui
 
 from F5_navegador import atualizar_navegador
 from IP import tem_internet, f5_quando_internete_ocila
-from OCR_tela import aviso_sistema as ocr_aviso_sistema
+from OCR_tela import aviso_sistema as ocr_aviso_sistema, mensagem_aviso_do_sistema
 from Seleniun import teste_logado
 
 # Desabilitar o fail-safe
@@ -27,18 +27,15 @@ def teste_limpo(x_origem, y_origem):
 
 def ja_esta_logado(x_origem, y_origem):
     print('ja_esta_logado')
-    # testa se tem as cores da caixa de mensagem de aviso do sistema
-
-    resultado_aviso_sistema = ocr_aviso_sistema(x_origem, y_origem)
+    teste_aviso_sistema = mensagem_aviso_do_sistema(x_origem, y_origem)
     # print(resultado_aviso_sistema)
-    aviso_sistema, resposta = resultado_aviso_sistema
-
-    if aviso_sistema:
-        if resposta == "sair da conta":
+    if teste_aviso_sistema:
+        mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
+        # pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
+        if 'Logado outra pagina' in mensagen:
             print("sair da conta")
             return "sair da conta"
-    else:
-        return False
+    return False
 
 
 def limpa_jogando(x_origem, y_origem):
@@ -169,19 +166,6 @@ def limpa_pequeno(x_origem, y_origem):
         pyautogui.click(x_origem + 490, y_origem + 435)  # continuar
         print("Você avançou para broinse II e ganhou 100 fichas")
 
-    # aviso do sistema "tem certesa de que quer sair da mesa?" "vc so pode jogar depois de estar sentado""
-    elif pyautogui.pixelMatchesColor((x_origem + 455), (y_origem + 417), (25, 116, 184), tolerance=19):
-        # aviso do sistema "tem certesa de que quer sair da mesa?"
-        pyautogui.click(641 + x_origem, 278 + y_origem)  # clica no x do aviso do sistema "tem certesa de que quer sair da mesa?"
-        print("aviso do sistema: limpa_pequeno")
-        if pyautogui.pixelMatchesColor((x_origem + 491), (y_origem + 417), (25, 118, 188), tolerance=20):
-            print('tem mensagem com atuializar')
-            aviso_sistema, resposta = ocr_aviso_sistema(x_origem, y_origem)
-            if aviso_sistema:
-                if resposta == "sair da conta":
-                    print("sair da conta")
-                    return "sair da conta"
-
     # clica no Normal
     elif pyautogui.pixelMatchesColor((x_origem + 162), (y_origem + 160), (12, 72, 108), tolerance=15):
         pyautogui.click(x_origem + 164, y_origem + 161)
@@ -224,6 +208,15 @@ def limpa_pequeno(x_origem, y_origem):
             if resposta == "sair da conta":
                 print("sair da conta")
                 return "sair da conta"
+
+    # aviso do sistema
+    teste_aviso_sistema = mensagem_aviso_do_sistema(x_origem, y_origem)
+    if teste_aviso_sistema:
+        mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
+        pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
+        if 'Logado outra pagina' in mensagen:
+            print("sair da conta")
+            return "sair da conta"
 
     # o novo banco esta aberto"
     if pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 195), (124, 77, 27), tolerance=20):
@@ -307,18 +300,25 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
         pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
         time.sleep(0.2)
         pyautogui.click(925 + x_origem, 111 + y_origem)  # Lobby
-        if pyautogui.pixelMatchesColor((x_origem + 455), (y_origem + 417), (25, 116, 184), tolerance=19):
-            # aviso do sistema "tem certesa de que quer sair da mesa?"
-            pyautogui.click(641 + x_origem, 278 + y_origem)  # clica no x do aviso do sistema "tem certesa de que quer sair da mesa?"
-            print("aviso do sistema")
-            time.sleep(0.3)
-            pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
-            time.sleep(0.3)
-            pyautogui.click(925 + x_origem, 204 + y_origem)  # Levantar
-            time.sleep(0.2)
-            pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
-            time.sleep(0.2)
-            pyautogui.click(925 + x_origem, 111 + y_origem)  # Lobby
+
+        # aviso do sistema
+        teste_aviso_sistema = mensagem_aviso_do_sistema(x_origem, y_origem)
+        if teste_aviso_sistema:
+            mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
+            pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
+
+        # if pyautogui.pixelMatchesColor((x_origem + 455), (y_origem + 417), (25, 116, 184), tolerance=19):
+        #     # aviso do sistema "tem certesa de que quer sair da mesa?"
+        #     pyautogui.click(641 + x_origem, 278 + y_origem)  # clica no x do aviso do sistema "tem certesa de que quer sair da mesa?"
+        #     print("aviso do sistema")
+        #     time.sleep(0.3)
+        #     pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
+        #     time.sleep(0.3)
+        #     pyautogui.click(925 + x_origem, 204 + y_origem)  # Levantar
+        #     time.sleep(0.2)
+        #     pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
+        #     time.sleep(0.2)
+        #     pyautogui.click(925 + x_origem, 111 + y_origem)  # Lobby
 
         print("Sai da Mesa")
 

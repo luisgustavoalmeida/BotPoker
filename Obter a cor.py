@@ -8,7 +8,7 @@ import Origem_pg
 x_origem = 8
 y_origem = 228
 
-# x_origem, y_origem = Origem_pg.x_y()
+x_origem, y_origem = Origem_pg.x_y()
 
 # x_origem, y_origem = Origem_pg.x_y_aviso_sistema()
 print(x_origem, y_origem)
