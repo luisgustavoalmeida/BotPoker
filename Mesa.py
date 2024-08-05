@@ -96,13 +96,13 @@ dicionario_salas_br = {
 
 dicionario_salas = {
     '2550': [100, 50, ['1071', '1673', '1674'], 500],
-    '50100': [200, 100, ['1102', '1686', '1687', '1688', '1689'], 1000],
+    '50100': [200, 100, ['1102', '1684', '1685', '1686', '1687', '1688', '1689'], 1000],
     '100200': [400, 200, ['1132', '1701', '1702', '1703', '1704'], 2000],
-    '200400': [800, 400, ['1143', '1144', '1145', '1146', '1147', '1708', '1709', '1710', '1711', '1712', '1713'], 4000],
+    '200400': [800, 400, ['1143', '1144', '1145', '1146', '1147', '1706', '1707', '1708', '1709', '1710', '1711', '1712', '1713'], 4000],
     '5001K': [2000, 1000, ['1165', '1166', '1857', '1858', '1859', '1860'], 10000],
     '1K2K': [4000, 2000, ['1185', '1184', '1732', '1733', '1734'], 20000],
     '2K4K': [8000, 4000, ['1201', '1202', '1743', '1744'], 40000],
-    '5K10K': [20000, 10000, ['1213', '1747', '1748', '1749'], 100000]
+    '5K10K': [20000, 10000, ['1212', '1213', '1747', '1748', '1749'], 100000]
 }
 
 dicionari_PC_cadeira = {
@@ -1776,7 +1776,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
     cont_jogou = 0
     cont_total_jogadas = 0
 
-    LEVEL_SUBIR_LEVEL = 13.0511
+    LEVEL_SUBIR_LEVEL = 4.0040
 
     # 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'
     match funcoes:
@@ -1793,7 +1793,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             senta_com_maximo = False
             xp2.pega_2xp(x_origem, y_origem)
             cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-            LEVEL_SUBIR_LEVEL = 13.0511
+            LEVEL_SUBIR_LEVEL = 4.0040
 
         case 'slot':
             print('case slot')

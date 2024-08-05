@@ -281,7 +281,7 @@ def upar_t1():
 
     conta_upada = Limpa.limpa_abre_tarefa(x_origem, y_origem)  # retorna se a conta ta upada ou nao
     level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
-    if level_conta < 7:
+    if level_conta < 4:
         print('Level_conta: ', level_conta)
         print('Valor_fichas_perfil: ', valor_fichas_perfil)
         if not HoraT.fim_tempo_tarefa():
@@ -292,7 +292,7 @@ def upar_t1():
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)
 
         if not HoraT.fim_tempo_tarefa():
-            if (level_conta < 7) and (valor_fichas_perfil > 5000) and conta_upada:
+            if (level_conta < 4) and (valor_fichas_perfil > 5000) and conta_upada:
                 Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='subir_level', )
 
         level_conta, valor_fichas_perfil = OCR_tela.level_conta(x_origem, y_origem)

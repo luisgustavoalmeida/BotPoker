@@ -605,58 +605,53 @@ def limpa_total_fazendo_tarefa(x_origem, y_origem):
 def limpa_abre_tarefa(x_origem, y_origem, com_pausa=True):  # abre o tarefas
     print('limpa_abre_tarefa')
     pyautogui.click(640 + x_origem, 70 + y_origem)  # clique bobo para passar alguma animação
-    # testa se a tarefa diaria é de conta sem upar cadeado na cartas premidas
-    # if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (245, 218, 96), tolerance=10)
-    #         or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10)):
-    #     print("Tarefas diarias conta level menor que 4 com cadeado")
+
+    # if pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (245, 218, 96), tolerance=10):
+    #     print("Tarefas diarias conta upada com o cadeado level menor que 4")
     #     return False
 
-    if (pyautogui.pixelMatchesColor((x_origem + 750), (y_origem + 38), (10, 54, 112), tolerance=10)
-            or pyautogui.pixelMatchesColor((x_origem + 802), (y_origem + 38), (10, 54, 112), tolerance=10)):
-        print("Tarefas diarias conta upada sem o cadeado level maior que 4")
+    cont_limpa_tarefas = 0
+    for _ in range(20):
+        for _ in range(15):
+            f5_quando_internete_ocila()
+            pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
+            print("Limpa Tarefas diarias")
+            time.sleep(0.5)
+            pyautogui.doubleClick(x_origem + 193, y_origem + 172)  # clica dentro do tarefas diarias
+            limpa_pequeno(x_origem, y_origem)
 
-        cont_limpa_tarefas = 0
-        for _ in range(20):
-            for _ in range(15):
-                f5_quando_internete_ocila()
-                pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
-                print("Limpa Tarefas diarias")
-                time.sleep(0.5)
-                pyautogui.doubleClick(x_origem + 193, y_origem + 172)  # clica dentro do tarefas diarias
-                limpa_pequeno(x_origem, y_origem)
-
-                # testa se tarefa diariaria esta aberta e limpa
+            # testa se tarefa diariaria esta aberta e limpa
+            if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (47, 0, 90), tolerance=5)
+                    and pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5)):
+                print("Tarefas diarias pausa")
+                if com_pausa:
+                    time.sleep(1.5)
                 if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (47, 0, 90), tolerance=5)
                         and pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5)):
-                    print("Tarefas diarias pausa")
-                    if com_pausa:
-                        time.sleep(1.5)
-                    if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 133), (47, 0, 90), tolerance=5)
-                            and pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 117), (72, 71, 76), tolerance=5)):
-                        print("Tarefas diarias limpo conta upada, missoes padroes")
-                        return True
-                # testa se a tarefa diaria é de conta sem upar
-                elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 49, 243), tolerance=5):
-                    pyautogui.click(821 + x_origem, 138 + y_origem)  # clique para fechar
-                    print("Tarefas diarias, missoes iniciais")
-                    return False
+                    print("Tarefas diarias limpo conta upada, missoes padroes")
+                    return True
+            # testa se a tarefa diaria é de conta sem upar
+            elif pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 133), (1, 49, 243), tolerance=5):
+                pyautogui.click(821 + x_origem, 138 + y_origem)  # clique para fechar
+                print("Tarefas diarias, missoes iniciais")
+                return False
 
-            limpa_promocao(x_origem, y_origem)
+        limpa_promocao(x_origem, y_origem)
 
-            cont_limpa_tarefas += 1
-            if cont_limpa_tarefas >= 3:
-                cont_limpa_tarefas = 0
-                # da um F5
-                tem_internet()
-                print("limpa tarefa Da um F5")
-                atualizar_navegador()
-                time.sleep(25)
-                teste_logado()
-                limpa_total(x_origem, y_origem)
+        cont_limpa_tarefas += 1
+        if cont_limpa_tarefas >= 3:
+            cont_limpa_tarefas = 0
+            # da um F5
+            tem_internet()
+            print("limpa tarefa Da um F5")
+            atualizar_navegador()
+            time.sleep(25)
+            teste_logado()
+            limpa_total(x_origem, y_origem)
 
-            time.sleep(1)
-        return False
+        time.sleep(1)
     return False
+
 
 
 def limpa_abre_tarefa2(x_origem, y_origem):
