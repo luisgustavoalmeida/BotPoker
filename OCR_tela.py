@@ -919,7 +919,7 @@ def tarefas_diaris(x_origem, y_origem):
     contraste_pos = 1
 
     # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
+    regiao = (x_origem + 270, y_origem + 264, x_origem + 611, y_origem + 551)
 
     # Clica duas vezes no ícone de tarefas diárias para abrir a janela
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
@@ -936,6 +936,8 @@ def tarefas_diaris(x_origem, y_origem):
 
     # Executa o OCR na região de interesse
     texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+
+    print(texto)
 
     # Verifica se o OCR retornou algum texto
     if texto is not None:
@@ -1009,11 +1011,18 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     dicionario_tarefas_fazer = {
         # caça-níquel da mesa
         'Jogar o caca-niquel da mesa 150 vezes': 30,
+        'Gioca alla Slot machine al tavolo 150 volte': 30,
+        'Gioca alla Slot machine al tavolo 120 volte': 30,
         'Jogar o caca-niquel da mesa 70 vezes': 20,
+        'Gioca alla Slot machine al tavolo 70 volte': 20,
         'Jogar o caca-niquel da mesa 10 vezes': 10,
+        'Gioca alla Slot machine al tavolo 10 volte': 10,
         'Ganhar 100.000 fichas no caca niquel da mesa': 30,
+        'Vinci 100.000 fiches alla Slot machine al tavolo': 30,
         'Ganhar 30.000 fichas no caca niquel da mesa': 20,
+        'Vinci 10.000 fiches alla Slot machine al tavolo': 20,
         'Ganhar 10.000 fichas no caca niquel da mesa': 10,
+        'Vinci 2000 fiches alla Slot machine al tavolo': 10,
         # Casino Genius
         'Jogar no Casino Genius Pro 100 vezes': 30,
         'Jogar no Casino Genius Pro 50 vezes': 20,
@@ -1030,11 +1039,17 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Ganhar 4.000 fichas nas Cartas Premiadas': 10,
         # Poker Slot
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes': 30,
+        "Scommetti 20 o piu' su 9 linee della Poker Slot per 150 volte": 30,
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes': 20,
+        "Scommetti 20 o piu' su 9 linee della Poker Slot per 70 volte": 20,
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10,
+        "Scommetti 20 o piu' su 9 linee della Poker Slot per 10 volte": 10,
         'Ganhar 100.000 fichas no caca niquel Slot Poker': 30,
+        'Vinci 100.000 fiches alla Poker Slot': 30,
         'Ganhar 30.000 fichas no caca niquel Slot Poker': 20,
+        'Vinci 30.000 fiches alla Poker Slot': 20,
         'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
+        'Vinci 10.000 fiches alla Poker Slot': 10,
         # Tarefa de mesa
         'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
         'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
@@ -1670,7 +1685,10 @@ def jogos_totais(x_origem, y_origem):
     return total_jogos
 
 
-# x_origem, y_origem = Origem_pg.x_y()
+x_origem, y_origem = Origem_pg.x_y()
+
+tarefas_diaris(x_origem, y_origem)
+
 # tarefas_diaris_trocar(x_origem, y_origem)
 # tarefas_diaris(x_origem, y_origem)
 # testar_tarefa_feita(x_origem, y_origem)
