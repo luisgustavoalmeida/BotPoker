@@ -608,6 +608,12 @@ def recolher_automatico():
 
         valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
+        try:
+            blind_recolher_auto = Firebase.ler_configuracao()[2]
+            valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
+            print(blind_recolher_auto)
+        except Exception as e:
+            print(e)
 
     Limpa.limpa_total(x_origem, y_origem)
     hora_que_rodou = horario().strftime('%H:%M:%S')

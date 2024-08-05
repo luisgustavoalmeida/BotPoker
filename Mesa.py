@@ -741,6 +741,7 @@ def sentar_mesa(x_origem, y_origem, senta_com_maximo=False, blind='2040', teste_
                             pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
                             sentou = False
                             if 'Fichas insuficiente' in mensagen:
+                                print('\nFichas insuficiente\n')
                                 ficha_suficiente = False
                             else:
                                 ficha_suficiente = True
@@ -1892,6 +1893,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             #     continue
 
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+            print('linha1896', sentou, ficha_suficiente)
 
             if not ficha_suficiente:
                 print('Não tem fichas suficientes')
@@ -2083,11 +2085,21 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                 indicar_pc_desativo()
             for i in range(3):
                 print('indice_inicial', indice_inicial)
+
+                if not ficha_suficiente:
+                    print('Não tem fichas suficientes')
+                    break
+
                 if not indice_inicial:
                     indice_inicial = 0
                 if not indice_atual:
                     indice_atual = 0
                 for indice, num_mesa in enumerate(lista_salas):
+
+                    if not ficha_suficiente:
+                        print('Não tem fichas suficientes')
+                        break
+
                     try:
                         if indice_inicial > indice:
                             print('Porcurando o indece / mesa: ', indice, num_mesa)
@@ -2119,6 +2131,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                         else:
                             aposta, auto10 = True, True
                         sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
+                        print('linha2123', sentou, ficha_suficiente)
                         if sentou and aposta and auto10 and ficha_suficiente:
                             if funcoes in 'recolher':
                                 atualizar_estatos_mesa(num_mesa)
@@ -2140,6 +2153,10 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                         else:
                             reinicia_variaveis = True
 
+                        if not ficha_suficiente:
+                            print('Não tem fichas suficientes')
+                            break
+
                     if indice_inicial == indice and indice_inicial != 0:
                         indice_inicial = 0
                         i = 0
@@ -2155,6 +2172,10 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                     break
                 else:
                     reinicia_variaveis = True
+
+            if not ficha_suficiente:
+                print('Não tem fichas suficientes')
+                break
 
             if not sentou:
                 indice_inicial = 0
