@@ -933,7 +933,7 @@ def tarefas_diaris(x_origem, y_origem):
 
     # Clica duas vezes no ícone de tarefas diárias para abrir a janela
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
-    time.sleep(0.2)
+    time.sleep(0.5)
 
     # Testa se tem tarefa extra
     if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
@@ -1071,6 +1071,7 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Vinci 30.000 fiches alla Poker Slot': 20,
         'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
         'Vinci 10.000 fiches alla Poker Slot': 10,
+        'Vinci 4.000 fiches alla Poker Slot': 10,
         'Vinci 2.000 fiches alla Poker Slot': 10,
         # Tarefa de mesa
         'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
@@ -1117,7 +1118,6 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
 
             # Adicionar o item processado à nova lista
             nova_lista_tarefas.append(item)
-    print('\n2\n', lista_tarefas)
 
     tarefa_feita = testar_tarefa_feita(x_origem, y_origem, tarefa_extra)
 
