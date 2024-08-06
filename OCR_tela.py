@@ -1567,33 +1567,34 @@ def mensagem_aviso_do_sistema(x_origem, y_origem):
     mensagem_aviso_sistema = OCR_regiao(regiao_aviso_sistema, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
     print("valor lido pelo aviso do sistema: \n\n", mensagem_aviso_sistema)
 
-    if ('Aviso do sistema' in mensagem_aviso_sistema) or ('Suggerimenti di sistema' in mensagem_aviso_sistema):
-        # testa se a mensagem começa com o padrao esperado
-        print('mensagem padronizada')
+    if mensagem_aviso_sistema is not None:
+        if ('Aviso do sistema' in mensagem_aviso_sistema) or ('Suggerimenti di sistema' in mensagem_aviso_sistema):
+            # testa se a mensagem começa com o padrao esperado
+            print('mensagem padronizada')
 
-        # Dividir a mensagem onde há uma quebra de linha dupla
-        partes = mensagem_aviso_sistema.split('\n\n')
+            # Dividir a mensagem onde há uma quebra de linha dupla
+            partes = mensagem_aviso_sistema.split('\n\n')
 
-        if len(partes) <= 1:
-            return 'Mensagem não encontada', 648, 269
+            if len(partes) <= 1:
+                return 'Mensagem não encontada', 648, 269
 
-        # Pegar a mensagem que está depois da quebra de linha dupla
-        mensagem_apos_quebra = partes[1].strip()
+            # Pegar a mensagem que está depois da quebra de linha dupla
+            mensagem_apos_quebra = partes[1].strip()
 
-        # Remover quebras de linha, espaços em branco no início e no fim, e espaços duplos
-        mensagem = ' '.join(mensagem_apos_quebra.replace('\n', ' ').strip().split())
+            # Remover quebras de linha, espaços em branco no início e no fim, e espaços duplos
+            mensagem = ' '.join(mensagem_apos_quebra.replace('\n', ' ').strip().split())
 
-        # Buscar a chave mais próxima no dicionário
-        chave_mais_proxima, similaridade = process.extractOne(mensagem, dic_aviso_sistema.keys())
+            # Buscar a chave mais próxima no dicionário
+            chave_mais_proxima, similaridade = process.extractOne(mensagem, dic_aviso_sistema.keys())
 
-        # Verificar a similaridade
-        if chave_mais_proxima and similaridade >= 98:
-            print('similaridade', similaridade)
-            valor = dic_aviso_sistema[chave_mais_proxima]
-        else:
-            valor = ('Mensagem não esperada', 648, 269)
-        print(valor)
-        return valor
+            # Verificar a similaridade
+            if chave_mais_proxima and similaridade >= 98:
+                print('similaridade', similaridade)
+                valor = dic_aviso_sistema[chave_mais_proxima]
+            else:
+                valor = ('Mensagem não esperada', 648, 269)
+            print(valor)
+            return valor
 
     return None
 
