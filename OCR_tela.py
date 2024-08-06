@@ -780,19 +780,29 @@ def tarefas_diaris_trocar(x_origem, y_origem):
 
         # Lista de tarefas para trocar
         para_trocar = ['Participe de um GIRE & GANHE/campeonato de eliminacao 1 vezes',
+                       'Partecipa per 1 volta a una GIRA & VINGI/competizione sui tavoli a eliminazione',
                        'Participe de um GIRE & GANHE/campeonato de eliminacao 2 vezes',
+                       'Partecipa per 2 volta a una GIRA & VINGI/competizione sui tavoli a eliminazione',
                        'Participe de um GIRE & GANHE/campeonato de eliminacao 3 vezes',
+                       'Partecipa per 3 volta a una GIRA & VINGI/competizione sui tavoli a eliminazione',
                        'Ganhar um premio em um GIRE & GANHE/torneio de eliminacao',
                        'Jogue 10 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Gioca VIDEO POKER 10 volte',
                        'Jogue 20 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Gioca VIDEO POKER 50 volte',
                        'Jogue 40 maos nas mesas de Royal Holdem com blinds acima de 200',
+                       'Gioca VIDEO POKER 100 volte',
                        'Venca 5 maos nas mesas de Royal Holdem com blinds acima de 200',
                        'Venca 10 maos nas mesas de Royal Holdem com blinds acima de 200',
                        'Venca 20 maos nas mesas de Royal Holdem com blinds acima de 200',
                        'Venca 10.000 fichas nas mesas de Royal Holdem',
+                       'Vinci 10.000 fiches da VIDEO POKER',
                        'Venca 50.000 fichas nas mesas de Royal Holdem',
+                       'Vinci 50.000 fiches da VIDEO POKER',
                        'Venca 100.000 fichas nas mesas de Royal Holdem',
+                       'Vinci 100.000 fiches da VIDEO POKER',
                        'Venca 200.000 fichas nas mesas de Royal Holdem',
+                       'Vinci 200.000 fiches da VIDEO POKER',
                        'Receba Quadra ou qualquer mao superior 1 vez nas mesas de Royal Holdem',
                        'Jogue 10 maos nas mesas OMAHA com blinds acima de 200',
                        'Jogue 20 maos nas mesas OMAHA com blinds acima de 200',
@@ -919,7 +929,7 @@ def tarefas_diaris(x_origem, y_origem):
     contraste_pos = 1
 
     # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 270, y_origem + 264, x_origem + 611, y_origem + 551)
+    regiao = (x_origem + 270, y_origem + 264, x_origem + 594, y_origem + 551)
 
     # Clica duas vezes no ícone de tarefas diárias para abrir a janela
     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
@@ -936,8 +946,6 @@ def tarefas_diaris(x_origem, y_origem):
 
     # Executa o OCR na região de interesse
     texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
-
-    print(texto)
 
     # Verifica se o OCR retornou algum texto
     if texto is not None:
@@ -1015,51 +1023,70 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Gioca alla Slot machine al tavolo 120 volte': 30,
         'Jogar o caca-niquel da mesa 70 vezes': 20,
         'Gioca alla Slot machine al tavolo 70 volte': 20,
+        'Gioca alla Slot machine al tavolo 50 volte': 20,
         'Jogar o caca-niquel da mesa 10 vezes': 10,
         'Gioca alla Slot machine al tavolo 10 volte': 10,
         'Ganhar 100.000 fichas no caca niquel da mesa': 30,
         'Vinci 100.000 fiches alla Slot machine al tavolo': 30,
+        'Vinci 50.000 fiches alla Slot machine al tavolo': 30,
         'Ganhar 30.000 fichas no caca niquel da mesa': 20,
-        'Vinci 10.000 fiches alla Slot machine al tavolo': 20,
+        'Vinci 30.000 fiches alla Slot machine al tavolo': 20,
         'Ganhar 10.000 fichas no caca niquel da mesa': 10,
-        'Vinci 2000 fiches alla Slot machine al tavolo': 10,
+        'Vinci 10.000 fiches alla Slot machine al tavolo': 20,
+        'Vinci 2.000 fiches alla Slot machine al tavolo': 10,
         # Casino Genius
         'Jogar no Casino Genius Pro 100 vezes': 30,
+        'Gioca la Carta Genio del Casino per 100 volte': 30,
         'Jogar no Casino Genius Pro 50 vezes': 20,
+        'Gioca la Carta Genio del Casino per 50 volte': 20,
         'Jogar no Casino Genius Pro 10 vezes': 10,
+        'Gioca la Carta Genio del Casino per 10 volte': 10,
         'Ganhar 100.000 fichas no Casino Genius Pro': 30,
+        'Vinci 100.000 fiches con la Carta Genio del Casino': 30,
         'Ganhar 30.000 fichas no Casino Genius Pro': 20,
+        'Vinci 30.000 fiches con la Carta Genio del Casino': 20,
         'Ganhar 4.000 fichas no Casino Genius Pro': 10,
+        'Vinci 4.000 fiches con la Carta Genio del Casino': 10,
         # Cartas Premiadas
         'Jogar 100 vezes nas Cartas Premiadas': 30,
+        'Gioca la Carta Scommessa per 100 volte': 30,
         'Jogar 50 vezes nas Cartas Premiadas': 20,
+        'Gioca la Carta Scommessa per 50 volte': 20,
         'Jogar 10 vezes nas Cartas Premiadas': 10,
+        'Gioca la Carta Scommessa per 10 volte': 10,
         'Ganhar 100.000 fichas nas Cartas Premiadas': 30,
         'Ganhar 30.000 fichas nas Cartas Premiadas': 20,
         'Ganhar 4.000 fichas nas Cartas Premiadas': 10,
         # Poker Slot
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes': 30,
-        "Scommetti 20 o piu' su 9 linee della Poker Slot per 150 volte": 30,
+        'Scommetti 20 o piu su 9 linee della Poker Slot per 150 volte': 30,
+        'Scommetti 20 o piu su 9 linee della Poker Slot per 120 volte': 30,
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes': 20,
-        "Scommetti 20 o piu' su 9 linee della Poker Slot per 70 volte": 20,
+        'Scommetti 20 o piu su 9 linee della Poker Slot per 70 volte': 20,
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes': 10,
-        "Scommetti 20 o piu' su 9 linee della Poker Slot per 10 volte": 10,
+        'Scommetti 20 o piu su 9 linee della Poker Slot per 10 volte': 10,
         'Ganhar 100.000 fichas no caca niquel Slot Poker': 30,
         'Vinci 100.000 fiches alla Poker Slot': 30,
         'Ganhar 30.000 fichas no caca niquel Slot Poker': 20,
         'Vinci 30.000 fiches alla Poker Slot': 20,
         'Ganhar 10.000 fichas no caca niquel Slot Poker': 10,
         'Vinci 10.000 fiches alla Poker Slot': 10,
+        'Vinci 2.000 fiches alla Poker Slot': 10,
         # Tarefa de mesa
         'Jogar 40 maos em uma mesa com blinds acima de 100': 30,
+        'Gioca 40 mani su un tavolo con bui maggiori di 100': 30,
         'Jogar 40 maos em uma mesa com blinds acima de 50': 30,
-        'Jogar 40 maos em uma mesa com blinds acima de': 30,
+        'Gioca 40 mani su un tavolo con bui maggiori di 50': 30,
         'Jogar 20 maos em uma mesa com blinds acima de 100': 20,
+        'Gioca 20 mani su un tavolo con bui maggiori di 100': 20,
         'Jogar 20 maos em uma mesa com blinds acima de 50': 20,
+        'Gioca 20 mani su un tavolo con bui maggiori di 50': 20,
         'Jogar 20 maos em uma mesa com blinds acima de 25': 20,
-        'Jogar 20 maos em uma mesa com blinds acima de': 20,
+        'Gioca 20 mani su un tavolo con bui maggiori di 25': 20,
         'Jogar 10 maos em qualquer mesa': 10,
+        'Gioca 10 mani su un tavolo qualsiasi': 10,
         'Jogar 5 maos em qualquer mesa': 10,
+        'Gioca 5 mani su un tavolo qualsiasi': 10,
     }
 
     # Substituir caracteres especiais
@@ -1067,28 +1094,56 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     texto = re.sub(r'ç', 'c', texto)
     texto = re.sub(r'í', 'i', texto)
     texto = re.sub(r'ã', 'a', texto)
-    texto = re.sub(r'\.\n', '\n', texto)
+    texto = re.sub(r'ô', 'o', texto)
+    texto = re.sub(r"'", '', texto)
+    texto = re.sub(r'\.\n', '\n\n', texto)
+    texto = re.sub(r'\|\n', '\n\n', texto)
+    texto = re.sub(r'(?<!\n)\n(?!\n)', ' ', texto)  # Substituir apenas quebras de linha simples
     texto = re.sub(r'caca\n\nniquel', 'caca niquel', texto)
     texto = re.sub(r'caca\nniquel', 'caca niquel', texto)
 
     # Dividir o texto em linhas
-    lista_tarefas = texto.split('\n')
-    # print('1', lista_tarefas)
-    # Remover caracteres indesejados e formar a lista final
-    lista_tarefas = [re.sub(r'\s+', ' ', item.replace('\n', ' ').strip()) for item in lista_tarefas if len(item) > 29]
-    # print('2', lista_tarefas)
+    lista_tarefas = texto.split('\n\n')
+
+    nova_lista_tarefas = []
+
+    for item in lista_tarefas:
+        if len(item) > 29:
+            # Remover espaços em branco no início e no final
+            item = item.strip()
+
+            # Substituir sequências de espaços em branco por um único espaço
+            item = re.sub(r'\s+', ' ', item)
+
+            # Adicionar o item processado à nova lista
+            nova_lista_tarefas.append(item)
+    print('\n2\n', lista_tarefas)
+
     tarefa_feita = testar_tarefa_feita(x_origem, y_origem, tarefa_extra)
 
     # remove a tarefas feitas da lista
-    lista_tarefas = lista_tarefas[:tarefa_feita]
+    lista_tarefas_feitas_removidas = nova_lista_tarefas[:tarefa_feita]
 
-    # Filtrar linhas relevantes usando um dicionário ou condição específica
-    lista_tarefas = '\n'.join([linha for linha in lista_tarefas if linha.strip() in dicionario_tarefas_fazer.keys() or linha.strip() == ''])
+    # Lista para armazenar as linhas filtradas
+    linhas_filtradas = []
 
-    # Extrair itens de texto formatado
-    lista_tarefas = lista_tarefas.split('\n')
+    # Iterar sobre cada linha em 'lista_tarefas_feitas_removidas'
+    for linha in lista_tarefas_feitas_removidas:
 
-    return lista_tarefas
+        # # Verificar se a linha está no dicionário de tarefas a fazer
+        # if linha in dicionario_tarefas_fazer.keys():
+        #     # Se a condição for verdadeira, adicionar a linha filtrada à lista
+        #     linhas_filtradas.append(linha)
+
+        # Buscar a chave mais próxima no dicionário
+        chave_mais_proxima, similaridade = process.extractOne(linha, dicionario_tarefas_fazer.keys())
+
+        # Verificar a similaridade
+        if chave_mais_proxima and similaridade >= 98:
+            print(f'similaridade: , {similaridade}, Referencia: {chave_mais_proxima}, Encontrado: {linha}')
+            linhas_filtradas.append(chave_mais_proxima)
+
+    return linhas_filtradas
 
 
 def remover_caracteres_especiais(texto):
@@ -1684,10 +1739,11 @@ def jogos_totais(x_origem, y_origem):
     total_jogos = 0
     return total_jogos
 
-
+# x_origem, y_origem = 8, 228
 # x_origem, y_origem = Origem_pg.x_y()
 #
 # tarefas_diaris(x_origem, y_origem)
+# tarefas_diaris_trocar(x_origem, y_origem)
 
 # tarefas_diaris_trocar(x_origem, y_origem)
 # tarefas_diaris(x_origem, y_origem)

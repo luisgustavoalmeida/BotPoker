@@ -2,20 +2,50 @@ import time
 
 import pyautogui
 
-import Origem_pg
+# Define o nome do arquivo da imagem a ser buscada
+origem = r'Imagens\Origem.png'
+
+# Define a região da tela onde a imagem será buscada
+regiao_busca = (0, 210, 120, 290)  # (x, y, largura, altura)
+precisao_origem = 0.997
+
+
+def localizar_imagem(imagem, regiao, precisao):
+    try:
+        posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
+        return posicao
+    except:
+        print("Ocorreu um erro ao localizar a imagem")
+        time.sleep(2)
+        return None
+
+
+def x_y():  # apenas para testes
+    while True:
+        posicao = None
+        print("Procurando coodenada 0 x 0...")
+        for i in range(50):
+            posicao = localizar_imagem(origem, regiao_busca, precisao_origem)
+            if posicao is not None:  # Verifica se a imagem foi encontrada
+                x_origem, y_origem = posicao.left, posicao.top
+                x_origem = int(x_origem)
+                y_origem = int(y_origem)
+                print("x_origem: ", x_origem)
+                print("y_origem: ", y_origem)
+
+                return x_origem, y_origem
+
 
 # Exemplo de uso
 x_origem = 8
 y_origem = 228
 
-x_origem, y_origem = Origem_pg.x_y()
+x_origem, y_origem = x_y()
 
-# x_origem, y_origem = Origem_pg.x_y_aviso_sistema()
 print(x_origem, y_origem)
-# x_origem, y_origem = 0, 0
-# pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 580), (47, 136, 196), tolerance=19)
 
-a, b = 490, 400
+
+a, b = 802, 38
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -23,11 +53,11 @@ y = (y_origem + b)
 tolerancia = 0
 pyautogui.moveTo(x, y)
 cores_contagem = {}
-for i in range(100):
+for i in range(255):
     cor = pyautogui.pixel(x, y)
     print(f"A cor RGB do pixel em ({x}, {y}) é {cor}")
 
-    if pyautogui.pixelMatchesColor(x, y, (15, 160, 220), tolerance=tolerancia):
+    if pyautogui.pixelMatchesColor(x, y, (240, 213, 90), tolerance=tolerancia):
         print('tem a cor, tolerancia :', tolerancia)
 
     tolerancia += 1
@@ -39,7 +69,7 @@ for i in range(100):
         cores_contagem[cor] = 1
 
     # Aguarde por um curto período de tempo antes de verificar o próximo pixel
-    time.sleep(0.1)
+    # time.sleep(0.1)
 
 # Encontre a cor que mais ocorreu
 cor_mais_comum = max(cores_contagem, key=cores_contagem.get)
@@ -56,10 +86,4 @@ print(f"A cor menos comum foi: {cor_menos_comum} com {ocorrencias_menos_comum} o
 melhor_tolerancia = None
 max_ocorrencias = 0
 
-# cor do avata masculino
-# (255, 193, 161)
-# (128, 97, 81)
 
-# cor do avata feminino
-# (128, 110, 93)
-# (255, 220, 185)
