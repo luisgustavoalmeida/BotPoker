@@ -1776,7 +1776,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
     cont_jogou = 0
     cont_total_jogadas = 0
 
-    LEVEL_SUBIR_LEVEL = 4.0040
+    LEVEL_SUBIR_LEVEL = 10.0111
 
     # 'upar', 'recolher', 'subir_level', 'jogar', 'slot', 'tarefa_mesa'
     match funcoes:
@@ -1793,7 +1793,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             senta_com_maximo = False
             xp2.pega_2xp(x_origem, y_origem)
             cont_total_jogadas = (level_conta - int(level_conta)) * 10000
-            LEVEL_SUBIR_LEVEL = 4.0040
+            LEVEL_SUBIR_LEVEL = 10.0111
 
         case 'slot':
             print('case slot')
