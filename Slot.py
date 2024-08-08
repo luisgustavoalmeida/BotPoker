@@ -149,12 +149,22 @@ def ajustar_valor(x_origem, y_origem, joga_vezes):
 def solot_joga_vezes(x_origem, y_origem, joga_vezes):
     if joga_vezes:
         tarefas_fazer = ('Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes',
+                         'Scommetti 20 o piu su 9 linee della Poker Slot per 150 volte',
+                         'Scommetti 20 o piu su 9 linee della Poker Slot per 120 volte',
                          'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 70 vezes',
-                         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes')
+                         'Scommetti 20 o piu su 9 linee della Poker Slot per 70 volte',
+                         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 10 vezes',
+                         'Scommetti 20 o piu su 9 linee della Poker Slot per 10 volte')
+
     else:
         tarefas_fazer = ('Ganhar 100.000 fichas no caca niquel Slot Poker',
+                         'Vinci 100.000 fiches alla Poker Slot',
                          'Ganhar 30.000 fichas no caca niquel Slot Poker',
-                         'Ganhar 10.000 fichas no caca niquel Slot Poker')
+                         'Vinci 30.000 fiches alla Poker Slot',
+                         'Ganhar 10.000 fichas no caca niquel Slot Poker',
+                         'Vinci 10.000 fiches alla Poker Slot',
+                         'Vinci 4.000 fiches alla Poker Slot',
+                         'Vinci 2.000 fiches alla Poker Slot')
 
     continua_jogando = True
 

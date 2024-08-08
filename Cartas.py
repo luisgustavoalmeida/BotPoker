@@ -36,8 +36,11 @@ def abre_cartas_premidas(x_origem, y_origem):
 
 def cartas_premidas_joga_vezes(x_origem, y_origem):
     tarefas_fazer = ('Jogar 100 vezes nas Cartas Premiadas',
+                     'Gioca la Carta Scommessa per 100 volte',
                      'Jogar 50 vezes nas Cartas Premiadas',
-                     'Jogar 10 vezes nas Cartas Premiadas')
+                     'Gioca la Carta Scommessa per 50 volte',
+                     'Jogar 10 vezes nas Cartas Premiadas',
+                     'Gioca la Carta Scommessa per 10 volte')
 
     if Limpa.limpa_total(x_origem, y_origem) == "sair da conta":
         return "sair da conta"
