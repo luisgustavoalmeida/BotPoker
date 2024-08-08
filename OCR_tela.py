@@ -862,7 +862,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
 
             if i == 4:
                 pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
-                time.sleep(0.2)
+                time.sleep(0.5)
 
             texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
             if texto is not None:
@@ -881,10 +881,9 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                 # Ajusta a janela
                 if posicao <= 3:
                     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
-                    time.sleep(0.2)
                 elif posicao > 3:
                     pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
-                    time.sleep(0.2)
+                time.sleep(1)
                 # Clique na setinha correspondente à posiçã
                 if posicao == 0:
                     pyautogui.click(x_origem + 171, y_origem + 283)  # clica na setinha
@@ -895,7 +894,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                 elif posicao == 3 or posicao == 6:
                     pyautogui.click(x_origem + 171, y_origem + 523)  # clica na setinha
 
-                time.sleep(0.3)
+                time.sleep(1)
                 pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
                 time.sleep(0.3)
                 pyautogui.click(x_origem + 545, y_origem + 401)  # clica no ok
