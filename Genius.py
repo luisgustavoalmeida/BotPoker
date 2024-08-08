@@ -126,8 +126,11 @@ def genius_joga_vezes(x_origem, y_origem):
     precisao = 0.9
 
     tarefas_fazer = ('Jogar no Casino Genius Pro 100 vezes',
+                     'Gioca la Carta Genio del Casino per 100 volte',
                      'Jogar no Casino Genius Pro 50 vezes',
-                     'Jogar no Casino Genius Pro 10 vezes')
+                     'Gioca la Carta Genio del Casino per 50 volte',
+                     'Jogar no Casino Genius Pro 10 vezes',
+                     'Gioca la Carta Genio del Casino per 10 volte')
 
     continua_jogando = True
 
@@ -209,8 +212,11 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
     precisao = 0.9
 
     tarefas_fazer = ('Ganhar 100.000 fichas no Casino Genius Pro',
+                     'Vinci 100.000 fiches con la Carta Genio del Casino',
                      'Ganhar 30.000 fichas no Casino Genius Pro',
-                     'Ganhar 4.000 fichas no Casino Genius Pro')
+                     'Vinci 30.000 fiches con la Carta Genio del Casino',
+                     'Ganhar 4.000 fichas no Casino Genius Pro',
+                     'Vinci 4.000 fiches con la Carta Genio del Casino')
 
     continua_jogando = False
 
