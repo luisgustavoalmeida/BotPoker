@@ -331,8 +331,14 @@ def tarefas():
             print("--------------parte 1---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'Jogar o caca-niquel da mesa' in item_tarefa:
+                    missao_encontrada = True
+                elif 'Gioca alla Slot machine al tavolo' in item_tarefa:
+                    missao_encontrada = True
+
+                if missao_encontrada:
                     print("\n\n Jogar o caca-niquel da mesa vezes \n\n")
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=200)
                     # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
@@ -342,9 +348,14 @@ def tarefas():
             print("--------------parte 2---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 print(item_tarefa)
                 if ('maos em uma mesa com blinds acima de' in item_tarefa) or ('maos em qualquer mesa' in item_tarefa):
+                    missao_encontrada = True
+                elif ('mani su un tavolo con bui maggiori di' in item_tarefa) or ('mani su un tavolo qualsiasi' in item_tarefa):
+                    missao_encontrada = True
+                if missao_encontrada:
                     print("\n\n Jogar mão em uma mesa vezes \n\n")
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='tarefa_mesa')
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -353,8 +364,13 @@ def tarefas():
             print("--------------parte 3---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'vezes nas Cartas Premiadas' in item_tarefa:
+                    missao_encontrada = True
+                elif 'la Carta Scommessa per' in item_tarefa:
+                    missao_encontrada = True
+                if missao_encontrada:
                     print("\n\n Jogar vezes nas Cartas Premiadas \n\n")
                     Cartas.cartas_premidas_joga_vezes(x_origem, y_origem)
 
@@ -364,8 +380,14 @@ def tarefas():
             print("--------------parte 4---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas nas Cartas Premiadas' in item_tarefa:
+                    missao_encontrada = False
+                elif 'fichas nas Cartas Premiadas' in item_tarefa:
+                    missao_encontrada = False
+
+                if missao_encontrada:
                     print("\n\n Ganhar fichas nas Cartas Premiadas \n\n")
                     Cartas.cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
 
@@ -375,8 +397,14 @@ def tarefas():
             print("--------------parte 5---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'Jogar no Casino Genius Pro' in item_tarefa:
+                    missao_encontrada = True
+                elif 'Gioca la Carta Genio del Casino per' in item_tarefa:
+                    missao_encontrada = True
+
+                if missao_encontrada:
                     print("\n\n Jogar no Casino Genius Pro vezes \n\n")
                     Genius.genius_joga_vezes(x_origem, y_origem)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -385,8 +413,13 @@ def tarefas():
             print("--------------parte 6---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no Casino Genius Pro' in item_tarefa:
+                    missao_encontrada = True
+                elif 'fichas no Casino Genius Pro' in item_tarefa:
+                    missao_encontrada = True
+                if missao_encontrada:
                     print("\n\n Ganhar fichas no Casino Genius Pro \n\n")
                     Genius.genius_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -395,8 +428,14 @@ def tarefas():
             print("--------------parte 7---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'Apostar 20 fichas ou mais em 9 linhas do caca' in item_tarefa:
+                    missao_encontrada = True
+                elif 'Scommetti 20 o piu su 9 linee della Poker Slot per ' in item_tarefa:
+                    missao_encontrada = True
+
+                if missao_encontrada:
                     print("\n\n Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot vezes \n\n")
                     Slot.solot_joga_vezes(x_origem, y_origem, True)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -405,8 +444,14 @@ def tarefas():
             print("--------------parte 8---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no caca niquel Slot Poker' in item_tarefa:
+                    missao_encontrada = True
+                elif 'fiches alla Poker Slot' in item_tarefa:
+                    missao_encontrada = True
+
+                if missao_encontrada:
                     print("\n\n Ganhar fichas no caca niquel slot poker \n\n")
                     Slot.solot_joga_vezes(x_origem, y_origem, False)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -415,8 +460,14 @@ def tarefas():
             print("--------------parte 9---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no caca niquel da mesa' in item_tarefa:
+                    missao_encontrada = True
+                elif 'fiches alla Slot machine al tavolo' in item_tarefa:
+                    missao_encontrada = True
+
+                if missao_encontrada:
                     print("\n\n Ganhar fichas no caca niquel da mesa \n\n")
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=2000)
                     # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
@@ -427,6 +478,7 @@ def tarefas():
             print("--------------parte 10---------------")
             if parar_tarefas:
                 break
+            missao_encontrada = False
 
     hora_que_rodou = horario().strftime('%H:%M:%S')
     return
