@@ -1800,27 +1800,45 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             if ajusta_aposta == 200:
                 tarefas_fazer = (
                     'Jogar o caca-niquel da mesa 150 vezes',
+                    'Gioca alla Slot machine al tavolo 150 volte',
+                    'Gioca alla Slot machine al tavolo 120 volte',
                     'Jogar o caca-niquel da mesa 70 vezes',
-                    'Jogar o caca-niquel da mesa 10 vezes')
+                    'Gioca alla Slot machine al tavolo 70 volte',
+                    'Gioca alla Slot machine al tavolo 50 volte',
+                    'Jogar o caca-niquel da mesa 10 vezes',
+                    'Gioca alla Slot machine al tavolo 10 volte'
+                )
             elif ajusta_aposta == 2000:
                 tarefas_fazer = (
                     'Ganhar 100.000 fichas no caca niquel da mesa',
+                    'Vinci 100.000 fiches alla Slot machine al tavolo',
+                    'Vinci 50.000 fiches alla Slot machine al tavolo',
                     'Ganhar 30.000 fichas no caca niquel da mesa',
-                    'Ganhar 10.000 fichas no caca niquel da mesa')
+                    'Vinci 30.000 fiches alla Slot machine al tavolo',
+                    'Ganhar 10.000 fichas no caca niquel da mesa',
+                    'Vinci 10.000 fiches alla Slot machine al tavolo',
+                    'Vinci 2.000 fiches alla Slot machine al tavolo'
+                )
 
         case 'tarefa_mesa':
             print('case tarefa_mesa')
             senta_com_maximo = False
             tarefas_fazer = (
-                'Jogar 5 maos em qualquer mesa',
-                'Jogar 10 maos em qualquer mesa',
-                'Jogar 20 maos em uma mesa com blinds acima de',
-                'Jogar 20 maos em uma mesa com blinds acima de 25',
-                'Jogar 20 maos em uma mesa com blinds acima de 50',
-                'Jogar 20 maos em uma mesa com blinds acima de 100',
-                'Jogar 40 maos em uma mesa com blinds acima de',
+                'Jogar 40 maos em uma mesa com blinds acima de 100',
+                'Gioca 40 mani su un tavolo con bui maggiori di 100',
                 'Jogar 40 maos em uma mesa com blinds acima de 50',
-                'Jogar 40 maos em uma mesa com blinds acima de 100')
+                'Gioca 40 mani su un tavolo con bui maggiori di 50',
+                'Jogar 20 maos em uma mesa com blinds acima de 100',
+                'Gioca 20 mani su un tavolo con bui maggiori di 100',
+                'Jogar 20 maos em uma mesa com blinds acima de 50',
+                'Gioca 20 mani su un tavolo con bui maggiori di 50',
+                'Jogar 20 maos em uma mesa com blinds acima de 25',
+                'Gioca 20 mani su un tavolo con bui maggiori di 25',
+                'Jogar 10 maos em qualquer mesa',
+                'Gioca 10 mani su un tavolo qualsiasi',
+                'Jogar 5 maos em qualquer mesa',
+                'Gioca 5 mani su un tavolo qualsiasi',
+            )
 
         case 'jogar':
             print('case jogar')

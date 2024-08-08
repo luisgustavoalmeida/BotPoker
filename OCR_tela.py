@@ -1109,7 +1109,7 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     nova_lista_tarefas = []
 
     for item in lista_tarefas:
-        if len(item) > 29:
+        if len(item) > 20:# remove itens menores que 20 caracteres
             # Remover espaços em branco no início e no final
             item = item.strip()
 
@@ -1741,9 +1741,9 @@ def jogos_totais(x_origem, y_origem):
     return total_jogos
 
 # x_origem, y_origem = 8, 228
-# x_origem, y_origem = Origem_pg.x_y()
+x_origem, y_origem = Origem_pg.x_y()
 #
-# tarefas_diaris(x_origem, y_origem)
+tarefas_diaris(x_origem, y_origem)
 # tarefas_diaris_trocar(x_origem, y_origem)
 
 # tarefas_diaris_trocar(x_origem, y_origem)
