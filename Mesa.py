@@ -1930,6 +1930,12 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                 if tempo_decorrido >= 300:
                     print('\nLimite de tempo jogando mesa, abandona tentativa e pega uma nova conta.\n')
                     break
+                valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+                if valor_fichas_ < 5000:
+                    valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+                    if valor_fichas_ < 5000:
+                        print('Quantidade de fichas baixa')
+                        break
             if funcoes in 'recolher':
                 if not sentou:
                     atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
@@ -1948,13 +1954,12 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                     Limpa.limpa_total(x_origem, y_origem)
                     print('Fim do horario destinado a tarefas')
                     break
-
-            valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
-            if valor_fichas_ < 5000:
                 valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
                 if valor_fichas_ < 5000:
-                    print('Quantidade de fichas baixa')
-                    break
+                    valor_fichas_ = OCR_tela.valor_fichas(x_origem, y_origem)
+                    if valor_fichas_ < 5000:
+                        print('Quantidade de fichas baixa')
+                        break
 
         # parte dedicada as funçoes especificas
         if funcoes in 'slot':
