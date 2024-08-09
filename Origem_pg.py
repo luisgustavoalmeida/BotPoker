@@ -5,7 +5,7 @@ import pyautogui
 # import Google
 import IP
 from F5_navegador import atualizar_navegador
-from ListaIpFirebase import escrever_IP_banido
+# from ListaIpFirebase import escrever_IP_banido
 from Requerimentos import nome_computador, nome_usuario
 from Seleniun import teste_logado
 
@@ -132,9 +132,9 @@ def carregado_origem():  # navegador
                     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
                         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
                         print('computador principarl vai marcar o IP banido')
-                        ip, com_internet = IP.meu_ip()
+                        # ip, com_internet = IP.meu_ip()
                         # Google.escrever_IP_banido(ip)
-                        escrever_IP_banido(ip)
+                        # escrever_IP_banido(ip)
                         print('manda trocar IP')
                         IP.ip_troca_agora()
                     else:

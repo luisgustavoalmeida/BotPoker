@@ -11,7 +11,7 @@ import requests
 
 import Google
 import ListaIpFirebase
-from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, teste_novo_dia, verificar_pc_ativo
+from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, verificar_pc_ativo
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
@@ -211,11 +211,11 @@ def ip_troca_agora2():
             print('espera a internete estar estavel')
             tem_internet()  # testa ate que internete esteja estavel
             meu_ip_agora, teste = meu_ip()
-            if testa_lista_negra_ip(meu_ip_agora):
-                if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                    print("Vai para a função que zera a contagem")
-                    Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
-                    return
+            # if testa_lista_negra_ip(meu_ip_agora):
+            if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                print("Vai para a função que zera a contagem")
+                Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
+                return
         else:
             print('Troca IP imediatamente não é um computador principal')
             return
@@ -237,11 +237,11 @@ def testa_contagem_ip2(LIMITE_IP=6):
                         print('espera a internete estar estavel')
                         tem_internet()  # testa ate que internete esteja estavel
                         meu_ip_agora, teste = meu_ip()
-                        if testa_lista_negra_ip(meu_ip_agora):
-                            if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                                print("Vai para a função que zera a contagem")
-                                Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
-                                return
+                        # if testa_lista_negra_ip(meu_ip_agora):
+                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                            print("Vai para a função que zera a contagem")
+                            Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
+                            return
                     else:
                         print("Espera liberar IP")
                         nao_tem_internet()
@@ -266,11 +266,11 @@ def ip_troca_agora():
             print('espera a internete estar estavel')
             tem_internet()  # testa ate que internete esteja estavel
             meu_ip_agora, teste = meu_ip()
-            if testa_lista_negra_ip(meu_ip_agora):
-                if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                    print("Vai para a função que zera a contagem")
-                    zera_contagem_ip_banco()
-                    return
+            # if testa_lista_negra_ip(meu_ip_agora):
+            if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                print("Vai para a função que zera a contagem")
+                zera_contagem_ip_banco()
+                return
         else:
             print('Troca IP imediatamente não é um computador principal')
             return
@@ -296,11 +296,11 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
                     print('espera a internete estar estavel')
                     tem_internet()  # testa ate que internete esteja estavel
                     meu_ip_agora, teste = meu_ip()
-                    if testa_lista_negra_ip(meu_ip_agora):
-                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                            print("Vai para a função que zera a contagem")
-                            zera_contagem_ip_banco()
-                            return
+                    # if testa_lista_negra_ip(meu_ip_agora):
+                    if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
+                        print("Vai para a função que zera a contagem")
+                        zera_contagem_ip_banco()
+                        return
                 else:
                     print("Espera liberar IP...")
                     time.sleep(2)
@@ -588,29 +588,29 @@ def obter_status_conexao(nome_conexao):
 #     return nomes
 
 
-def testa_lista_negra_ip(meu_ip_agora):
-    global lista_negra_ip
-    global cont_lista_negra
-
-    cont_lista_negra += 1
-
-    if not lista_negra_ip:
-        # lista_negra_ip = Google.lista_ip_banidos()
-        lista_negra_ip = ListaIpFirebase.lista_ip_banidos()
-
-    if cont_lista_negra >= 40:
-        cont_lista_negra = 0
-        # lista_negra_ip = Google.lista_ip_banidos()
-        lista_negra_ip = ListaIpFirebase.lista_ip_banidos()
-
-    print('testa lista negra')
-    # meu_ip_agora, teste = meu_ip()
-    if meu_ip_agora in lista_negra_ip:
-        print(f"IP {meu_ip_agora} está na lista de IPs banidos.")
-        return False
-    else:
-        print(f"IP {meu_ip_agora} não está na lista de IPs banidos.")
-        return True
+# def testa_lista_negra_ip(meu_ip_agora):
+#     global lista_negra_ip
+#     global cont_lista_negra
+#
+#     cont_lista_negra += 1
+#
+#     if not lista_negra_ip:
+#         # lista_negra_ip = Google.lista_ip_banidos()
+#         lista_negra_ip = ListaIpFirebase.lista_ip_banidos()
+#
+#     if cont_lista_negra >= 40:
+#         cont_lista_negra = 0
+#         # lista_negra_ip = Google.lista_ip_banidos()
+#         lista_negra_ip = ListaIpFirebase.lista_ip_banidos()
+#
+#     print('testa lista negra')
+#     # meu_ip_agora, teste = meu_ip()
+#     if meu_ip_agora in lista_negra_ip:
+#         print(f"IP {meu_ip_agora} está na lista de IPs banidos.")
+#         return False
+#     else:
+#         print(f"IP {meu_ip_agora} não está na lista de IPs banidos.")
+#         return True
 
 # # Exemplo de uso
 # nomes_conexoes = obter_nomes_conexoes()

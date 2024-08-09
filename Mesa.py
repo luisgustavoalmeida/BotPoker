@@ -1971,7 +1971,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
         #             cont_slot += 10
 
         if jogou_uma_vez:
-            print('jogou_uma_vez, funcoes :', funcoes)
+            # print('jogou_uma_vez, funcoes :', funcoes)
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 # testa se apareceu as mensagens verdes na parte de baixo
                 cont_jogou += 1
@@ -2014,7 +2014,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                     humano = False
 
         else:
-            print('else: ', funcoes)
+            # print('else: ', funcoes)
             # mensagem verde
             if pyautogui.pixelMatchesColor((x_origem + 663), (y_origem + 538), (86, 169, 68), tolerance=20):
                 print('Mensagem verde fim da jogada')
