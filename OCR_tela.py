@@ -668,6 +668,11 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     - list: Uma lista de tarefas diárias lidas.
     """
     print('tarefas_diaris_posicao1')
+
+    # Clica duas vezes no ícone de tarefas diárias para abrir a janela
+    pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
+    time.sleep(0.2)
+
     # Lista para armazenar as tarefas
     lista = []
 
@@ -680,11 +685,7 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     contraste_pos = 1
 
     # Região de interesse para a leitura das tarefas diárias
-    regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
-
-    # Clica duas vezes no ícone de tarefas diárias para abrir a janela
-    pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
-    time.sleep(0.2)
+    regiao = (x_origem + 270, y_origem + 264, x_origem + 594, y_origem + 551)
 
     # Testa se tem tarefa extra
     if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
@@ -745,7 +746,7 @@ def tarefas_diaris_posicao2(x_origem, y_origem, tarefa_extra=False):
         contraste_pos = 1
 
         # Região de interesse para a leitura das tarefas diárias
-        regiao = (x_origem + 270, y_origem + 264, x_origem + 589, y_origem + 551)
+        regiao = (x_origem + 270, y_origem + 264, x_origem + 594, y_origem + 551)
 
         # Executa o OCR na região de interesse
         texto = OCR_regiao(regiao, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
