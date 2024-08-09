@@ -1392,8 +1392,8 @@ def numero_sala(x_origem, y_origem):
     # Aguarda o número da sala ficar visível clicando no anel
     for _ in range(50):
         # printa se esta disponivel o numero
-        if (pyautogui.pixelMatchesColor((x_origem + 86), (y_origem + 66), (43, 14, 10), tolerance=5)
-                or pyautogui.pixelMatchesColor((x_origem + 86), (y_origem + 66), (54, 27, 8), tolerance=5)):
+        if (pyautogui.pixelMatchesColor((x_origem + 86), (y_origem + 66), (63, 36, 19), tolerance=5)
+                or pyautogui.pixelMatchesColor((x_origem + 86), (y_origem + 66), (54, 24, 24), tolerance=5)):
             time.sleep(0.1)
             break
         time.sleep(0.1)
