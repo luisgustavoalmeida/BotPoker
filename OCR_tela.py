@@ -475,6 +475,10 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
                 print('\n valor_perfil compativel com valor_planilha \n')
                 return valor_perfil
 
+            if (valor - 15000) < valor_perfil < (valor + 15000):
+                print('\n fichas_perfil compativel com valor \n')
+                return valor
+
         if fichas_perfil != "":
             if valor - 15000 < valor_perfil < valor + 15000:
                 print('\n valor_perfil compativel com valor \n')
