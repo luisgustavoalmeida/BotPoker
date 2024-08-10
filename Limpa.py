@@ -506,7 +506,7 @@ def limpa_promocao(x_origem, y_origem):
         # comprar
         # meus objetos
         # Voce perdeu tudo
-        pyautogui.click(771 + x_origem, 156 + y_origem)
+        pyautogui.click(771 + x_origem, 160 + y_origem)
         print("promoçao laranja")
         time.sleep(0.5)
 

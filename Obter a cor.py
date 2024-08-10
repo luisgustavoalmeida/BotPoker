@@ -45,7 +45,7 @@ x_origem, y_origem = x_y()
 print(x_origem, y_origem)
 
 
-a, b = 20, 85
+a, b = 220, 180
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -85,5 +85,6 @@ print(f"A cor menos comum foi: {cor_menos_comum} com {ocorrencias_menos_comum} o
 # Realize uma busca exaustiva para encontrar a melhor tolerância
 melhor_tolerancia = None
 max_ocorrencias = 0
+
 
 
