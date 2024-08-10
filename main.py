@@ -640,8 +640,8 @@ def recolher_automatico():
     time.sleep(1)
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
-    valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
-    valor_fichas_inicial = valor_fichas
+    valor_fichas_inicial = valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
+
 
     for _ in range(10):
 
@@ -658,7 +658,7 @@ def recolher_automatico():
         # Mesa.mesa_upar_jogar(x_origem, y_origem, blind_mesa=blind_recolher_auto, apostar=False, recolher=True)
         Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='recolher', blind_mesa=blind_recolher_auto)
         valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
-        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
+        valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_perfil=valor_fichas_perfil)
         try:
             blind_recolher_auto = Firebase.ler_configuracao()[2]
             valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]

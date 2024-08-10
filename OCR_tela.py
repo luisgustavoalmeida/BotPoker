@@ -457,43 +457,45 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     try:
         if valor_planilha != "":
             if valor_planilha - 15000 < valor < valor_planilha + 15000:
-                print('\n valor compativel com valor_planilha \n')
+                print('\n1 valor compativel com valor_planilha \n')
                 return valor
 
         if fichas_perfil != "" and valor_planilha != "":
             if valor_planilha - 15000 < fichas_perfil < valor_planilha + 15000:
-                print('\n fichas_perfil compativel com valor_planilha  \n')
+                print('\n2 fichas_perfil compativel com valor_planilha  \n')
                 return fichas_perfil
 
             if (valor - 15000) < fichas_perfil < (valor + 15000):
-                print('\n fichas_perfil compativel com valor \n')
+                print('\n3 fichas_perfil compativel com valor \n')
                 return valor
 
         if valor_planilha != "":
             valor_perfil = valor_fichas_perfil(x_origem, y_origem)
             if valor_planilha - 15000 < valor_perfil < valor_planilha + 15000:
-                print('\n valor_perfil compativel com valor_planilha \n')
+                print('\n4 valor_perfil compativel com valor_planilha \n')
                 return valor_perfil
 
             if (valor - 15000) < valor_perfil < (valor + 15000):
-                print('\n fichas_perfil compativel com valor \n')
+                print('\n5 fichas_perfil compativel com valor \n')
                 return valor
 
         if fichas_perfil != "":
+            valor_perfil = valor_fichas_perfil(x_origem, y_origem)
             if valor - 15000 < valor_perfil < valor + 15000:
-                print('\n valor_perfil compativel com valor \n')
+                print('\n6 valor_perfil compativel com valor \n')
                 return valor_perfil
+
             if fichas_perfil - 15000 < valor_perfil < fichas_perfil + 15000:
-                print('\n fichas_perfil compativel com fichas_perfil  \n')
+                print('\n7 fichas_perfil compativel com fichas_perfil  \n')
                 return valor_perfil
 
         if valor_planilha == "":
             return valor
 
-        return valor_planilha
+        return tratar_valor_numerico(valor_planilha)
     except Exception as e:
         print(e)
-        return valor_planilha
+        return tratar_valor_numerico(valor_planilha)
 
 
 def valor_fichas_perfil(x_origem, y_origem):
