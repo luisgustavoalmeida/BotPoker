@@ -1,4 +1,6 @@
-mensagen = 'Fichas insuficiente'
+mensagen = None
 
-if 'Fichas insuficiente' in mensagen:
-    print('\nFichas insuficiente\n')
+if mensagen:
+    print('ok')
+else:
+    print(mensagen)

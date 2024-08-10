@@ -355,10 +355,10 @@ def ler_configuracao():
             return confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria
         else:
             print("Nenhum dado de configuração encontrado.")
-            return None, None
+            return None, None, None, None
     except Exception as e:
         print(f"Ocorreu um erro ao ler os dados de configuração: {str(e)}")
-        return None, None
+        return None, None, None, None
 
 
 def atualizar_configuracao_pc(novos_dados):

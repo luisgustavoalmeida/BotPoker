@@ -1880,8 +1880,8 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
                 indicar_pc_desativo()
 
-                confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = ler_configuracao()
-                if blind_recolher_auto != blind_mesa:
+                blind_recolher_auto = ler_configuracao()[2]
+                if (blind_recolher_auto != blind_mesa) and blind_recolher_auto:
                     blind_mesa = blind_recolher_auto
                     valor_aposta1 = dicionario_salas[blind_mesa][0]
                     valor_aposta2 = dicionario_salas[blind_mesa][1]

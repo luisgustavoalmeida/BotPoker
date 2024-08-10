@@ -372,16 +372,14 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
     lido_corretamente = True
     valor = 0
     if fichas_perfil:
-        valor = tratar_valor_numerico(fichas_perfil)
-        fichas_perfil = tratar_valor_numerico(fichas_perfil)
+        valor = fichas_perfil = tratar_valor_numerico(fichas_perfil)
 
     if valor_planilha == 0:
         valor = 0
         valor_planilha = ""
 
     elif valor_planilha:
-        valor = tratar_valor_numerico(valor_planilha)
-        valor_planilha = tratar_valor_numerico(valor_planilha)
+        valor = valor_planilha = tratar_valor_numerico(valor_planilha)
 
     print(Fore.YELLOW + f'valor_fichas - Planilha:{valor_planilha}, Perfil:{fichas_perfil}' + Fore.RESET)
 
