@@ -693,10 +693,13 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
 
     # Testa se tem tarefa extra
     if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
-        print('tem tarefa extra')
-        pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
-        time.sleep(0.5)
         tarefa_extra = True
+        for _ in range(50):
+            print('tem tarefa extra')
+            pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+            time.sleep(0.3)
+            if not pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
+                break
     else:
         tarefa_extra = False
 
@@ -1059,8 +1062,11 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
         'Jogar 10 vezes nas Cartas Premiadas': 10,
         'Gioca la Carta Scommessa per 10 volte': 10,
         'Ganhar 100.000 fichas nas Cartas Premiadas': 30,
+        'Vinci 100.000 fiches con la Carta Scommessa': 30,
         'Ganhar 30.000 fichas nas Cartas Premiadas': 20,
+        'Vinci 30.000 fiches con la Carta Scommessa': 20,
         'Ganhar 4.000 fichas nas Cartas Premiadas': 10,
+        'Vinci 4.000 fiches con la Carta Scommessa': 10,
         # Poker Slot
         'Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot 150 vezes': 30,
         'Scommetti 20 o piu su 9 linee della Poker Slot per 150 volte': 30,
@@ -1147,6 +1153,7 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
             print(f'similaridade: , {similaridade}, Referencia: {chave_mais_proxima}, Encontrado: {linha}')
             linhas_filtradas.append(chave_mais_proxima)
 
+    print('remover_termos:', linhas_filtradas)
     return linhas_filtradas
 
 

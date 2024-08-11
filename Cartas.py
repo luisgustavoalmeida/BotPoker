@@ -116,7 +116,7 @@ def cartas_premidas_joga_vezes(x_origem, y_origem):
 
         continua_jogando, tarefa = Tarefas.comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem)  # procura com ocr
 
-        if (not continua_jogando) or (meta_atigida):
+        if (not continua_jogando) or meta_atigida:
             time.sleep(0.5)
             # Limpa.limpa_abre_tarefa2(x_origem, y_origem)
             Limpa.limpa_abre_tarefa(x_origem, y_origem)
@@ -141,8 +141,11 @@ def cartas_premidas_joga_vezes(x_origem, y_origem):
 
 def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas):
     tarefas_fazer = ('Ganhar 100.000 fichas nas Cartas Premiadas',
+                     'Vinci 100.000 fiches con la Carta Scommessa',
                      'Ganhar 30.000 fichas nas Cartas Premiadas',
-                     'Ganhar 4.000 fichas nas Cartas Premiadas')
+                     'Vinci 30.000 fiches con la Carta Scommessa',
+                     'Ganhar 4.000 fichas nas Cartas Premiadas',
+                     'Vinci 4.000 fiches con la Carta Scommessa')
 
     tarefa = ""
     cliques = 0

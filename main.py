@@ -384,7 +384,7 @@ def tarefas():
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas nas Cartas Premiadas' in item_tarefa:
                     missao_encontrada = False
-                elif 'fichas nas Cartas Premiadas' in item_tarefa:
+                elif 'fiches con la Carta Scommessa' in item_tarefa:
                     missao_encontrada = False
 
                 if missao_encontrada:
