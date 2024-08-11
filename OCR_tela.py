@@ -794,6 +794,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                        'Participe de um GIRE & GANHE/campeonato de eliminacao 3 vezes',
                        'Partecipa per 3 volta a una GIRA & VINGI/competizione sui tavoli a eliminazione',
                        'Ganhar um premio em um GIRE & GANHE/torneio de eliminacao',
+                       'Ottinei un premio durante una GIRA & VINGI/competizione sui tavoli a eliminazione',
                        'Jogue 10 maos nas mesas de Royal Holdem com blinds acima de 200',
                        'Gioca VIDEO POKER 10 volte',
                        'Jogue 20 maos nas mesas de Royal Holdem com blinds acima de 200',
@@ -891,7 +892,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                     pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
                 elif posicao > 3:
                     pyautogui.doubleClick(708 + x_origem, 418 + y_origem)  # rola para ver se a tarefa esta na segunda parte
-                time.sleep(1)
+                time.sleep(0.8)
                 # Clique na setinha correspondente à posiçã
                 if posicao == 0:
                     pyautogui.click(x_origem + 171, y_origem + 283)  # clica na setinha
@@ -902,7 +903,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                 elif posicao == 3 or posicao == 6:
                     pyautogui.click(x_origem + 171, y_origem + 523)  # clica na setinha
 
-                time.sleep(1)
+                time.sleep(0.8)
                 pyautogui.doubleClick(x_origem + 635, y_origem + 25)  # clica no tarefas diarias
                 time.sleep(0.3)
                 pyautogui.click(x_origem + 545, y_origem + 401)  # clica no ok
