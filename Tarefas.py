@@ -184,11 +184,10 @@ def comparar_listas(x_origem, y_origem, dia_da_semana):
 
 
 def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
-    lista_comum = []
     continua_jogando = False
     # print('tarefas_fazer', tarefas_fazer)
     lista_tarefas_disponivel, tarefa_extra = OCR_tela.tarefas_diaris_posicao1(x_origem, y_origem)
-    # print('lista_tarefas_disponivel', lista_tarefas_disponivel)
+    print('lista_tarefas_disponivel', lista_tarefas_disponivel)
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
             print('comparar_listas_fazendo_tarefa', chave)
