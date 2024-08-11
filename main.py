@@ -29,7 +29,7 @@ from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
-from Horario_atual import horario
+from Horario_atual import horario, dia_semana
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 tem_internet()
@@ -790,8 +790,8 @@ if id == '':
 
 Telegran.monta_mensagem(f'Código iniciado com sucesso no modo {str(guia)}.  🚀', True)
 
-dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-print('dia_da_semana: ', dia_da_semana)
+dia_da_semana = dia_semana()  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+
 print(Fore.GREEN + f'Novos dados...'
                    f'\nID: {id},'
                    f'\nSenha: {senha},'
@@ -844,8 +844,8 @@ while True:
 
         elif confg_funcao == "T1":
             print('Inicia a execução das Tarefas')
-            # tarefas()
             upar_t1()
+            tarefas()
 
         elif confg_funcao in ["R1", "R2", "R3", "R4", "R5"]:
             print('Inicia a execução das Roletas')
@@ -873,7 +873,7 @@ while True:
         entrou_corretamente = False
         print("Conta não entrou, o Statos é: ", status_poker)
 
-    dia_da_semana = int(datetime.datetime.now().weekday())  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+    dia_da_semana = dia_semana()  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
     # print('dia_da_semana: ', dia_da_semana)
 
     # print('\n Espera terminar tarefa independente loop\n')

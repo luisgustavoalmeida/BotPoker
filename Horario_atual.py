@@ -21,6 +21,8 @@ hora_sem_fuso = hora.replace(tzinfo=None)
 print("Hora atual no fuso horário local:", hora_atual_local)
 print("Hora atual no fuso horário desejado:", hora_sem_fuso)
 
+print("Dia da semana na Itália:", int(hora.weekday()))
+
 
 def horario():
     # Obtém a hora atual no fuso horário especificado
@@ -28,3 +30,16 @@ def horario():
     # Remove o fuso horário para exibir apenas a data e hora
     horario_fuso = hora_local.replace(tzinfo=None)
     return horario_fuso
+
+
+def dia_semana():
+    # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+    # Obtenha a hora atual no fuso horário da Itália
+    hora_local = datetime.datetime.now(pytz.timezone('Europe/Rome'))
+
+    # Pegue o dia da semana (0 = segunda-feira, 6 = domingo)
+    dia_da_semana = int(hora_local.weekday())
+
+    print("Dia da semana na Itália:", dia_da_semana)
+
+    return dia_da_semana
