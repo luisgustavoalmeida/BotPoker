@@ -415,7 +415,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
             # Converte o valor lido para um formato numérico
             valor = tratar_valor_numerico(lido)
             # Verifica se o valor está dentro da faixa desejada
-            if 500 < valor < 50000000:
+            if 1 < valor < 50000000:
                 print(Fore.YELLOW + f"Valor das fichas: {valor}" + Fore.RESET)
                 lido_corretamente = True
                 break
@@ -440,7 +440,7 @@ def valor_fichas(x_origem, y_origem, valor_planilha="", fichas_perfil=""):
                 # Converte o valor lido para um formato numérico
                 valor = tratar_valor_numerico(lido)
                 # Verifica se o valor está dentro da faixa desejada
-                if 500 < valor < 50000000:
+                if 1 < valor < 50000000:
                     print(Fore.YELLOW + f"Valor das fichas: {valor}" + Fore.RESET)
                     lido_corretamente = True
                     break
