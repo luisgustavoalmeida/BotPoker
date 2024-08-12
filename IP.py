@@ -445,8 +445,8 @@ def conexao():
         elif tipo_conexao == "modem":
             print('modem')
 
+            app_top_window.set_focus()
             for _ in range(400):
-                app_top_window.set_focus()
                 posicao_celular = localizar_imagem(celular, regiao_celular, precisao)
                 if posicao_celular is not None:
                     centro_celular = pyautogui.center(posicao_celular)  # Obtém o centro da posição da imagem encontrada
@@ -484,7 +484,9 @@ def conexao():
                 time.sleep(0.3)
 
         app_top_window.set_focus()
+        time.sleep(1)
         app_top_window.maximize()
+        time.sleep(1)
         app_top_window.close()  # fecha a janela
         print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
         time.sleep(1)
@@ -563,9 +565,9 @@ def localizar_imagem(imagem, regiao, precisao):
     try:
         posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
         return posicao
-    except:
-        print("Ocorreu um erro ao localizar a imagem")
-        time.sleep(2)
+    except Exception as e:
+        print("Ocorreu um erro ao localizar a imagem: ", e)
+        # time.sleep(2)
         return None
 
 
