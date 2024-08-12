@@ -694,11 +694,12 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     # Testa se tem tarefa extra
     if pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
         tarefa_extra = True
-        for _ in range(50):
-            print('tem tarefa extra')
-            pyautogui.doubleClick(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+        for _ in range(7):
+            print('tem tarefa extra, ajustando a barra de rolagem')
+            pyautogui.mouseDown(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
             time.sleep(0.3)
-            if not pyautogui.pixelMatchesColor(x_origem + 189, y_origem + 290, (193, 1, 17), tolerance=10):
+            pyautogui.mouseUp(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+            if pyautogui.pixelMatchesColor(x_origem + 708, y_origem + 375, (87, 0, 176), tolerance=10):  # barra de rolagem deslocada
                 break
     else:
         tarefa_extra = False
@@ -708,6 +709,7 @@ def tarefas_diaris_posicao1(x_origem, y_origem):
     # Verifica se o OCR retornou algum texto
     if texto is not None:
         lista = remover_termos(x_origem, y_origem, texto, tarefa_extra)
+        # print(lista)
         # tarefa_feita = testar_tarefa_feita(x_origem, y_origem)
         # lista = lista[:tarefa_feita]
         # Retorna a lista de tarefas
@@ -913,7 +915,7 @@ def tarefas_diaris_trocar(x_origem, y_origem):
                 print('Não há tarefa na lista de troca.')
 
 
-def tarefas_diaris(x_origem, y_origem):
+def tarefas_diarias(x_origem, y_origem):
     """
     Esta função realiza a leitura das tarefas diárias em uma região específica da tela.
 
@@ -1120,7 +1122,7 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
     nova_lista_tarefas = []
 
     for item in lista_tarefas:
-        if len(item) > 20:# remove itens menores que 20 caracteres
+        if len(item) > 20:  # remove itens menores que 20 caracteres
             # Remover espaços em branco no início e no final
             item = item.strip()
 
@@ -1151,10 +1153,10 @@ def remover_termos(x_origem, y_origem, texto, tarefa_extra=False):
 
         # Verificar a similaridade
         if chave_mais_proxima and similaridade >= 98:
-            print(f'similaridade: , {similaridade}, Referencia: {chave_mais_proxima}, Encontrado: {linha}')
+            # print(f'similaridade: , {similaridade}, Referencia: {chave_mais_proxima}, Encontrado: {linha}')
             linhas_filtradas.append(chave_mais_proxima)
 
-    print('remover_termos:', linhas_filtradas)
+    # print('remover_termos:', linhas_filtradas)
     return linhas_filtradas
 
 
@@ -1541,7 +1543,8 @@ def aviso_sistema(x_origem, y_origem):
 
 
 dic_aviso_sistema = {
-    'Spiacenti, non hai abbastanza fiches per sederti Cambia tavolo oppure compra delle fiches nella sezione shopping. Grazie!': ('Fichas insuficiente', 648, 269),
+    'Spiacenti, non hai abbastanza fiches per sederti Cambia tavolo oppure compra delle fiches nella sezione shopping. Grazie!': (
+    'Fichas insuficiente', 648, 269),
     'Spiacenti! Non hai abbastanza fiches!': ('Fichas insuficiente', 648, 269),
     "Questo posto e' gia' stato occupato, per favore scegline un altro!!": ('Lugar ocupado', 648, 269),
     'Spiacenti, puoi giocare ala Siot Machine solo dopo esserti seduto.': ('Jogar somente sentado', 648, 269),
@@ -1555,7 +1558,7 @@ dic_aviso_sistema = {
     'Tem certeza de que deseja sair da mesa?': ('Sair mesa', 410, 415),
     'Você não pode jogar com duas contas ao mesmo tempo!': ('Duas contas', 410, 415),
     'Você já está logado no jogo em outra página, esta sessão foi cancelada!': ('Logado outra pagina', 648, 269)
-    }
+}
 
 
 def mensagem_aviso_do_sistema(x_origem, y_origem):
@@ -1754,8 +1757,10 @@ def jogos_totais(x_origem, y_origem):
 
 # x_origem, y_origem = 8, 228
 # x_origem, y_origem = Origem_pg.x_y()
-# #
-# tarefas_diaris(x_origem, y_origem)
+#
+# # tarefas_diaris_posicao1(x_origem, y_origem)
+# # #
+# tarefas_diarias(x_origem, y_origem)
 # tarefas_diaris_trocar(x_origem, y_origem)
 
 # tarefas_diaris_trocar(x_origem, y_origem)

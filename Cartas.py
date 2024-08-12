@@ -188,7 +188,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                 # espera ter as cartas virado para baixo lado marrom para cima
                 if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 239), (111, 26, 37), tolerance=10):
                     print("ta com as cartas viradas para baixo")
-                    if tarefa == 'Ganhar 100.000 fichas nas Cartas Premiadas':
+                    if '100.000' in tarefa:
                         print('cartas 100k')
                         if valor_fichas <= 8560:
                             print(f'valor de fichas muito baixo: {valor_fichas}')
@@ -221,7 +221,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                         # elif valor_fichas > 6660:  # joga 264 vez
                         #     cliques = 1
 
-                    elif tarefa == 'Ganhar 30.000 fichas nas Cartas Premiadas':
+                    elif '30.000' in tarefa:
                         # para se ganhar 30 k se perde 1600 fichas
                         print('cartas 30k')
                         if valor_fichas <= 4120:
@@ -245,7 +245,7 @@ def cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, val
                         # elif valor_fichas > 2980:  # joga 80 vez
                         #     cliques = 1
 
-                    elif tarefa == 'Ganhar 4.000 fichas nas Cartas Premiadas':
+                    elif '4.000' in tarefa:
                         # para se ganhar 4 k se perde 240 fichas
                         print('cartas 4k')
                         if valor_fichas > 5400:  # joga 1 vez

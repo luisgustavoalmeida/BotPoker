@@ -44,8 +44,12 @@ x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
+pyautogui.mouseDown(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
+time.sleep(0.3)
+pyautogui.mouseUp(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
 
-a, b = 220, 180
+
+a, b = 708, 375
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -57,7 +61,7 @@ for i in range(255):
     cor = pyautogui.pixel(x, y)
     print(f"A cor RGB do pixel em ({x}, {y}) é {cor}")
 
-    if pyautogui.pixelMatchesColor(x, y, (240, 213, 90), tolerance=tolerancia):
+    if pyautogui.pixelMatchesColor(x, y, (48, 154, 17), tolerance=tolerancia):
         print('tem a cor, tolerancia :', tolerancia)
 
     tolerancia += 1

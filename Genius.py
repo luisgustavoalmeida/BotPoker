@@ -256,7 +256,7 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
                 posicao = localizar_imagem(imagem1, regiao, precisao)
                 if posicao is not None:  # Verifica se a imagem foi encontrada
                     print("faz a aposta")
-                    if tarefa == 'Ganhar 100.000 fichas no Casino Genius Pro':
+                    if '100.000' in tarefa:
 
                         if valor_fichas < 20000:
                             print(f'valor de fichas muito baixo: {valor_fichas}')
@@ -292,7 +292,7 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
                         pyautogui.click(x_origem + 608, y_origem + 655)  # aperta no 4 vezes
                         time.sleep(0.01)
 
-                    elif tarefa == 'Ganhar 30.000 fichas no Casino Genius Pro':
+                    elif '30.000' in tarefa:
 
                         if valor_fichas < 35000:
                             print(f'valor de fichas muito baixo: {valor_fichas}')
@@ -309,7 +309,7 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
                         pyautogui.click(x_origem + 686, y_origem + 655)  # aperta no 8 vezes
                         time.sleep(0.01)
 
-                    elif tarefa == 'Ganhar 4.000 fichas no Casino Genius Pro':
+                    elif '4.000' in tarefa:
                         if valor_fichas < 5000:
                             print(f'valor de fichas muito baixo: {valor_fichas}')
                             return
@@ -330,6 +330,8 @@ def genius_joga_valor(x_origem, y_origem, lista_tarefas_disponivel, valor_fichas
                         time.sleep(0.25)
                         pyautogui.click(x_origem + 603, y_origem + 223)  # 2000 lado direito
                         time.sleep(0.01)
+                    else:
+                        print('\n\n', tarefa, 'Não esta na lista esperada\n\n')
 
                     print('espera o tempo passar ate sair o premio')
                     time.sleep(10)

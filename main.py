@@ -339,10 +339,8 @@ def tarefas():
                     missao_encontrada = True
 
                 if missao_encontrada:
-                    print("\n\n Jogar o caca-niquel da mesa vezes \n\n")
+                    print("\n\n Jogar o caca-niquel da mesa vezes.", item_tarefa)
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=200)
-                    # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
-                    #                      level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=200)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
             print("--------------parte 2---------------")
@@ -350,13 +348,12 @@ def tarefas():
                 break
             missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
-                print(item_tarefa)
                 if ('maos em uma mesa com blinds acima de' in item_tarefa) or ('maos em qualquer mesa' in item_tarefa):
                     missao_encontrada = True
                 elif ('mani su un tavolo con bui maggiori di' in item_tarefa) or ('mani su un tavolo qualsiasi' in item_tarefa):
                     missao_encontrada = True
                 if missao_encontrada:
-                    print("\n\n Jogar mão em uma mesa vezes \n\n")
+                    print("\n\n Jogar mão em uma mesa vezes.", item_tarefa)
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='tarefa_mesa')
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -371,7 +368,7 @@ def tarefas():
                 elif 'la Carta Scommessa per' in item_tarefa:
                     missao_encontrada = True
                 if missao_encontrada:
-                    print("\n\n Jogar vezes nas Cartas Premiadas \n\n")
+                    print("\n\n Jogar vezes nas Cartas Premiadas.", item_tarefa)
                     Cartas.cartas_premidas_joga_vezes(x_origem, y_origem)
 
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -388,7 +385,7 @@ def tarefas():
                     missao_encontrada = False
 
                 if missao_encontrada:
-                    print("\n\n Ganhar fichas nas Cartas Premiadas \n\n")
+                    print("\n\n Ganhar fichas nas Cartas Premiadas.", item_tarefa)
                     Cartas.cartas_premidas_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
 
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
@@ -405,7 +402,7 @@ def tarefas():
                     missao_encontrada = True
 
                 if missao_encontrada:
-                    print("\n\n Jogar no Casino Genius Pro vezes \n\n")
+                    print("\n\n Jogar no Casino Genius Pro vezes.", item_tarefa)
                     Genius.genius_joga_vezes(x_origem, y_origem)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -417,10 +414,10 @@ def tarefas():
             for item_tarefa in lista_tarefas_fazer:
                 if 'fichas no Casino Genius Pro' in item_tarefa:
                     missao_encontrada = True
-                elif 'fichas no Casino Genius Pro' in item_tarefa:
+                elif 'fiches con la Carta Genio del Casino' in item_tarefa:
                     missao_encontrada = True
                 if missao_encontrada:
-                    print("\n\n Ganhar fichas no Casino Genius Pro \n\n")
+                    print("\n\n Ganhar fichas no Casino Genius Pro.", item_tarefa)
                     Genius.genius_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -436,7 +433,7 @@ def tarefas():
                     missao_encontrada = True
 
                 if missao_encontrada:
-                    print("\n\n Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot vezes \n\n")
+                    print("\n\n Apostar 20 fichas ou mais em 9 linhas do caca niquel Poker Slot vezes.", item_tarefa)
                     Slot.solot_joga_vezes(x_origem, y_origem, True)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -452,7 +449,7 @@ def tarefas():
                     missao_encontrada = True
 
                 if missao_encontrada:
-                    print("\n\n Ganhar fichas no caca niquel slot poker \n\n")
+                    print("\n\n Ganhar fichas no caca niquel slot poker.", item_tarefa)
                     Slot.solot_joga_vezes(x_origem, y_origem, False)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
@@ -468,7 +465,7 @@ def tarefas():
                     missao_encontrada = True
 
                 if missao_encontrada:
-                    print("\n\n Ganhar fichas no caca niquel da mesa \n\n")
+                    print("\n\n Ganhar fichas no caca niquel da mesa.", item_tarefa)
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=2000)
                     # Mesa.mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mesa='100200', apostar=False, recolher=False,
                     #                      level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=2000)

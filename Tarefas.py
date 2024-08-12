@@ -8,6 +8,7 @@ import HoraT
 import Limpa
 import OCR_tela
 from F5_navegador import atualizar_navegador
+from Horario_atual import dia_semana
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -28,6 +29,7 @@ dicionario_tarefas_fazer = {
     'Gioca alla Slot machine al tavolo 70 volte': 20,
     'Gioca alla Slot machine al tavolo 50 volte': 20,
     'Jogar o caca-niquel da mesa 10 vezes': 10,
+    'Gioca alla Slot machine al tavolo 10 volte': 10,
     # Casino Genius
     'Jogar no Casino Genius Pro 100 vezes': 30,
     'Gioca la Carta Genio del Casino per 100 volte': 30,
@@ -151,18 +153,8 @@ dicionario_tarefas_fazer_sabado = {
 }
 
 
-# def localizar_imagem(imagem, regiao, precisao):  # ainda tem que implementar
-#     try:
-#         posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
-#         return posicao
-#     except:
-#         print("Ocorreu um erro ao localizar a imagem")
-#         time.sleep(2)
-#         return None
-
-
 def comparar_listas(x_origem, y_origem, dia_da_semana):
-    lista = OCR_tela.tarefas_diaris(x_origem, y_origem)
+    lista = OCR_tela.tarefas_diarias(x_origem, y_origem)
     lista_do_dia = []
 
     pontos_disponiveis = 0
@@ -190,7 +182,7 @@ def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
     print('lista_tarefas_disponivel', lista_tarefas_disponivel)
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
-            print('comparar_listas_fazendo_tarefa', chave)
+            print('comparar_listas_fazendo_tarefa: ', chave)
             continua_jogando = True
             return continua_jogando, chave
 
@@ -198,54 +190,11 @@ def comparar_listas_fazendo_tarefa(tarefas_fazer, x_origem, y_origem):
 
     for chave in tarefas_fazer:
         if chave in lista_tarefas_disponivel:
-            print('comparar_listas_fazendo_tarefa', chave)
+            print('comparar_listas_fazendo_tarefa: ', chave)
             continua_jogando = True
             return continua_jogando, chave
 
     return continua_jogando, None
-
-
-# def comparar_imagens(tarefas_fazer, x_origem, y_origem):
-#     lista_comum = []
-#     regiao_tarefas = (x_origem + 270, y_origem + 260, 325, 290)
-#     #  print(regiao_tarefas)
-#     caminho_tarefas = "Imagens\\TarefasFazer\\"
-#     for i in range(2):
-#         for nome_tarefa in tarefas_fazer:
-#             caminho_tarefa = os.path.join(caminho_tarefas + nome_tarefa + ".png")
-#             #  print(caminho_tarefa)
-#             tarefa_encontrada = pyautogui.locateOnScreen(caminho_tarefa, region=regiao_tarefas, confidence=0.985, grayscale=True)
-#             if tarefa_encontrada is not None:
-#                 lista_comum.append(nome_tarefa)
-#         pyautogui.click(708 + x_origem, 419 + y_origem, button='left')
-#         time.sleep(0.2)
-#
-#     return lista_comum
-
-
-# def comparar_imagens_tarefa(tarefas_fazer, x_origem, y_origem):  # procura as tares, faz baseado na imagems que sao passada na lista
-#
-#     lista_comum = []
-#     regiao_tarefas = (x_origem + 270, y_origem + 260, 342, 290)
-#     precisao = 0.94
-#     # print(regiao_tarefas)
-#     caminho_tarefas = "Imagens\\TarefasFazer\\"
-#     # assim que encontra a plimeira tarefa da lista ele retona como True
-#     for nome_tarefa in tarefas_fazer:
-#         caminho_tarefa = os.path.join(caminho_tarefas + nome_tarefa + ".png")
-#         # print(caminho_tarefa)
-#         tarefa_encontrada = localizar_imagem(caminho_tarefa, regiao_tarefas, precisao)
-#         if tarefa_encontrada is not None:
-#             return True, nome_tarefa
-#     pyautogui.click(708 + x_origem, 419 + y_origem, button='left')  # rola para ver se a tarefa esta na segunda parte
-#     time.sleep(0.2)
-#     for nome_tarefa in tarefas_fazer:
-#         caminho_tarefa = os.path.join(caminho_tarefas + nome_tarefa + ".png")
-#         # print(caminho_tarefa)
-#         tarefa_encontrada = localizar_imagem(caminho_tarefa, regiao_tarefas, precisao)
-#         if tarefa_encontrada is not None:
-#             return True, nome_tarefa
-#     return False, None
 
 
 def recolher_tarefa(x_origem, y_origem):
@@ -275,6 +224,9 @@ def recolher_tarefa(x_origem, y_origem):
                     if pyautogui.pixelMatchesColor((x_origem + 670), (y_origem + recolher_y), (48, 154, 17), tolerance=40):
                         # testa se tem que recolher "verde"
                         clique_recolher.append(recolher_y)  # adiciona as coordenada de y que deve ser clicadas
+            else:
+                print('Não foi encontrado missão para recolher')
+                return
 
         else:
             print('Não foi encontrado missão para recolher')
@@ -293,10 +245,8 @@ def meta_tarefas(x_origem, y_origem):
     # chma a funçao para ver a pontuação acumilada nas tarefas
     pontuacao_tarefas = int(OCR_tela.pontuacao_tarefas(x_origem, y_origem))
 
-    # Obter a data atual
-    data_atual = datetime.date.today()
     # Obter o dia da semana (0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sabado, 6 domingo)
-    dia_da_semana = data_atual.weekday()
+    dia_da_semana = dia_semana()
 
     # dicionarios com os dias da semana e com os valores de meta de cada dia
     metas = {0: 150, 1: 160, 2: 170, 3: 180, 4: 190, 5: 200, 6: 140}
@@ -484,7 +434,8 @@ def recolher_tarefa_upando(x_origem, y_origem):
         return status_tarefas
 #
 # #
-# x_origem, y_origem = Origem_pg.x_y()
+
+# recolher_tarefa(1, 128)
 # recolher_tarefa_upando(x_origem, y_origem)
 #
 # comparar_listas(x_origem, y_origem)

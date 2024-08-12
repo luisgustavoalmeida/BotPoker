@@ -484,6 +484,7 @@ def conexao():
                 time.sleep(0.3)
 
         app_top_window.set_focus()
+        app_top_window.maximize()
         app_top_window.close()  # fecha a janela
         print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
         time.sleep(1)
