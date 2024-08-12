@@ -37,19 +37,14 @@ def x_y():  # apenas para testes
 
 
 # Exemplo de uso
-x_origem = 8
-y_origem = 228
+x_origem = 490
+y_origem = 435
 
 x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
-pyautogui.mouseDown(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
-time.sleep(0.3)
-pyautogui.mouseUp(708 + x_origem, 380 + y_origem)  # rola para posicionar a lista
-
-
-a, b = 708, 375
+a, b = 859, 40
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -73,7 +68,7 @@ for i in range(255):
         cores_contagem[cor] = 1
 
     # Aguarde por um curto período de tempo antes de verificar o próximo pixel
-    # time.sleep(0.1)
+    time.sleep(0.5)
 
 # Encontre a cor que mais ocorreu
 cor_mais_comum = max(cores_contagem, key=cores_contagem.get)
