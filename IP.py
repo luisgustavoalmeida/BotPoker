@@ -342,7 +342,7 @@ def conexao():
                 app = pywinauto.Application().connect(title=window_title, class_name=window_class)
                 # A janela já está aberta, ative-a
                 app_top_window = app.top_window()
-                app_top_window.restore()
+                # app_top_window.restore()
                 app_top_window.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
                 # conexao_x = app_top_window.rectangle().left
                 # conexao_y = app_top_window.rectangle().top
@@ -413,7 +413,8 @@ def conexao():
                     if posicao_conectado is not None:
                         print("Esta conectado")
                         # app_top_window.minimize()  # minimiza a janela
-                        app_top_window.close()  # fecha a janela
+                        # app_top_window.close()  # fecha a janela
+                        pyautogui.click(910, 10)
                         return None
 
                     posicao_conectar = localizar_imagem(conectar, regiao_conectar, precisao)
@@ -477,7 +478,8 @@ def conexao():
                             if status == "Conectado":
                                 print(status)
                                 # app_top_window.minimize()  # minimiza a janela
-                                app_top_window.close()  # fecha a janela
+                                # app_top_window.close()  # fecha a janela
+                                pyautogui.click(910, 10)
                                 return None
                             time.sleep(0.5)
                         app_top_window.set_focus()
@@ -639,7 +641,4 @@ def obter_status_conexao(nome_conexao):
 # tipo_conexao = "modem"
 # # # print("chma conexao")
 # conexao(tipo_conexao)
-
-# conexao()
-
 
