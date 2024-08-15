@@ -341,14 +341,14 @@ def conexao():
             try:
                 app = pywinauto.Application().connect(title=window_title, class_name=window_class)
                 # A janela já está aberta, ative-a
-                app_top_window = app.top_window()
-                # app_top_window.restore()
-                app_top_window.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
-                # conexao_x = app_top_window.rectangle().left
-                # conexao_y = app_top_window.rectangle().top
-                app_top_window.set_focus()
+                janela_configuracoes = app.top_window()
+                # janela_configuracoes.restore()
+                janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
+                # conexao_x = janela_configuracoes.rectangle().left
+                # conexao_y = janela_configuracoes.rectangle().top
+                janela_configuracoes.set_focus()
                 # Verifique se a janela está respondendo
-                if app_top_window.is_active():
+                if janela_configuracoes.is_active():
                     print("A janela está ativa.")
                     break
                 time.sleep(0.5)
@@ -368,13 +368,13 @@ def conexao():
                 continue
         # time.sleep(0.5)
         if tipo_conexao == "vero":
-            app_top_window.set_focus()
+            janela_configuracoes.set_focus()
             print("conexão vero")
             cont_erro = 0
             clicou_conecar = False
 
             for _ in range(200):
-                app_top_window.set_focus()
+                janela_configuracoes.set_focus()
                 posicao_telefone = localizar_imagem(telefone, regiao_telefone, precisao)
                 if posicao_telefone is not None:
                     centro_discada = pyautogui.center(posicao_telefone)  # Obtém o centro da posição da imagem encontrada
@@ -406,14 +406,14 @@ def conexao():
                 time.sleep(0.3)
 
             if clicou_conecar:
-                app_top_window.set_focus()
+                janela_configuracoes.set_focus()
                 for _ in range(200):
                     cont_erro += 1
                     posicao_conectado = localizar_imagem(conectado, regiao_conectado, precisao)
                     if posicao_conectado is not None:
                         print("Esta conectado")
-                        # app_top_window.minimize()  # minimiza a janela
-                        # app_top_window.close()  # fecha a janela
+                        # janela_configuracoes.minimize()  # minimiza a janela
+                        # janela_configuracoes.close()  # fecha a janela
                         pyautogui.click(910, 10)
                         return None
 
@@ -446,7 +446,7 @@ def conexao():
         elif tipo_conexao == "modem":
             print('modem')
 
-            app_top_window.set_focus()
+            janela_configuracoes.set_focus()
             for _ in range(150):
                 posicao_celular = localizar_imagem(celular, regiao_celular, precisao)
                 if posicao_celular is not None:
@@ -466,7 +466,7 @@ def conexao():
                                 time.sleep(0.5)
                                 break
                             time.sleep(0.5)
-                        app_top_window.set_focus()
+                        janela_configuracoes.set_focus()
 
                     posicao_desativado = localizar_imagem(desativado, regiao_ativado_desativado, precisao)
                     if posicao_desativado is not None:
@@ -477,19 +477,19 @@ def conexao():
                             print('esperando conectar')
                             if status == "Conectado":
                                 print(status)
-                                # app_top_window.minimize()  # minimiza a janela
-                                # app_top_window.close()  # fecha a janela
+                                # janela_configuracoes.minimize()  # minimiza a janela
+                                # janela_configuracoes.close()  # fecha a janela
                                 pyautogui.click(910, 10)
                                 return None
                             time.sleep(0.5)
-                        app_top_window.set_focus()
+                        janela_configuracoes.set_focus()
                 time.sleep(0.3)
 
-        app_top_window.set_focus()
+        janela_configuracoes.set_focus()
         time.sleep(1)
-        app_top_window.maximize()
+        janela_configuracoes.maximize()
         time.sleep(1)
-        app_top_window.close()  # fecha a janela
+        janela_configuracoes.close()  # fecha a janela
         print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
         time.sleep(1)
 
