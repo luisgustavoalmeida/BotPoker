@@ -44,7 +44,7 @@ x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
-a, b = 859, 40
+a, b = 700, 650
 
 x = (x_origem + a)
 y = (y_origem + b)
@@ -56,7 +56,7 @@ for i in range(255):
     cor = pyautogui.pixel(x, y)
     print(f"A cor RGB do pixel em ({x}, {y}) é {cor}")
 
-    if pyautogui.pixelMatchesColor(x, y, (48, 154, 17), tolerance=tolerancia):
+    if pyautogui.pixelMatchesColor(x, y, (32, 33, 36), tolerance=tolerancia):
         print('tem a cor, tolerancia :', tolerancia)
 
     tolerancia += 1
@@ -68,7 +68,7 @@ for i in range(255):
         cores_contagem[cor] = 1
 
     # Aguarde por um curto período de tempo antes de verificar o próximo pixel
-    time.sleep(0.5)
+    # time.sleep(0.5)
 
 # Encontre a cor que mais ocorreu
 cor_mais_comum = max(cores_contagem, key=cores_contagem.get)
