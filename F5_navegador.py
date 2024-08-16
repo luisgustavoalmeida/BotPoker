@@ -20,7 +20,7 @@ botao_recarregar = r'Imagens\botao_recarregar.png'
 
 # Define a região da tela onde a imagem será buscada
 regiao_busca = (50, 35, 140, 100)  # (x, y, largura, altura)
-precisao = 0.9
+precisao = 0.8
 
 
 def localizar_imagem(imagem, regiao, precisao):

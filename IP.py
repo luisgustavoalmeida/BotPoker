@@ -313,6 +313,7 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
 
 
 def conexao():
+    global janela_configuracoes
     while True:
         while True:
             # Tempo máximo para esperar (em segundos)
@@ -342,7 +343,7 @@ def conexao():
                 app = pywinauto.Application().connect(title=window_title, class_name=window_class)
                 # A janela já está aberta, ative-a
                 janela_configuracoes = app.top_window()
-                # janela_configuracoes.restore()
+                janela_configuracoes.restore()
                 janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
                 # conexao_x = janela_configuracoes.rectangle().left
                 # conexao_y = janela_configuracoes.rectangle().top
@@ -488,6 +489,7 @@ def conexao():
         janela_configuracoes.set_focus()
         time.sleep(1)
         janela_configuracoes.maximize()
+        janela_configuracoes.restore()
         time.sleep(1)
         janela_configuracoes.close()  # fecha a janela
         print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
