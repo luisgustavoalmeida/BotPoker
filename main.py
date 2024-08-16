@@ -333,9 +333,12 @@ def tarefas():
                 break
             missao_encontrada = False
             for item_tarefa in lista_tarefas_fazer:
+                print(item_tarefa)
                 if 'Jogar o caca-niquel da mesa' in item_tarefa:
+                    print('Jogar o caca-niquel da mesa')
                     missao_encontrada = True
                 elif 'Gioca alla Slot machine al tavolo' in item_tarefa:
+                    print('Gioca alla Slot machine al tavolo')
                     missao_encontrada = True
 
                 if missao_encontrada:
@@ -343,6 +346,7 @@ def tarefas():
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='slot', ajusta_aposta=200)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
             print("--------------parte 2---------------")
             if parar_tarefas:
                 break
@@ -357,6 +361,7 @@ def tarefas():
                     Mesa.mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='tarefa_mesa')
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 3---------------")
             if parar_tarefas:
@@ -373,6 +378,7 @@ def tarefas():
 
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 4---------------")
             if parar_tarefas:
@@ -390,6 +396,7 @@ def tarefas():
 
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 5---------------")
             if parar_tarefas:
@@ -406,6 +413,7 @@ def tarefas():
                     Genius.genius_joga_vezes(x_origem, y_origem)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 6---------------")
             if parar_tarefas:
@@ -421,6 +429,7 @@ def tarefas():
                     Genius.genius_joga_valor(x_origem, y_origem, lista_tarefas_fazer, valor_fichas)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 7---------------")
             if parar_tarefas:
@@ -437,6 +446,7 @@ def tarefas():
                     Slot.solot_joga_vezes(x_origem, y_origem, True)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 8---------------")
             if parar_tarefas:
@@ -453,6 +463,7 @@ def tarefas():
                     Slot.solot_joga_vezes(x_origem, y_origem, False)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 9---------------")
             if parar_tarefas:
@@ -471,11 +482,13 @@ def tarefas():
                     #                      level_conta=4, subir_level=False, jogar=False, slot=True, ajusta_aposta=2000)
                     (parar_tarefas, valor_fichas, pontuacao_tarefas, lista_tarefas_fazer,
                      hora_fim_tarefa) = Tarefas.testa_continuar_fazendo_tarefa(x_origem, y_origem, dia_da_semana)
+                    missao_encontrada = False
 
             print("--------------parte 10---------------")
             if parar_tarefas:
                 break
             missao_encontrada = False
+
 
     hora_que_rodou = horario().strftime('%H:%M:%S')
     return
