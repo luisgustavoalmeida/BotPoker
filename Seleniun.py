@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
+
 import IP
 from F5_navegador import atualizar_navegador
 from Requerimentos import nome_usuario
@@ -133,6 +134,7 @@ def abrir_navegador(urli):
         try:
             print('coloca o url no navegador')
             navegador.get(url)
+            # colocar_url(url)
             # print('manda sair do facebook')
             # sair_face(url, navegador)
             return
@@ -227,6 +229,26 @@ def verificar_janelas():
         return False
 
 
+def colocar_url(url_colocar):
+    global navegador
+    tentativa = 0
+    intervalo = 2
+    while True:
+        try:
+            navegador.get(url_colocar)
+            # Sucesso na conexão, sair do loop
+            return True
+        except Exception as e:
+            print('\n erro: \n', e, '\n')
+
+            print(f"Tentativa {tentativa+1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
+            time.sleep(intervalo)
+        IP.tem_internet()
+
+
+
+
+
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     global navegador, url, id, senha
 
@@ -238,7 +260,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         senha = senha_novo
 
     if loga_pk is False:
-        navegador.get(url)
+        # navegador.get(url)
+        colocar_url(url)
         time.sleep(2)
 
     while True:
@@ -269,7 +292,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     url_atual = pega_url()
                     # print(url_atual)
                     if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
-                        navegador.get(url)
+                        # navegador.get(url)
+                        colocar_url(url)
                         print('coloca url do jogo')
                         time.sleep(2)
                         break
@@ -492,7 +516,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 return entrou, status
 
                             time.sleep(5)
-                            navegador.get(url)
+                            # navegador.get(url)
+                            colocar_url(url)
                             time.sleep(5)
 
                         elif "/user_cookie_choice/" in url_atual:
@@ -504,7 +529,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 elemento_recusar.click()
                                 print('clicou')
                                 time.sleep(5)
-                                navegador.get(url)
+                                # navegador.get(url)
+                                colocar_url(url)
                                 time.sleep(5)
                             else:
                                 status = "cookie"
@@ -564,7 +590,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 return entrou, status
 
                             time.sleep(3)
-                            navegador.get(url)
+                            # navegador.get(url)
+                            colocar_url(url)
                             time.sleep(5)
 
                     elif "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
@@ -692,6 +719,7 @@ def abrir_fechar_guia(max_tentativas=5):
                     print("O foco está na primeira guia.")
                     # Recarregue a página
                     # navegador.get(url)
+                    # colocar_url(url)
                     url_sair = 'https://pt-br.facebook.com/'
                     navegador.get(url_sair)
                     return
@@ -825,6 +853,7 @@ def atualizar_pagina():
         IP.tem_internet()  # testa se tem internete enste de atualizar a pagina
         try:
             navegador.get(url)
+            # colocar_url(url)
             return
         except Exception as e:
             print("Erro de conexão com a internet. Tentando novamente em 5 segundos...")
@@ -853,7 +882,8 @@ def busca_link():
 
     url = "https://pt-br.facebook.com/"
 
-    navegador.get(url)
+    # navegador.get(url)
+    colocar_url(url)
 
     time.sleep(3)
 
