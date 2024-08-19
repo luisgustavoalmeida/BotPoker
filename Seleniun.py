@@ -295,7 +295,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                         # navegador.get(url)
                         colocar_url(url)
                         print('coloca url do jogo')
-                        time.sleep(2)
+                        # time.sleep(2)
                         break
                     time.sleep(0.05)
                     if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
@@ -631,7 +631,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 continue
         else:
             print('Padrao de URL não esperado')
-            time.sleep(5)
+            # time.sleep(5)
             sair_face(url)
 
 
