@@ -386,7 +386,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 print("Tentativa: ", i)
                                 for texto in texto_a_procurar:
                                     try:
-                                        WebDriverWait(navegador, 5).until(
+                                        WebDriverWait(navegador, 1).until(
                                             EC.text_to_be_present_in_element((By.XPATH, '//*[contains(text(), "{}")]'.format(texto)), texto)
                                         )
                                         print(f'O texto "{texto_a_procurar}" está visível na página.')
