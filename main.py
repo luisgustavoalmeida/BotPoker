@@ -759,6 +759,7 @@ def identifica_funcao():
         Telegran.monta_mensagem(f'A execução do programa foi retomada {str(confg_funcao)}.  ⚙️', False)
         if confg_funcao == 'roleta_auto':
             guia = HoraT.mudar_guia(id_novo, guia, config_tempo_roleta)
+
         elif confg_funcao == 'Face':
             guia = 'Remover'
         elif confg_funcao == 'Recolher_automatico':
@@ -789,6 +790,10 @@ identifica_funcao()
 
 print('Guia: ', guia)
 guia_anterior = guia
+
+if guia != 'R1':
+    url = 'https://apps.facebook.com/poker_italia'
+
 # Obter as credenciais da conta do facebook
 id, senha, fichas_planilha, linha, level_conta = credenciais(guia)
 
@@ -920,8 +925,10 @@ while True:
         #         escrever_celula(link, 'Dados', 'F3')
         #         Telegran.monta_mensagem(f'  FALHA LINK FAN PAGE.    A T E N Ç Ã O !!! ', False)
 
-        if guia in ('Remover', 'Recolher', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
+        if guia in 'R1':
             url = str(pega_valor_endereco('Dados!F1'))
+        elif guia in ('Remover', 'Recolher', 'T1', 'R2', 'R3', 'R4', 'R5'):
+            url = 'https://apps.facebook.com/poker_italia'
 
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
 
