@@ -38,13 +38,13 @@ def x_y():  # apenas para testes
 
 # Exemplo de uso
 x_origem = 490
-y_origem = 435
+y_origem = 167
 
 x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
-a, b = 700, 650
+a, b = 700, 167
 
 x = (x_origem + a)
 y = (y_origem + b)

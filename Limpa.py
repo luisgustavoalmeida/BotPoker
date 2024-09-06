@@ -511,7 +511,8 @@ def limpa_promocao(x_origem, y_origem):
     # raliacesses
     if (pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (255, 204, 125), tolerance=19) or
             pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (53, 27, 14), tolerance=19) or
-            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (74, 40, 12), tolerance=19)):  # aneis
+            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (74, 40, 12), tolerance=19) or
+            pyautogui.pixelMatchesColor((x_origem + 700), (y_origem + 167), (66, 66, 68), tolerance=19)):  # aneis
         pyautogui.click(811 + x_origem, 168 + y_origem)
         print("aneis")
 
