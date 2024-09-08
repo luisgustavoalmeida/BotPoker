@@ -42,7 +42,7 @@ def dispositivo_conectado():
         return False
 
 
-def set_usb_tethering(ativar):
+def set_usb_tethering(ativar=1):
     """
     Ativa ou desativa o USB Tethering com root.
     :param ativar: '1' para ativar, '0' para desativar.
@@ -113,6 +113,7 @@ def alterar_modo_aviao(ativado):
 
 
 # Exemplo de uso
+is_usb_tethering_active()
 set_usb_tethering(1)  # ativar o compartilhamento usb de internet
 alterar_modo_aviao(True)  # Ativar modo avião
 alterar_modo_aviao(False)  # Desativar modo avião
