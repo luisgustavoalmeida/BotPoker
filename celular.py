@@ -112,8 +112,28 @@ def alterar_modo_aviao(ativado):
         print(f"Erro inesperado: {erro}")
 
 
+def is_modo_aviao_ativo():
+    """Verifica se o modo avião está ativo."""
+    try:
+        # Comando para verificar o estado do modo avião
+        resultado = subprocess.run([caminho_adb, "shell", "settings", "get", "global", "airplane_mode_on"], capture_output=True, text=True)
+
+        # Verifica se o valor retornado é '1' (ativo) ou '0' (desativado)
+        if resultado.stdout.strip() == "1":
+            print("Modo avião está ativo.")
+            return True
+        else:
+            print("Modo avião está desativado.")
+            return False
+    except Exception as e:
+        print(f"Erro ao verificar o estado do modo avião: {e}")
+        return False
+
+
 # Exemplo de uso
 is_usb_tethering_active()
 set_usb_tethering(1)  # ativar o compartilhamento usb de internet
+is_modo_aviao_ativo()
 alterar_modo_aviao(True)  # Ativar modo avião
 alterar_modo_aviao(False)  # Desativar modo avião
+is_modo_aviao_ativo()
