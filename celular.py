@@ -106,6 +106,7 @@ def alterar_modo_aviao(ativado):
 
 
 # Exemplo de uso
+is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
 set_usb_tethering()  # ativar o compartilhamento usb de internet
 is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
 alterar_modo_aviao(True)  # Ativar modo avião
