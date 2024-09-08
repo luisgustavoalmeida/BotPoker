@@ -27,6 +27,21 @@ import subprocess
 caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
 
 
+def dispositivo_conectado():
+    """Verifica se um dispositivo está conectado via ADB."""
+    try:
+        resultado = subprocess.run([caminho_adb, "devices"], capture_output=True, text=True)
+        if "device" in resultado.stdout.splitlines()[1]:  # Verifica se o dispositivo está na lista
+            print("Dispositivo conectado.")
+            return True
+        else:
+            print("Nenhum dispositivo conectado.")
+            return False
+    except Exception as erro:
+        print(f"Erro ao verificar conexão com o dispositivo: {erro}")
+        return False
+
+
 def set_usb_tethering(ativar):
     """
     Ativa ou desativa o USB Tethering com root.
@@ -74,21 +89,6 @@ def is_usb_tethering_active():
         return False
 
 
-def dispositivo_conectado():
-    """Verifica se um dispositivo está conectado via ADB."""
-    try:
-        resultado = subprocess.run([caminho_adb, "devices"], capture_output=True, text=True)
-        if "device" in resultado.stdout.splitlines()[1]:  # Verifica se o dispositivo está na lista
-            print("Dispositivo conectado.")
-            return True
-        else:
-            print("Nenhum dispositivo conectado.")
-            return False
-    except Exception as erro:
-        print(f"Erro ao verificar conexão com o dispositivo: {erro}")
-        return False
-
-
 def alterar_modo_aviao(ativado):
     """Ativa ou desativa o modo avião com root."""
     if not dispositivo_conectado():
@@ -113,8 +113,6 @@ def alterar_modo_aviao(ativado):
 
 
 # Exemplo de uso
-is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
 set_usb_tethering(1)  # ativar o compartilhamento usb de internet
-is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
 alterar_modo_aviao(True)  # Ativar modo avião
 alterar_modo_aviao(False)  # Desativar modo avião
