@@ -22,38 +22,91 @@ adb version
 
 """
 
-
-
-
 import subprocess
-import time
-adb_path = r"C:\platform-tools\adb.exe"  # Substitua pelo caminho correto onde o adb está instalado
-def set_airplane_mode(enabled):
 
-    if enabled:
-        # Ativar modo avião
-        subprocess.run([adb_path, "shell", "settings", "put", "global", "airplane_mode_on", "1"])
-        subprocess.run([adb_path, "shell", "am", "broadcast", "-a", "android.intent.action.AIRPLANE_MODE", "--ez", "state", "true"])
-    else:
-        # Desativar modo avião
-        subprocess.run([adb_path, "shell", "settings", "put", "global", "airplane_mode_on", "0"])
-        subprocess.run([adb_path, "shell", "am", "broadcast", "-a", "android.intent.action.AIRPLANE_MODE", "--ez", "state", "false"])
+caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
+
+
+def set_usb_tethering(state):
+    """
+    Ativa ou desativa o USB Tethering.
+    :param state: '1' para ativar, '0' para desativar.
+    :param adb_path: Caminho do ADB, padrão é 'adb'.
+    """
+    if state not in ["1", "0"]:
+        raise ValueError("O estado deve ser '1' para ativar ou '0' para desativar.")
+
+    try:
+        # Comando para ativar ou desativar o USB tethering
+        subprocess.run([caminho_adb, "shell", "su", "-c", f"service call connectivity 34 i32 {state}"])
+        print(f"Tethering USB {'ativado' if state == '1' else 'desativado'}.")
+    except Exception as e:
+        print(f"Erro ao alterar o estado do tethering USB: {e}")
+
+
+def is_usb_tethering_active():
+    """
+    Verifica se o USB Tethering está ativo.
+    :param adb_path: Caminho do ADB, padrão é 'adb'.
+    :return: True se o tethering USB estiver ativo, False caso contrário.
+    """
+    try:
+        # Executa o comando para obter o status do tethering
+        result = subprocess.run([caminho_adb, "shell", "dumpsys", "connectivity"], capture_output=True, text=True)
+
+        # Verifica se o resultado contém informações sobre USB tethering
+        if "tethering" in result.stdout.lower():
+            print("Tethering USB está ativo.")
+            return True
+        else:
+            print("Tethering USB não está ativo.")
+            return False
+
+    except Exception as e:
+        print(f"Erro ao verificar o estado do tethering USB: {e}")
+        return False
+
+
+def dispositivo_conectado():
+    """Verifica se um dispositivo está conectado via ADB."""
+    try:
+        resultado = subprocess.run([caminho_adb, "devices"], capture_output=True, text=True)
+        if "device" in resultado.stdout.splitlines()[1]:  # Verifica se o dispositivo está na lista
+            print("Dispositivo conectado.")
+            return True
+        else:
+            print("Nenhum dispositivo conectado.")
+            return False
+    except Exception as erro:
+        print(f"Erro ao verificar conexão com o dispositivo: {erro}")
+        return False
+
+
+def alterar_modo_aviao(ativado):
+    """Ativa ou desativa o modo avião com root."""
+    if not dispositivo_conectado():
+        print("Falha: Dispositivo não está conectado via ADB.")
+        return
+
+    try:
+        if ativado:
+            print("Ativando modo avião...")
+            subprocess.run([caminho_adb, "shell", "su", "-c", "settings put global airplane_mode_on 1"], check=True)
+            subprocess.run([caminho_adb, "shell", "su", "-c", "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true"], check=True)
+        else:
+            print("Desativando modo avião...")
+            subprocess.run([caminho_adb, "shell", "su", "-c", "settings put global airplane_mode_on 0"], check=True)
+            subprocess.run([caminho_adb, "shell", "su", "-c", "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false"], check=True)
+
+        print(f"Modo avião {'ativado' if ativado else 'desativado'} com sucesso.")
+    except subprocess.CalledProcessError as erro:
+        print(f"Erro ao executar comando: {erro}")
+    except Exception as erro:
+        print(f"Erro inesperado: {erro}")
+
 
 # Exemplo de uso
-# set_airplane_mode(True)  # Coloca em modo avião
-# set_airplane_mode(False)  # Remove do modo avião
-
-
-def toggle_airplane_mode():
-    # Desliza a barra de notificações para baixo (ajuste as coordenadas conforme necessário)
-    subprocess.run([adb_path, "shell", "input", "swipe", "500", "0", "500", "1000"])
-
-    # Aguarda um breve momento para a animação da barra de notificações ser concluída
-    time.sleep(1)
-
-    # Simula um toque no ícone de modo avião (substitua x e y pelas coordenadas corretas do botão de modo avião)
-    # subprocess.run([adb_path, "shell", "input", "tap", "x", "y"])
-
-
-# Exemplo de uso
-toggle_airplane_mode()
+set_usb_tethering()  # ativar o compartilhamento usb de internet
+is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
+alterar_modo_aviao(True)  # Ativar modo avião
+alterar_modo_aviao(False)  # Desativar modo avião
