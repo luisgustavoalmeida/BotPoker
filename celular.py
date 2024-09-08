@@ -27,41 +27,48 @@ import subprocess
 caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
 
 
-def set_usb_tethering(state):
+def set_usb_tethering(ativar):
     """
-    Ativa ou desativa o USB Tethering.
-    :param state: '1' para ativar, '0' para desativar.
-    :param adb_path: Caminho do ADB, padrão é 'adb'.
+    Ativa ou desativa o USB Tethering com root.
+    :param ativar: '1' para ativar, '0' para desativar.
     """
-    if state not in ["1", "0"]:
+    if not dispositivo_conectado():
+        print("Falha: Dispositivo não está conectado via ADB.")
+        return
+
+    if ativar not in ["1", "0"]:
         raise ValueError("O estado deve ser '1' para ativar ou '0' para desativar.")
 
     try:
         # Comando para ativar ou desativar o USB tethering
-        subprocess.run([caminho_adb, "shell", "su", "-c", f"service call connectivity 34 i32 {state}"])
-        print(f"Tethering USB {'ativado' if state == '1' else 'desativado'}.")
-    except Exception as e:
+        subprocess.run([caminho_adb, "shell", "su", "-c", f"service call connectivity 34 i32 {ativar}"], check=True)
+        print(f"Tethering USB {'ativado' if ativar == '1' else 'desativado'}.")
+    except subprocess.CalledProcessError as e:
         print(f"Erro ao alterar o estado do tethering USB: {e}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 
 def is_usb_tethering_active():
     """
     Verifica se o USB Tethering está ativo.
-    :param adb_path: Caminho do ADB, padrão é 'adb'.
     :return: True se o tethering USB estiver ativo, False caso contrário.
     """
+    if not dispositivo_conectado():
+        print("Falha: Dispositivo não está conectado via ADB.")
+        return False
+
     try:
         # Executa o comando para obter o status do tethering
         result = subprocess.run([caminho_adb, "shell", "dumpsys", "connectivity"], capture_output=True, text=True)
 
-        # Verifica se o resultado contém informações sobre USB tethering
-        if "tethering" in result.stdout.lower():
+        # Verifica se há a string que indica que o tethering USB está ativo
+        if "Tethering services" in result.stdout and "usbTethering: true" in result.stdout:
             print("Tethering USB está ativo.")
             return True
         else:
             print("Tethering USB não está ativo.")
             return False
-
     except Exception as e:
         print(f"Erro ao verificar o estado do tethering USB: {e}")
         return False
@@ -107,7 +114,7 @@ def alterar_modo_aviao(ativado):
 
 # Exemplo de uso
 is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
-set_usb_tethering()  # ativar o compartilhamento usb de internet
+set_usb_tethering(1)  # ativar o compartilhamento usb de internet
 is_usb_tethering_active()  # testar se o compartilhamento useb está ativo
 alterar_modo_aviao(True)  # Ativar modo avião
 alterar_modo_aviao(False)  # Desativar modo avião
