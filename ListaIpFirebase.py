@@ -56,7 +56,7 @@ config11 = {"apiKey": "AIzaSyAZRtBB1qXwQ9GfPilEMUuIBKBJbgUbUAk", "authDomain": "
 # Variável para armazenar a última data de acesso
 ultima_data_acesso = None
 
-tempo_sem_uso_ip = 30
+tempo_sem_uso_ip = 20
 
 
 def escolher_configuracao_e_db():
