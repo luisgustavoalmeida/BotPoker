@@ -23,6 +23,7 @@ adb version
 """
 
 import subprocess
+import time
 
 caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
 
@@ -42,51 +43,58 @@ def dispositivo_conectado():
         return False
 
 
-def set_usb_tethering(ativar=1):
+def abrir_tela_tethering():
     """
-    Ativa ou desativa o USB Tethering com root.
-    :param ativar: '1' para ativar, '0' para desativar.
+    Abre a tela de configurações de compartilhamento de internet via USB no dispositivo Android.
     """
-    if not dispositivo_conectado():
-        print("Falha: Dispositivo não está conectado via ADB.")
-        return
-
-    if ativar not in ["1", "0"]:
-        raise ValueError("O estado deve ser '1' para ativar ou '0' para desativar.")
-
     try:
-        # Comando para ativar ou desativar o USB tethering
-        subprocess.run([caminho_adb, "shell", "su", "-c", f"service call connectivity 34 i32 {ativar}"], check=True)
-        print(f"Tethering USB {'ativado' if ativar == '1' else 'desativado'}.")
-    except subprocess.CalledProcessError as e:
-        print(f"Erro ao alterar o estado do tethering USB: {e}")
+        # Comando para abrir a tela de configurações de compartilhamento de internet via USB
+        comando = [caminho_adb, "shell", "am", "start", "-n", "com.android.settings/.TetherSettings"]
+
+        # Executa o comando
+        resultado = subprocess.run(comando, capture_output=True, text=True)
+
+        if resultado.returncode == 0:
+            print("Tela de configurações de compartilhamento de internet via USB aberta com sucesso.")
+        else:
+            print(f"Erro ao abrir a tela de configurações de compartilhamento de internet via USB: {resultado.stderr}")
+
     except Exception as e:
         print(f"Erro inesperado: {e}")
 
 
-def is_usb_tethering_active():
+def ligar_ou_desligar_tela(acionar=True):
     """
-    Verifica se o USB Tethering está ativo.
-    :return: True se o tethering USB estiver ativo, False caso contrário.
+    Liga ou desliga a tela do dispositivo Android.
+    :param acionar: True para ligar a tela, False para desligar a tela.
     """
-    if not dispositivo_conectado():
-        print("Falha: Dispositivo não está conectado via ADB.")
-        return False
-
     try:
-        # Executa o comando para obter o status do tethering
-        result = subprocess.run([caminho_adb, "shell", "dumpsys", "connectivity"], capture_output=True, text=True)
-
-        # Verifica se há a string que indica que o tethering USB está ativo
-        if "Tethering services" in result.stdout and "usbTethering: true" in result.stdout:
-            print("Tethering USB está ativo.")
-            return True
+        if acionar:
+            subprocess.run([caminho_adb, "shell", "input", "keyevent", "KEYCODE_WAKEUP"], check=True)
+            print("Tela ligada.")
         else:
-            print("Tethering USB não está ativo.")
-            return False
+            subprocess.run([caminho_adb, "shell", "input", "keyevent", "KEYCODE_SLEEP"], check=True)
+            print("Tela desligada.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao {'ligar' if acionar else 'desligar'} a tela: {e}")
     except Exception as e:
-        print(f"Erro ao verificar o estado do tethering USB: {e}")
-        return False
+        print(f"Erro inesperado: {e}")
+
+
+def clicar_em_coordenada(x, y):
+    """
+    Simula um clique na coordenada (x, y) da tela do celular.
+    :param x: Coordenada X onde o clique deve ser simulado.
+    :param y: Coordenada Y onde o clique deve ser simulado.
+    """
+    try:
+        # Comando adb para simular um toque na coordenada (x, y)
+        subprocess.run([caminho_adb, "shell", "input", "tap", str(x), str(y)], check=True)
+        print(f"Clique simulado nas coordenadas ({x}, {y}).")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao simular clique: {e}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 
 def alterar_modo_aviao(ativado):
@@ -131,9 +139,26 @@ def is_modo_aviao_ativo():
 
 
 # Exemplo de uso
-is_usb_tethering_active()
-set_usb_tethering(1)  # ativar o compartilhamento usb de internet
-is_modo_aviao_ativo()
-alterar_modo_aviao(True)  # Ativar modo avião
+
+
+ligar_ou_desligar_tela(True)  # Liga a tel
+time.sleep(2)  # Aguarda 5 segundos
 alterar_modo_aviao(False)  # Desativar modo avião
-is_modo_aviao_ativo()
+time.sleep(2)  # Aguarda 5 segundos
+abrir_tela_tethering()
+time.sleep(2)  # Aguarda 5 segundos
+clicar_em_coordenada(500, 400)  # Ajuste as coordenadas conforme necessário
+
+# is_modo_aviao_ativo()
+# alterar_modo_aviao(True)  # Ativar modo avião
+# alterar_modo_aviao(False)  # Desativar modo avião
+# is_modo_aviao_ativo()
+
+
+# # Exemplo de uso
+# is_usb_tethering_active()
+# set_usb_tethering(1)  # ativar o compartilhamento usb de internet
+# is_modo_aviao_ativo()
+# alterar_modo_aviao(True)  # Ativar modo avião
+# alterar_modo_aviao(False)  # Desativar modo avião
+# is_modo_aviao_ativo()
