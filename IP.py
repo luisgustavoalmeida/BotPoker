@@ -11,11 +11,11 @@ import requests
 
 import Google
 import ListaIpFirebase
+import celular
 from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, verificar_pc_ativo
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
-import celular
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -513,8 +513,6 @@ def conexao():
                 if not celular.is_modo_aviao_ativo():
                     break
 
-
-
         # elif tipo_conexao == "vpn":
         #     conexao_vpn_x = 930
         #     conexao_vpn_y = 440
@@ -583,7 +581,6 @@ def conexao():
         #             time.sleep(5)
         #             continue
         #         time.sleep(0.5)
-
 
 
 def localizar_imagem(imagem, regiao, precisao):
