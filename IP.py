@@ -508,7 +508,10 @@ def conexao():
                 time.sleep(1)
 
         elif tipo_conexao == "celular":
+            time.sleep(2)
+            print('celular')
             while True:
+                print('drentro do celular')
                 celular.alterar_modo_aviao(True)  # Ativar modo avião
                 celular.alterar_modo_aviao(False)  # Desativar modo avião
                 if not celular.is_modo_aviao_ativo():

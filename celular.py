@@ -40,6 +40,7 @@ def dispositivo_conectado():
             return False
     except Exception as erro:
         print(f"Erro ao verificar conexão com o dispositivo: {erro}")
+        time.sleep(5)
         return False
 
 
@@ -61,6 +62,7 @@ def abrir_tela_tethering():
 
     except Exception as e:
         print(f"Erro inesperado: {e}")
+        time.sleep(5)
 
 
 def ligar_ou_desligar_tela(acionar=True):
@@ -77,8 +79,10 @@ def ligar_ou_desligar_tela(acionar=True):
             print("Tela desligada.")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao {'ligar' if acionar else 'desligar'} a tela: {e}")
+        time.sleep(5)
     except Exception as e:
         print(f"Erro inesperado: {e}")
+        time.sleep(5)
 
 
 def clicar_em_coordenada(x, y):
@@ -93,8 +97,10 @@ def clicar_em_coordenada(x, y):
         print(f"Clique simulado nas coordenadas ({x}, {y}).")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao simular clique: {e}")
+        time.sleep(5)
     except Exception as e:
         print(f"Erro inesperado: {e}")
+        time.sleep(5)
 
 
 def alterar_modo_aviao(ativado):
@@ -116,8 +122,10 @@ def alterar_modo_aviao(ativado):
         print(f"Modo avião {'ativado' if ativado else 'desativado'} com sucesso.")
     except subprocess.CalledProcessError as erro:
         print(f"Erro ao executar comando: {erro}")
+        time.sleep(5)
     except Exception as erro:
         print(f"Erro inesperado: {erro}")
+        time.sleep(5)
 
 
 def is_modo_aviao_ativo():
@@ -135,6 +143,7 @@ def is_modo_aviao_ativo():
             return False
     except Exception as e:
         print(f"Erro ao verificar o estado do modo avião: {e}")
+        time.sleep(5)
         return False
 
 
