@@ -20,7 +20,7 @@ from Seleniun import teste_logado
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
 
-caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
+caminho_adb = r"platform-tools\adb.exe"  # Caminho para o adb
 
 LIMITE_IP = 6
 
