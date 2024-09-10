@@ -318,58 +318,59 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
 def conexao():
     global janela_configuracoes
     while True:
-        while True:
-            # Tempo máximo para esperar (em segundos)
-            tempo_passado = 0
+        if tipo_conexao != "celular":
+            while True:
+                # Tempo máximo para esperar (em segundos)
+                tempo_passado = 0
 
-            # Loop até que a janela esteja ativa ou o tempo máximo seja atingido
-            while tempo_passado < 3:
-                # Encontre a janela pelo título
-                target_window = gw.getWindowsWithTitle("Configurações")
+                # Loop até que a janela esteja ativa ou o tempo máximo seja atingido
+                while tempo_passado < 3:
+                    # Encontre a janela pelo título
+                    target_window = gw.getWindowsWithTitle("Configurações")
 
-                # Verifique se a janela foi encontrada e está ativa
-                if target_window and target_window[0].isActive:
-                    print("Janela encontrada e ativa.")
-                    break
-                else:
-                    print("Manda a jenela de conexao abrir")
-                    if tipo_conexao == "vero":
-                        os.system("start ms-settings:network-dialup")  # abre a conexão discada
-                    elif tipo_conexao == "modem":
-                        os.system("start ms-settings:network-airplanemode")  # modo aviao
+                    # Verifique se a janela foi encontrada e está ativa
+                    if target_window and target_window[0].isActive:
+                        print("Janela encontrada e ativa.")
+                        break
+                    else:
+                        print("Manda a jenela de conexao abrir")
+                        if tipo_conexao == "vero":
+                            os.system("start ms-settings:network-dialup")  # abre a conexão discada
+                        elif tipo_conexao == "modem":
+                            os.system("start ms-settings:network-airplanemode")  # modo aviao
 
-                # Aguarde um curto período antes de verificar novamente
-                time.sleep(0.2)
-                tempo_passado += 0.2
+                    # Aguarde um curto período antes de verificar novamente
+                    time.sleep(0.2)
+                    tempo_passado += 0.2
 
-            try:
-                app = pywinauto.Application().connect(title=window_title, class_name=window_class)
-                # A janela já está aberta, ative-a
-                janela_configuracoes = app.top_window()
-                janela_configuracoes.restore()
-                janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
-                # conexao_x = janela_configuracoes.rectangle().left
-                # conexao_y = janela_configuracoes.rectangle().top
-                janela_configuracoes.set_focus()
-                # Verifique se a janela está respondendo
-                if janela_configuracoes.is_active():
-                    print("A janela está ativa.")
-                    break
-                time.sleep(0.5)
-            except:
-                # A janela não está aberta, abra-a
-                target_window = gw.getWindowsWithTitle("Configurações")
+                try:
+                    app = pywinauto.Application().connect(title=window_title, class_name=window_class)
+                    # A janela já está aberta, ative-a
+                    janela_configuracoes = app.top_window()
+                    janela_configuracoes.restore()
+                    janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
+                    # conexao_x = janela_configuracoes.rectangle().left
+                    # conexao_y = janela_configuracoes.rectangle().top
+                    janela_configuracoes.set_focus()
+                    # Verifique se a janela está respondendo
+                    if janela_configuracoes.is_active():
+                        print("A janela está ativa.")
+                        break
+                    time.sleep(0.5)
+                except:
+                    # A janela não está aberta, abra-a
+                    target_window = gw.getWindowsWithTitle("Configurações")
 
-                # Verifique se a janela foi encontrada
-                if target_window:
-                    # Feche a janela
-                    target_window[0].close()
-                    print("Janela configuraçoes ativa.")
-                    time.sleep(1)
-                else:
-                    print("Janela não encontrada.")
-                time.sleep(0.5)
-                continue
+                    # Verifique se a janela foi encontrada
+                    if target_window:
+                        # Feche a janela
+                        target_window[0].close()
+                        print("Janela configuraçoes ativa.")
+                        time.sleep(1)
+                    else:
+                        print("Janela não encontrada.")
+                    time.sleep(0.5)
+                    continue
         # time.sleep(0.5)
         if tipo_conexao == "vero":
             janela_configuracoes.set_focus()
