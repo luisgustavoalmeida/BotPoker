@@ -11,17 +11,17 @@ nome_usuario = os.getlogin()
 nome_completo = str(nome_computador) + "_" + str(nome_usuario)
 
 dicionari_token_credencial_n = {
-    'PC-I5-8600K_PokerIP': ("token1.json", "credentials0.json", 1, 'gayaluisaalmeida@gmail.com', '', "IP!F3", "vero"),
-    'PC-I5-8600K_lgagu': ("token2.json", "credentials0.json", 2, 'lga.gustavo.a@gmail.com', '', "IP!F3", "vero"),
-    'PC-I5-8600K_Poker': ("token3.json", "credentials0.json", 3, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F3", "vero"),
+    'PC-I5-8600K_PokerIP': ("token1.json", "credentials0.json", 1, 'gayaluisaalmeida@gmail.com', '', "IP!F3", "celular"),
+    'PC-I5-8600K_lgagu': ("token2.json", "credentials0.json", 2, 'lga.gustavo.a@gmail.com', '', "IP!F3", "celular"),
+    'PC-I5-8600K_Poker': ("token3.json", "credentials0.json", 3, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F3", "celular"),
 
-    'PC-I5-9400A_PokerIP': ("token4.json", "credentials1.json", 4, 'gayaluisaalmeida@gmail.com', '', "IP!F6", "vero"),
-    'PC-I5-9400A_lgagu': ("token5.json", "credentials1.json", 5, 'lga.gustavo.a@gmail.com', '', "IP!F6", "vero"),
-    'PC-I5-9400A_Poker': ("token6.json", "credentials1.json", 6, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F6", "vero"),
+    'PC-I5-9400A_PokerIP': ("token4.json", "credentials1.json", 4, 'gayaluisaalmeida@gmail.com', '', "IP!F6", "celular"),
+    'PC-I5-9400A_lgagu': ("token5.json", "credentials1.json", 5, 'lga.gustavo.a@gmail.com', '', "IP!F6", "celular"),
+    'PC-I5-9400A_Poker': ("token6.json", "credentials1.json", 6, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F6", "celular"),
 
-    'PC-I5-9400B_PokerIP': ("token7.json", "credentials2.json", 7, 'gayaluisaalmeida@gmail.com', '', "IP!F9", "vero"),
-    'PC-I5-9400B_lgagu': ("token8.json", "credentials2.json", 8, 'lga.gustavo.a@gmail.com', '', "IP!F9", "vero"),
-    'PC-I5-9400B_Poker': ("token9.json", "credentials2.json", 9, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F9", "vero"),
+    'PC-I5-9400B_PokerIP': ("token7.json", "credentials2.json", 7, 'gayaluisaalmeida@gmail.com', '', "IP!F9", "celular"),
+    'PC-I5-9400B_lgagu': ("token8.json", "credentials2.json", 8, 'lga.gustavo.a@gmail.com', '', "IP!F9", "celular"),
+    'PC-I5-9400B_Poker': ("token9.json", "credentials2.json", 9, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F9", "celular"),
 
     'PC-I5-9400C_PokerIP': ("token10.json", "credentials3.json", 10, 'gayaluisaalmeida@gmail.com', '', "IP!F12", "modem"),
     'PC-I5-9400C_lgagu': ("token11.json", "credentials3.json", 11, 'lga.gustavo.a@gmail.com', '', "IP!F12", "modem"),
