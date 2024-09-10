@@ -1,6 +1,7 @@
 import datetime
 import os
 import random
+import subprocess
 import time
 
 import psutil
@@ -11,7 +12,6 @@ import requests
 
 import Google
 import ListaIpFirebase
-import celular
 from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, verificar_pc_ativo
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
@@ -512,11 +512,10 @@ def conexao():
             print('celular')
             while True:
                 print('drentro do celular')
-                celular.alterar_modo_aviao(True)  # Ativar modo avião
-                celular.alterar_modo_aviao(False)  # Desativar modo avião
-                if not celular.is_modo_aviao_ativo():
+                alterar_modo_aviao(True)  # Ativar modo avião
+                alterar_modo_aviao(False)  # Desativar modo avião
+                if not is_modo_aviao_ativo():
                     return None
-
 
         # elif tipo_conexao == "vpn":
         #     conexao_vpn_x = 930
@@ -609,6 +608,101 @@ def obter_status_conexao(nome_conexao):
     else:
         time.sleep(0.5)
         return "Conexão não encontrada"
+
+
+def dispositivo_conectado():
+    """Verifica se um dispositivo está conectado via ADB."""
+    while True:
+        try:
+            resultado = subprocess.run([caminho_adb, "devices"], capture_output=True, text=True)
+            if "device" in resultado.stdout.splitlines()[1]:  # Verifica se o dispositivo está na lista
+                print("Dispositivo conectado.")
+                return True
+        except Exception as erro:
+            print(f"Erro ao verificar conexão com o dispositivo: {erro}")
+            time.sleep(10)
+
+
+def ligar_ou_desligar_tela(acionar=True):
+    """
+    Liga ou desliga a tela do dispositivo Android.
+    :param acionar: True para ligar a tela, False para desligar a tela.
+    """
+    try:
+        if acionar:
+            subprocess.run([caminho_adb, "shell", "input", "keyevent", "KEYCODE_WAKEUP"], check=True)
+            print("Tela ligada.")
+        else:
+            subprocess.run([caminho_adb, "shell", "input", "keyevent", "KEYCODE_SLEEP"], check=True)
+            print("Tela desligada.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao {'ligar' if acionar else 'desligar'} a tela: {e}")
+        time.sleep(5)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        time.sleep(5)
+
+
+def clicar_em_coordenada(x, y):
+    """
+    Simula um clique na coordenada (x, y) da tela do celular.
+    :param x: Coordenada X onde o clique deve ser simulado.
+    :param y: Coordenada Y onde o clique deve ser simulado.
+    """
+    try:
+        # Comando adb para simular um toque na coordenada (x, y)
+        subprocess.run([caminho_adb, "shell", "input", "tap", str(x), str(y)], check=True)
+        print(f"Clique simulado nas coordenadas ({x}, {y}).")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao simular clique: {e}")
+        time.sleep(5)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        time.sleep(5)
+
+
+def alterar_modo_aviao(ativado):
+    """Ativa ou desativa o modo avião com root."""
+    if not dispositivo_conectado():
+        print("Falha: Dispositivo não está conectado via ADB.")
+        return
+
+    try:
+        if ativado:
+            print("Ativando modo avião...")
+            subprocess.run([caminho_adb, "shell", "su", "-c", "settings put global airplane_mode_on 1"], check=True)
+            subprocess.run([caminho_adb, "shell", "su", "-c", "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true"], check=True)
+        else:
+            print("Desativando modo avião...")
+            subprocess.run([caminho_adb, "shell", "su", "-c", "settings put global airplane_mode_on 0"], check=True)
+            subprocess.run([caminho_adb, "shell", "su", "-c", "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false"], check=True)
+
+        print(f"Modo avião {'ativado' if ativado else 'desativado'} com sucesso.")
+    except subprocess.CalledProcessError as erro:
+        print(f"Erro ao executar comando: {erro}")
+        time.sleep(5)
+    except Exception as erro:
+        print(f"Erro inesperado: {erro}")
+        time.sleep(5)
+
+
+def is_modo_aviao_ativo():
+    """Verifica se o modo avião está ativo."""
+    while True:
+        try:
+            # Comando para verificar o estado do modo avião
+            resultado = subprocess.run([caminho_adb, "shell", "settings", "get", "global", "airplane_mode_on"], capture_output=True, text=True)
+
+            # Verifica se o valor retornado é '1' (ativo) ou '0' (desativado)
+            if resultado.stdout.strip() == "1":
+                print("Modo avião está ativo.")
+                return True
+            else:
+                print("Modo avião está desativado.")
+                return False
+        except Exception as e:
+            print(f"Erro ao verificar o estado do modo avião: {e}")
+            time.sleep(2)
 
 # def obter_nomes_conexoes():
 #     conexoes = psutil.net_if_stats()
