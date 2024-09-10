@@ -59,9 +59,9 @@ dicionari_token_credencial_n = {
     'PC-I5-13400F_lgagu': ("token35.json", "credentials11.json", 35, 'lga.gustavo.a@gmail.com', '', "IP!F36", "vero"),
     'PC-I5-13400F_Poker': ("token36.json", "credentials11.json", 36, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F36", "vero"),
 
-    'PC-I5-13400G_PokerIP': ("token37.json", "credentials12.json", 37, 'gayaluisaalmeida@gmail.com', '', "IP!F39", "vero"),
-    'PC-I5-13400G_lgagu': ("token38.json", "credentials12.json", 38, 'lga.gustavo.a@gmail.com', '', "IP!F39", "vero"),
-    'PC-I5-13400G_Poker': ("token39.json", "credentials12.json", 39, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F39", "vero"),
+    'PC-I5-13400G_PokerIP': ("token37.json", "credentials12.json", 37, 'gayaluisaalmeida@gmail.com', '', "IP!F39", "celular"),
+    'PC-I5-13400G_lgagu': ("token38.json", "credentials12.json", 38, 'lga.gustavo.a@gmail.com', '', "IP!F39", "celular"),
+    'PC-I5-13400G_Poker': ("token39.json", "credentials12.json", 39, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F39", "celular"),
 
     'PC-I5-13400I_PokerIP': ("token40.json", "credentials13.json", 40, 'gayaluisaalmeida@gmail.com', '', "IP!F42", "vero"),
     'PC-I5-13400I_lgagu': ("token41.json", "credentials13.json", 41, 'lga.gustavo.a@gmail.com', '', "IP!F42", "vero"),
