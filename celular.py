@@ -44,6 +44,27 @@ def dispositivo_conectado():
         return False
 
 
+def abrir_tela_tethering():
+    """
+    Abre a tela de configurações de compartilhamento de internet via USB no dispositivo Android.
+    """
+    try:
+        # Comando para abrir a tela de configurações de compartilhamento de internet via USB
+        comando = [caminho_adb, "shell", "am", "start", "-n", "com.android.settings/.TetherSettings"]
+
+        # Executa o comando
+        resultado = subprocess.run(comando, capture_output=True, text=True)
+
+        if resultado.returncode == 0:
+            print("Tela de configurações de compartilhamento de internet via USB aberta com sucesso.")
+        else:
+            print(f"Erro ao abrir a tela de configurações de compartilhamento de internet via USB: {resultado.stderr}")
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        time.sleep(5)
+
+
 def ligar_ou_desligar_tela(acionar=True):
     """
     Liga ou desliga a tela do dispositivo Android.
