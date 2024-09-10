@@ -317,7 +317,6 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
 
 def conexao():
     global janela_configuracoes
-
     while True:
         if tipo_conexao != "celular":
             while True:
