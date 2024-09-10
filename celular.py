@@ -25,7 +25,7 @@ adb version
 import subprocess
 import time
 
-caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
+caminho_adb = r"platform-tools\adb.exe"  # Caminho para o adb
 
 
 def dispositivo_conectado():
