@@ -15,9 +15,12 @@ from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, verificar_pc
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
+import celular
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
+
+caminho_adb = r"C:\platform-tools\adb.exe"  # Caminho para o adb
 
 LIMITE_IP = 6
 
@@ -443,6 +446,14 @@ def conexao():
                             pyautogui.click(centro_cancelar)  # Clica no centro da posição encontrada
                             time.sleep(2)
                     time.sleep(0.5)
+            janela_configuracoes.set_focus()
+            time.sleep(1)
+            janela_configuracoes.maximize()
+            janela_configuracoes.restore()
+            time.sleep(1)
+            janela_configuracoes.close()  # fecha a janela
+            print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
+            time.sleep(1)
 
         elif tipo_conexao == "modem":
             print('modem')
@@ -486,14 +497,23 @@ def conexao():
                         janela_configuracoes.set_focus()
                 time.sleep(0.3)
 
-        janela_configuracoes.set_focus()
-        time.sleep(1)
-        janela_configuracoes.maximize()
-        janela_configuracoes.restore()
-        time.sleep(1)
-        janela_configuracoes.close()  # fecha a janela
-        print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
-        time.sleep(1)
+            janela_configuracoes.set_focus()
+            time.sleep(1)
+            janela_configuracoes.maximize()
+            janela_configuracoes.restore()
+            time.sleep(1)
+            janela_configuracoes.close()  # fecha a janela
+            print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
+            time.sleep(1)
+
+        elif tipo_conexao == "celular":
+            while True:
+                celular.alterar_modo_aviao(True)  # Ativar modo avião
+                celular.alterar_modo_aviao(False)  # Desativar modo avião
+                if not celular.is_modo_aviao_ativo():
+                    break
+
+
 
         # elif tipo_conexao == "vpn":
         #     conexao_vpn_x = 930
@@ -565,6 +585,7 @@ def conexao():
         #         time.sleep(0.5)
 
 
+
 def localizar_imagem(imagem, regiao, precisao):
     try:
         posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
@@ -586,7 +607,6 @@ def obter_status_conexao(nome_conexao):
     else:
         time.sleep(0.5)
         return "Conexão não encontrada"
-
 
 # def obter_nomes_conexoes():
 #     conexoes = psutil.net_if_stats()
@@ -643,4 +663,3 @@ def obter_status_conexao(nome_conexao):
 # tipo_conexao = "modem"
 # # # print("chma conexao")
 # conexao(tipo_conexao)
-

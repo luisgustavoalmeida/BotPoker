@@ -139,15 +139,13 @@ def is_modo_aviao_ativo():
 
 
 # Exemplo de uso
-
-
-ligar_ou_desligar_tela(True)  # Liga a tel
-time.sleep(2)  # Aguarda 5 segundos
-alterar_modo_aviao(False)  # Desativar modo avião
-time.sleep(2)  # Aguarda 5 segundos
-abrir_tela_tethering()
-time.sleep(2)  # Aguarda 5 segundos
-clicar_em_coordenada(500, 400)  # Ajuste as coordenadas conforme necessário
+# ligar_ou_desligar_tela(True)  # Liga a tel
+# time.sleep(2)  # Aguarda 5 segundos
+# alterar_modo_aviao(False)  # Desativar modo avião
+# time.sleep(2)  # Aguarda 5 segundos
+# abrir_tela_tethering()
+# time.sleep(2)  # Aguarda 5 segundos
+# clicar_em_coordenada(500, 400)  # Ajuste as coordenadas conforme necessário
 
 # is_modo_aviao_ativo()
 # alterar_modo_aviao(True)  # Ativar modo avião
