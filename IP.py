@@ -372,148 +372,149 @@ def conexao():
                         print("Janela não encontrada.")
                     time.sleep(0.5)
                     continue
-        # time.sleep(0.5)
-        if tipo_conexao == "vero":
-            janela_configuracoes.set_focus()
-            print("conexão vero")
-            cont_erro = 0
-            clicou_conecar = False
-
-            for _ in range(200):
+            # time.sleep(0.5)
+            if tipo_conexao == "vero":
                 janela_configuracoes.set_focus()
-                posicao_telefone = localizar_imagem(telefone, regiao_telefone, precisao)
-                if posicao_telefone is not None:
-                    centro_discada = pyautogui.center(posicao_telefone)  # Obtém o centro da posição da imagem encontrada
-                    pyautogui.click(centro_discada)  # Clica no centro da posição encontrada
-                    print("clica no telefoen")
+                print("conexão vero")
+                cont_erro = 0
+                clicou_conecar = False
 
-                    posicao_desconectar = localizar_imagem(desconectar, regiao_desconectar, precisao)
-                    if posicao_desconectar is not None:
-                        centro_desconectar = pyautogui.center(posicao_desconectar)  # Obtém o centro da posição da imagem encontrada
-                        pyautogui.click(centro_desconectar)  # Clica no centro da posição encontrada
-                        print("clica no desconectar")
-                        time.sleep(1)
-
-                    posicao_fechar = localizar_imagem(fechar, regiao_fechar, precisao)
-                    if posicao_fechar is not None:
-                        centro_fechar = pyautogui.center(posicao_fechar)  # Obtém o centro da posição da imagem encontrada
-                        pyautogui.click(centro_fechar)  # Clica no centro da posição encontrada
-                        print("clica no fechar 1")
-                        time.sleep(2)
-
-                    posicao_conectar = localizar_imagem(conectar, regiao_conectar, precisao)
-                    if posicao_conectar is not None:
-                        centro_conectar = pyautogui.center(posicao_conectar)  # Obtém o centro da posição da imagem encontrada
-                        pyautogui.click(centro_conectar)  # Clica no centro da posição encontrada
-                        time.sleep(1)
-                        print("clica no conectar")
-                        clicou_conecar = True
-                        break
-                time.sleep(0.3)
-
-            if clicou_conecar:
-                janela_configuracoes.set_focus()
                 for _ in range(200):
-                    cont_erro += 1
-                    posicao_conectado = localizar_imagem(conectado, regiao_conectado, precisao)
-                    if posicao_conectado is not None:
-                        print("Esta conectado")
-                        # janela_configuracoes.minimize()  # minimiza a janela
-                        # janela_configuracoes.close()  # fecha a janela
-                        pyautogui.click(910, 10)
-                        return None
+                    janela_configuracoes.set_focus()
+                    posicao_telefone = localizar_imagem(telefone, regiao_telefone, precisao)
+                    if posicao_telefone is not None:
+                        centro_discada = pyautogui.center(posicao_telefone)  # Obtém o centro da posição da imagem encontrada
+                        pyautogui.click(centro_discada)  # Clica no centro da posição encontrada
+                        print("clica no telefoen")
 
-                    posicao_conectar = localizar_imagem(conectar, regiao_conectar, precisao)
-                    if posicao_conectar is not None:
-                        centro_conectar = pyautogui.center(posicao_conectar)  # Obtém o centro da posição da imagem encontrada
-                        pyautogui.click(centro_conectar)  # Clica no centro da posição encontrada
-                        print("clica no conectar 2")
-                        time.sleep(1)
+                        posicao_desconectar = localizar_imagem(desconectar, regiao_desconectar, precisao)
+                        if posicao_desconectar is not None:
+                            centro_desconectar = pyautogui.center(posicao_desconectar)  # Obtém o centro da posição da imagem encontrada
+                            pyautogui.click(centro_desconectar)  # Clica no centro da posição encontrada
+                            print("clica no desconectar")
+                            time.sleep(1)
 
-                    # se deu algum erro e nao conectou aparece um mensagem de erro e opção de fechar
-                    posicao_fechar = localizar_imagem(fechar, regiao_fechar, precisao)
-                    if posicao_fechar is not None:
-                        cont_erro = 0
-                        centro_fechar = pyautogui.center(posicao_fechar)  # Obtém o centro da posição da imagem encontrada
-                        pyautogui.click(centro_fechar)  # Clica no centro da posição encontrada
-                        print("clica no fechar 2")
-                        time.sleep(2)
-
-                    # se esta demorando muito para conectar clia em cancelar e tenta novamente
-                    if cont_erro >= 60:
-                        posicao_cancelar = localizar_imagem(cancelar, regiao_cancelar, precisao)
-                        if posicao_cancelar is not None:
-                            cont_erro = 0
-                            centro_cancelar = pyautogui.center(posicao_cancelar)  # Obtém o centro da posição da imagem encontrada
-                            pyautogui.click(centro_cancelar)  # Clica no centro da posição encontrada
+                        posicao_fechar = localizar_imagem(fechar, regiao_fechar, precisao)
+                        if posicao_fechar is not None:
+                            centro_fechar = pyautogui.center(posicao_fechar)  # Obtém o centro da posição da imagem encontrada
+                            pyautogui.click(centro_fechar)  # Clica no centro da posição encontrada
+                            print("clica no fechar 1")
                             time.sleep(2)
-                    time.sleep(0.5)
-            janela_configuracoes.set_focus()
-            time.sleep(1)
-            janela_configuracoes.maximize()
-            janela_configuracoes.restore()
-            time.sleep(1)
-            janela_configuracoes.close()  # fecha a janela
-            print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
-            time.sleep(1)
 
-        elif tipo_conexao == "modem":
-            print('modem')
+                        posicao_conectar = localizar_imagem(conectar, regiao_conectar, precisao)
+                        if posicao_conectar is not None:
+                            centro_conectar = pyautogui.center(posicao_conectar)  # Obtém o centro da posição da imagem encontrada
+                            pyautogui.click(centro_conectar)  # Clica no centro da posição encontrada
+                            time.sleep(1)
+                            print("clica no conectar")
+                            clicou_conecar = True
+                            break
+                    time.sleep(0.3)
 
-            janela_configuracoes.set_focus()
-            for _ in range(150):
-                posicao_celular = localizar_imagem(celular, regiao_celular, precisao)
-                if posicao_celular is not None:
-                    centro_celular = pyautogui.center(posicao_celular)  # Obtém o centro da posição da imagem encontrada
-                    posicao_botao = pyautogui.Point(centro_celular.x, centro_celular.y + 30)
-                    posicao_ativado = localizar_imagem(ativado, regiao_ativado_desativado, precisao)
-                    if posicao_ativado is not None:
-                        time.sleep(0.3)
-                        pyautogui.click(posicao_botao)  # Clica para desativar a coneção
-                        print("foi desativado")
-                        time.sleep(0.3)
-                        for _ in range(50):
-                            status = obter_status_conexao("Celular")
-                            print('esperando desconectar')
-                            if status == "Desconectado":
-                                print(status)
+                if clicou_conecar:
+                    janela_configuracoes.set_focus()
+                    for _ in range(200):
+                        cont_erro += 1
+                        posicao_conectado = localizar_imagem(conectado, regiao_conectado, precisao)
+                        if posicao_conectado is not None:
+                            print("Esta conectado")
+                            # janela_configuracoes.minimize()  # minimiza a janela
+                            # janela_configuracoes.close()  # fecha a janela
+                            pyautogui.click(910, 10)
+                            return None
+
+                        posicao_conectar = localizar_imagem(conectar, regiao_conectar, precisao)
+                        if posicao_conectar is not None:
+                            centro_conectar = pyautogui.center(posicao_conectar)  # Obtém o centro da posição da imagem encontrada
+                            pyautogui.click(centro_conectar)  # Clica no centro da posição encontrada
+                            print("clica no conectar 2")
+                            time.sleep(1)
+
+                        # se deu algum erro e nao conectou aparece um mensagem de erro e opção de fechar
+                        posicao_fechar = localizar_imagem(fechar, regiao_fechar, precisao)
+                        if posicao_fechar is not None:
+                            cont_erro = 0
+                            centro_fechar = pyautogui.center(posicao_fechar)  # Obtém o centro da posição da imagem encontrada
+                            pyautogui.click(centro_fechar)  # Clica no centro da posição encontrada
+                            print("clica no fechar 2")
+                            time.sleep(2)
+
+                        # se esta demorando muito para conectar clia em cancelar e tenta novamente
+                        if cont_erro >= 60:
+                            posicao_cancelar = localizar_imagem(cancelar, regiao_cancelar, precisao)
+                            if posicao_cancelar is not None:
+                                cont_erro = 0
+                                centro_cancelar = pyautogui.center(posicao_cancelar)  # Obtém o centro da posição da imagem encontrada
+                                pyautogui.click(centro_cancelar)  # Clica no centro da posição encontrada
+                                time.sleep(2)
+                        time.sleep(0.5)
+                janela_configuracoes.set_focus()
+                time.sleep(1)
+                janela_configuracoes.maximize()
+                janela_configuracoes.restore()
+                time.sleep(1)
+                janela_configuracoes.close()  # fecha a janela
+                print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
+                time.sleep(1)
+
+            elif tipo_conexao == "modem":
+                print('modem')
+
+                janela_configuracoes.set_focus()
+                for _ in range(150):
+                    posicao_celular = localizar_imagem(celular, regiao_celular, precisao)
+                    if posicao_celular is not None:
+                        centro_celular = pyautogui.center(posicao_celular)  # Obtém o centro da posição da imagem encontrada
+                        posicao_botao = pyautogui.Point(centro_celular.x, centro_celular.y + 30)
+                        posicao_ativado = localizar_imagem(ativado, regiao_ativado_desativado, precisao)
+                        if posicao_ativado is not None:
+                            time.sleep(0.3)
+                            pyautogui.click(posicao_botao)  # Clica para desativar a coneção
+                            print("foi desativado")
+                            time.sleep(0.3)
+                            for _ in range(50):
+                                status = obter_status_conexao("Celular")
+                                print('esperando desconectar')
+                                if status == "Desconectado":
+                                    print(status)
+                                    time.sleep(0.5)
+                                    break
                                 time.sleep(0.5)
-                                break
-                            time.sleep(0.5)
-                        janela_configuracoes.set_focus()
+                            janela_configuracoes.set_focus()
 
-                    posicao_desativado = localizar_imagem(desativado, regiao_ativado_desativado, precisao)
-                    if posicao_desativado is not None:
-                        pyautogui.click(posicao_botao)  # Clica para ativar a coneção
-                        print("foi ativado")
-                        for _ in range(100):
-                            status = obter_status_conexao("Celular")
-                            print('esperando conectar')
-                            if status == "Conectado":
-                                print(status)
-                                # janela_configuracoes.minimize()  # minimiza a janela
-                                # janela_configuracoes.close()  # fecha a janela
-                                pyautogui.click(910, 10)
-                                return None
-                            time.sleep(0.5)
-                        janela_configuracoes.set_focus()
-                time.sleep(0.3)
+                        posicao_desativado = localizar_imagem(desativado, regiao_ativado_desativado, precisao)
+                        if posicao_desativado is not None:
+                            pyautogui.click(posicao_botao)  # Clica para ativar a coneção
+                            print("foi ativado")
+                            for _ in range(100):
+                                status = obter_status_conexao("Celular")
+                                print('esperando conectar')
+                                if status == "Conectado":
+                                    print(status)
+                                    # janela_configuracoes.minimize()  # minimiza a janela
+                                    # janela_configuracoes.close()  # fecha a janela
+                                    pyautogui.click(910, 10)
+                                    return None
+                                time.sleep(0.5)
+                            janela_configuracoes.set_focus()
+                    time.sleep(0.3)
 
-            janela_configuracoes.set_focus()
-            time.sleep(1)
-            janela_configuracoes.maximize()
-            janela_configuracoes.restore()
-            time.sleep(1)
-            janela_configuracoes.close()  # fecha a janela
-            print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
-            time.sleep(1)
+                janela_configuracoes.set_focus()
+                time.sleep(1)
+                janela_configuracoes.maximize()
+                janela_configuracoes.restore()
+                time.sleep(1)
+                janela_configuracoes.close()  # fecha a janela
+                print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
+                time.sleep(1)
 
         elif tipo_conexao == "celular":
             while True:
                 celular.alterar_modo_aviao(True)  # Ativar modo avião
                 celular.alterar_modo_aviao(False)  # Desativar modo avião
                 if not celular.is_modo_aviao_ativo():
-                    break
+                    return None
+
 
         # elif tipo_conexao == "vpn":
         #     conexao_vpn_x = 930
