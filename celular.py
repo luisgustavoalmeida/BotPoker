@@ -19,6 +19,7 @@ Clique em OK para fechar todas as janelas.
 Passo 2: Verificar o ADB novamente
 Abra um novo Prompt de Comando e verifique se o ADB funciona corretamente:
 adb version
+adb shell dumpsys activity activities # descobrir o nome da tela ativa
 
 """
 
@@ -146,6 +147,18 @@ def is_modo_aviao_ativo():
         time.sleep(5)
         return False
 
+
+def abrir_barra_botoes_rapidos():
+    """
+    Abre a barra de botões rápidos (configurações rápidas) no dispositivo Android.
+    """
+    try:
+        subprocess.run([caminho_adb, "shell", "cmd", "statusbar", "expand-settings"], check=True)
+        print("Barra de botões rápidos aberta com sucesso.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao abrir a barra de botões rápidos: {e}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 # Exemplo de uso
 # ligar_ou_desligar_tela(True)  # Liga a tel

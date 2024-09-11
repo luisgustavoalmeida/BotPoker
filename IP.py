@@ -84,6 +84,38 @@ lista_negra_ip = []
 cont_lista_negra = 0
 
 
+def iniciando_testando_conexao_internet():
+    if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
+        print(f'Iniciando testando conexao internet...\nTipo de conexão: {tipo_conexao}.')
+
+        response = requests.get('http://www.google.com', timeout=10)
+        if response.status_code == 200:
+            print("Conexão com a internet ativa...")
+            return True
+
+        while True:
+
+            if tipo_conexao in ('celular', 'vero'):
+                if tem_internet():
+                    return True
+            else:
+                if acioanedo_botao_USB_Tethering():
+                    return True
+    else:
+        return True
+
+
+
+def localizar_imagem(imagem, regiao, precisao):
+    try:
+        posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
+        return posicao
+    except Exception as e:
+        print("Ocorreu um erro ao localizar a imagem: ", e)
+        # time.sleep(2)
+        return None
+
+
 def testa_trocar_IP():
     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
@@ -315,63 +347,68 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
             print(f"Erro em testa_contagem_ip_banco. Erro : {e}")
 
 
+def abre_tala_cenexoes():
+    print('Abre Tala Cenexos')
+    while True:
+        # Tempo máximo para esperar (em segundos)
+        tempo_passado = 0
+
+        # Loop até que a janela esteja ativa ou o tempo máximo seja atingido
+        while tempo_passado < 3:
+            # Encontre a janela pelo título
+            target_window = gw.getWindowsWithTitle("Configurações")
+
+            # Verifique se a janela foi encontrada e está ativa
+            if target_window and target_window[0].isActive:
+                print("Janela encontrada e ativa.")
+                return
+            else:
+                print("Manda a jenela de conexao abrir")
+                if tipo_conexao == "vero":
+                    os.system("start ms-settings:network-dialup")  # abre a conexão discada
+                elif tipo_conexao == "modem":
+                    os.system("start ms-settings:network-airplanemode")  # modo aviao
+
+            # Aguarde um curto período antes de verificar novamente
+            time.sleep(0.2)
+            tempo_passado += 0.2
+
+        try:
+            app = pywinauto.Application().connect(title=window_title, class_name=window_class)
+            # A janela já está aberta, ative-a
+            janela_configuracoes = app.top_window()
+            janela_configuracoes.restore()
+            janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
+            # conexao_x = janela_configuracoes.rectangle().left
+            # conexao_y = janela_configuracoes.rectangle().top
+            janela_configuracoes.set_focus()
+            # Verifique se a janela está respondendo
+            if janela_configuracoes.is_active():
+                print("A janela está ativa.")
+                return
+            time.sleep(0.5)
+        except:
+            # A janela não está aberta, abra-a
+            target_window = gw.getWindowsWithTitle("Configurações")
+
+            # Verifique se a janela foi encontrada
+            if target_window:
+                # Feche a janela
+                target_window[0].close()
+                print("Janela configuraçoes ativa.")
+                time.sleep(1)
+            else:
+                print("Janela não encontrada.")
+            time.sleep(0.5)
+            continue
+
+
 def conexao():
     global janela_configuracoes
     while True:
-        if tipo_conexao != "celular":
-            while True:
-                # Tempo máximo para esperar (em segundos)
-                tempo_passado = 0
+        if tipo_conexao in ('celular', 'vero'):
+            abre_tala_cenexoes()
 
-                # Loop até que a janela esteja ativa ou o tempo máximo seja atingido
-                while tempo_passado < 3:
-                    # Encontre a janela pelo título
-                    target_window = gw.getWindowsWithTitle("Configurações")
-
-                    # Verifique se a janela foi encontrada e está ativa
-                    if target_window and target_window[0].isActive:
-                        print("Janela encontrada e ativa.")
-                        break
-                    else:
-                        print("Manda a jenela de conexao abrir")
-                        if tipo_conexao == "vero":
-                            os.system("start ms-settings:network-dialup")  # abre a conexão discada
-                        elif tipo_conexao == "modem":
-                            os.system("start ms-settings:network-airplanemode")  # modo aviao
-
-                    # Aguarde um curto período antes de verificar novamente
-                    time.sleep(0.2)
-                    tempo_passado += 0.2
-
-                try:
-                    app = pywinauto.Application().connect(title=window_title, class_name=window_class)
-                    # A janela já está aberta, ative-a
-                    janela_configuracoes = app.top_window()
-                    janela_configuracoes.restore()
-                    janela_configuracoes.move_window(x=conexao_x, y=conexao_y, width=500, height=330)
-                    # conexao_x = janela_configuracoes.rectangle().left
-                    # conexao_y = janela_configuracoes.rectangle().top
-                    janela_configuracoes.set_focus()
-                    # Verifique se a janela está respondendo
-                    if janela_configuracoes.is_active():
-                        print("A janela está ativa.")
-                        break
-                    time.sleep(0.5)
-                except:
-                    # A janela não está aberta, abra-a
-                    target_window = gw.getWindowsWithTitle("Configurações")
-
-                    # Verifique se a janela foi encontrada
-                    if target_window:
-                        # Feche a janela
-                        target_window[0].close()
-                        print("Janela configuraçoes ativa.")
-                        time.sleep(1)
-                    else:
-                        print("Janela não encontrada.")
-                    time.sleep(0.5)
-                    continue
-            # time.sleep(0.5)
             if tipo_conexao == "vero":
                 janela_configuracoes.set_focus()
                 print("conexão vero")
@@ -447,14 +484,6 @@ def conexao():
                                 pyautogui.click(centro_cancelar)  # Clica no centro da posição encontrada
                                 time.sleep(2)
                         time.sleep(0.5)
-                janela_configuracoes.set_focus()
-                time.sleep(1)
-                janela_configuracoes.maximize()
-                janela_configuracoes.restore()
-                time.sleep(1)
-                janela_configuracoes.close()  # fecha a janela
-                print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
-                time.sleep(1)
 
             elif tipo_conexao == "modem":
                 print('modem')
@@ -498,16 +527,16 @@ def conexao():
                             janela_configuracoes.set_focus()
                     time.sleep(0.3)
 
-                janela_configuracoes.set_focus()
-                time.sleep(1)
-                janela_configuracoes.maximize()
-                janela_configuracoes.restore()
-                time.sleep(1)
-                janela_configuracoes.close()  # fecha a janela
-                print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
-                time.sleep(1)
+            janela_configuracoes.set_focus()
+            time.sleep(1)
+            janela_configuracoes.maximize()
+            janela_configuracoes.restore()
+            time.sleep(1)
+            janela_configuracoes.close()  # fecha a janela
+            print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
+            time.sleep(1)
 
-        elif tipo_conexao == "celular":
+        elif tipo_conexao == 'celular':
             print('celular')
             while True:
                 print('drentro do celular')
@@ -516,84 +545,16 @@ def conexao():
                 if not is_modo_aviao_ativo():
                     return None
 
-        # elif tipo_conexao == "vpn":
-        #     conexao_vpn_x = 930
-        #     conexao_vpn_y = 440
-        #     while True:
-        #         print('refazendo conexao')
-        #         # testa se esta verde e ligado
-        #         if pyautogui.pixelMatchesColor((conexao_vpn_vpn_x + 189), (conexao_vpn_vpn_y + 186), (15, 134, 108), tolerance=10) \
-        #                 or pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (77, 182, 172), tolerance=10):
-        #             pyautogui.click(conexao_vpn_x + 189, conexao_vpn_y + 186)
-        #             print('desligou')
-        #             for i in range(100):
-        #                 # testa se esta vermelho e desligado
-        #                 if pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (126, 15, 83), tolerance=10) \
-        #                         or pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (164, 17, 94), tolerance=10):
-        #                     time.sleep(0.5)
-        #                     print('VPN Desconectado')
-        #                     break
-        #                 time.sleep(0.5)
-        #
-        #         # testa se esta vermelho e desligado
-        #         elif pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (126, 15, 83), tolerance=10) \
-        #                 or pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (164, 17, 94), tolerance=10):
-        #             pyautogui.click(conexao_vpn_x + 189, conexao_vpn_y + 186)
-        #             print('ligou')
-        #             for i in range(100):
-        #                 # testa se esta vermelho e desligado
-        #                 if pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (15, 134, 108), tolerance=10) \
-        #                         or pyautogui.pixelMatchesColor((conexao_vpn_x + 189), (conexao_vpn_y + 186), (77, 182, 172), tolerance=10):
-        #                     print('VPN Conectado')
-        #                     # Minimizar a janela
-        #                     vpn_window.minimize()
-        #                     return None
-        #                 time.sleep(0.5)
-        # elif tipo_conexao == "vpn":
-        #     # Caminho para o executável da VPN
-        #
-        #     caminho_executavel_vpn = "C:/Program Files (x86)/ExpressVPN/expressvpn-ui/ExpressVPN.exe"
-        #     conexao_vpn_x = 930
-        #     conexao_vpn_y = 440
-        #     while True:
-        #
-        #         print('abre a vpn')
-        #         try:
-        #             vpn_window = gw.getWindowsWithTitle('ExpressVPN')[0]
-        #             print(vpn_window)
-        #             # vpn_window.activate()
-        #             # Verificar se a janela está visível antes de movê-la
-        #             if vpn_window.left == 930 and vpn_window.top == 440:
-        #                 conexao_vpn_vpn_x = vpn_window.left
-        #                 conexao_vpn_vpn_y = vpn_window.top
-        #                 print("A posição da janela é (930, 440).")
-        #                 break
-        #             if vpn_window.left < 0 and vpn_window.top < 0:
-        #                 print('esta minizada')
-        #                 subprocess.Popen(caminho_executavel_vpn)
-        #             else:
-        #                 vpn_window.activate()
-        #                 # Mover a janela da VPN para a posição desejada (x, y) da tela
-        #                 conexao_vpn_vpn_x = 930
-        #                 conexao_vpn_vpn_y = 440
-        #
-        #                 vpn_window.moveTo(conexao_vpn_vpn_x, conexao_vpn_vpn_y)
-        #         except Exception as e:
-        #             print("Erro ao abrir a VPN:", e)
-        #             subprocess.Popen(caminho_executavel_vpn)
-        #             time.sleep(5)
-        #             continue
-        #         time.sleep(0.5)
-
-
-def localizar_imagem(imagem, regiao, precisao):
-    try:
-        posicao = pyautogui.locateOnScreen(imagem, region=regiao, confidence=precisao, grayscale=True)
-        return posicao
-    except Exception as e:
-        print("Ocorreu um erro ao localizar a imagem: ", e)
-        # time.sleep(2)
-        return None
+        elif tipo_conexao == 'celular_nao_root':
+            while True:
+                ligar_ou_desligar_tela(True)  # Liga a tel
+                abrir_barra_botoes_rapidos()
+                if not is_modo_aviao_ativo():
+                    clicar_em_coordenada(145, 370)
+                if is_modo_aviao_ativo():
+                    clicar_em_coordenada(145, 370)
+                    ligar_ou_desligar_tela(False)
+                    return None
 
 
 def obter_status_conexao(nome_conexao):
@@ -702,6 +663,80 @@ def is_modo_aviao_ativo():
         except Exception as e:
             print(f"Erro ao verificar o estado do modo avião: {e}")
             time.sleep(2)
+
+
+def abrir_barra_botoes_rapidos():
+    """
+    Abre a barra de botões rápidos (configurações rápidas) no dispositivo Android.
+    """
+    try:
+        subprocess.run([caminho_adb, "shell", "cmd", "statusbar", "expand-settings"], check=True)
+        print("Barra de botões rápidos aberta com sucesso.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao abrir a barra de botões rápidos: {e}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+
+
+def ajustar_brilho(valor_brilho):
+    """
+    Ajusta o brilho da tela.
+    :param valor_brilho: Valor do brilho (0 para mínimo, 255 para máximo).
+    """
+    if not (0 <= valor_brilho <= 255):
+        raise ValueError("O valor de brilho deve estar entre 0 e 255.")
+
+    try:
+        # Comando adb para ajustar o brilho
+        subprocess.run([caminho_adb, "shell", "settings", "put", "system", "screen_brightness", str(valor_brilho)], check=True)
+        print(f"Brilho ajustado para {valor_brilho}.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao ajustar o brilho: {e}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+
+
+def abrir_tela_tethering():
+    """
+    Abre a tela de configurações de compartilhamento de internet via USB no dispositivo Android.
+    """
+    try:
+        # Comando para abrir a tela de configurações de compartilhamento de internet via USB
+        comando = [caminho_adb, "shell", "am", "start", "-n", "com.android.settings/.TetherSettings"]
+
+        # Executa o comando
+        resultado = subprocess.run(comando, capture_output=True, text=True)
+
+        if resultado.returncode == 0:
+            print("Tela de configurações de compartilhamento de internet via USB aberta com sucesso.")
+        else:
+            print(f"Erro ao abrir a tela de configurações de compartilhamento de internet via USB: {resultado.stderr}")
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        time.sleep(5)
+
+
+def acioanedo_botao_USB_Tethering():
+    while True:
+        print('Testando conexão dom a internete')
+        ajustar_brilho(0)
+        response = requests.get('http://www.google.com', timeout=10)
+        if response.status_code == 200:
+            print("Conexão com a internet ativa...")
+            return True
+
+        ligar_ou_desligar_tela(True)
+        time.sleep(2)
+        abrir_tela_tethering()
+        time.sleep(2)
+        clicar_em_coordenada(360, 440)
+
+        response = requests.get('http://www.google.com', timeout=30)
+        if response.status_code == 200:
+            print("Conexão com a internet ativa...")
+            return True
+        conexao()
 
 # def obter_nomes_conexoes():
 #     conexoes = psutil.net_if_stats()

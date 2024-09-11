@@ -76,7 +76,7 @@ dicionari_token_credencial_n = {
     # 'PC-i3-8145U_Poker': ("token48.json", "credentials14.json", 48, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F48", "modem"),
 
     # 'PC-I7-9700KF_PokerIP': ("token49.json", "credentials14.json", 49, 'gayaluisaalmeida@gmail.com', '', "IP!F51", "vero"),
-    'PC-I7-9700KF_lgagu': ("token50.json", "credentials14.json", 50, 'lga.gustavo.a@gmail.com', '', "IP!F51", "celular"),
+    'PC-I7-9700KF_lgagu': ("token50.json", "credentials14.json", 50, 'lga.gustavo.a@gmail.com', '', "IP!F51", "vero"),
     # 'PC-I7-9700KF_Poker': ("token51.json", "credentials14.json", 51, 'luis.gustavo@engenharia.ufjf.br', '', "IP!F51", "vero")
 }
 
