@@ -85,23 +85,22 @@ cont_lista_negra = 0
 
 
 def iniciando_testando_conexao_internet():
+    print(f'Iniciando testando conexao internet...\nTipo de conexão: {tipo_conexao}.')
     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
-        print(f'Iniciando testando conexao internet...\nTipo de conexão: {tipo_conexao}.')
-
         response = requests.get('http://www.google.com', timeout=10)
         if response.status_code == 200:
             print("Conexão com a internet ativa...")
             return True
 
         while True:
-
-            if tipo_conexao in ('celular', 'vero'):
+            if tipo_conexao in ('modem', 'vero'):
                 if tem_internet():
                     return True
             else:
                 if acioanedo_botao_USB_Tethering():
                     return True
     else:
+        print('Não é um usuario com controle da internet.')
         return True
 
 
@@ -336,6 +335,8 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
                         print("Vai para a função que zera a contagem")
                         zera_contagem_ip_banco()
                         return
+                    else:
+                        print("IP ja foi utilizado")
                 else:
                     print("Espera liberar IP...")
                     time.sleep(2)
@@ -406,7 +407,7 @@ def abre_tala_cenexoes():
 def conexao():
     global janela_configuracoes
     while True:
-        if tipo_conexao in ('celular', 'vero'):
+        if tipo_conexao in ('modem', 'vero'):
             abre_tala_cenexoes()
 
             if tipo_conexao == "vero":
@@ -536,17 +537,18 @@ def conexao():
             print('Não consegiu realizar a abertura da janela de conexão para a troca de ip')
             time.sleep(1)
 
-        elif tipo_conexao == 'celular':
+        elif tipo_conexao == 'celular_root':
             print('celular')
-            while True:
+            for _ in range(200):
                 print('drentro do celular')
                 alterar_modo_aviao(True)  # Ativar modo avião
                 alterar_modo_aviao(False)  # Desativar modo avião
                 if not is_modo_aviao_ativo():
                     return None
+            return None
 
-        elif tipo_conexao == 'celular_nao_root':
-            while True:
+        elif tipo_conexao == 'celular':
+            for _ in range(200):
                 ligar_ou_desligar_tela(True)  # Liga a tel
                 abrir_barra_botoes_rapidos()
                 if not is_modo_aviao_ativo():
@@ -555,6 +557,7 @@ def conexao():
                     clicar_em_coordenada(145, 370)
                     ligar_ou_desligar_tela(False)
                     return None
+            return None
 
 
 def obter_status_conexao(nome_conexao):
@@ -718,6 +721,7 @@ def abrir_tela_tethering():
 
 
 def acioanedo_botao_USB_Tethering():
+    print('acioanedo_botao_USB_Tethering')
     while True:
         print('Testando conexão dom a internete')
         ajustar_brilho(0)
