@@ -66,63 +66,63 @@ def escolher_configuracao_e_db():
     Retorna:
     tuple: Configuração do banco de dados e referência ao banco.
     """
-    global db
-    global configuracao_banco
+    global db, configuracao_banco
+
     dia_atual = datetime.datetime.now().day
 
     if dia_atual < 4:
-        configuracao = config1
+        configuracao_banco = config1
         print('Sera usado o banco 1')
 
     elif 4 <= dia_atual < 7:
-        configuracao = config2
+        configuracao_banco = config2
         print('Sera usado o banco 2')
 
     elif 7 <= dia_atual < 10:
-        configuracao = config3
+        configuracao_banco = config3
         print('Sera usado o banco 3')
 
     elif 10 <= dia_atual < 13:
-        configuracao = config4
+        configuracao_banco = config4
         print('Sera usado o banco 4')
 
     elif 13 <= dia_atual < 16:
-        configuracao = config6
+        configuracao_banco = config6
         print('Sera usado o banco 6')
 
     elif 16 <= dia_atual < 19:
-        configuracao = config5
+        configuracao_banco = config5
         print('Sera usado o banco 5')
 
     elif 19 <= dia_atual < 22:
-        configuracao = config7
+        configuracao_banco = config7
         print('Sera usado o banco 7')
 
     elif 22 <= dia_atual < 25:
-        configuracao = config8
+        configuracao_banco = config8
         print('Sera usado o banco 8')
 
     elif 25 <= dia_atual < 28:
-        configuracao = config9
+        configuracao_banco = config9
         print('Sera usado o banco 9')
 
     elif 28 <= dia_atual < 31:
-        configuracao = config10
+        configuracao_banco = config10
         print('Sera usado o banco 10')
 
     else:
-        configuracao = config11
+        configuracao_banco = config11
         print('Sera usado o banco 11')
 
     # Inicializa o Firebase com a configuração escolhida
-    firebase = pyrebase.initialize_app(configuracao)
+    firebase = pyrebase.initialize_app(configuracao_banco)
     db = firebase.database()
 
-    return configuracao, db
+    return configuracao_banco, db
 
 
 # Escolhe a configuração do banco com base na data atual
-configuracao_banco, db = escolher_configuracao_e_db()
+# configuracao_banco, db = escolher_configuracao_e_db()
 
 
 def unir_e_atualizar_dados():

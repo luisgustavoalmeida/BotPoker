@@ -2,11 +2,12 @@ import datetime
 import threading
 import time
 
-import pyautogui
-from colorama import Fore
-
 from Google import (apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula,
                     retona_para_inicio_planilha)
+from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet, iniciando_testando_conexao_internet
+
+import pyautogui
+from colorama import Fore
 import Aneis
 import Cartas
 import Cofre
@@ -25,16 +26,16 @@ import Tarefas
 import Telegran
 # from Firebase import ler_configuracao
 from UparAuto import upar
-from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet,iniciando_testando_conexao_internet
+
 from Requerimentos import nome_computador, nome_usuario
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
+from ListaIpFirebase import escolher_configuracao_e_db
 
 # testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 iniciando_testando_conexao_internet()
-tem_internet()
-
+escolher_configuracao_e_db()
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
 LIMITE_IP = 6
@@ -490,7 +491,6 @@ def tarefas():
                 break
             missao_encontrada = False
 
-
     hora_que_rodou = horario().strftime('%H:%M:%S')
     return
 
@@ -652,7 +652,6 @@ def recolher_automatico():
     valor_minimo_mesa = Mesa.dicionario_salas[blind_recolher_auto][3]
     valor_fichas_perfil = OCR_tela.valor_fichas_perfil(x_origem, y_origem)
     valor_fichas_inicial = valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
-
 
     for _ in range(10):
 

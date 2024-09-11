@@ -87,10 +87,13 @@ cont_lista_negra = 0
 def iniciando_testando_conexao_internet():
     print(f'Iniciando testando conexao internet...\nTipo de conexão: {tipo_conexao}.')
     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
-        response = requests.get('http://www.google.com', timeout=10)
-        if response.status_code == 200:
-            print("Conexão com a internet ativa...")
-            return True
+        try:
+            response = requests.get('http://www.google.com', timeout=10)
+            if response.status_code == 200:
+                print("Conexão com a internet ativa...")
+                return True
+        except Exception as e:
+            print(f"Sem conexão com a internet. Erro: {e}")
 
         while True:
             if tipo_conexao in ('modem', 'vero'):
@@ -101,8 +104,8 @@ def iniciando_testando_conexao_internet():
                     return True
     else:
         print('Não é um usuario com controle da internet.')
-        return True
-
+        if tem_internet():
+            return True
 
 
 def localizar_imagem(imagem, regiao, precisao):
@@ -350,6 +353,7 @@ def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
 
 def abre_tala_cenexoes():
     print('Abre Tala Cenexos')
+    global janela_configuracoes
     while True:
         # Tempo máximo para esperar (em segundos)
         tempo_passado = 0
@@ -362,7 +366,7 @@ def abre_tala_cenexoes():
             # Verifique se a janela foi encontrada e está ativa
             if target_window and target_window[0].isActive:
                 print("Janela encontrada e ativa.")
-                return
+                break
             else:
                 print("Manda a jenela de conexao abrir")
                 if tipo_conexao == "vero":
@@ -386,7 +390,7 @@ def abre_tala_cenexoes():
             # Verifique se a janela está respondendo
             if janela_configuracoes.is_active():
                 print("A janela está ativa.")
-                return
+                break
             time.sleep(0.5)
         except:
             # A janela não está aberta, abra-a
