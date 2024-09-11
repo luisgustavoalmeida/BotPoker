@@ -32,7 +32,7 @@ from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
-
+print('\n\n Testando  \n\n')
 iniciando_testando_conexao_internet()
 escolher_configuracao_e_db()
 

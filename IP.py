@@ -746,6 +746,7 @@ def acioanedo_botao_USB_Tethering():
             return True
         conexao()
 
+
 # def obter_nomes_conexoes():
 #     conexoes = psutil.net_if_stats()
 #     nomes = conexoes.keys()
