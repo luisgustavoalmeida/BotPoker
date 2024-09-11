@@ -110,8 +110,8 @@ def gerar_tokens():
         credencial()
 
 
-cred = credencial()
-service = build('sheets', 'v4', credentials=cred)
+# cred = credencial()
+# service = build('sheets', 'v4', credentials=cred)
 
 
 # def primeira_celula_vazia3(guia):
