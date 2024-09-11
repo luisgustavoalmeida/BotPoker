@@ -33,9 +33,9 @@ from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
 
-# testa se a conexao com a internete esta ativa e funcionando antes de continuar o codigo
 iniciando_testando_conexao_internet()
 escolher_configuracao_e_db()
+
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
 LIMITE_IP = 6
