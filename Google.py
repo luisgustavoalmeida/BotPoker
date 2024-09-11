@@ -17,7 +17,7 @@ from googleapiclient.discovery import build
 from OCR_tela import tratar_valor_numerico
 from Requerimentos import dicionari_token_credencial_n, nome_completo
 from colorama import Fore
-from IP import tem_internet
+from IP import *
 from Requerimentos import nome_usuario, nome_computador
 
 if nome_computador == 'PC-I7-9700KF':

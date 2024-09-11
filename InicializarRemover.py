@@ -1,4 +1,7 @@
 from Firebase import atualizar_configuracao_pc
+from IP import iniciando_testando_conexao_internet
+
+iniciando_testando_conexao_internet()
 
 novos_dados = {'confg_funcao': 'Remover'}
 atualizar_configuracao_pc(novos_dados)

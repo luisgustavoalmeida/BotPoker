@@ -1,7 +1,7 @@
 from Firebase import atualizar_configuracao_pc
-import IP
+from IP import iniciando_testando_conexao_internet
 
-IP.iniciando_testando_conexao_internet()
+iniciando_testando_conexao_internet()
 
 novos_dados = {'confg_funcao': 'roleta_auto'}
 atualizar_configuracao_pc(novos_dados)
