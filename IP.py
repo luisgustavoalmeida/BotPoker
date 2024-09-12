@@ -729,10 +729,13 @@ def acioanedo_botao_USB_Tethering():
     while True:
         print('Testando conexão dom a internete')
         ajustar_brilho(0)
-        response = requests.get('http://www.google.com', timeout=10)
-        if response.status_code == 200:
-            print("Conexão com a internet ativa...")
-            return True
+        try:
+            response = requests.get('http://www.google.com', timeout=10)
+            if response.status_code == 200:
+                print("Conexão com a internet ativa...")
+                return True
+        except Exception as e:
+            print(f"Sem conexão com a internet. Erro: {e}")
 
         ligar_ou_desligar_tela(True)
         time.sleep(2)
@@ -740,10 +743,13 @@ def acioanedo_botao_USB_Tethering():
         time.sleep(2)
         clicar_em_coordenada(360, 440)
 
-        response = requests.get('http://www.google.com', timeout=30)
-        if response.status_code == 200:
-            print("Conexão com a internet ativa...")
-            return True
+        try:
+            response = requests.get('http://www.google.com', timeout=10)
+            if response.status_code == 200:
+                print("Conexão com a internet ativa...")
+                return True
+        except Exception as e:
+            print(f"Sem conexão com a internet. Erro: {e}")
         conexao()
 
 
