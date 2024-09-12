@@ -3,16 +3,13 @@ import time
 
 import pyautogui
 import pygetwindow as gw
-from selenium import webdriver
+import undetected_chromedriver as uc
+from fake_useragent import UserAgent
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
-
 
 import IP
 from F5_navegador import atualizar_navegador
@@ -21,72 +18,109 @@ from Requerimentos import nome_usuario
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
 
-# def criar_drive():
-# servico = Service(ChromeDriverManager().install())  # criar um objeto Service com o caminho do webdriver
-
-# nome_computador = socket.gethostname()
-# nome_usuario = os.getlogin()
 pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie\{nome_usuario}')
-
-options = Options()  # Criar um objeto 'Options' para definir as opções do Chrome
-# options.add_argument("user-data-dir=C:\\Users\\lgagu\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1") # Você pode encontrar o caminho digitando "chrome://version/" na barra de endereço do Google Chrome e procurando o valo
-options.add_argument('--disable-blink-features=AutomationControlled')  # desabilitam a detecção de automação no Chrome
-options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
-# options.add_argument("--disable-extensions")  # Desabilitar as extensões do Chrome
-options.add_argument("--disable-infobars")  # Desabilitar a barra de informações do Chrome
-options.add_argument("--disable-notifications")  # Desabilitar as notificações do Chrome
-options.add_argument("--disable-save-password-bubble")  # Desabilitar a caixa de diálogo para salvar senhas
-options.add_argument("--disable-password-generation")  # desabilita a geração automática de senhas pelo navegado
-# options.add_argument('--disable-cookies') # desabilita o envio de cookies durante a navegação.
-# options.add_argument('--disable-first-party-cookies') # Desativa o uso de cookies de primeira parte.
-# options.add_argument('--disable-third-party-cookies') # Desativa o uso de cookies de terceiros.
-# options.add_argument('--block-new-cookie-requests') # Bloqueia solicitações de criação de novos cookies.
-# options.add_argument("--enable-cookies") # abilita o envio de cookies durante a navegação.
-options.add_argument(f"--user-data-dir={pasta_cookies}")
-# options.add_argument("--user-data-dir=/path/to/empty/folder") # Especifica um diretório vazio para a coleta de cookies. Isso permite que você utilize cookies pré-existentes ou salve os cookies gerados durante a execução do script.
-options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
-options.add_argument("--disable-geolocation")  # desativar a funcionalidade de localização do navegador durante a execução do script Selenium
-options.add_argument("--window-size=1380,1050")  # Definir o tamanho da janela # largura altura options.add_argument("--window-size=1440,1045")
-options.add_argument("--window-position=-8,-5")  # Mover a janela para a posição (0,0) da tela
-options.add_argument("--mute-audio")  # desativar o áudio
-
-# options.add_argument("--disable-extensions")
-# options.add_argument("--disable-gpu") # Desabilita o uso da GPU pelo navegador.
-# options.add_argument("--disable-translate") # Desabilita a tradução automática de páginas pelo navegador
-
-# options.add_argument("--disable-local-storage") # Desabilita o uso de armazenamento local pelo navegador. Isso inclui o armazenamento de dados em cache e outros recursos relacionados a cookies.
-# options.add_argument("--disable-session-storage") # Desabilita o uso de armazenamento de sessão pelo navegador. Isso inclui o armazenamento temporário de dados relacionados a sessões de navegação.
-
-options.add_experimental_option("detach", True)  # para manter o navegador aberto
-
-# options.add_argument("--headless")# faz com que o browser não abra durante o processo
-# options.add_argument("--disable-popup-blocking")                            #desabilitar o bloqueio de pop-ups no Chrome. Quando o Selenium abre o navegador, por padrão, o bloqueio de pop-ups é habilitado
-# options.add_experimental_option("excludeSwitches", ["enable-automation"])   # Adicionar uma opção experimental para desabilitar a mensagem "O Chrome está sendo controlado por um software de teste automatizado."
-# options.add_experimental_option('useAutomationExtension', False)            # Adicionar uma opção experimental para desabilitar a extensão do WebDriver
-
-# navegador = webdriver.Chrome(service=servico, options=options)  # Inicializar o driver do navegador
-# print(navegador)
-
 navegador = None
 url = None
 id = ''
 senha = ''
+
+def get_random_user_agent():
+    return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
+    # user_agents = [
+    #     # Google Chrome
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36",
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+    #
+    #     # Mozilla Firefox
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:110.0) Gecko/20100101 Firefox/110.0",
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0",
+    #
+    #     # Safari
+    #     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Version/15.1 Safari/537.36",
+    #     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:14.1) Gecko/20100101 Firefox/14.1",  # Firefox for Mac
+    #
+    #     # Microsoft Edge
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:111.0) Gecko/20100101 Firefox/111.0",
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; AS; Microsoft Outlook 16.0; MSIE 11.0; Windows NT 10.0; en-US) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 Edge/18.17763",
+    #
+    #     # Opera
+    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Opera/75.0.3969.149) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
+    #
+    #     # Dispositivos Móveis
+    #     "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/537.36",
+    #     "Mozilla/5.0 (Android 12; Mobile; rv:108.0) Gecko/108.0 Firefox/108.0",
+    #
+    #     # Tablets
+    #     "Mozilla/5.0 (iPad; CPU OS 16_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.0 Safari/537.36",
+    #     "Mozilla/5.0 (Android 12; Tablet; rv:106.0) Gecko/106.0 Firefox/106.0",
+    # ]
+    # return random.choice(user_agents)
+    # ua = UserAgent()
+    # while True:
+    #     user_agent = ua.random
+    #     # Verifica se o User-Agent contém palavras que indicam dispositivos móveis
+    #     if any(keyword in user_agent for keyword in ["Mobile", "iPhone", "Android", "iPad", "Tablet"]):
+    #         continue  # Ignora User-Agent de dispositivos móveis e tenta novamente
+    #     print(user_agent)
+    #     return user_agent
 
 
 def cria_nevegador():
     global navegador  # Referenciar a variável global
     while True:
         try:
+            print('Carregando opções do navegador')
+            # Criar um objeto 'Options' para definir as opções do Chrome
+            options = uc.ChromeOptions()
+            options.add_argument(f"--user-agent={get_random_user_agent()}")
+            options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
+            options.add_argument("--accept-encoding=gzip, deflate, br")
+            options.add_argument("--referer=https://www.facebook.com/people/Poker-Italia/100068008035507/")
+            options.add_argument("--connection=keep-alive")
+            options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
+            options.add_argument("--disable-notifications")  # Desativa as notificações
+            options.add_argument("--disable-extensions")  # Desativa extensões
+            options.add_argument("--disable-cache")  # Desativa o cache
+            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
+            options.add_argument("--disable-password-generation")  # desabilita a geração automática de senhas pelo navegado
+            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
+            options.add_argument("--disable-geolocation")  # desativar localização.
+            options.add_argument("--mute-audio")  # desativar o áudio
+            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
+            # options.add_argument("--disable-infobars")  # Desabilitar a barra de informações do Chrome
+            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
+            options.add_argument(f"--user-data-dir={pasta_cookies}")
+
+
+            # Configuração adicional para bloquear pop-ups
+            prefs = {
+                "profile.default_content_setting_values.notifications": 2,  # Bloqueia notificações
+                "profile.default_content_setting_values.popups": 2,  # Bloqueia pop-ups
+            }
+            options.add_experimental_option("prefs", prefs)
+
             print('Criando o navegador')
-            servico = Service(ChromeDriverManager().install())  # criar um objeto Service com o caminho do webdriver
-            navegador = webdriver.Chrome(service=servico, options=options)  # Inicializar o driver do navegador
-            navegador.set_page_load_timeout(80)  # Redefina o tempo limite para XX segundos
+
+            # undetected-chromedriver
+            # Inicializa o driver do navegador com undetected-chromedriver
+            navegador = uc.Chrome(options=options)
+            # Redefina o tempo limite para XX segundos
+            navegador.set_page_load_timeout(80)
+            # Definir o tamanho da janela # largura altura options.add_argument
+            navegador.set_window_size(1380, 1060)
+            # Mover a janela para a posição (0,0) da tela
+            navegador.set_window_position(-8, -5)
+
             print('Navegador criado com sucesso')
+
             return navegador
         except Exception as e:
             print("Erro ao criar o navegador:", e)
             time.sleep(1)
-            fechar_janelas_chrome()
+            # fechar_janelas_chrome()
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 
@@ -241,12 +275,9 @@ def colocar_url(url_colocar):
         except Exception as e:
             print('\n erro: \n', e, '\n')
 
-            print(f"Tentativa {tentativa+1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
+            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
             time.sleep(intervalo)
         IP.tem_internet()
-
-
-
 
 
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
