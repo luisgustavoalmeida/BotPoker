@@ -4,7 +4,6 @@ import time
 import pyautogui
 import pygetwindow as gw
 import undetected_chromedriver as uc
-from fake_useragent import UserAgent
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -23,6 +22,7 @@ navegador = None
 url = None
 id = ''
 senha = ''
+
 
 def get_random_user_agent():
     return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
@@ -93,7 +93,6 @@ def cria_nevegador():
             # options.add_argument("--disable-infobars")  # Desabilitar a barra de informações do Chrome
             options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
             options.add_argument(f"--user-data-dir={pasta_cookies}")
-
 
             # Configuração adicional para bloquear pop-ups
             prefs = {

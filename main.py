@@ -24,6 +24,7 @@ import Seleniun
 import Slot
 import Tarefas
 import Telegran
+import Tratar_url
 # from Firebase import ler_configuracao
 from UparAuto import upar
 
@@ -75,6 +76,8 @@ linha_novo_fim = ''
 valores_fim = ['']
 
 url = str(pega_valor_endereco('Dados!F1'))
+url_link = str(pega_valor_endereco('Dados!F2'))
+dic_links = Tratar_url.rodar_links(url_link)
 
 navegador = Seleniun.cria_nevegador()
 
@@ -131,7 +134,8 @@ tarefa.start()
 
 
 def logar_carregar():
-    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker, url, confg_funcao
+
+    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker #, confg_funcao, guia, url,
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
@@ -142,7 +146,19 @@ def logar_carregar():
     continuar_tarefa = True
     iniciar_tarefa.release()
 
-    if confg_funcao in ('Recolher_automatico', 'Recolher', 'roleta_auto', 'T1', 'R1', 'R2', 'R3', 'R4', 'R5'):
+    if confg_funcao in ('roleta_auto', 'R1', 'R2', 'R3', 'R4', 'R5'):
+        if guia in ('R1', 'R2', 'R3', 'R4', 'R5'):
+            numero = int(guia[1:]) - 1
+            link_url = dic_links[numero]
+
+        else:
+            link_url = url
+
+        print("logar_carregar", link_url)
+
+        # loga nomamente no jogo
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False)
+    elif confg_funcao in ('Recolher_automatico', 'Recolher', 'T1',):
         # loga nomamente no jogo
         entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False)
     elif confg_funcao in ('Remover', 'Face'):
@@ -875,6 +891,27 @@ while True:
     ip, com_internet = meu_ip()  # obtem meu endereço de IP
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
+
+    if guia in ('R1', 'R2', 'R3', 'R4', 'R5'):
+        numero = int(guia[1:]) + 4
+        link_url = dic_links[numero]
+        feito = False
+        for _ in range(3):
+            Seleniun.colocar_url(link_url)
+            for _ in range(50):
+                if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
+                    print('Preto encontrado')
+                    break
+                time.sleep(0.1)
+            for _ in range(80):
+                if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
+                    print('Branco encontrado')
+                    feito = True
+                    break
+                time.sleep(0.1)
+            if feito:
+                break
+
     Seleniun.sair_face(url)
 
     if not entrou_corretamente:  # se nao entrou no face
@@ -925,10 +962,11 @@ while True:
         #         escrever_celula(link, 'Dados', 'F3')
         #         Telegran.monta_mensagem(f'  FALHA LINK FAN PAGE.    A T E N Ç Ã O !!! ', False)
 
-        if guia in 'R1':
-            url = str(pega_valor_endereco('Dados!F1'))
-        elif guia in ('Remover', 'Recolher', 'T1', 'R2', 'R3', 'R4', 'R5'):
-            url = 'https://apps.facebook.com/poker_italia'
+        if guia in ('R1', 'R2', 'R3'):
+            url_link = str(pega_valor_endereco('Dados!F2'))
+            dic_links = Tratar_url.rodar_links(url_link)
+        # elif guia in ('Remover', 'Recolher', 'T1'):
+        #     url = 'https://apps.facebook.com/poker_italia'
 
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
 
