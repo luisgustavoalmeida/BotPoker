@@ -10,11 +10,11 @@ Se o ADB estiver instalado corretamente, ele mostrará a versão. Caso contrári
 Se o ADB estiver instalado, mas o erro continuar, é provável que o caminho do ADB não tenha sido adicionado ao PATH. Aqui está como corrigir isso:
 
 Passo 1: Adicionar o ADB ao PATH
-Localize a pasta onde o ADB foi instalado/extrado. Por exemplo: C:\platform-tools.
+Localize a pasta onde o ADB foi instalado/extrado. Por exemplo: C:\GitHub\BotPoker\platform-tools.
 Clique com o botão direito em Este PC (ou Meu Computador) e selecione Propriedades.
 Vá em Configurações Avançadas do Sistema e clique em Variáveis de Ambiente.
 Encontre a variável Path em Variáveis do Sistema e clique em Editar.
-Clique em Novo e adicione o caminho da pasta onde o ADB está (exemplo: C:\platform-tools).
+Clique em Novo e adicione o caminho da pasta onde o ADB está (exemplo: C:\GitHub\BotPoker\platform-tools).
 Clique em OK para fechar todas as janelas.
 Passo 2: Verificar o ADB novamente
 Abra um novo Prompt de Comando e verifique se o ADB funciona corretamente:

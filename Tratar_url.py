@@ -33,14 +33,14 @@ def rodar_links(url_link):
                 urls_dict[i] = nova_url
 
             # Retorna o dicionário
-            print(urls_dict)
+            # print(urls_dict)
             return urls_dict
 
     else:
         # Cria um dicionário onde todas as chaves de 0 a 9 apontam para a URL original
         print('A URL não começa com o padrão esperado.')
         urls_dict = {i: url_link for i in range(10)}
-        print(urls_dict)
+        # print(urls_dict)
         return urls_dict
 
 #
