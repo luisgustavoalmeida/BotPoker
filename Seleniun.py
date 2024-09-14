@@ -1,5 +1,7 @@
+import json
 import os
 import time
+from datetime import datetime, timedelta
 
 import pyautogui
 import pygetwindow as gw
@@ -438,6 +440,114 @@ def teste_face_ok(url_atual):
     return entrou, status
 
 
+def carregar_cookies_para_dicionario():
+    try:
+        # Tentar abrir e ler o arquivo JSON de cookies
+        with open('cookies_facebook.json', 'r') as file:
+            cookies_data = json.load(file)
+        print("Cookies carregados com sucesso!")
+    except FileNotFoundError:
+        # Caso o arquivo não exista, retornar um dicionário vazio
+        print("Arquivo de cookies não encontrado, iniciando com um dicionário vazio.")
+        cookies_data = {}
+    except json.JSONDecodeError:
+        # Caso haja algum erro na leitura do JSON, inicializar como vazio
+        print("Erro ao ler o arquivo JSON, iniciando com um dicionário vazio.")
+        cookies_data = {}
+
+    # Retorna o dicionário de cookies
+    return cookies_data
+
+
+cookies_data = carregar_cookies_para_dicionario()
+
+
+def capturar_cookies_facebook(account_id):
+    global navegador
+
+    try:
+        # Capturar os cookies após o login
+        novos_cookies = navegador.get_cookies()
+
+        if not novos_cookies:
+            raise ValueError(f"Nenhum cookie foi capturado para a conta {account_id}.")
+
+        # Tentar carregar os cookies existentes do arquivo JSON
+        try:
+            with open('cookies_facebook.json', 'r') as file:
+                cookies_data = json.load(file)
+        except FileNotFoundError:
+            cookies_data = {}
+            print("Arquivo cookies_facebook.json não encontrado, criando um novo.")
+        except json.JSONDecodeError:
+            cookies_data = {}
+            print("Arquivo JSON de cookies corrompido ou inválido. Criando novo.")
+
+        # Atualizar os cookies no dicionário
+        cookies_data[account_id] = novos_cookies
+
+        # Tentar salvar os cookies atualizados no arquivo JSON
+        with open('cookies_facebook.json', 'w') as file:
+            json.dump(cookies_data, file, indent=4)
+
+        print(f"Cookies da conta {account_id} foram atualizados com sucesso!")
+
+    except Exception as e:
+        print(f"Erro ao capturar ou salvar os cookies da conta {account_id}: {str(e)}")
+        # Se necessário, você pode registrar o erro em um arquivo de log
+        with open('log_erros.txt', 'a') as log_file:
+            log_file.write(f"Erro ao capturar cookies para a conta {account_id}: {str(e)}\n")
+
+
+def carregar_ou_logar_facebook(id, senha):
+    global navegador
+    try:
+
+        if id in cookies_data:
+            print(f"Cookies da conta {id}")
+
+            # Carregar os cookies salvos no navegador
+            for cookie in cookies_data[id]:
+                navegador.add_cookie(cookie)
+
+            # Atualizar a página após adicionar os cookies
+            navegador.refresh()
+            print(f"Cookies da conta {id} carregados com sucesso!")
+            return True
+
+        else:
+            print(f"Não há cookies salvos para a conta {id}. Realizando login manual.")
+            realizar_login_manual(id, senha)
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("Arquivo de cookies não encontrado ou inválido. Realizando login manual.")
+        realizar_login_manual(id, senha)
+    except Exception as e:
+        print(f"Erro ao carregar os cookies: {str(e)}. Realizando login manual.")
+        realizar_login_manual(id, senha)
+    return False
+
+
+def realizar_login_manual(id, senha):
+    global navegador
+    try:
+        # Localizar campo de email e senha e realizar o login manual
+        email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+        email_field.clear()
+        email_field.send_keys(id)
+
+        password_field = navegador.find_element(By.NAME, 'pass')
+        password_field.clear()
+        password_field.send_keys(senha)
+
+        # Clicar no botão de login
+        login_button = navegador.find_element(By.NAME, 'login')
+        login_button.click()
+
+        print('Login manual realizado com sucesso. Testando login.')
+    except Exception as e:
+        print(f"Erro ao realizar login manual: {str(e)}")
+
+
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     global navegador, url, id, senha
 
@@ -465,28 +575,42 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')
             try:
-                email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-                email_field.clear()
-                email_field.send_keys(id)
-                password_field = navegador.find_element(By.NAME, 'pass')
-                password_field.clear()
-                password_field.send_keys(senha)
-                # fazer login clicando no botão de login
-                login_button = navegador.find_element(By.NAME, 'login')
-                login_button.click()
-                print('fez o login. iniciando teste de logado')
+                conta_cookies_encontrado = carregar_ou_logar_facebook(id, senha)
                 # time.sleep(2)
                 for _ in range(100):
                     url_atual = pega_url()
                     # print(url_atual)
                     if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
+                        # if conta_cookies_encontrado:
+                        #     # for cookie in cookies_data[id]:
+                        #     #     print('teste de data expiração')
+                        #     #     # Convertendo a expiração do cookie para datetime
+                        #     #     data_expiracao = datetime.fromtimestamp(cookie['expiry'])
+                        #     #     print(f'A data de expiração do cookie é: {data_expiracao}')
+                        #     #
+                        #     #     data_atual = datetime.now()
+                        #     #     diferenca_tempo = data_atual - data_expiracao
+                        #     #
+                        #     #     # Se já se passaram mais de 2 meses, atualize os cookies
+                        #     #     if diferenca_tempo > timedelta(days=60):
+                        #     #         print(f"Os cookies da conta {id} têm mais de 2 meses. Atualizando...")
+                        #     #         capturar_cookies_facebook(id)
+                        #     #     else:
+                        #     #         print(f"Os cookies da conta {id} têm menos de 2 meses.")
+                        #
+                        # else:
+
+                        if not conta_cookies_encontrado:
+                            capturar_cookies_facebook(id)
+
                         colocar_url(url)
-                        print('coloca url do jogo')
+                        print('Coloca url do jogo')
                         break
                     time.sleep(0.05)
 
                     entrou, status = teste_face_ok(url_atual)
                     if not entrou:
+                        print('Falha ao entrar no Facebook')
                         return entrou, status
 
                 print('url testa logado ', url_atual)
@@ -495,7 +619,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     for _ in range(100):
                         url_atual = pega_url()
                         if "/login/" not in url_atual:
-                            print('url com /login/')
+                            print('Entrando no jogo, url esta dentro do padrão')
                             break
                         time.sleep(0.02)
 
