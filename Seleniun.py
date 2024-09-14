@@ -279,6 +279,165 @@ def colocar_url(url_colocar):
         IP.tem_internet()
 
 
+def teste_face_ok(url_atual):
+    global url
+    entrou = True
+    status = 'Testando'
+
+    if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
+        print("senha incorreta, manda sai")
+        sair_face(url)
+        entrou = False
+        status = "Senha incorreta"
+        return entrou, status
+
+    elif "/checkpoint/" in url_atual:
+        # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
+        elemento_clicavel_encontrado = False
+        entrou = False
+        status = "Anomalia Fecebook"
+        print("A conta está suspensa.")
+        time.sleep(4)
+        lista_face_caidas = [
+            'você recorreu da decisão', 'confirmar que é você', 'confirmar que és tu', 'Insira o número de celular',
+            'Insere o número de telemóvel', 'Carregue uma foto sua', 'Carrega uma foto tua', 'Carregar uma selfie',
+            'Sua conta foi desativada', 'Sua conta foi suspensa', 'sua conta foi bloqueada', 'Suspendemos a tua conta',
+            'Desabilitamos sua conta', 'você apresentou um recurso', 'Confirme seu número de celular',
+            'precisamos confirmar que esta conta pertence a você', 'Verifique'
+        ]
+        # 'Suspeitamos que o comportamento da sua conta seja automatizado'
+
+        for item in lista_face_caidas:
+            # percorre os textos que tem quando tem conta caida para o face
+            try:
+                elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
+                print(item)
+                status = item
+                return entrou, status
+            except NoSuchElementException:
+                continue
+        # se nao for algum item da lista retorna uma mensagem generica
+
+        elementos_para_clicar = ['Continuar', 'Fui eu', 'Continuar', 'Começar', 'Avançar', 'Avançar', 'Avançar',
+                                 'Voltar para o Facebook', 'Ignorar']
+
+        for _ in range(2):
+            for elemento in elementos_para_clicar:
+                print("procura: ", elemento)
+                elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
+                if not elemento_clicado:
+                    elemento_clicado = clicar_por_xpath(navegador, elemento)
+                if not elemento_clicado:
+                    elemento_clicado = clicar_por_css(navegador, elemento)
+                if elemento_clicado:
+                    print('\nEspera carregar a proxima interação\n')
+                    elemento_clicavel_encontrado = True
+                    time.sleep(5)
+
+        if not elemento_clicavel_encontrado:
+            print("Nenhum elemento para clicar foi encontrado.")
+            entrou = False
+            status = "Anomalia Fecebook"
+            return entrou, status
+        time.sleep(5)
+        colocar_url(url)
+        time.sleep(5)
+
+    elif "/user_cookie_choice/" in url_atual:
+        # https://www.facebook.com/privacy/consent/user_cookie_choice/?source=pft_user_cookie_choice
+        print('responder cookies')
+
+        elemento_recusar = navegador.find_element(By.XPATH, f"//span[contains(text(), 'Recusar cookies opcionais')]")
+        if elemento_recusar:
+            elemento_recusar.click()
+            print('clicou')
+            time.sleep(5)
+            colocar_url(url)
+            time.sleep(5)
+        else:
+            status = "cookie"
+            entrou = False
+            return entrou, status
+
+    elif "/privacy/consent/pipa/" in url_atual:
+        # https://www.facebook.com/privacy/consent/pipa/?params%5Bpft_surface%5D=facebook_comet&params%5Bis_new_user_blocking_flow%5D=true&params%5Bpft_session_key%5D=afa5f865-6574-4376-9cb2-3349c7a3aed0&source=pipa_blocking_flow
+        print("Concorde com os itens")
+        entrou = False
+        status = "Concorde com os itens"
+        return entrou, status
+
+    elif '/two_step_verification/' in url_atual:
+        # https://pt-br.facebook.com/two_step_verification/authentication/?encrypted_context=AWO7TuI-Ec6oHUE5tqJc5abqii1T9IQ7E5tM7gdCC5g7cngxUgsqr1_6_4OCRkMXzX9oYF92onLK74MkFvQWosl76IxDSQf8TK1o5MsrlIN9NKlEqV0VnxVG4ACiOt2HRvw8ImWYbbarY9G8HyvtZrce8FFoeokTxYXQuO-msKULsRY_eW9iqFvEHJxPt80PwtoRrj9xtZb5dwhOz6AcNr-sm25yE9oB_dbagQ4RX_MrxsOPO_gZciSbihsz09pDqK9tM2Dki8b8GNpJHpBqZyt7hVIDBSxU6fNc7puR_5KZdT4HmuLfE1w0bIVpttdtz3ktAM_vZ6-DGGv1OVUuSYrt_02G7FXB3GfO_qz2AELfZ7tOhyYogMG80dEwOEqlpyeuhYcx-ZA1KGj7xLC-pgBH3lZdoW4-nFomTxQdX2I7ED54_BDmIOy4TA&flow=pre_authentication
+        print("Insira os caracteres que você vê")
+        entrou = False
+        status = "Insira os caractere"
+        return entrou, status
+
+    elif "/privacy/" in url_atual:
+        elemento_clicavel_encontrado = False
+        #  https://www.facebook.com/privacy/consent/lgpd_migrated/?source=lgpd_blocking_flow
+        print("A conta termos de privacidade")
+        time.sleep(5)
+        lista_face = ['bloqueado temporariamente', 'concorde', 'temporariamente']
+        for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
+            try:
+                elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
+
+                elemento_clicavel_encontrado = True
+                print(item)
+                status = item
+                entrou = False
+                return entrou, status
+            except Exception as e:
+                print(f'Elemento "{item}" não encontrado')
+
+        # lista de elemento clicaveis
+        elementos_para_clicar = [
+            'Começar', 'Gerenciar configurações', 'Salvar', 'Continuar', 'Voltar para o Facebook', 'Usar essa atividade',
+            'Usar esta atividade', 'Usar gratuitamente', 'Concordo', 'Concordo', 'Fechar', 'Manter jogos sociais',
+            'Confirmar', 'Concluir'
+        ]
+
+        for _ in range(2):
+            for elemento in elementos_para_clicar:
+                print("procura: ", elemento)
+                elemento_clicado = clicar_por_css(navegador, elemento)
+                if not elemento_clicado:
+                    elemento_clicado = clicar_por_xpath(navegador, elemento)
+                if not elemento_clicado:
+                    elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
+                if elemento_clicado:
+                    print('\nEspera carregar a proxima interação\n')
+                    elemento_clicavel_encontrado = True
+                    time.sleep(5)
+
+        if not elemento_clicavel_encontrado:
+            print("Nenhum elemento para clicar foi encontrado.")
+            status = 'Nova interação'
+            entrou = False
+            return entrou, status
+        time.sleep(3)
+        colocar_url(url)
+        time.sleep(5)
+    else:
+        lista_face = [
+            'Você não pode usar este recurso no momento', 'Limitamos a frequência', 'senha inserida está incorreta',
+            'Esqueceu a senha', 'Esqueceu a conta?', 'Tentar outra forma', 'Enviaremos um código para o seu email',
+            'Insira o código de segurança'
+        ]
+        for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
+            try:
+                elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
+                print(item)
+                status = item
+                entrou = False
+                return entrou, status
+            except Exception as e:
+                print(f'Elemento "{item}" não encontrado')
+
+    return entrou, status
+
+
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     global navegador, url, id, senha
 
@@ -290,7 +449,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         senha = senha_novo
 
     if loga_pk is False:
-        # navegador.get(url)
         colocar_url(url)
         time.sleep(2)
 
@@ -322,19 +480,13 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     url_atual = pega_url()
                     # print(url_atual)
                     if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
-                        # navegador.get(url)
                         colocar_url(url)
                         print('coloca url do jogo')
-                        # time.sleep(2)
                         break
                     time.sleep(0.05)
-                    if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
-                        print("senha incorreta")
-                        print('manda sair')
-                        sair_face(url)
 
-                        entrou = False
-                        status = "Senha incorreta"
+                    entrou, status = teste_face_ok(url_atual)
+                    if not entrou:
                         return entrou, status
 
                 print('url testa logado ', url_atual)
@@ -346,15 +498,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             print('url com /login/')
                             break
                         time.sleep(0.02)
-
-                        if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
-                            print("senha incorreta")
-                            print('manda sair')
-                            sair_face(url)
-
-                            entrou = False
-                            status = "Senha incorreta"
-                            return entrou, status
 
                     if "/login/" not in url_atual:
 
@@ -496,157 +639,13 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 print('Continua os testes')
                                 # return entrou, status
 
-                        elif "/checkpoint/" in url_atual:
-                            # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
-                            elemento_clicavel_encontrado = False
-                            entrou = False
-                            status = "Anomalia Fecebook"
-                            print("A conta está suspensa.")
-                            time.sleep(6)
-                            lista_face_caidas = [
-                                'você recorreu da decisão', 'confirmar que é você', 'confirmar que és tu', 'Insira o número de celular',
-                                'Insere o número de telemóvel', 'Carregue uma foto sua', 'Carrega uma foto tua', 'Carregar uma selfie',
-                                'Sua conta foi desativada', 'Sua conta foi suspensa', 'sua conta foi bloqueada', 'Suspendemos a tua conta',
-                                'Desabilitamos sua conta', 'você apresentou um recurso', 'Confirme seu número de celular',
-                                'precisamos confirmar que esta conta pertence a você', 'Verifique'
-                            ]
-                            # 'Suspeitamos que o comportamento da sua conta seja automatizado'
-
-                            for item in lista_face_caidas:
-                                # percorre os textos que tem quando tem conta caida para o face
-                                try:
-                                    elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
-                                    print(item)
-                                    status = item
-                                    return entrou, status
-                                except NoSuchElementException:
-                                    continue
-                            # se nao for algum item da lista retorna uma mensagem generica
-
-                            elementos_para_clicar = ['Continuar', 'Fui eu', 'Continuar', 'Começar', 'Avançar', 'Avançar', 'Avançar',
-                                                     'Voltar para o Facebook', 'Ignorar']
-
-                            for _ in range(2):
-                                for elemento in elementos_para_clicar:
-                                    print("procura: ", elemento)
-                                    elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
-                                    if not elemento_clicado:
-                                        elemento_clicado = clicar_por_xpath(navegador, elemento)
-                                    if not elemento_clicado:
-                                        elemento_clicado = clicar_por_css(navegador, elemento)
-                                    if elemento_clicado:
-                                        print('\nEspera carregar a proxima interação\n')
-                                        elemento_clicavel_encontrado = True
-                                        time.sleep(5)
-
-                            if not elemento_clicavel_encontrado:
-                                print("Nenhum elemento para clicar foi encontrado.")
-                                entrou = False
-                                status = "Anomalia Fecebook"
-                                return entrou, status
-
-                            time.sleep(5)
-                            # navegador.get(url)
-                            colocar_url(url)
-                            time.sleep(5)
-
-                        elif "/user_cookie_choice/" in url_atual:
-                            # https://www.facebook.com/privacy/consent/user_cookie_choice/?source=pft_user_cookie_choice
-                            print('responder cookies')
-
-                            elemento_recusar = navegador.find_element(By.XPATH, f"//span[contains(text(), 'Recusar cookies opcionais')]")
-                            if elemento_recusar:
-                                elemento_recusar.click()
-                                print('clicou')
-                                time.sleep(5)
-                                # navegador.get(url)
-                                colocar_url(url)
-                                time.sleep(5)
-                            else:
-                                status = "cookie"
-                                entrou = False
-                                return entrou, status
-
-                        elif "/privacy/consent/pipa/" in url_atual:
-                            # https://www.facebook.com/privacy/consent/pipa/?params%5Bpft_surface%5D=facebook_comet&params%5Bis_new_user_blocking_flow%5D=true&params%5Bpft_session_key%5D=afa5f865-6574-4376-9cb2-3349c7a3aed0&source=pipa_blocking_flow
-                            print("Concorde com os itens")
-                            entrou = False
-                            status = "Concorde com os itens"
+                        entrou, status = teste_face_ok(url_atual)
+                        if not entrou:
                             return entrou, status
 
-                        elif "/privacy/" in url_atual:
-
-                            elemento_clicavel_encontrado = False
-                            #  https://www.facebook.com/privacy/consent/lgpd_migrated/?source=lgpd_blocking_flow
-                            print("A conta termos de privacidade")
-                            time.sleep(5)
-                            lista_face = ['bloqueado temporariamente', 'concorde', 'temporariamente']
-                            for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
-                                try:
-                                    elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
-
-                                    elemento_clicavel_encontrado = True
-                                    print(item)
-                                    status = item
-                                    entrou = False
-                                    return entrou, status
-                                except Exception as e:
-                                    print(f'Elemento "{item}" não encontrado')
-
-                            # lista de elemento clicaveis
-                            elementos_para_clicar = [
-                                'Começar', 'Gerenciar configurações', 'Salvar', 'Continuar', 'Voltar para o Facebook', 'Usar essa atividade',
-                                'Usar esta atividade', 'Usar gratuitamente', 'Concordo', 'Concordo', 'Fechar', 'Manter jogos sociais',
-                                'Confirmar', 'Concluir'
-                            ]
-
-                            for _ in range(2):
-                                for elemento in elementos_para_clicar:
-                                    print("procura: ", elemento)
-                                    elemento_clicado = clicar_por_css(navegador, elemento)
-                                    if not elemento_clicado:
-                                        elemento_clicado = clicar_por_xpath(navegador, elemento)
-                                    if not elemento_clicado:
-                                        elemento_clicado = clicar_por_xpath_botao(navegador, elemento)
-                                    if elemento_clicado:
-                                        print('\nEspera carregar a proxima interação\n')
-                                        elemento_clicavel_encontrado = True
-                                        time.sleep(5)
-
-                            if not elemento_clicavel_encontrado:
-                                print("Nenhum elemento para clicar foi encontrado.")
-                                status = 'Nova interação'
-                                entrou = False
-                                return entrou, status
-
-                            time.sleep(3)
-                            # navegador.get(url)
-                            colocar_url(url)
-                            time.sleep(5)
-
-                    elif "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
-                        print("senha incorreta")
-                        print('manda sair')
-                        sair_face(url)
-
-                        entrou = False
-                        status = "Senha incorreta"
-                        return entrou, status
-                    else:
-                        lista_face = [
-                            'Você não pode usar este recurso no momento', 'Limitamos a frequência', 'senha inserida está incorreta',
-                            'Esqueceu a senha', 'Esqueceu a conta?', 'Tentar outra forma', 'Enviaremos um código para o seu email',
-                            'Insira o código de segurança'
-                        ]
-                        for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
-                            try:
-                                elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
-                                print(item)
-                                status = item
-                                entrou = False
-                                return entrou, status
-                            except Exception as e:
-                                print(f'Elemento "{item}" não encontrado')
+                entrou, status = teste_face_ok(url_atual)
+                if not entrou:
+                    return entrou, status
 
                 print("Não carregou o poker")
                 entrou = False
