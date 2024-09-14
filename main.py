@@ -47,9 +47,10 @@ y_origem = 266
 id = "x"
 guia = ""
 guia_anterior = ""
+guia_velha = ""
 confg_funcao = 'roleta_auto'
 confg_secundaria = 'auto'
-confg_funcao_anterior = ''
+confg_funcao_anterior = 'roleta_auto'
 blind_recolher_auto = ''
 
 cont_IP = 10
@@ -697,7 +698,7 @@ def recolher_automatico():
 
 
 def identifica_funcao():
-    global id_novo, guia, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim, confg_secundaria
+    global id_novo, guia, guia_velha, confg_funcao_anterior, confg_funcao, blind_recolher_auto, guia_fim, linha_novo_fim, valores_fim, confg_secundaria
 
     try:
         confg_funcao, config_tempo_roleta, blind_recolher_auto, confg_secundaria = Firebase.ler_configuracao()
@@ -783,21 +784,17 @@ def identifica_funcao():
         else:
             guia = confg_funcao
 
-        # Seleniun.finaliza_navegador()
-        # print("Este script será interrompido e inicializado novamente!")
-        # fecha_cmd_atualisa_codigo()
-        # exit(0)
-
     else:
-        print(' Padrão de configuração não esperado, será usado o -roleta_auto- ')
-        confg_funcao = 'roleta_auto'
-        config_tempo_roleta = '4:00:5'
-        guia = HoraT.mudar_guia(id, guia, config_tempo_roleta)
+        Telegran.monta_mensagem(f'Padrão de configuração não esperado {str(confg_funcao)}.  ⚙️', False)
+        print(f'Padrão de configuração não esperado {str(confg_funcao)}.')
+        confg_funcao = confg_funcao_anterior
+        guia = guia_velha
 
     if confg_funcao_anterior != confg_funcao and confg_funcao_anterior != '':
         Telegran.monta_mensagem(f'código alterado para modo {str(confg_funcao)}.  ⚙️', True)
-    confg_funcao_anterior = confg_funcao
 
+    confg_funcao_anterior = confg_funcao
+    guia_velha = guia
     print('identifica_funcao.  guia:', guia, 'confg_funcao: ', confg_funcao, 'blind_recolher_auto: ', blind_recolher_auto)
 
 
