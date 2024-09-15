@@ -251,7 +251,7 @@ def incrementa_contagem_ip():
     """
     global antes_incremetar, conn
     while True:
-        for tentativa in range(tentativas_maximas):
+        for tentativa in range(5):
             try:
                 # Tentar abrir uma conexão, se ainda não estiver aberta
                 if not conn:
@@ -308,7 +308,7 @@ def incrementa_contagem_ip():
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
         conn.close()
         conn = None
-        time.sleep(5)
+        time.sleep(10)
 
 
 def decrementa_contagem_ip():
