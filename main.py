@@ -968,6 +968,8 @@ while True:
 
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
 
+        Firebase.sincronizar_cookies_com_firebase()
+
         guia_anterior = guia
         id, senha, fichas_planilha, linha, level_conta = credenciais(guia)  # pega id e senha par o proximo login
 
