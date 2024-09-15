@@ -538,4 +538,6 @@ def sincronizar_cookies_com_firebase():
 
 # escreve_configuracao(dados_config)
 
+# sincronizar_cookies_com_firebase()
+
 
