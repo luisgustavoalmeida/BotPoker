@@ -45,7 +45,7 @@ DESATIVADO_PC_2 = "UPDATE contagem_ip SET ativo_PC_2 = 0 WHERE id = 1;"
 DESATIVADO_PC_3 = "UPDATE contagem_ip SET ativo_PC_3 = 0 WHERE id = 1;"
 TESTA_PC_ATIVO = "SELECT CASE WHEN EXISTS(SELECT 1 FROM contagem_ip WHERE ativo_PC_1 = 1 OR ativo_PC_2 = 1 OR ativo_PC_3 = 1) THEN 1 ELSE 0 END;"
 
-tentativas_maximas = 50
+tentativas_maximas = 9999999
 intervalo_entre_tentativas = 2
 antes_incremetar = 0
 conn = None
