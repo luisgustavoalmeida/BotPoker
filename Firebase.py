@@ -532,7 +532,11 @@ def sincronizar_cookies_com_firebase():
     with open('cookies_facebook.json', 'w') as file:
         json.dump(cookies_local_data, file, indent=4)
 
-    print("Sincronização de cookies com o Firebase e o arquivo local concluída!")
+    # Print da quantidade de IDs sincronizados
+    print(f"\n\nQuantidade de contas sincronizadas com Firebase: \n{len(cookies_firebase_data)}")
+    print(f"Quantidade de contas sincronizadas no arquivo local: \n{len(cookies_local_data)}")
+
+    print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
 
 
