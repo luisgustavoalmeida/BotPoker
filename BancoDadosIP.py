@@ -256,7 +256,11 @@ def incrementa_contagem_ip():
                 # Tentar abrir uma conexão, se ainda não estiver aberta
                 if not conn:
                     conn = criar_conexao()
-
+                    if conn:
+                        print(f"Conexão aberta na tentativa {tentativa + 1}.")
+                    else:
+                        print(f"Falha ao abrir conexão na tentativa {tentativa + 1}.")
+                        continue  # Passa para a próxima tentativa se a conexão falhar
                 if conn:
                     with conn:
                         # Verifica o nome do usuário e aplica o incremento correto
@@ -283,31 +287,37 @@ def incrementa_contagem_ip():
                         if depois_incremetar != antes_incremetar:
                             antes_incremetar = depois_incremetar
                             print(f"Dados atualizados com sucesso na tentativa {tentativa + 1}!")
-                            conn.close()  # Fecha a conexão após o sucesso
-                            conn = None  # Limpa a referência da conexão
+                            # conn.close()  # Fecha a conexão após o sucesso
+                            # conn = None  # Limpa a referência da conexão
                             return  # Retorna ao final do loop se o sucesso for atingido
                         else:
                             print('\n\n A T E N Ç Ã O , FALHA PARA INCREMENTAR CONTAGEM DE IP \n\n')
-                            conn.close()
-                            conn = None
+                            # conn.close()
+                            # conn = None
                             # time.sleep(1)
-                else:
-                    print("Falha ao conectar ao banco de dados")
-                    time.sleep(intervalo_entre_tentativas)
 
             except sqlite3.Error as e:
                 print(f"Erro na tentativa {tentativa + 1}: {e}")
-                if conn:
+
+            finally:
+                # Fecha a conexão apenas se for válida (não for None)
+                if conn is not None:
                     conn.close()
-                    conn = None  # Certifique-se de limpar a referência para evitar operar em uma conexão fechada
+                    conn = None  # Limpa a referência da conexão
+                    print("Conexão fechada.")
                 if tentativa < tentativas_maximas - 1:
                     time.sleep(intervalo_entre_tentativas)  # Aguarda antes de tentar novamente
+
                 else:
                     raise  # Propaga o erro na última tentativa
 
         print(f"Falha na incrementa_contagem_ip após {tentativas_maximas} tentativas.")
-        conn.close()
-        conn = None
+        if conn is not None:
+            conn.close()
+            conn = None  # Limpa a referência da conexão
+            print("Conexão fechada.")
+
+        print('Aguarde 10 segundos para tentar novamente')
         time.sleep(10)
 
 
