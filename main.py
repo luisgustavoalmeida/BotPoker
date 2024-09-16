@@ -2,6 +2,7 @@ import datetime
 import threading
 import time
 
+import IP
 from Google import (apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula,
                     retona_para_inicio_planilha)
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet, iniciando_testando_conexao_internet
@@ -890,25 +891,27 @@ while True:
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
 
-    if guia in ('R1', 'R2', 'R3', 'R4', 'R5'):
-        numero = int(guia[1:]) + 4
-        link_url = dic_links[numero]
-        feito = False
-        for _ in range(3):
-            Seleniun.colocar_url(link_url)
-            for _ in range(50):
-                if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
-                    print('Preto encontrado')
+    if guia in 'R2':
+        for numero in range(3, 10):
+            link_url = dic_links[numero]
+            feito = False
+            for _ in range(3):
+                Seleniun.colocar_url(link_url)
+                print(f'link: {numero}\n{link_url}')
+                for _ in range(50):
+                    if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
+                        print('Preto encontrado')
+                        break
+                    time.sleep(0.1)
+                for _ in range(80):
+                    if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
+                        print('Branco encontrado')
+                        feito = True
+                        break
+                    time.sleep(0.1)
+                if feito:
                     break
-                time.sleep(0.1)
-            for _ in range(80):
-                if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
-                    print('Branco encontrado')
-                    feito = True
-                    break
-                time.sleep(0.1)
-            if feito:
-                break
+                IP.tem_internet()
 
     Seleniun.sair_face(url)
 
