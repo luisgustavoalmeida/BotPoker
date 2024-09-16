@@ -613,6 +613,11 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                         print('Falha ao entrar no Facebook')
                         return entrou, status
 
+                    login_button = navegador.find_element(By.NAME, 'login')
+                    if login_button.is_displayed():
+                        realizar_login_manual(id, senha)
+                        conta_cookies_encontrado = False
+
                 print('url testa logado ', url_atual)
                 for i in range(20):
 
