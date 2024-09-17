@@ -33,13 +33,17 @@ def horario():
 
 
 def dia_semana():
-    # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-    # Obtenha a hora atual no fuso horário da Itália
-    hora_local = datetime.datetime.now(pytz.timezone('Europe/Rome'))
+    try:
+        # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
+        # Obtenha a hora atual no fuso horário da Itália
+        hora_local = datetime.datetime.now(pytz.timezone('Europe/Rome'))
 
-    # Pegue o dia da semana (0 = segunda-feira, 6 = domingo)
-    dia_da_semana = int(hora_local.weekday())
+        # Pegue o dia da semana (0 = segunda-feira, 6 = domingo)
+        dia_da_semana = int(hora_local.weekday())
 
-    print("Dia da semana na Itália:", dia_da_semana)
+        print("Dia da semana na Itália:", dia_da_semana)
 
-    return dia_da_semana
+        return dia_da_semana
+    except Exception as e:
+        print(e)
+        return 6

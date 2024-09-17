@@ -925,8 +925,6 @@ while True:
         entrou_corretamente = False
         print("Conta não entrou, o Statos é: ", status_poker)
 
-    dia_da_semana = dia_semana()  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
-    # print('dia_da_semana: ', dia_da_semana)
 
     # print('\n Espera terminar tarefa independente loop\n')
     tarefa_concluida.acquire()
@@ -947,6 +945,7 @@ while True:
 
     identifica_funcao()
     if guia != guia_anterior:
+        dia_da_semana = dia_semana()  # 0 segunda, 1 terça, 2 quarta, 3 quinta, 4 sexta, 5 sábado, 6 domingo
         print(Fore.CYAN + 'Mudando de guia' + Fore.RESET)
         Telegran.monta_mensagem(f'mudou para a guia {str(guia)}.  🗂️', True)
 
