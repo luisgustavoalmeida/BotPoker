@@ -441,19 +441,22 @@ def teste_face_ok(url_atual):
 
 
 def carregar_cookies_para_dicionario():
-    try:
-        # Tentar abrir e ler o arquivo JSON de cookies
-        with open('cookies_facebook.json', 'r') as file:
-            cookies_data = json.load(file)
-        print("Cookies carregados com sucesso!")
-    except FileNotFoundError:
-        # Caso o arquivo não exista, retornar um dicionário vazio
-        print("Arquivo de cookies não encontrado, iniciando com um dicionário vazio.")
-        cookies_data = {}
-    except json.JSONDecodeError:
-        # Caso haja algum erro na leitura do JSON, inicializar como vazio
-        print("Erro ao ler o arquivo JSON, iniciando com um dicionário vazio.")
-        cookies_data = {}
+    print('Carregando dicionario de cookies')
+    cookies_data = {}
+    for _ in range(6):
+        try:
+            # Tentar abrir e ler o arquivo JSON de cookies
+            with open('cookies_facebook.json', 'r') as file:
+                cookies_data = json.load(file)
+            print("Cookies carregados com sucesso!")
+            break
+        except FileNotFoundError:
+            # Caso o arquivo não exista, retornar um dicionário vazio
+            print("Arquivo de cookies não encontrado, iniciando com um dicionário vazio.")
+        except json.JSONDecodeError:
+            # Caso haja algum erro na leitura do JSON, inicializar como vazio
+            print("Erro ao ler o arquivo JSON, iniciando com um dicionário vazio.")
+        time.sleep(10)
 
     # Retorna o dicionário de cookies
     return cookies_data
@@ -471,17 +474,6 @@ def capturar_cookies_facebook(account_id):
 
         if not novos_cookies:
             raise ValueError(f"Nenhum cookie foi capturado para a conta {account_id}.")
-
-        # Tentar carregar os cookies existentes do arquivo JSON
-        try:
-            with open('cookies_facebook.json', 'r') as file:
-                cookies_data = json.load(file)
-        except FileNotFoundError:
-            cookies_data = {}
-            print("Arquivo cookies_facebook.json não encontrado, criando um novo.")
-        except json.JSONDecodeError:
-            cookies_data = {}
-            print("Arquivo JSON de cookies corrompido ou inválido. Criando novo.")
 
         # Atualizar os cookies no dicionário
         cookies_data[account_id] = novos_cookies
@@ -581,31 +573,29 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     url_atual = pega_url()
                     # print(url_atual)
                     if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
-                        # if conta_cookies_encontrado:
-                        #     # for cookie in cookies_data[id]:
-                        #     #     print('teste de data expiração')
-                        #     #     # Convertendo a expiração do cookie para datetime
-                        #     #     data_expiracao = datetime.fromtimestamp(cookie['expiry'])
-                        #     #     print(f'A data de expiração do cookie é: {data_expiracao}')
-                        #     #
-                        #     #     data_atual = datetime.now()
-                        #     #     diferenca_tempo = data_atual - data_expiracao
-                        #     #
-                        #     #     # Se já se passaram mais de 2 meses, atualize os cookies
-                        #     #     if diferenca_tempo > timedelta(days=60):
-                        #     #         print(f"Os cookies da conta {id} têm mais de 2 meses. Atualizando...")
-                        #     #         capturar_cookies_facebook(id)
-                        #     #     else:
-                        #     #         print(f"Os cookies da conta {id} têm menos de 2 meses.")
-                        #
-                        # else:
-
-                        if not conta_cookies_encontrado:
+                        if conta_cookies_encontrado:
+                            novos_cookies = navegador.get_cookies()
+                            if novos_cookies:
+                                novos_cookies_expiry = novos_cookies[0].get('expiry', 0) if novos_cookies else 0
+                                velhos_cookies = cookies_data[id]
+                                velhos_cookies_expiry = velhos_cookies[0].get('expiry', 0) if velhos_cookies else 0
+                                # print(novos_cookies, velhos_cookies)
+                                # Verifica se a data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de dois meses
+                                if novos_cookies_expiry and velhos_cookies_expiry:
+                                    if novos_cookies_expiry - velhos_cookies_expiry > 5184000:
+                                        print("A data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de 2 meses.")
+                                    else:
+                                        print(
+                                            "A data de expiração dos novos cookies não tem uma diferença superior a 2 meses em relação aos cookies atuais.")
+                                else:
+                                    print("Algum dos cookies não possui data de expiração.")
+                        else:
                             capturar_cookies_facebook(id)
 
                         colocar_url(url)
                         print('Coloca url do jogo')
                         break
+
                     time.sleep(0.05)
 
                     entrou, status = teste_face_ok(url_atual)
@@ -627,6 +617,10 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             print('Entrando no jogo, url esta dentro do padrão')
                             break
                         time.sleep(0.02)
+
+                    if "/login/" in url_atual:
+                        break
+
 
                     if "/login/" not in url_atual:
 
@@ -771,6 +765,12 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                         entrou, status = teste_face_ok(url_atual)
                         if not entrou:
                             return entrou, status
+
+                url_atual = pega_url()
+                if "/login/" in url_atual:
+                    sair_face(url)
+                    print('Reinicia tentativa de login')
+                    continue
 
                 entrou, status = teste_face_ok(url_atual)
                 if not entrou:

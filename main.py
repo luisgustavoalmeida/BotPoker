@@ -34,10 +34,14 @@ from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
+
 print('\n\n         I N I C I A N D O \n\n')
 iniciando_testando_conexao_internet()
 escolher_configuracao_e_db()
 Firebase.sincronizar_cookies_com_firebase()
+url = str(pega_valor_endereco('Dados!F1'))
+url_link = str(pega_valor_endereco('Dados!F2'))
+dic_links = Tratar_url.rodar_links(url_link)
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -77,10 +81,6 @@ ip_fim = ''
 linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
-
-url = str(pega_valor_endereco('Dados!F1'))
-url_link = str(pega_valor_endereco('Dados!F2'))
-dic_links = Tratar_url.rodar_links(url_link)
 
 navegador = Seleniun.cria_nevegador()
 
@@ -137,8 +137,7 @@ tarefa.start()
 
 
 def logar_carregar():
-
-    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker #, confg_funcao, guia, url,
+    global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker  # , confg_funcao, guia, url,
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
@@ -970,8 +969,6 @@ while True:
         #     url = 'https://apps.facebook.com/poker_italia'
 
         apagar_numerodo_pc([""], guia_fim, linha_novo_fim)  # apaga o nume do pc
-
-        Firebase.sincronizar_cookies_com_firebase()
 
         guia_anterior = guia
         id, senha, fichas_planilha, linha, level_conta = credenciais(guia)  # pega id e senha par o proximo login

@@ -51,6 +51,8 @@ linha_vazia_anterior = 2  # Inicializa a variável global
 intervalo_de_busca = 500
 guia_antiga = None
 
+cred = None
+service = None
 
 def credencial():
     # tem_internet()
@@ -577,6 +579,11 @@ def pega_valor_endereco(endereco):
     global cred
     global service
     regiao = f"{endereco}"  # 'R1!B150'
+
+    if cred is None or service is None:
+        cred = credencial()
+        service = build('sheets', 'v4', credentials=cred)
+
     while True:
         try:
             # Faz a requisição para obter os valores da célula
