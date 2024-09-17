@@ -2,7 +2,7 @@ import datetime
 import threading
 import time
 
-import IP
+# import IP
 from Google import (apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula,
                     retona_para_inicio_planilha)
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet, iniciando_testando_conexao_internet
@@ -910,7 +910,7 @@ while True:
                     time.sleep(0.1)
                 if feito:
                     break
-                IP.tem_internet()
+                tem_internet()
 
     Seleniun.sair_face(url)
 

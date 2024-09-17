@@ -1,7 +1,6 @@
 # pip install pyrebase5
-import json
 import time
-
+import json
 import pyrebase
 import requests
 from requests.exceptions import ConnectionError
@@ -478,8 +477,6 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
-
-
 def sincronizar_cookies_com_firebase():
     if nome_computador == 'PC-I7-9700KF' or nome_usuario == 'PokerIP':
         print('PC liberado para sincronisar Cookies com Firebase')
@@ -569,7 +566,4 @@ def sincronizar_cookies_com_firebase():
 
     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
-
 # escreve_configuracao(dados_config)
-
-# sincronizar_cookies_com_firebase()
