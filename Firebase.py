@@ -480,7 +480,73 @@ def contar_pessoas_mesa(sala):
 
 
 # Função para mesclar dados do JSON com o Firebase e atualizar o Firebase
+# def sincronizar_cookies_com_firebase():
+#     print('iniciando o sincronisação dos cookies com firebase')
+#     global firebase, db
+#     # Referência ao local de cookies no Realtime Database
+#     ref = db.child('cookies_facebook')
+#
+#     # Carregar os dados do Firebase
+#     cookies_firebase_data = ref.get().val()  # Converte para um dicionário utilizável
+#     if cookies_firebase_data is None:
+#         cookies_firebase_data = {}  # Se não houver dados no Firebase, inicia com um dicionário vazio
+#
+#     # Carregar os cookies do arquivo JSON local
+#     try:
+#         with open('cookies_facebook.json', 'r') as file:
+#             cookies_local_data = json.load(file)
+#     except FileNotFoundError:
+#         print("Arquivo JSON de cookies não encontrado. Iniciando com dicionário vazio.")
+#         cookies_local_data = {}
+#
+#     # Função para atualizar ou adicionar cookies
+#     def atualizar_cookies(cookies_existentes, novos_cookies):
+#         # Cria um dicionário indexado pelos nomes dos cookies
+#         cookies_dict = {cookie['name']: cookie for cookie in cookies_existentes}
+#         for novo_cookie in novos_cookies:
+#             cookies_dict[novo_cookie['name']] = novo_cookie
+#         # Retorna a lista atualizada de cookies
+#         return list(cookies_dict.values())
+#
+#     # Mesclar os dados do Firebase com o JSON local
+#     for account_id, cookies in cookies_firebase_data.items():
+#         if account_id in cookies_local_data:
+#             # Atualizar os cookies existentes no arquivo local com os do Firebase
+#             cookies_local_data[account_id] = atualizar_cookies(cookies_local_data[account_id], cookies)
+#         else:
+#             # Se a conta não existe no arquivo local, adicionar do Firebase
+#             cookies_local_data[account_id] = cookies
+#
+#     # Mesclar os dados do JSON local com o Firebase
+#     for account_id, cookies in cookies_local_data.items():
+#         if account_id in cookies_firebase_data:
+#             # Atualizar os cookies existentes no Firebase com os do arquivo local
+#             cookies_firebase_data[account_id] = atualizar_cookies(cookies_firebase_data[account_id], cookies)
+#         else:
+#             # Se a conta não existe no Firebase, adicionar do arquivo local
+#             cookies_firebase_data[account_id] = cookies
+#
+#     # Atualizar os dados no Firebase
+#     db.child('cookies_facebook').set(cookies_firebase_data)
+#
+#     # Atualizar o arquivo JSON local
+#     with open('cookies_facebook.json', 'w') as file:
+#         json.dump(cookies_local_data, file, indent=4)
+#
+#     # Print da quantidade de IDs sincronizados
+#     print(f"\n\nQuantidade de contas sincronizadas com Firebase: \n{len(cookies_firebase_data)}")
+#     print(f"Quantidade de contas sincronizadas no arquivo local: \n{len(cookies_local_data)}")
+#
+#     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
+
 def sincronizar_cookies_com_firebase():
+    if nome_computador == 'PC-I7-9700KF' or nome_usuario == 'PokerIP':
+        print('PC liberado para sincronisar Cookies com Firebase')
+    else:
+        print('PC NÃO liberado')
+        return
+
+    print('\n\nIniciando a sincronização dos cookies com Firebase')
     global firebase, db
     # Referência ao local de cookies no Realtime Database
     ref = db.child('cookies_facebook')
@@ -490,28 +556,45 @@ def sincronizar_cookies_com_firebase():
     if cookies_firebase_data is None:
         cookies_firebase_data = {}  # Se não houver dados no Firebase, inicia com um dicionário vazio
 
-    # Carregar os cookies do arquivo JSON local
-    try:
-        with open('cookies_facebook.json', 'r') as file:
-            cookies_local_data = json.load(file)
-    except FileNotFoundError:
-        print("Arquivo JSON de cookies não encontrado. Iniciando com dicionário vazio.")
-        cookies_local_data = {}
+    for _ in range(6):
+        try:
+            with open('cookies_facebook.json', 'r') as file:
+                cookies_local_data = json.load(file)
+            print("Arquivo JSON de cookies carregado com sucesso.")
+            break  # Saímos do loop se a leitura for bem-sucedida
+        except FileNotFoundError:
+            print("Arquivo JSON de cookies não encontrado. Iniciando com dicionário vazio.")
+            cookies_local_data = {}
+            break  # Se o arquivo não existe, não há necessidade de tentar novamente
+        except json.JSONDecodeError as e:
+            print(f"Erro ao tentar carregar os cookies do arquivo JSON: {e}.")
+            cookies_local_data = {}
+        except Exception as e:
+            print(f"Erro ao tentar carregar os cookies do arquivo JSON: {e}.")
+            cookies_local_data = {}
+        time.sleep(10)
 
-    # Função para atualizar ou adicionar cookies
-    def atualizar_cookies(cookies_existentes, novos_cookies):
-        # Cria um dicionário indexado pelos nomes dos cookies
-        cookies_dict = {cookie['name']: cookie for cookie in cookies_existentes}
-        for novo_cookie in novos_cookies:
-            cookies_dict[novo_cookie['name']] = novo_cookie
-        # Retorna a lista atualizada de cookies
-        return list(cookies_dict.values())
+
+    # Função para verificar e substituir cookies por uma lista mais recente
+    def substituir_se_mais_novo(cookies_existentes, novos_cookies):
+        # Pega o cookie de referência (primeiro cookie da lista, pode mudar para outro critério)
+        cookie_existente_expiry = cookies_existentes[0].get('expiry', 0) if cookies_existentes else 0
+        novo_cookie_expiry = novos_cookies[0].get('expiry', 0) if novos_cookies else 0
+
+        # Se a nova lista tem cookies com expiração mais recente, substituir
+        if novo_cookie_expiry > cookie_existente_expiry:
+            # print(f"Substituindo cookies por uma versão mais nova (expiração: {novo_cookie_expiry})")
+            # print(novos_cookies)
+            return novos_cookies  # Substitui toda a lista
+        else:
+            # print(f"Cookies mantidos, pois são mais recentes ou iguais (expiração: {cookie_existente_expiry})")
+            return cookies_existentes  # Mantém a lista existente
 
     # Mesclar os dados do Firebase com o JSON local
     for account_id, cookies in cookies_firebase_data.items():
         if account_id in cookies_local_data:
-            # Atualizar os cookies existentes no arquivo local com os do Firebase
-            cookies_local_data[account_id] = atualizar_cookies(cookies_local_data[account_id], cookies)
+            # Verificar se os cookies locais são mais recentes
+            cookies_local_data[account_id] = substituir_se_mais_novo(cookies_local_data[account_id], cookies)
         else:
             # Se a conta não existe no arquivo local, adicionar do Firebase
             cookies_local_data[account_id] = cookies
@@ -519,8 +602,8 @@ def sincronizar_cookies_com_firebase():
     # Mesclar os dados do JSON local com o Firebase
     for account_id, cookies in cookies_local_data.items():
         if account_id in cookies_firebase_data:
-            # Atualizar os cookies existentes no Firebase com os do arquivo local
-            cookies_firebase_data[account_id] = atualizar_cookies(cookies_firebase_data[account_id], cookies)
+            # Verificar se os cookies Firebase são mais recentes
+            cookies_firebase_data[account_id] = substituir_se_mais_novo(cookies_firebase_data[account_id], cookies)
         else:
             # Se a conta não existe no Firebase, adicionar do arquivo local
             cookies_firebase_data[account_id] = cookies
@@ -528,20 +611,24 @@ def sincronizar_cookies_com_firebase():
     # Atualizar os dados no Firebase
     db.child('cookies_facebook').set(cookies_firebase_data)
 
-    # Atualizar o arquivo JSON local
-    with open('cookies_facebook.json', 'w') as file:
-        json.dump(cookies_local_data, file, indent=4)
+    # Atualizar o arquivo JSON local com tratamento de exceções
+    for _ in range(6):
+        try:
+            with open('cookies_facebook.json', 'w') as file:
+                json.dump(cookies_local_data, file, indent=4)
+            print("Arquivo JSON de cookies atualizado com sucesso.")
+            break
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado ao tentar salvar os cookies no arquivo JSON: {e}. \nNova tentativa em 10 segundos")
+            time.sleep(10)
 
     # Print da quantidade de IDs sincronizados
-    print(f"\n\nQuantidade de contas sincronizadas com Firebase: \n{len(cookies_firebase_data)}")
+    print(f"Quantidade de contas sincronizadas com Firebase: \n{len(cookies_firebase_data)}")
     print(f"Quantidade de contas sincronizadas no arquivo local: \n{len(cookies_local_data)}")
 
     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
 
-
 # escreve_configuracao(dados_config)
 
 # sincronizar_cookies_com_firebase()
-
-
