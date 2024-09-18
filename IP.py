@@ -72,13 +72,17 @@ urls = [
     'http://checkip.amazonaws.com',
     'http://ipinfo.io/ip',
     'http://whatismyip.akamai.com',
-    'http://ip.42.pl/raw',
     'http://myip.dnsomatic.com',
-    'https://ipv4.icanhazip.com/',
     'http://ipv4.ident.me/',
-    'https://ipv4.icanhazip.com/',
-    'http://whatismyipv4.net'
+    'https://api.ipify.org/',
+    'http://whatismyipv4.net',
+    'https://l2.io/ip',
+    'http://ip-api.com/line/?fields=query',
+    'https://api4.ipify.org',
+    'https://ipinfo.io/ip',
 ]
+
+
 
 lista_negra_ip = []
 cont_lista_negra = 0
