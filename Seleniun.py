@@ -583,7 +583,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     if "/login/" in url_atual:
                         break
 
-
                     if "/login/" not in url_atual:
 
                         print('url: ', url_atual)
