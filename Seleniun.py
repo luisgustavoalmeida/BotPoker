@@ -1,7 +1,6 @@
 import json
 import os
 import time
-from datetime import datetime, timedelta
 
 import pyautogui
 import pygetwindow as gw
@@ -28,43 +27,6 @@ senha = ''
 
 def get_random_user_agent():
     return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
-    # user_agents = [
-    #     # Google Chrome
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36",
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-    #
-    #     # Mozilla Firefox
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:110.0) Gecko/20100101 Firefox/110.0",
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0",
-    #
-    #     # Safari
-    #     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Version/15.1 Safari/537.36",
-    #     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:14.1) Gecko/20100101 Firefox/14.1",  # Firefox for Mac
-    #
-    #     # Microsoft Edge
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:111.0) Gecko/20100101 Firefox/111.0",
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; AS; Microsoft Outlook 16.0; MSIE 11.0; Windows NT 10.0; en-US) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 Edge/18.17763",
-    #
-    #     # Opera
-    #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Opera/75.0.3969.149) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
-    #
-    #     # Dispositivos Móveis
-    #     "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/537.36",
-    #     "Mozilla/5.0 (Android 12; Mobile; rv:108.0) Gecko/108.0 Firefox/108.0",
-    #
-    #     # Tablets
-    #     "Mozilla/5.0 (iPad; CPU OS 16_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.0 Safari/537.36",
-    #     "Mozilla/5.0 (Android 12; Tablet; rv:106.0) Gecko/106.0 Firefox/106.0",
-    # ]
-    # return random.choice(user_agents)
-    # ua = UserAgent()
-    # while True:
-    #     user_agent = ua.random
-    #     # Verifica se o User-Agent contém palavras que indicam dispositivos móveis
-    #     if any(keyword in user_agent for keyword in ["Mobile", "iPhone", "Android", "iPad", "Tablet"]):
-    #         continue  # Ignora User-Agent de dispositivos móveis e tenta novamente
-    #     print(user_agent)
-    #     return user_agent
 
 
 def cria_nevegador():
@@ -121,7 +83,7 @@ def cria_nevegador():
         except Exception as e:
             print("Erro ao criar o navegador:", e)
             time.sleep(1)
-            # fechar_janelas_chrome()
+            fechar_janelas_chrome()
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
 

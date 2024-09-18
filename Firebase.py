@@ -566,4 +566,4 @@ def sincronizar_cookies_com_firebase():
 
     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
-# escreve_configuracao(dados_config)
+escreve_configuracao(dados_config)
