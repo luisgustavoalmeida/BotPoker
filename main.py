@@ -910,7 +910,7 @@ while True:
                     time.sleep(0.1)
                 if feito:
                     break
-                tem_internet()
+                # tem_internet()
 
     Seleniun.sair_face(url)
 
