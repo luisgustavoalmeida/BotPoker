@@ -895,7 +895,7 @@ while True:
             link_url = dic_links[numero]
             feito = False
             for _ in range(3):
-                Seleniun.colocar_url(link_url)
+                Seleniun.colocar_url_link(link_url)
                 print(f'link: {numero}\n{link_url}')
                 for _ in range(50):
                     if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):

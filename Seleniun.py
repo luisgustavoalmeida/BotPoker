@@ -242,6 +242,21 @@ def colocar_url(url_colocar):
             time.sleep(intervalo)
         IP.tem_internet()
 
+def colocar_url_link(url_colocar):
+    global navegador
+    tentativa = 0
+    intervalo = 2
+    while True:
+        try:
+            navegador.get(url_colocar)
+            # Sucesso na conexão, sair do loop
+            return True
+        except Exception as e:
+            print('\n erro: \n', e, '\n')
+
+            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
+            time.sleep(intervalo)
+
 
 def teste_face_ok(url_atual):
     global url
