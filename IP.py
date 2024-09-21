@@ -16,6 +16,7 @@ from BancoDadosIP import contagem_ip_banco, zera_contagem_ip_banco, verificar_pc
 from F5_navegador import atualizar_navegador
 from Requerimentos import endereco_IP, tipo_conexao, nome_usuario, nome_computador
 from Seleniun import teste_logado
+from Meu_IP import obter_ip
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -202,25 +203,29 @@ def tem_internet():
     return True
 
 
+# def meu_ip():
+#     random.shuffle(urls)  # Embaralha a lista de URLs
+#     while True:
+#         for url in urls:
+#             # print(url)
+#             try:
+#                 response = requests.get(url, timeout=10)
+#                 if response.status_code == 200:
+#                     texto = response.text
+#                     texto = texto.strip()  # remove os espaços em branco (espaços, tabulações e quebras de linha) no início e no final da string
+#                     print(texto)
+#                     return texto, True
+#                 else:
+#                     print("Não houve resposta da API de IP:", url)
+#             except Exception as e:
+#                 print("Tempo limite excedido ao procurar o elemento.")
+#                 hora_atual = datetime.datetime.now().strftime('%H:%M:%S')
+#                 print("Sem conexão com a internet, hora:", hora_atual, "nova tentativa e outro servidor")
+#                 print(e)
+
 def meu_ip():
-    random.shuffle(urls)  # Embaralha a lista de URLs
-    while True:
-        for url in urls:
-            # print(url)
-            try:
-                response = requests.get(url, timeout=10)
-                if response.status_code == 200:
-                    texto = response.text
-                    texto = texto.strip()  # remove os espaços em branco (espaços, tabulações e quebras de linha) no início e no final da string
-                    print(texto)
-                    return texto, True
-                else:
-                    print("Não houve resposta da API de IP:", url)
-            except Exception as e:
-                print("Tempo limite excedido ao procurar o elemento.")
-                hora_atual = datetime.datetime.now().strftime('%H:%M:%S')
-                print("Sem conexão com a internet, hora:", hora_atual, "nova tentativa e outro servidor")
-                print(e)
+    numero_ip, teste_ip = obter_ip()
+    return numero_ip, teste_ip
 
 
 def nao_tem_internet():

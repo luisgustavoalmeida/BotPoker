@@ -4,18 +4,15 @@ import time
 
 import pyautogui
 import pygetwindow as gw
-import undetected_chromedriver as uc
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException
+from seleniumwire import webdriver  # Substitua o 'uc.Chrome' por 'seleniumwire.webdriver'
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 import IP
-import OCR_tela
 from F5_navegador import atualizar_navegador
 from Requerimentos import nome_usuario
-import pyperclip
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -26,10 +23,8 @@ url = None
 id = ''
 senha = ''
 
-
 def get_random_user_agent():
     return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
-
 
 def cria_nevegador():
     global navegador  # Referenciar a variável global
@@ -37,11 +32,11 @@ def cria_nevegador():
         try:
             print('Carregando opções do navegador')
             # Criar um objeto 'Options' para definir as opções do Chrome
-            options = uc.ChromeOptions()
-            options.add_argument(f"--user-agent={get_random_user_agent()}")
+            options = webdriver.ChromeOptions()
+            options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
-            options.add_argument("--referer=https://www.facebook.com/people/Poker-Italia/100068008035507/")
+            options.add_argument("--referer=https://www.facebook.com/")
             options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
@@ -50,15 +45,18 @@ def cria_nevegador():
             # options.add_argument("--incognito")  # Usa o modo de navegação anônima
             options.add_argument("--no-sandbox")  # Desativa o sandboxing
             options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
-            options.add_argument("--disable-password-generation")  # desabilita a geração automática de senhas pelo navegado
-            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
-            options.add_argument("--disable-geolocation")  # desativar localização.
-            options.add_argument("--mute-audio")  # desativar o áudio
-            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
-            # options.add_argument("--disable-infobars")  # Desabilitar a barra de informações do Chrome
-            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
-            options.add_argument(f"--user-data-dir={pasta_cookies}")
+            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
+            options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
+            options.add_argument("--disable-autofill")  # Desativa preenchimento automático
+            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            options.add_argument("--mute-audio")  # Desativa o áudio
+            options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
+            options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
+            seleniumwire_options = {
+                'custom_authority': False,
+                'disable_encoding': True,  # Para evitar modificações no cabeçalho "Accept-Encoding"
+                'disable_capture': True  # Desativa a captura de cabeçalhos e logs de requisições
+            }
 
             # Configuração adicional para bloquear pop-ups
             prefs = {
@@ -69,14 +67,28 @@ def cria_nevegador():
 
             print('Criando o navegador')
 
-            # undetected-chromedriver
-            # Inicializa o driver do navegador com undetected-chromedriver
-            navegador = uc.Chrome(options=options)
-            # Redefina o tempo limite para XX segundos
+            # Inicializa o driver do navegador com selenium-wire
+            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+
+            # Injetar JavaScript para modificar propriedades do navegador
+            # Injetar JavaScript para modificar propriedades do navegador e remover a mensagem
+            script = '''
+                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+                Object.defineProperty(navigator, 'platform', { get: () => 'Win32' });
+                Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
+                Object.defineProperty(navigator, 'languages', { get: () => ['pt-BR', 'pt', 'en-US'] });
+                // Remove a barra de controle de automação
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                    Promise.resolve({ state: Notification.permission }) :
+                    originalQuery(parameters)
+                );
+            '''
+            navegador.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': script})
+
             navegador.set_page_load_timeout(80)
-            # Definir o tamanho da janela # largura altura options.add_argument
             navegador.set_window_size(1380, 1060)
-            # Mover a janela para a posição (0,0) da tela
             navegador.set_window_position(-8, -5)
 
             print('Navegador criado com sucesso')
@@ -88,6 +100,7 @@ def cria_nevegador():
             fechar_janelas_chrome()
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
+
 
 
 def remover_mensagem_atualizacao():
@@ -243,22 +256,6 @@ def colocar_url(url_colocar):
             print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
             time.sleep(intervalo)
         IP.tem_internet()
-
-def colocar_url_link(url_colocar):
-    global navegador
-    tentativa = 0
-    intervalo = 2
-    while True:
-        try:
-            navegador.get(url_colocar)
-            # Sucesso na conexão, sair do loop
-            return True
-        except Exception as e:
-            print('\n erro: \n', e, '\n')
-
-            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
-            time.sleep(intervalo)
-            atualizar_navegador()
 
 
 def teste_face_ok(url_atual):
@@ -600,6 +597,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
                     if "/login/" in url_atual:
                         break
+
 
                     if "/login/" not in url_atual:
 
@@ -1160,6 +1158,17 @@ def link_segunda_guia():
 
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-# cria_nevegador()
+cria_nevegador()
+
+# Trocar proxy dinamicamente
+# navegador.proxy = {
+#     'http': 'http://jeannickbr2:26je11an87br@91.123.10.59:6601',
+#     'https': 'https://jeannickbr2:26je11an87br@91.123.10.59:6601'
+# }
+navegador.proxy = {
+    'http': 'http://jeannickbr2:26je11an87br@91.123.10.59:6601',
+    'https': 'https://jeannickbr2:26je11an87br@91.123.10.59:6601'
+}
+
 # busca_link()
-# time.sleep(10000)
+time.sleep(10000)

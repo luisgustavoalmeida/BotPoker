@@ -14,7 +14,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from OCR_tela import tratar_valor_numerico
+from OCR_tela import *
 from Requerimentos import dicionari_token_credencial_n, nome_completo
 from colorama import Fore
 from IP import *

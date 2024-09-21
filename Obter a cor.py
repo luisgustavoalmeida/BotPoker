@@ -49,8 +49,8 @@ a, b = 700, 167
 x = (x_origem + a)
 y = (y_origem + b)
 
-x = 429
-y = 894
+x = 583
+y = 502
 
 tolerancia = 0
 pyautogui.moveTo(x, y)

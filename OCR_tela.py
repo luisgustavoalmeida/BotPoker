@@ -1656,7 +1656,7 @@ def level_conta(x_origem, y_origem):
     contraste_pre = 1
     contraste_pos = 1
     regiao_level = (x_origem + 599, y_origem + 239, x_origem + 630, y_origem + 257)  # leval
-    regiao_total_jogos = (x_origem + 410, y_origem + 310, x_origem + 595, y_origem + 345)
+    # regiao_total_jogos = (x_origem + 410, y_origem + 310, x_origem + 595, y_origem + 345)
     configuracoes = [
         r'--oem 3 --psm 6 outputbase digits',
         r'--psm 7 --oem 0 -c tessedit_char_whitelist=0123456789',
@@ -1763,6 +1763,76 @@ def jogos_totais(x_origem, y_origem):
     total_jogos = 0
     return total_jogos
 
+
+def IP_vpn(x_origem=461, y_origem=386):
+
+    def validar_ip(ip):
+        """
+        Valida se a string fornecida é um IP no formato correto.
+        """
+        # Expressão regular para validar o formato de IP (IPv4)
+        padrao_ip = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
+
+        if padrao_ip.match(ip):
+            # Verifica se cada parte do IP (separado por '.') está no intervalo 0-255
+            partes = ip.split('.')
+            return all(0 <= int(parte) <= 255 for parte in partes)
+        return False
+
+    inveter_cor = True
+    esca_ciza = True
+    fator_ampliacao = 1
+    contraste_pre = 1
+    contraste_pos = 1
+    regiao_level = (x_origem + 160, y_origem + 115, x_origem + 270, y_origem + 141)  # leval
+    config = r'--oem 3 --psm 6 outputbase digits'
+
+    for _ in range(100):
+        ip_lido = OCR_regiao(regiao_level, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+        if ip_lido is not None:
+            print(f"IP lido: {ip_lido}")
+            if validar_ip(ip_lido):
+                print(f"IP válido encontrado: {ip_lido}")
+                return True, ip_lido
+            else:
+                print(f"Valor lido não é um IP válido: {ip_lido}. Tentando novamente...")
+        else:
+            print("Nenhum valor foi lido. Tentando novamente...")
+    return False, ip_lido
+
+
+def Vpn_sevidor(x_origem=461, y_origem=386):
+
+    config = '--psm 6 --oem 3'
+    inveter_cor = False
+    esca_ciza = False
+    fator_ampliacao = 1
+    contraste_pre = 1
+    contraste_pos = 1
+
+    regiao_level = (x_origem + 140, y_origem + 64, x_origem + 390, y_origem + 117)
+
+    for _ in range(100):
+        sevidor_lido = OCR_regiao(regiao_level, config, inveter_cor, fator_ampliacao, contraste_pre, contraste_pos, esca_ciza)
+        if sevidor_lido is not None:
+            partes = sevidor_lido.split('\n')
+            # Remove espaços vazios do início e do final de cada parte
+            status = partes[0].strip()
+            sevidor = partes[1].strip() if len(partes) > 1 else ''
+            sevidor = re.sub(r'[^0-9](?=\d+$)', '#', sevidor)
+            print(f"IP lido\:\n\n{status}\n{sevidor}")
+            if status == 'CONECTADO':
+                return True, status, sevidor
+
+
+    print("Nenhum valor foi lido. Tentando novamente...")
+    return False, None, None
+
+
+
+
+# Vpn_sevidor()
+# IP_vpn(461, 386)
 # x_origem, y_origem = 8, 228
 # x_origem, y_origem = Origem_pg.x_y()
 #
