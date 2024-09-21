@@ -256,6 +256,7 @@ def colocar_url_link(url_colocar):
 
             print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
             time.sleep(intervalo)
+            atualizar_navegador()
 
 
 def teste_face_ok(url_atual):
