@@ -5,17 +5,17 @@ import requests
 
 apis = [
     'https://api.ipify.org?format=json',
-    'https://api64.ipify.org?format=json',
+    # 'https://api64.ipify.org?format=json',
     'https://ipinfo.io/json',
     'https://checkip.amazonaws.com',
     'http://httpbin.org/ip',
-    'https://ident.me/.json',
-    'https://ipapi.co/json',
+    # 'https://ident.me/.json',
+    # 'https://ipapi.co/json',
     'https://api.ipify.org',
     'http://checkip.amazonaws.com',
     'http://ipinfo.io/ip',
     'http://whatismyip.akamai.com',
-    'http://myip.dnsomatic.com',
+    # 'http://myip.dnsomatic.com',
     'http://ipv4.ident.me/',
     'https://api.ipify.org/',
     'http://whatismyipv4.net',
@@ -23,12 +23,12 @@ apis = [
     'http://ip-api.com/line/?fields=query',
     'https://api4.ipify.org',
     'https://ipinfo.io/ip',
-    'https://wtfismyip.com/text',
-    'http://icanhazip.com',
+    # 'https://wtfismyip.com/text',
+    # 'http://icanhazip.com',
     'https://ipwhois.app/json/',
-    'https://ifconfig.co/json',
+    # 'https://ifconfig.co/json',
     'https://ipv4.icanhazip.com',
-    'https://myexternalip.com/raw',
+    # 'https://myexternalip.com/raw',
 ]
 
 
@@ -86,7 +86,7 @@ def obter_ip():
                         print(f"IP obtido com sucesso de {api}: {ip_address}")
                         if validar_ip(ip_address):
                             print('IP no formato IPV4')
-                            return ip_address, True  # Retorna o IP se a extração foi bem-sucedida
+                            # return ip_address, True  # Retorna o IP se a extração foi bem-sucedida
                     else:
                         print(f"Falha ao extrair o IP da resposta da API {api}.")
                 else:
@@ -98,4 +98,4 @@ def obter_ip():
     return None  # Se todas as tentativas falharem, retorna None
 
 
-# obter_ip()
+obter_ip()
