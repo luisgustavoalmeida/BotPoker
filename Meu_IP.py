@@ -86,7 +86,7 @@ def obter_ip():
                         print(f"IP obtido com sucesso de {api}: {ip_address}")
                         if validar_ip(ip_address):
                             print('IP no formato IPV4')
-                            # return ip_address, True  # Retorna o IP se a extração foi bem-sucedida
+                            return ip_address, True  # Retorna o IP se a extração foi bem-sucedida
                     else:
                         print(f"Falha ao extrair o IP da resposta da API {api}.")
                 else:
