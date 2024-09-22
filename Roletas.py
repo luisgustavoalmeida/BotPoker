@@ -202,7 +202,7 @@ def roletas(x_origem, y_origem):
             if cont_erro_roleta >= 5:
                 print("da um atualizar na pagina")
                 IP.tem_internet()
-                Seleniun.atualizar_pagina()
+                atualizar_navegador()
                 cont_erro_roleta = 0
                 time.sleep(15)
                 # da um F5

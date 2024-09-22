@@ -12,10 +12,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import IP
-import OCR_tela
 from F5_navegador import atualizar_navegador
 from Requerimentos import nome_usuario
-import pyperclip
+import F5_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -993,7 +992,8 @@ def atualizar_pagina():
             # colocar_url(url)
             return
         except Exception as e:
-            print("Erro de conexão com a internet. Tentando novamente em 5 segundos...")
+            F5_navegador.atualizar_navegador()
+            print("Erro de conexão com a internet. Tentando novamente em 2 segundos...")
             print(e)
             time.sleep(2)
             continue
