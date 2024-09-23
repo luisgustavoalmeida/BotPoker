@@ -13,7 +13,7 @@ def recolhe_aneis(x_origem, y_origem):
     # testa se tem aneis para serem recolhidos
 
     for _ in range(2):
-        if (pyautogui.pixelMatchesColor((x_origem + 954), (y_origem + 288), (33, 145, 18), tolerance=15)
+        if (pyautogui.pixelMatchesColor((x_origem + 954), (y_origem + 288), (33, 145, 18), tolerance=10)
                 or (not pyautogui.pixelMatchesColor((x_origem + 954), (y_origem + 288), (32, 17, 20), tolerance=15))):
             # testa se tem o verde do anel ou se nao esta visivel a parte atras do verde
             print("Tem aneis para recolhar")

@@ -853,27 +853,7 @@ while True:
             if guia in ["R1", "R2", "R3", "R4", "R5"]:
                 print('Inicia a execução das Roletas')
                 roletas()
-                if guia in 'R2':
-                    for numero in range(3, 10):
-                        link_url = dic_links[numero]
-                        feito = False
-                        for _ in range(3):
-                            Seleniun.colocar_url_link(link_url)
-                            print(f'link: {numero}\n{link_url}')
-                            for _ in range(50):
-                                if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
-                                    print('Preto encontrado')
-                                    break
-                                time.sleep(0.1)
-                            for _ in range(80):
-                                if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
-                                    print('Branco encontrado')
-                                    feito = True
-                                    break
-                                time.sleep(0.1)
-                            if feito:
-                                break
-                            # tem_internet()
+
             # Tarefas
             elif guia == "T1":
                 print('Inicia a execução das Tarefas')
@@ -905,6 +885,27 @@ while True:
         Tarefas.recolher_tarefa_upando(x_origem, y_origem)
         Aneis.recolhe_aneis(x_origem, y_origem)
         valor_fichas = OCR_tela.valor_fichas(x_origem, y_origem, fichas_planilha, valor_fichas_perfil)
+        if guia in 'R2':
+            for numero in range(3, 10):
+                link_url = dic_links[numero]
+                feito = False
+                for _ in range(3):
+                    Seleniun.colocar_url_link(link_url)
+                    print(f'link: {numero}\n{link_url}')
+                    for _ in range(50):
+                        if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
+                            print('Preto encontrado')
+                            break
+                        time.sleep(0.1)
+                    for _ in range(80):
+                        if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
+                            print('Branco encontrado')
+                            feito = True
+                            break
+                        time.sleep(0.1)
+                    if feito:
+                        break
+                    # tem_internet()
 
         print(Fore.GREEN + '\nTerminou as atividades\n' + Fore.RESET)
     # ################################################################################################################################################
