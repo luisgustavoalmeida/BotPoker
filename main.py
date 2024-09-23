@@ -288,9 +288,10 @@ def roletas():
             time_sair = time.perf_counter()
             tempo_total = time_sair - time_rodou
             print('tempo que ja clicou no rodou', tempo_total)
-            if tempo_total >= 0.5:
+            if tempo_total >= 2:
                 print('ja pode sair do r2')
                 break
+            pyautogui.doubleClick(x_origem + 492, y_origem + 383)  # clica no meio da roleta para rodar
             time.sleep(0.3)
 
     return
