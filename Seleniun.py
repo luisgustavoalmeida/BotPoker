@@ -58,7 +58,7 @@ def cria_nevegador():
             # options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
-                # 'disable_capture': True,  # Desativa a interceptação de requisições
+                'disable_capture': True,  # Desativa a interceptação de requisições
                 'verify_ssl': False  # Desativa a verificação de SSL
             }
 
@@ -1172,8 +1172,8 @@ def link_segunda_guia():
 
 ######################################################################################################################
 # # # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-cria_nevegador()
-time.sleep(10000)
+# cria_nevegador()
+# time.sleep(10000)
 # # sair_face('https://apps.facebook.com/poker_italia')
 # mudar_proxy_dinamico('141.11.84.125:3128')
 # time.sleep(60)
