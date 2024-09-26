@@ -992,6 +992,22 @@ def atualizar_pagina():
             time.sleep(2)
             continue
 
+def colocar_url_link(url_colocar):
+    global navegador
+    tentativa = 0
+    intervalo = 2
+    while True:
+        try:
+            navegador.get(url_colocar)
+            # Sucesso na conexão, sair do loop
+            return True
+        except Exception as e:
+            print('\n erro: \n', e, '\n')
+
+            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
+            time.sleep(intervalo)
+            atualizar_navegador()
+
 
 def busca_link():
     global navegador
