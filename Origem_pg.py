@@ -49,7 +49,7 @@ def carregado_origem():  # navegador
         # pyautogui.click(10, 1020)  # clica bobo para nao hibernar
 
         print("carregado_orige Procurando coodenada 0 x 0...")
-        for i in range(60):
+        for i in range(80):
 
             # Procura a imagem na região definida com 99,5% de tolerância, em escala de cinza e retorna a posição
 
@@ -163,7 +163,7 @@ def carregado_origem():  # navegador
                 recolhe_fan()
 
                 cont_erro_fundo_preto += 1
-                if cont_erro_fundo_preto > 4:
+                if cont_erro_fundo_preto > 20:
                     cont_erro_fundo_preto = 0
                     if pyautogui.pixelMatchesColor(493, 602, (17, 16, 16), tolerance=2):
                         print('Esta com fundo preto da um F5')

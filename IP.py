@@ -124,6 +124,8 @@ def localizar_imagem(imagem, regiao, precisao):
 
 
 def testa_trocar_IP():
+    if tipo_conexao in 'proxy':
+        return
     if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
         # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
         testa_contagem_ip(LIMITE_IP)
@@ -246,62 +248,9 @@ def nao_tem_internet():
             time.sleep(30)
             falhou = True
 
-
-def ip_troca_agora2():
-    while True:
-        print('Troca IP imediatamente')
-        if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
-            # teste se o usuario do computador é o que troca IP se nao for fica esperando esta livre
-            print("Vai par a função de trocar ip")
-            conexao()  # chama a função que troca ip
-            print('espera a internete estar estavel')
-            tem_internet()  # testa ate que internete esteja estavel
-            meu_ip_agora, teste = meu_ip()
-            # if testa_lista_negra_ip(meu_ip_agora):
-            if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                print("Vai para a função que zera a contagem")
-                Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
-                return
-        else:
-            print('Troca IP imediatamente não é um computador principal')
-            return
-
-
-def testa_contagem_ip2(LIMITE_IP=6):
-    while True:
-        com_internete = tem_internet()
-        # tem_internet() # testa se tem internete ativa
-
-        if com_internete:
-            try:
-                cont_IP = int(Google.pega_valor_endereco(endereco_IP))  # pega o valor de contas que ja rodaram no IP atual
-                if cont_IP >= LIMITE_IP or cont_IP < 0:  # testa se esta maior que o lilite ou se esta negativo
-
-                    if (nome_usuario == "PokerIP") or (nome_computador == "PC-I7-9700KF"):
-                        print("Vai par a função de trocar ip")
-                        conexao()  # chama a função que troca ip
-                        print('espera a internete estar estavel')
-                        tem_internet()  # testa ate que internete esteja estavel
-                        meu_ip_agora, teste = meu_ip()
-                        # if testa_lista_negra_ip(meu_ip_agora):
-                        if ListaIpFirebase.verifica_e_adiciona_ip(meu_ip_agora):
-                            print("Vai para a função que zera a contagem")
-                            Google.zera_cont_IP(endereco_IP)  # Zera a contegem de ip na planilha
-                            return
-                    else:
-                        print("Espera liberar IP")
-                        nao_tem_internet()
-                        continue
-
-                elif cont_IP < LIMITE_IP:
-                    print("Continua não tem que trocar IP")
-                    return
-            except Exception as e:
-                print(e)
-                time.sleep(3)
-
-
 def ip_troca_agora():
+    if tipo_conexao in 'proxy':
+        return
     """Usando banco sql"""
     while True:
         print('Troca IP imediatamente')
@@ -323,6 +272,8 @@ def ip_troca_agora():
 
 
 def testa_contagem_ip(LIMITE_IP=6, confg_funcao=""):
+    if tipo_conexao in 'proxy':
+        return
     """usando banco sql"""
     while True:
 
@@ -418,9 +369,13 @@ def abre_tala_cenexoes():
 
 
 def conexao():
+    if tipo_conexao in 'proxy':
+        return
     global janela_configuracoes
     while True:
-        if tipo_conexao in ('modem', 'vero'):
+        if tipo_conexao in 'proxy':
+            return None
+        elif tipo_conexao in ('modem', 'vero'):
             abre_tala_cenexoes()
 
             if tipo_conexao == "vero":

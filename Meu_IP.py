@@ -98,4 +98,4 @@ def obter_ip():
     return None  # Se todas as tentativas falharem, retorna None
 
 
-obter_ip()
+# obter_ip()

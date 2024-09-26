@@ -4,17 +4,15 @@ import time
 
 import pyautogui
 import pygetwindow as gw
-import undetected_chromedriver as uc
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException
+from seleniumwire import webdriver  # Substitua o 'uc.Chrome' por 'seleniumwire.webdriver'
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 import IP
 from F5_navegador import atualizar_navegador
 from Requerimentos import nome_usuario
-import F5_navegador
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
@@ -36,49 +34,46 @@ def cria_nevegador():
         try:
             print('Carregando opções do navegador')
             # Criar um objeto 'Options' para definir as opções do Chrome
-            options = uc.ChromeOptions()
-            options.add_argument(f"--user-agent={get_random_user_agent()}")
+            options = webdriver.ChromeOptions()
+            options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
-            options.add_argument("--referer=https://www.facebook.com/people/Poker-Italia/100068008035507/")
+            options.add_argument("--referer=https://www.facebook.com/")
             options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
             options.add_argument("--disable-cache")  # Desativa o cache
-            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            options.add_argument("--incognito")  # Usa o modo de navegação anônima
             options.add_argument("--no-sandbox")  # Desativa o sandboxing
             options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
-            options.add_argument("--disable-password-generation")  # desabilita a geração automática de senhas pelo navegado
-            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
-            options.add_argument("--disable-geolocation")  # desativar localização.
-            options.add_argument("--mute-audio")  # desativar o áudio
-            options.add_argument("--disable-save-password-bubble")  # desabilitará a caixa de diálogo para salvar senhas do navegador
-            # options.add_argument("--disable-infobars")  # Desabilitar a barra de informações do Chrome
-            options.add_argument("--disable-autofill")  # desabilitará o recurso de preenchimento automático de formulários do navegador.
-            options.add_argument(f"--user-data-dir={pasta_cookies}")
-
-            # Configuração adicional para bloquear pop-ups
-            prefs = {
-                "profile.default_content_setting_values.notifications": 2,  # Bloqueia notificações
-                "profile.default_content_setting_values.popups": 2,  # Bloqueia pop-ups
+            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
+            options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
+            options.add_argument("--disable-autofill")  # Desativa preenchimento automático
+            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            options.add_argument("--mute-audio")  # Desativa o áudio
+            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
+            # options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
+            options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
+            seleniumwire_options = {
+                'verify_ssl': True  # Ignora erros de certificação SSL
             }
-            options.add_experimental_option("prefs", prefs)
+
 
             print('Criando o navegador')
 
-            # undetected-chromedriver
-            # Inicializa o driver do navegador com undetected-chromedriver
-            navegador = uc.Chrome(options=options)
-            # Redefina o tempo limite para XX segundos
+            # Inicializa o driver do navegador com selenium-wire
+            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+
+
             navegador.set_page_load_timeout(80)
-            # Definir o tamanho da janela # largura altura options.add_argument
             navegador.set_window_size(1380, 1060)
-            # Mover a janela para a posição (0,0) da tela
             navegador.set_window_position(-8, -5)
 
             print('Navegador criado com sucesso')
+            pyautogui.click(1338, 108)
 
             return navegador
         except Exception as e:
@@ -242,22 +237,6 @@ def colocar_url(url_colocar):
             print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
             time.sleep(intervalo)
         IP.tem_internet()
-
-def colocar_url_link(url_colocar):
-    global navegador
-    tentativa = 0
-    intervalo = 2
-    while True:
-        try:
-            navegador.get(url_colocar)
-            # Sucesso na conexão, sair do loop
-            return True
-        except Exception as e:
-            print('\n erro: \n', e, '\n')
-
-            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
-            time.sleep(intervalo)
-            atualizar_navegador()
 
 
 def teste_face_ok(url_atual):
@@ -519,7 +498,80 @@ def realizar_login_manual(id, senha):
         print(f"Erro ao realizar login manual: {str(e)}")
 
 
-def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
+def testar_proxy(proxy_ip, proxy_port):
+    """
+    Testa se o proxy está respondendo corretamente realizando uma conexão de teste.
+
+    :param proxy_ip: IP do proxy
+    :param proxy_port: Porta do proxy
+    :return: True se o proxy estiver ativo, False caso contrário
+    """
+    import socket
+
+    try:
+        # Tentando abrir uma conexão com o proxy para testar se ele está ativo
+        with socket.create_connection((proxy_ip, int(proxy_port)), timeout=5):
+            print(f"Conexão bem-sucedida com o proxy {proxy_ip}:{proxy_port}")
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError) as e:
+        print(f"Falha ao conectar com o proxy {proxy_ip}:{proxy_port}: {e}")
+        return False
+
+
+def mudar_proxy_dinamico(proxy_string):
+    print('mudar_proxy_dinamico')
+
+    """
+    Altera o proxy do navegador atual sem fechá-lo, com verificações adicionais de segurança.
+
+    :param proxy_string: Proxy no formato 'IP:PORT'
+    :raises ValueError: Se o formato do proxy for inválido
+    :raises RuntimeError: Se não conseguir aplicar o proxy corretamente após várias tentativas
+    """
+    global navegador
+
+    # Verifica se o navegador está ativo
+    if navegador is None:
+        raise RuntimeError("O navegador não está ativo.")
+
+    # Extrair IP e porta do proxy_string
+    proxy_ip, proxy_port = proxy_string.split(':')
+
+    # Testa a conexão com o proxy antes de aplicá-lo
+    if not testar_proxy(proxy_ip, proxy_port):
+        raise RuntimeError(f"Proxy {proxy_ip}:{proxy_port} está inacessível.")
+
+
+    while True:
+        try:
+            # Atualizar as configurações do proxy dinamicamente
+            navegador.proxy = {
+                'http': f'http://{proxy_ip}:{proxy_port}',
+                'https': f'https://{proxy_ip}:{proxy_port}',
+                # Ignorar verificação de SSL se necessário
+                # 'no_proxy': 'facebook.com,www.facebook.com'  # Facebook não passa pelo proxy
+            }
+            print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
+            return True
+
+        except Exception as e:
+            print(f"Erro ao tentar aplicar o proxy: {e}")
+
+def desativar_proxy():
+    """
+    Desativa o proxy no navegador atual.
+
+    :param navegador: O navegador Selenium Wire.
+    """
+    global navegador
+    navegador.proxy = None  # Desativa o uso do proxy
+    print("Proxy desativado.")
+
+
+
+
+def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False, proxy=None):
+    print('fazer_login',proxy)
     global navegador, url, id, senha
 
     if url != url_novo and url_novo != '':
@@ -542,6 +594,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         IP.tem_internet()
         # print('continua login')
         url_atual = pega_url()
+
 
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL poker')
@@ -570,6 +623,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                     print("Algum dos cookies não possui data de expiração.")
                         else:
                             capturar_cookies_facebook(id)
+
+                        if proxy:
+                            mudar_proxy_dinamico(proxy)
 
                         colocar_url(url)
                         print('Coloca url do jogo')
@@ -874,78 +930,19 @@ def sair_face(url_novo=''):
         url = url_novo
 
     for _ in range(30):
-        IP.tem_internet()
 
         print("\n   Sair do facebook    \n")
-
         url_sair = 'https://pt-br.facebook.com/'
 
-        script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDomain() { var cookies = document.cookie.split("; "); for (var c = 0; c < cookies.length; c++) { var d = window.location.hostname.split("."); while (d.length > 0) { var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path='; var p = location.pathname.split('/'); document.cookie = cookieBase + '/'; while (p.length > 0) { document.cookie = cookieBase + p.join('/'); p.pop(); }; d.shift(); } } } deleteAllCookiesFromCurrentDomain(); location.href = '""" + url_sair + """'; })();"""
-
         try:
-            print('inicia a execução do script sair')
-            navegador.switch_to.window(navegador.window_handles[0])
-            navegador.execute_script(script)
-            print('script sair executado sem erros')
 
             # Exclui todos os cookies
-            # navegador.delete_all_cookies()
-            # print('deletar cookes')
+            navegador.delete_all_cookies()
+            print('Cookies deletados')
+            desativar_proxy()
 
             abrir_fechar_guia()
             print("nova guia ok")
-            # recarregar_pagina(navegador, url)
-
-            # print('abre novaguia')
-            # # Abrir uma nova guia
-            # pyautogui.hotkey('ctrl', 't')
-            #
-            # for _ in range(100):
-            #     # Obtenha a lista de identificadores de janelas abertas
-            #     window_handles = navegador.window_handles
-            #     time.sleep(0.1)
-            #     # Verifique se há duas guias abertas
-            #     if len(window_handles) >= 2:
-            #         # muda o foco par aa primeira guia
-            #         navegador.switch_to.window(navegador.window_handles[0])
-            #         # Obtém o identificador da janela atual
-            #         janela_atual = navegador.current_window_handle
-            #         # Obtém o identificador da primeira guia
-            #         primeira_guia = navegador.window_handles[0]
-            #
-            #         # Verifica se o foco está na primeira guia
-            #         if janela_atual == primeira_guia:
-            #             print("O foco está na primeira guia.")
-            #             # Pressione as teclas "Ctrl+W" para fechar a primeira guia
-            #             pyautogui.hotkey('ctrl', 'w')
-            #             break
-            #         else:
-            #             print("O foco não está na primeira guia.")
-            #
-            # try:
-            #     for _ in range(100):
-            #         # Obtenha a lista de identificadores de janelas abertas
-            #         window_handles = navegador.window_handles
-            #
-            #         # Verifique se há uma guia aberta
-            #         if len(window_handles) == 1:
-            #             navegador.switch_to.window(navegador.window_handles[0])
-            #             # Obtém o identificador da janela atual
-            #             janela_atual = navegador.current_window_handle
-            #             # Obtém o identificador da primeira guia
-            #             primeira_guia = navegador.window_handles[0]
-            #
-            #             # Verifica se o foco está na primeira guia
-            #             if janela_atual == primeira_guia:
-            #                 print("So tem uma guia aberta")
-            #                 navegador.get(url)
-            #                 break
-            #             else:
-            #                 print("O foco não está na primeira guia.")
-            #             break
-            #         time.sleep(0.1)
-            # except Exception as e:
-            #     print(f"Erro ao fechar a guia: {e}")
 
             WebDriverWait(navegador, 5).until(EC.presence_of_element_located((By.NAME, 'email')))
             print('Pagina pronta, conta NÃO logada')
@@ -956,12 +953,9 @@ def sair_face(url_novo=''):
                 print("ERRO ao executar o script sair ")
                 print(e)
                 # Exclui todos os cookies
-                # navegador.delete_all_cookies()
-                navegador.delete_cookie("xs")
-                navegador.delete_cookie("c_user")
-                IP.tem_internet()
-                url_sair = 'https://pt-br.facebook.com/'
+                navegador.delete_all_cookies()
                 navegador.get(url_sair)
+                navegador.delete_all_cookies()
                 print("testa se tem nao é vc")
 
             except Exception as e:
@@ -992,8 +986,7 @@ def atualizar_pagina():
             # colocar_url(url)
             return
         except Exception as e:
-            F5_navegador.atualizar_navegador()
-            print("Erro de conexão com a internet. Tentando novamente em 2 segundos...")
+            print("Erro de conexão com a internet. Tentando novamente em 5 segundos...")
             print(e)
             time.sleep(2)
             continue
@@ -1158,8 +1151,13 @@ def link_segunda_guia():
         print("link fanpag fora do padrão")
     return False, "link fanpag fora do padrão"
 
+
 ######################################################################################################################
 # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-# cria_nevegador()
-# busca_link()
-# time.sleep(10000)
+cria_nevegador()
+time.sleep(1)
+# sair_face('https://apps.facebook.com/poker_italia')
+mudar_proxy_dinamico('141.11.84.125:3128')
+time.sleep(60)
+desativar_proxy()
+time.sleep(120)

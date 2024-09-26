@@ -4,7 +4,7 @@ import time
 
 # import IP
 from Google import (apagar_numerodo_pc, escrever_valores_lote, marca_caida, credenciais, pega_valor_endereco, escrever_celula,
-                    retona_para_inicio_planilha)
+                    retona_para_inicio_planilha, obter_id_proxy)
 from IP import testa_contagem_ip, f5_quando_internete_ocila, ip_troca_agora, meu_ip, tem_internet, iniciando_testando_conexao_internet
 
 import pyautogui
@@ -29,19 +29,21 @@ import Tratar_url
 # from Firebase import ler_configuracao
 from UparAuto import upar
 
-from Requerimentos import nome_computador, nome_usuario
+from Requerimentos import nome_computador, nome_usuario, tipo_conexao
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
 
+
 print('\n\n         I N I C I A N D O \n\n')
 iniciando_testando_conexao_internet()
 escolher_configuracao_e_db()
-Firebase.sincronizar_cookies_com_firebase()
+# Firebase.sincronizar_cookies_com_firebase()
 url = str(pega_valor_endereco('Dados!F1'))
 url_link = str(pega_valor_endereco('Dados!F2'))
 dic_links = Tratar_url.rodar_links(url_link)
+dic_id_proxy = obter_id_proxy()
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -137,12 +139,25 @@ tarefa.start()
 
 
 def logar_carregar():
+    print('logar_carregar')
     global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker  # , confg_funcao, guia, url,
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
+    proxy = None
+    if tipo_conexao == 'proxy':
+        print('Conexão tipo Proxy', id)
 
-    testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
-    incrementa_contagem_ip()
+        proxy = dic_id_proxy.get(str(id), None)
+        print(proxy)
+        if proxy is None:
+            print(f"O ID {id} não foi encontrado no dicionário.")
+            return False
+        else:
+            print(f"O proxy para o ID {id} é: {proxy}")
+
+    else:
+        testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
+        incrementa_contagem_ip()
 
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
@@ -159,18 +174,18 @@ def logar_carregar():
         print("logar_carregar", link_url)
 
         # loga nomamente no jogo
-        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False)
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False, proxy)
     elif confg_funcao in ('Recolher_automatico', 'Recolher', 'T1',):
         # loga nomamente no jogo
-        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False)
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False, proxy)
     elif confg_funcao in ('Remover', 'Face'):
         url_remove_app = 'https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Fsettings%3Ftab%3Dapplications%26ref%3Dsettings'
         if confg_funcao == 'Face':
             print('\n Loga apenas o Fecebook \n')
-            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, True)
+            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, True, proxy)
         elif confg_funcao == 'Remover':
             print('\n Inicia o remover poker Brasil \n')
-            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, False)
+            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, False, proxy)
             if stataus_facebook == 'Remover Poker não ok':
                 while True:
                     print('Olhar manualmente')
@@ -193,7 +208,8 @@ def logar_carregar():
     while True:
         if entrou_corretamente:
             x_origem, y_origem, status_poker = Origem_pg.carregado_origem()
-            print(status_poker)
+            print("Estatus correto da conta", status_poker)
+
             if status_poker is not None:
                 break
 
