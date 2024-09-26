@@ -1153,11 +1153,11 @@ def link_segunda_guia():
 
 
 ######################################################################################################################
-# # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-cria_nevegador()
-time.sleep(1)
-# sair_face('https://apps.facebook.com/poker_italia')
-mudar_proxy_dinamico('141.11.84.125:3128')
-time.sleep(60)
-desativar_proxy()
-time.sleep(120)
+# # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
+# cria_nevegador()
+# time.sleep(1)
+# # sair_face('https://apps.facebook.com/poker_italia')
+# mudar_proxy_dinamico('141.11.84.125:3128')
+# time.sleep(60)
+# desativar_proxy()
+# time.sleep(120)
