@@ -66,8 +66,8 @@ def cria_nevegador():
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            # navegador = webdriver.Chrome(options=options)
-            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            navegador = webdriver.Chrome(options=options)
+            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(80)
