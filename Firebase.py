@@ -363,19 +363,19 @@ def ler_configuracao():
 
 def atualizar_configuracao_pc(novos_dados):
     """ Atualiza os dados de configuração para um PC específico """
-    while True:
-        global firebase, db
-        try:
-            if not firebase or not db:
-                raise ValueError("Firebase ou banco de dados não inicializado corretamente.")
+    # while True:
+    global firebase, db
+    try:
+        if not firebase or not db:
+            raise ValueError("Firebase ou banco de dados não inicializado corretamente.")
 
-            # Atualiza os dados de configuração específicos para o PC fornecido
-            db.child('Ajustes').child(numero_pc).update(novos_dados)
-            print(f"Dados de configuração para {numero_pc} atualizados com sucesso.")
-            return
-        except Exception as e:
-            print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
-            time.sleep(5)
+        # Atualiza os dados de configuração específicos para o PC fornecido
+        db.child('Ajustes').child(numero_pc).update(novos_dados)
+        print(f"Dados de configuração para {numero_pc} atualizados com sucesso.")
+        return
+    except Exception as e:
+        print(f"Ocorreu um erro ao atualizar os dados de configuração para {numero_pc}: {str(e)}")
+        # time.sleep(5)
 
 
 def atualizar_estatos_mesa(statos):
