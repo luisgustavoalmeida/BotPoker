@@ -908,13 +908,17 @@ while True:
                 for _ in range(3):
                     Seleniun.colocar_url_link(link_url)
                     print(f'link: {numero}\n{link_url}')
-                    for _ in range(50):
+                    for _ in range(80):
                         if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
                             print('Preto encontrado')
                             break
+                        if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=1):
+                            print('Branco encontrado...')
+                            feito = True
+                            break
                         time.sleep(0.1)
                     for _ in range(80):
-                        if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=10):
+                        if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=1):
                             print('Branco encontrado')
                             feito = True
                             break
