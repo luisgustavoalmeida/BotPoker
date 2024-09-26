@@ -937,13 +937,13 @@ def sair_face(url_novo=''):
         url_sair = 'https://pt-br.facebook.com/'
 
         try:
-
             # Exclui todos os cookies
             navegador.delete_all_cookies()
             print('Cookies deletados')
             desativar_proxy()
-
+            navegador.delete_all_cookies()
             abrir_fechar_guia()
+            navegador.delete_all_cookies()
             print("nova guia ok")
 
             WebDriverWait(navegador, 5).until(EC.presence_of_element_located((By.NAME, 'email')))
