@@ -52,9 +52,9 @@ def cria_nevegador():
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
-            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
-            options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
+            # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
@@ -65,7 +65,8 @@ def cria_nevegador():
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            navegador = webdriver.Chrome(options=options)
+            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(80)
@@ -1153,7 +1154,7 @@ def link_segunda_guia():
 
 
 ######################################################################################################################
-# # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
+# # # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
 # cria_nevegador()
 # time.sleep(1)
 # # sair_face('https://apps.facebook.com/poker_italia')
