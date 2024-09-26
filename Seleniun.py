@@ -52,21 +52,22 @@ def cria_nevegador():
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
             # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
             # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
-                'verify_ssl': True  # Ignora erros de certificação SSL
+                'disable_capture': True,  # Desativa a interceptação de requisições
+                'verify_ssl': False  # Desativa a verificação de SSL
             }
 
 
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            navegador = webdriver.Chrome(options=options)
-            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            # navegador = webdriver.Chrome(options=options)
+            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(80)
@@ -1171,8 +1172,8 @@ def link_segunda_guia():
 
 ######################################################################################################################
 # # # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
-# cria_nevegador()
-# time.sleep(1)
+cria_nevegador()
+time.sleep(10000)
 # # sair_face('https://apps.facebook.com/poker_italia')
 # mudar_proxy_dinamico('141.11.84.125:3128')
 # time.sleep(60)
