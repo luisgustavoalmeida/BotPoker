@@ -53,12 +53,12 @@ def cria_nevegador():
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
             options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
-            # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
             # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument("--disable-infobars")  # Remove a barra de controle de software de testes automatizados
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
-                'disable_capture': True,  # Desativa a interceptação de requisições
+                # 'disable_capture': True,  # Desativa a interceptação de requisições
                 'verify_ssl': False  # Desativa a verificação de SSL
             }
 
