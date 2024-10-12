@@ -35,22 +35,22 @@ def cria_nevegador():
             print('Carregando opções do navegador')
             # Criar um objeto 'Options' para definir as opções do Chrome
             options = webdriver.ChromeOptions()
-            options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
-            options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
-            options.add_argument("--accept-encoding=gzip, deflate, br")
-            options.add_argument("--referer=https://www.facebook.com/")
-            options.add_argument("--connection=keep-alive")
+            # options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
+            # options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
+            # options.add_argument("--accept-encoding=gzip, deflate, br")
+            # options.add_argument("--referer=https://www.facebook.com/")
+            # options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
-            options.add_argument("--disable-extensions")  # Desativa extensões
-            options.add_argument("--disable-cache")  # Desativa o cache
-            options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            options.add_argument("--no-sandbox")  # Desativa o sandboxing
-            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            # options.add_argument("--disable-extensions")  # Desativa extensões
+            # options.add_argument("--disable-cache")  # Desativa o cache
+            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            # options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
             options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
             options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
-            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            # options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
             # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
             # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
@@ -59,15 +59,15 @@ def cria_nevegador():
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
-                'verify_ssl': False  # Desativa a verificação de SSL
+                'verify_ssl': True  # Desativa a verificação de SSL
             }
 
 
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            navegador = webdriver.Chrome(options=options)
-            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            # navegador = webdriver.Chrome(options=options)
+            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(80)
@@ -521,43 +521,61 @@ def testar_proxy(proxy_ip, proxy_port):
 
 
 def mudar_proxy_dinamico(proxy_string):
-    print('mudar_proxy_dinamico')
-
     """
-    Altera o proxy do navegador atual sem fechá-lo, com verificações adicionais de segurança.
+    Altera o proxy do navegador atual sem fechá-lo, com verificações adicionais de segurança, incluindo autenticação.
 
-    :param proxy_string: Proxy no formato 'IP:PORT'
+    :param proxy_string: Proxy no formato 'IP:PORT' ou 'IP:PORT:USERNAME:PASSWORD'
     :raises ValueError: Se o formato do proxy for inválido
     :raises RuntimeError: Se não conseguir aplicar o proxy corretamente após várias tentativas
     """
+    print('mudar_proxy_dinamico')
     global navegador
 
     # Verifica se o navegador está ativo
     if navegador is None:
         raise RuntimeError("O navegador não está ativo.")
 
-    # Extrair IP e porta do proxy_string
-    proxy_ip, proxy_port = proxy_string.split(':')
+    # Verifica o formato do proxy e separa as partes
+    parts = proxy_string.split(':')
+    if len(parts) == 2:
+        proxy_ip, proxy_port = parts
+        username = None
+        password = None
+    elif len(parts) == 4:
+        proxy_ip, proxy_port, username, password = parts
+    else:
+        raise ValueError("Formato inválido para proxy. Use 'IP:PORT' ou 'IP:PORT:USERNAME:PASSWORD'.")
 
-    # Testa a conexão com o proxy antes de aplicá-lo
+    # Testa a conexão com o proxy antes de aplicá-lo (opcional, caso tenha essa função)
     if not testar_proxy(proxy_ip, proxy_port):
         raise RuntimeError(f"Proxy {proxy_ip}:{proxy_port} está inacessível.")
 
-
+    # Aplica o proxy dinamicamente
     while True:
         try:
-            # Atualizar as configurações do proxy dinamicamente
-            navegador.proxy = {
+            # Configuração básica de proxy
+            proxy_config = {
                 'http': f'http://{proxy_ip}:{proxy_port}',
                 'https': f'https://{proxy_ip}:{proxy_port}',
-                # Ignorar verificação de SSL se necessário
-                # 'no_proxy': 'facebook.com,www.facebook.com'  # Facebook não passa pelo proxy
+                # Exemplo: 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
             }
+
+            # Adiciona autenticação se for fornecida
+            if username and password:
+                proxy_config['proxy_auth'] = f'{username}:{password}'
+                print(f"Proxy com autenticação configurado: {proxy_ip}:{proxy_port} com usuário {username}")
+            else:
+                print(f"Proxy sem autenticação configurado: {proxy_ip}:{proxy_port}")
+
+            # Atualiza a configuração do proxy no navegador
+            navegador.proxy = proxy_config
+
             print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
             return True
 
         except Exception as e:
             print(f"Erro ao tentar aplicar o proxy: {e}")
+            raise RuntimeError(f"Falha ao configurar o proxy: {proxy_ip}:{proxy_port}")
 
 def desativar_proxy():
     """
@@ -1175,7 +1193,7 @@ def link_segunda_guia():
 # cria_nevegador()
 # time.sleep(10000)
 # # sair_face('https://apps.facebook.com/poker_italia')
-# mudar_proxy_dinamico('141.11.84.125:3128')
-# time.sleep(60)
+# mudar_proxy_dinamico('91.123.10.63:6605:sybzonhv:t096lck1sung')
+# time.sleep(6000)
 # desativar_proxy()
 # time.sleep(120)
