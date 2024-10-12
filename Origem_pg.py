@@ -193,7 +193,7 @@ def carregado_origem():  # navegador
                                     or pyautogui.pixelMatchesColor(700, 640, (221, 221, 221), tolerance=7)  # tela cinza clara com cara triste
                                     or pyautogui.pixelMatchesColor(700, 640, (238, 238, 238), tolerance=7)):  # tela cinza clara com cara triste
                                 print("Falha na pagina e a tela esta branca, da um F5")
-                                IP.tem_internet()
+                                # IP.tem_internet()
                                 atualizar_navegador()
                                 time.sleep(15)
                         except Exception as e:
@@ -214,7 +214,7 @@ def carregado_origem():  # navegador
 
             print("Não foi encontado a imagem de referencia para determinar a posição de origem")
             # Seleniun.atualizar_pagina(navegador, url)
-            IP.tem_internet()
+            # IP.tem_internet()
             print('origem da um f5 ')
             # navegador.get(url)
             # clica no atualizar

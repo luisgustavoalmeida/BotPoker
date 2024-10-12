@@ -553,18 +553,22 @@ def mudar_proxy_dinamico(proxy_string):
     # Aplica o proxy dinamicamente
     while True:
         try:
-            # Configuração básica de proxy
-            proxy_config = {
-                'http': f'http://{proxy_ip}:{proxy_port}',
-                'https': f'https://{proxy_ip}:{proxy_port}',
-                # Exemplo: 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
-            }
-
             # Adiciona autenticação se for fornecida
             if username and password:
-                proxy_config['proxy_auth'] = f'{username}:{password}'
+                # Configuração básica de proxy
+                proxy_config = {
+                    'http': f'http://{proxy_ip}:{proxy_port}',
+                    'https': f'https://{proxy_ip}:{proxy_port}',
+                    'proxy_auth': f'{username}:{password}',
+                }
                 print(f"Proxy com autenticação configurado: {proxy_ip}:{proxy_port} com usuário {username}")
             else:
+                # Configuração básica de proxy
+                proxy_config = {
+                    'http': f'http://{proxy_ip}:{proxy_port}',
+                    'https': f'https://{proxy_ip}:{proxy_port}',
+                    # 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
+                }
                 print(f"Proxy sem autenticação configurado: {proxy_ip}:{proxy_port}")
 
             # Atualiza a configuração do proxy no navegador
@@ -577,6 +581,7 @@ def mudar_proxy_dinamico(proxy_string):
             print(f"Erro ao tentar aplicar o proxy: {e}")
             raise RuntimeError(f"Falha ao configurar o proxy: {proxy_ip}:{proxy_port}")
 
+
 def desativar_proxy():
     """
     Desativa o proxy no navegador atual.
@@ -586,8 +591,6 @@ def desativar_proxy():
     global navegador
     navegador.proxy = None  # Desativa o uso do proxy
     print("Proxy desativado.")
-
-
 
 
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False, proxy=None):

@@ -139,7 +139,7 @@ def f5_quando_internete_ocila():
     conectado = True
     while True:
         try:
-            response = requests.get('http://www.google.com', timeout=5)
+            response = requests.get('http://www.google.com', timeout=15)
             if response.status_code == 200:
                 print("Conexão com a internet ativa. ")
                 if not conectado:
@@ -160,6 +160,7 @@ def f5_quando_internete_ocila():
 
 
 def tem_internet():
+    return True
     cont_erro2 = 0
     cont_erro = 0
     print('tem_internet')
@@ -169,7 +170,7 @@ def tem_internet():
         print('testa a internete')
         cont_erro2 += 1
         try:
-            response = requests.get('http://www.google.com', timeout=5)
+            response = requests.get('http://www.google.com', timeout=10)
             if response.status_code == 200:
                 print("tem_internet Conexão com a internet ativa...")
                 cont_erro = 0
