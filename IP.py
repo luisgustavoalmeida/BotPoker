@@ -135,6 +135,7 @@ def testa_trocar_IP():
 
 
 def f5_quando_internete_ocila():
+    return True
     # print('f5_quando_internete_ocila')
     conectado = True
     while True:
@@ -149,9 +150,9 @@ def f5_quando_internete_ocila():
                         time.sleep(15)
                     except Exception as e:
                         print('erro autogui: ', e)
-
                     entrou_corretamente, stataus = teste_logado()
                 return True
+
         except Exception as e:
             print("Sem conexão com a internet...")
             print(e)
