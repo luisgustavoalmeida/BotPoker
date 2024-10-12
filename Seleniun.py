@@ -43,12 +43,12 @@ def cria_nevegador():
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
-            options.add_argument("--disable-cache")  # Desativa o cache
+            # options.add_argument("--disable-cache")  # Desativa o cache
             options.add_argument("--incognito")  # Usa o modo de navegação anônima
             options.add_argument("--no-sandbox")  # Desativa o sandboxing
-            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
-            options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
+            # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            # options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
+            # options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
