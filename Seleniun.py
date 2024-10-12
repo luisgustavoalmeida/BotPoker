@@ -35,27 +35,27 @@ def cria_nevegador():
             print('Carregando opções do navegador')
             # Criar um objeto 'Options' para definir as opções do Chrome
             options = webdriver.ChromeOptions()
-            # options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
-            # options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
-            # options.add_argument("--accept-encoding=gzip, deflate, br")
-            # options.add_argument("--referer=https://www.facebook.com/")
-            # options.add_argument("--connection=keep-alive")
+            options.add_argument(f"--user-agent={get_random_user_agent()}")  # Usa um user-agent aleatório
+            options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
+            options.add_argument("--accept-encoding=gzip, deflate, br")
+            options.add_argument("--referer=https://www.facebook.com/")
+            options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
-            # options.add_argument("--disable-extensions")  # Desativa extensões
-            # options.add_argument("--disable-cache")  # Desativa o cache
-            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            # options.add_argument("--no-sandbox")  # Desativa o sandboxing
-            # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            options.add_argument("--disable-extensions")  # Desativa extensões
+            options.add_argument("--disable-cache")  # Desativa o cache
+            options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
             options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
             options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
-            # options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
-            # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
-            # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
-            # options.add_argument('--disable-web-security')  #
+            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
+            options.add_argument('--disable-web-security')  #
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
@@ -66,8 +66,8 @@ def cria_nevegador():
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            # navegador = webdriver.Chrome(options=options)
-            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            navegador = webdriver.Chrome(options=options)
+            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(80)
