@@ -86,7 +86,7 @@ valores_fim = ['']
 
 navegador = Seleniun.cria_nevegador()
 
-Seleniun.abrir_navegador(url)
+# Seleniun.abrir_navegador(url)
 
 Seleniun.sair_face(url)
 
@@ -153,7 +153,7 @@ def logar_carregar():
             print(f"O ID {id} não foi encontrado no dicionário.")
             return False
         else:
-            print(f"O proxy para o ID {id} é: {proxy}")
+            print(f"logar_carregar - O proxy para o ID {id} é: {proxy}")
 
     else:
         testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
@@ -909,16 +909,30 @@ while True:
                     Seleniun.colocar_url_link(link_url)
                     print(f'link: {numero}\n{link_url}')
                     for _ in range(80):
+                        if pyautogui.pixelMatchesColor((x_origem + 470), (y_origem + 530), (183, 25, 19), tolerance=15):
+                            pyautogui.click(x_origem + 470, y_origem + 530)
+                            print('link encontado')
+                            feito = True
+                            break
                         if pyautogui.pixelMatchesColor(429, 894, (17, 16, 16), tolerance=10):
                             print('Preto encontrado')
                             break
                         if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=1):
+                            pyautogui.click(x_origem + 470, y_origem + 530)
                             print('Branco encontrado...')
                             feito = True
                             break
                         time.sleep(0.1)
+                    if feito:
+                        break
                     for _ in range(80):
+                        if pyautogui.pixelMatchesColor((x_origem + 470), (y_origem + 530), (183, 25, 19), tolerance=15):
+                            pyautogui.click(x_origem + 470, y_origem + 530)
+                            print('link encontado')
+                            feito = True
+                            break
                         if pyautogui.pixelMatchesColor(429, 894, (255, 255, 255), tolerance=1):
+                            pyautogui.click(x_origem + 470, y_origem + 530)
                             print('Branco encontrado')
                             feito = True
                             break

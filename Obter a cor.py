@@ -40,17 +40,17 @@ def x_y():  # apenas para testes
 x_origem = 490
 y_origem = 167
 
-# x_origem, y_origem = x_y()
+x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
-a, b = 700, 167
+a, b = 470, 530
 
 x = (x_origem + a)
 y = (y_origem + b)
 
-x = 583
-y = 502
+# x = 583
+# y = 502
 
 tolerancia = 0
 pyautogui.moveTo(x, y)

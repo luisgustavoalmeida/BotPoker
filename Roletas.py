@@ -32,6 +32,8 @@ def roletas(x_origem, y_origem):
             if Limpa.ja_esta_logado(x_origem, y_origem) == "sair da conta":
                 break
 
+            Limpa.limpa_pequeno(x_origem, y_origem)
+
             # testa se tem a barra vermelha ou #testa se tem a barra amarela ou
             # #testa se tem a barra amarelo meio cinza # se tem siguinifica que ja fez o R1
             if (pyautogui.pixelMatchesColor((x_origem + 702), (y_origem + 41), (153, 3, 86), tolerance=20) or

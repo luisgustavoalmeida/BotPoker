@@ -129,10 +129,9 @@ def limpa_pequeno(x_origem, y_origem):
 
     # pyautogui.click(490 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
     # pyautogui.click(686 + x_origem, 70 + y_origem)  # clique bobo para passar alguma naimação
-
     # voce ja recebeu seu premio, deixe um pouco para os outros
-    if pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 435), (173, 23, 18), tolerance=15):
-        pyautogui.click(x_origem + 490, y_origem + 435)
+    if pyautogui.pixelMatchesColor((x_origem + 470), (y_origem + 530), (183, 25, 19), tolerance=15):
+        pyautogui.click(x_origem + 470, y_origem + 530)
         print("voce ja recebeu seu premio, deixe um pouco para os outros")
 
     # voce ganhou 2500

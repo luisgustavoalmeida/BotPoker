@@ -102,6 +102,10 @@ def carregado_origem():  # navegador
                     status_conta = 'Bloqueado Temporariamente'
                     return 0, 0, status_conta
 
+                if pyautogui.pixelMatchesColor(470, 770, (183, 25, 19), tolerance=15):
+                    pyautogui.click(470, 770)
+                    print("voce ja recebeu seu premio, deixe um pouco para os outros")
+
                 localizado = localizar_imagem(imagem=r'Imagens\Continuar2.png', regiao=(440, 480, 330, 270), precisao=0.8)
                 if localizado is not None:
                     centro = pyautogui.center(localizado)

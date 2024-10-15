@@ -4,6 +4,7 @@ import time
 
 import pyautogui
 import pygetwindow as gw
+# from PySimpleGUI import Print
 from seleniumwire import webdriver  # Substitua o 'uc.Chrome' por 'seleniumwire.webdriver'
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,9 +20,12 @@ pyautogui.FAILSAFE = False
 
 pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie\{nome_usuario}')
 navegador = None
+proxy_ativo = False
 url = None
 id = ''
 senha = ''
+
+url_sair = 'https://www.facebook.com/'
 
 
 def get_random_user_agent():
@@ -42,13 +46,13 @@ def cria_nevegador():
             options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
-            # options.add_argument("--disable-extensions")  # Desativa extensões
-            # options.add_argument("--disable-cache")  # Desativa o cache
+            options.add_argument("--disable-extensions")  # Desativa extensões
+            options.add_argument("--disable-cache")  # Desativa o cache
             # options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            # options.add_argument("--no-sandbox")  # Desativa o sandboxing
-            # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            # options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
-            # options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
+            options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
+            options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
@@ -70,7 +74,7 @@ def cria_nevegador():
             # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
-            navegador.set_page_load_timeout(80)
+            navegador.set_page_load_timeout(50)
             navegador.set_window_size(1380, 1060)
             navegador.set_window_position(-8, -5)
 
@@ -128,10 +132,9 @@ def abrir_navegador(urli):
         IP.tem_internet()
         try:
             print('coloca o url no navegador')
-            navegador.get(url)
-            # colocar_url(url)
-            # print('manda sair do facebook')
-            # sair_face(url, navegador)
+            # navegador.get(url)
+            colocar_url(url_sair)
+
             return
         except Exception as e:
             print(f"Erro ao abrir o navegador: {e}")
@@ -227,7 +230,6 @@ def verificar_janelas():
 def colocar_url(url_colocar):
     global navegador
     tentativa = 0
-    intervalo = 2
     while True:
         try:
             navegador.get(url_colocar)
@@ -236,9 +238,22 @@ def colocar_url(url_colocar):
         except Exception as e:
             print('\n erro: \n', e, '\n')
 
-            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
-            time.sleep(intervalo)
+            print(f"Tentativa {tentativa + 1} falhou. Sem conexão...\n")
+            atualizar_navegador()
         IP.tem_internet()
+
+def colocar_url_link(url_colocar):
+    global navegador
+    tentativa = 0
+    while True:
+        try:
+            navegador.get(url_colocar)
+            return True
+        except Exception as e:
+            print('\n erro: \n', e, '\n')
+
+            print(f"Tentativa {tentativa + 1} falhou. Sem conexão.\n")
+            atualizar_navegador()
 
 
 def teste_face_ok(url_atual):
@@ -480,6 +495,7 @@ def carregar_ou_logar_facebook(id, senha):
 
 
 def realizar_login_manual(id, senha):
+    print('realizar_login_manual')
     global navegador
     try:
         # Localizar campo de email e senha e realizar o login manual
@@ -529,7 +545,8 @@ def mudar_proxy_dinamico(proxy_string):
     :raises RuntimeError: Se não conseguir aplicar o proxy corretamente após várias tentativas
     """
     print('mudar_proxy_dinamico')
-    global navegador
+    global navegador, proxy_ativo
+    proxy_ativo = False
 
     # Verifica se o navegador está ativo
     if navegador is None:
@@ -575,6 +592,7 @@ def mudar_proxy_dinamico(proxy_string):
             navegador.proxy = proxy_config
 
             print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
+            proxy_ativo = True
             return True
 
         except Exception as e:
@@ -588,8 +606,9 @@ def desativar_proxy():
 
     :param navegador: O navegador Selenium Wire.
     """
-    global navegador
+    global navegador, proxy_ativo
     navegador.proxy = None  # Desativa o uso do proxy
+    proxy_ativo = False
     print("Proxy desativado.")
 
 
@@ -613,59 +632,74 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         if se_esta_lagado():
             sair_face(url)
 
-        print("faz login")
+        print("faz login...")
         IP.tem_internet()
+        desativar_proxy()
         # print('continua login')
         url_atual = pega_url()
-
+        facebooke_carregado = False
 
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
-            print('Padrao de URL poker')
+            print('Padrao de URL facebook')
             try:
-                conta_cookies_encontrado = carregar_ou_logar_facebook(id, senha)
-                # time.sleep(2)
-                for _ in range(100):
-                    url_atual = pega_url()
-                    # print(url_atual)
-                    if ('https://www.facebook.com/' in url_atual) or ('https://web.facebook.com/' in url_atual):
-                        if conta_cookies_encontrado:
+                conta_cookies_carregado = carregar_ou_logar_facebook(id, senha)
+                # time.sleep(1)
+                print('Testando se carregou')
+                for _ in range(200):
+                    elementos = navegador.find_elements(By.CLASS_NAME, "xe3v8dz")
+                    if len(elementos) > 0:
+                        facebooke_carregado = True
+                        print('\n\nFacebook carregado\n\n')
+                        if conta_cookies_carregado:
                             novos_cookies = navegador.get_cookies()
                             if novos_cookies:
                                 novos_cookies_expiry = novos_cookies[0].get('expiry', 0) if novos_cookies else 0
                                 velhos_cookies = cookies_data[id]
                                 velhos_cookies_expiry = velhos_cookies[0].get('expiry', 0) if velhos_cookies else 0
-                                # print(novos_cookies, velhos_cookies)
-                                # Verifica se a data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de dois meses
                                 if novos_cookies_expiry and velhos_cookies_expiry:
                                     if novos_cookies_expiry - velhos_cookies_expiry > 5184000:
-                                        print("A data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de 2 meses.")
+                                        print(
+                                            "A data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de 2 meses.")
+                                        capturar_cookies_facebook(id)
                                     else:
                                         print(
                                             "A data de expiração dos novos cookies não tem uma diferença superior a 2 meses em relação aos cookies atuais.")
                                 else:
                                     print("Algum dos cookies não possui data de expiração.")
+                                    capturar_cookies_facebook(id)
                         else:
                             capturar_cookies_facebook(id)
-
-                        if proxy:
-                            mudar_proxy_dinamico(proxy)
-
-                        colocar_url(url)
-                        print('Coloca url do jogo')
                         break
 
-                    time.sleep(0.05)
+                    url_atual = pega_url()
+                    print(url_atual)
 
                     entrou, status = teste_face_ok(url_atual)
                     if not entrou:
-                        print('Falha ao entrar no Facebook')
+                        print('Falha ao entrar no Facebook.', status)
                         return entrou, status
 
-                    login_button = navegador.find_element(By.NAME, 'login')
-                    if login_button.is_displayed():
+                    elementos = navegador.find_elements(By.NAME, "email")
+                    if len(elementos) > 0:
+                        print('botao de login ativo')
                         realizar_login_manual(id, senha)
-                        conta_cookies_encontrado = False
+                        conta_cookies_carregado = False
 
+                    time.sleep(0.05)
+
+                if not facebooke_carregado:
+                    print('Falha ao entrar no Facebook.')
+                    entrou = False
+                    status = 'Não carregou'
+                    return entrou, status
+
+                if proxy:
+                    mudar_proxy_dinamico(proxy)
+
+                colocar_url(url)
+                print('Coloca url do jogo', url)
+                time.sleep(2)
+                url_atual = pega_url()
                 print('url testa logado ', url_atual)
                 for i in range(20):
 
@@ -810,7 +844,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 time.sleep(1)
                                 urlpkrl = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
                                 url = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
-                                navegador.get(urlpkrl)
+                                # navegador.get(urlpkrl)
+                                colocar_url(urlpkrl)
                                 print('Loga no RL e espera 5 segundos')
                                 time.sleep(2)
                                 url_atual = pega_url()
@@ -888,7 +923,7 @@ def clicar_por_xpath_botao(driver, elemento):
         return False
 
 
-def abrir_fechar_guia(max_tentativas=5):
+def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
     global navegador, url
     print("abrir_fechar_guia")
     tentativas = 0
@@ -932,11 +967,9 @@ def abrir_fechar_guia(max_tentativas=5):
                     print("O foco não está na primeira guia.")
                 else:
                     print("O foco está na primeira guia.")
-                    # Recarregue a página
-                    # navegador.get(url)
-                    # colocar_url(url)
-                    url_sair = 'https://pt-br.facebook.com/'
-                    navegador.get(url_sair)
+                    # navegador.get(url_sair)
+                    colocar_url(url_sair)
+                    print('colocado o url sair')
                     return
 
         except Exception as e:
@@ -948,22 +981,21 @@ def abrir_fechar_guia(max_tentativas=5):
 
 
 def sair_face(url_novo=''):
-    global navegador, url
+    global navegador, url, proxy_ativo
     if url != url_novo and url_novo != '':
         url = url_novo
 
     for _ in range(30):
-
         print("\n   Sair do facebook    \n")
-        url_sair = 'https://pt-br.facebook.com/'
 
         try:
             # Exclui todos os cookies
             navegador.delete_all_cookies()
             print('Cookies deletados')
+            # if proxy_ativo:
             desativar_proxy()
-            navegador.delete_all_cookies()
-            abrir_fechar_guia()
+                # navegador.delete_all_cookies()
+            abrir_fechar_guia(url_sair)
             navegador.delete_all_cookies()
             print("nova guia ok")
 
@@ -972,22 +1004,10 @@ def sair_face(url_novo=''):
             return
 
         except Exception as e:
-            try:
-                print("ERRO ao executar o script sair ")
-                print(e)
-                # Exclui todos os cookies
-                navegador.delete_all_cookies()
-                navegador.get(url_sair)
-                navegador.delete_all_cookies()
-                print("testa se tem nao é vc")
-
-            except Exception as e:
-                print("Erro ao sair.", e)
-                atualizar_navegador()
 
             try:
                 # Esperar até que o elemento "Não é você?" seja clicável
-                elemento_nao_e_voce = WebDriverWait(navegador, 7).until(EC.element_to_be_clickable((By.ID, 'not_me_link')))
+                elemento_nao_e_voce = WebDriverWait(navegador, 3).until(EC.element_to_be_clickable((By.ID, 'not_me_link')))
 
                 # Clicar no elemento
                 print('Clicar no elemento nao_e_voce')
@@ -1000,35 +1020,7 @@ def sair_face(url_novo=''):
                 atualizar_navegador()
 
 
-def atualizar_pagina():
-    global navegador, url
-    while True:
-        IP.tem_internet()  # testa se tem internete enste de atualizar a pagina
-        try:
-            navegador.get(url)
-            # colocar_url(url)
-            return
-        except Exception as e:
-            print("Erro de conexão com a internet. Tentando novamente em 5 segundos...")
-            print(e)
-            time.sleep(2)
-            continue
 
-def colocar_url_link(url_colocar):
-    global navegador
-    tentativa = 0
-    intervalo = 2
-    while True:
-        try:
-            navegador.get(url_colocar)
-            # Sucesso na conexão, sair do loop
-            return True
-        except Exception as e:
-            print('\n erro: \n', e, '\n')
-
-            print(f"Tentativa {tentativa + 1} falhou. Sem conexão. Tentando novamente em {intervalo} segundos...\n")
-            time.sleep(intervalo)
-            atualizar_navegador()
 
 
 def busca_link():
@@ -1074,7 +1066,8 @@ def busca_link():
     time.sleep(7)
     print('Endereço da fanpage')
     pagina_do_facebook = "https://www.facebook.com/people/Poker-Brasil/100064546038812/"
-    navegador.get(pagina_do_facebook)
+    # navegador.get(pagina_do_facebook)
+    colocar_url(pagina_do_facebook)
     print(' agurade 7 segundas para a pagina carregar')
     time.sleep(7)
     # Procurar o primeiro link que começa com o padrão especificado postado na descrição da imagem
