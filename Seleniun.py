@@ -902,8 +902,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 continue
         else:
             print('Padrao de URL não esperado')
-            # time.sleep(5)
-            sair_face(url)
+            sair_face()
+            colocar_url('https://www.facebook.com/')
+            time.sleep(5)
 
 
 # Função para encontrar e clicar em um elemento usando CSS
@@ -1012,7 +1013,7 @@ def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
                         else:
                             print("O foco está na primeira guia.")
                             atualizar_navegador()
-                            colocar_url(url_sair)
+                            colocar_url('https://www.facebook.com/')
                             time.sleep(1)
                             print('colocado o url sair')
                             return
