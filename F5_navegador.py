@@ -37,19 +37,18 @@ def atualizar_navegador():
     for _ in range(10):
         print('atualizando navegador...')
         clicou_atualizar = False
+        posicao = localizar_imagem(botao_parar_carregamento, regiao_busca, precisao)
+        if posicao is not None:  # Verifica se a imagem foi encontrada
+            print('parou o carregametno...')
+
         for _ in range(20):
             print('localizando botões')
-            if not clicou_atualizar:
-                posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao)
-                if posicao is not None:  # Verifica se a imagem foi encontrada
-                    pyautogui.click(94, 59)  # clica no atualizar
-                    print('clicou no atualizar')
-                    time.sleep(0.5)
-                    clicou_atualizar = True
 
-            posicao = localizar_imagem(botao_parar_carregamento, regiao_busca, precisao)
+            posicao = localizar_imagem(botao_recarregar, regiao_busca, precisao)
             if posicao is not None:  # Verifica se a imagem foi encontrada
-                print('pagina recarregando...')
+                pyautogui.click(94, 59)  # clica no atualizar
+                print('clicou no atualizar')
+                time.sleep(0.5)
                 break
             time.sleep(1)
 

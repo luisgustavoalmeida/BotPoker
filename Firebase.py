@@ -494,7 +494,7 @@ def sincronizar_cookies_com_firebase():
     if cookies_firebase_data is None:
         cookies_firebase_data = {}  # Se não houver dados no Firebase, inicia com um dicionário vazio
 
-    for _ in range(6):
+    for _ in range(10):
         try:
             with open('cookies_facebook.json', 'r') as file:
                 cookies_local_data = json.load(file)
@@ -510,7 +510,7 @@ def sincronizar_cookies_com_firebase():
         except Exception as e:
             print(f"Erro ao tentar carregar os cookies do arquivo JSON: {e}.")
             cookies_local_data = {}
-        time.sleep(10)
+        time.sleep(5)
 
 
     # Função para verificar e substituir cookies por uma lista mais recente
@@ -567,3 +567,4 @@ def sincronizar_cookies_com_firebase():
     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
 # escreve_configuracao(dados_config)
+# sincronizar_cookies_com_firebase()

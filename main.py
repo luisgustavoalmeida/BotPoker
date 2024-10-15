@@ -84,6 +84,8 @@ linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
 
+Firebase.sincronizar_cookies_com_firebase()
+
 navegador = Seleniun.cria_nevegador()
 
 # Seleniun.abrir_navegador(url)

@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.common.keys import Keys
 
 import IP
 from F5_navegador import atualizar_navegador
@@ -26,6 +27,9 @@ id = ''
 senha = ''
 
 url_sair = 'https://www.facebook.com/'
+
+script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDomain() { var cookies = document.cookie.split("; "); for (var c = 0; c < cookies.length; c++) { var d = window.location.hostname.split("."); while (d.length > 0) { var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path='; var p = location.pathname.split('/'); document.cookie = cookieBase + '/'; while (p.length > 0) { document.cookie = cookieBase + p.join('/'); p.pop(); }; d.shift(); } } } deleteAllCookiesFromCurrentDomain(); location.href = '""" + url_sair + """'; })();"""
+
 
 
 def get_random_user_agent():
@@ -47,19 +51,19 @@ def cria_nevegador():
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
-            options.add_argument("--disable-cache")  # Desativa o cache
-            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            # options.add_argument("--disable-cache")  # Desativa o cache
+            options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            # options.add_argument("--no-sandbox")  # Desativa o sandboxing
             options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
             options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
             options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa preenchimento automático
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
-            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
-            options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
-            options.add_argument('--disable-web-security')  #
+            # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
+            # options.add_argument('--disable-web-security')  #
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
@@ -240,7 +244,7 @@ def colocar_url(url_colocar):
 
             print(f"Tentativa {tentativa + 1} falhou. Sem conexão...\n")
             atualizar_navegador()
-        IP.tem_internet()
+        # IP.tem_internet()
 
 def colocar_url_link(url_colocar):
     global navegador
@@ -662,9 +666,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                                 velhos_cookies = cookies_data[id]
                                 velhos_cookies_expiry = velhos_cookies[0].get('expiry', 0) if velhos_cookies else 0
                                 if novos_cookies_expiry and velhos_cookies_expiry:
-                                    if novos_cookies_expiry - velhos_cookies_expiry > 5184000:
+                                    if (novos_cookies_expiry - velhos_cookies_expiry) > 5184000:
                                         print(
-                                            "A data de expiração dos novos cookies é mais recente que a dos cookies atuais por mais de 2 meses.")
+                                            "A data de expiração dos novos cookies é superior ha 2 meses em relação aos cookies atuais,.")
                                         capturar_cookies_facebook(id)
                                     else:
                                         print(
@@ -940,6 +944,14 @@ def clicar_por_xpath_botao(driver, elemento):
         return False
 
 
+def parar_carregamento():
+    global navegador
+    try:
+        navegador.execute_script("window.stop();")
+        print("Carregamento interrompido com sucesso.")
+    except Exception as e:
+        print(f"Erro ao tentar parar o carregamento: {e}")
+
 def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
     global navegador, url
     print("abrir_fechar_guia")
@@ -950,7 +962,7 @@ def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
             # Verifique se há mais de uma guia aberta
             if len(navegador.window_handles) > 1:
                 # Mude para a segunda guia
-                navegador.switch_to.window(navegador.window_handles[1])
+                navegador.switch_to.window(navegador.window_handles[-1])
 
                 # Feche a segunda guia
                 navegador.close()
@@ -962,32 +974,48 @@ def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
                 WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
             else:
+
+                # # Simular Ctrl + T para abrir uma nova guia
+                # navegador.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
+                # # Abrir uma nova guia usando o JavaScript window.open()
+                # navegador.execute_script("window.open('about:blank', '_blank');")
+
                 pyautogui.hotkey('ctrl', 't')
 
                 # Aguarde até que haja pelo menos duas guias abertas
                 WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) >= 2)
 
-                # Mude para a primeira guia
-                navegador.switch_to.window(navegador.window_handles[0])
+                if len(navegador.window_handles) == 2:
+                    print('duas guias aberts')
 
-                # Feche a primeira guia
-                navegador.close()
+                    # Mude para a primeira guia
+                    navegador.switch_to.window(navegador.window_handles[0])
 
-                # Mude para a segunda guia
-                navegador.switch_to.window(navegador.window_handles[0])
+                    # Feche a primeira guia
+                    navegador.close()
 
-                # Aguarde até que a segunda guia esteja ativa
-                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
+                    # Aguarde até que haja pelo menos duas guias abertas
+                    WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) == 1)
 
-                # Verifique se o foco está na primeira guia
-                if navegador.current_window_handle != navegador.window_handles[0]:
-                    print("O foco não está na primeira guia.")
-                else:
-                    print("O foco está na primeira guia.")
-                    # navegador.get(url_sair)
-                    colocar_url(url_sair)
-                    print('colocado o url sair')
-                    return
+                    if len(navegador.window_handles) == 1:
+                        print('uma guia aberta')
+
+                        # Mude para a segunda guia
+                        navegador.switch_to.window(navegador.window_handles[0])
+
+                        # Aguarde até que a segunda guia esteja ativa
+                        WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
+
+                        # Verifique se o foco está na primeira guia
+                        if navegador.current_window_handle != navegador.window_handles[0]:
+                            print("O foco não está na primeira guia.")
+                        else:
+                            print("O foco está na primeira guia.")
+                            atualizar_navegador()
+                            colocar_url(url_sair)
+                            time.sleep(1)
+                            print('colocado o url sair')
+                            return
 
         except Exception as e:
             print(f"Tentativa {tentativas + 1} falhou. {e}")
@@ -1006,17 +1034,18 @@ def sair_face(url_novo=''):
         print("\n   Sair do facebook    \n")
 
         try:
+
             # Exclui todos os cookies
             navegador.delete_all_cookies()
             print('Cookies deletados')
-            # if proxy_ativo:
             desativar_proxy()
-                # navegador.delete_all_cookies()
+            navegador.delete_all_cookies()
             abrir_fechar_guia(url_sair)
             navegador.delete_all_cookies()
+            print('Cookies deletados')
             print("nova guia ok")
 
-            WebDriverWait(navegador, 5).until(EC.presence_of_element_located((By.NAME, 'email')))
+            WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
             print('Pagina pronta, conta NÃO logada')
             return
 
