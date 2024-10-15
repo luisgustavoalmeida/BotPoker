@@ -257,6 +257,7 @@ def colocar_url_link(url_colocar):
 
 
 def teste_face_ok(url_atual):
+    print('teste_face_ok', url_atual)
     global url
     entrou = True
     status = 'Testando'
@@ -497,23 +498,27 @@ def carregar_ou_logar_facebook(id, senha):
 def realizar_login_manual(id, senha):
     print('realizar_login_manual')
     global navegador
-    try:
-        # Localizar campo de email e senha e realizar o login manual
-        email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-        email_field.clear()
-        email_field.send_keys(id)
+    for _ in range(3):
+        try:
+            # Localizar campo de email e senha e realizar o login manual
+            email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+            email_field.clear()
+            email_field.send_keys(id)
 
-        password_field = navegador.find_element(By.NAME, 'pass')
-        password_field.clear()
-        password_field.send_keys(senha)
+            password_field = navegador.find_element(By.NAME, 'pass')
+            password_field.clear()
+            password_field.send_keys(senha)
 
-        # Clicar no botão de login
-        login_button = navegador.find_element(By.NAME, 'login')
-        login_button.click()
+            # Clicar no botão de login
+            login_button = navegador.find_element(By.NAME, 'login')
+            login_button.click()
 
-        print('Login manual realizado com sucesso. Testando login.')
-    except Exception as e:
-        print(f"Erro ao realizar login manual: {str(e)}")
+            print('Login manual realizado com sucesso. Testando login.')
+            return True
+        except Exception as e:
+            print(f"Erro ao realizar login manual: {str(e)}")
+            sair_face()
+    return False
 
 
 def testar_proxy(proxy_ip, proxy_port):
@@ -685,7 +690,19 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                         realizar_login_manual(id, senha)
                         conta_cookies_carregado = False
 
+                    if "/login/" in url_atual:
+                        sair_face(url)
+                        realizar_login_manual(id, senha)
+                        conta_cookies_carregado = False
+
                     time.sleep(0.05)
+
+                url_atual = pega_url()
+
+                if "/login/" in url_atual:
+                    sair_face(url)
+                    print('Reinicia tentativa de login')
+                    continue
 
                 if not facebooke_carregado:
                     print('Falha ao entrar no Facebook.')
@@ -703,160 +720,160 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 print('url testa logado ', url_atual)
                 for i in range(20):
 
-                    for _ in range(100):
-                        url_atual = pega_url()
-                        if "/login/" not in url_atual:
-                            print('Entrando no jogo, url esta dentro do padrão')
-                            break
-                        time.sleep(0.02)
+                    # for _ in range(100):
+                    #     url_atual = pega_url()
+                    #     if "/login/" not in url_atual:
+                    #         print('Entrando no jogo, url esta dentro do padrão')
+                    #         break
+                    #     time.sleep(0.02)
+                    #
+                    # if "/login/" in url_atual:
+                    #     break
+                    #
+                    # if "/login/" not in url_atual:
 
-                    if "/login/" in url_atual:
-                        break
+                    print('url: ', url_atual)
 
-                    if "/login/" not in url_atual:
-
-                        print('url: ', url_atual)
-
-                        if '/rallyacespoker' in url_atual or '/pokerbrasil' in url_atual or '/poker_italia' in url_atual:
-                            print('URL padrao correta')
-                            # https://apps.facebook.com/pokerbrasil?vtype&amfmethod=appLinkFanPageAward&SignedParams=JrLALkSch1wuQxrULK6SWLAcpjTOb9Pmi5QvavvikU0.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjU5ODUifQ&fbclid=IwAR252AFFL560939epg6Ki4tzNtLvgQJiZISVIZXFPjjBpBp5TNLBNX6TFXk
-                            time.sleep(1)
-                            lista_face = ['temporariamente', 'não está disponível no momento']
-                            for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
-                                try:
-                                    elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
-                                    print(item)
-                                    status = 'Bloqueado temporariamente'
-                                    entrou = False
-                                    return entrou, status
-                                except NoSuchElementException:
-                                    continue
-
-                            if verificar_janelas():
-
-                                if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
-                                        or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
-                                    print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
-                                    pyautogui.click(830, 466)
-
-                                if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
-                                        or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
-                                    print('Você entrou anteriormente no poker brasil com o facebook')
-                                    pyautogui.click(640, 688, )
-
-                            print("A conta está certa.")
-                            entrou = True
-                            status = 'Carregada'
-
-                            return entrou, status
-
-                        elif "pokerbrasil/?ref=bookmarks" in url_atual:
-                            # https://apps.facebook.com/pokerbrasil/?ref=bookmarks&count=0
-                            print("A conta está certa.")
-                            entrou = False
-                            status = 'Bloqueado temporariamente'
-                            return entrou, status
-
-                        elif ("/settings?" in url_atual) and (not loga_pk):
-                            # https://www.facebook.com/settings?tab=applications&ref=settings
-
-                            print("A conta está com a pagina carregada diponivel para remover o poker")
-                            entrou = True
-                            treminou_de_remover = False
-                            status = 'Remover Poker não ok'
-
-                            # Aguarda até que o texto seja visível na página
-                            texto_a_procurar = ["Você não tem nenhum app ou site para analisar", 'Não tens apps ou sites para rever']
-
-                            for i in range(7):
-                                pyautogui.click(914, 368)  # clique bobo, agora na central de contas
-                                print("Tentativa: ", i)
-                                for texto in texto_a_procurar:
-                                    try:
-                                        WebDriverWait(navegador, 1).until(
-                                            EC.text_to_be_present_in_element((By.XPATH, '//*[contains(text(), "{}")]'.format(texto)), texto)
-                                        )
-                                        print(f'O texto "{texto_a_procurar}" está visível na página.')
-                                        status = 'Remover Poker ok'
-                                        print('Terminou de remover')
-                                        treminou_de_remover = True
-                                        break
-                                        # return entrou, status
-                                    except TimeoutException:
-                                        print(f'O texto "{texto_a_procurar}" não está visível na página.')
-                                if treminou_de_remover:
-                                    break
-
-                                clicou_no_segundo = False
-
-                                for _ in range(15):
-                                    print('procurando 1')
-                                    if (pyautogui.pixelMatchesColor(1207, 574, (235, 245, 255), tolerance=15)
-                                            or pyautogui.pixelMatchesColor(1207, 574, (223, 233, 242), tolerance=15)):
-                                        # testa se esta visivel o segundo botao azul de remover
-                                        pyautogui.click(1207, 574)  # clique no segundo remover
-                                        print('Clicou no primeiro remover')
-
-                                        for _ in range(15):
-                                            print('procurando 2')
-                                            if (pyautogui.pixelMatchesColor(805, 730, (8, 102, 255), tolerance=15)
-                                                    or pyautogui.pixelMatchesColor(805, 730, (8, 94, 242), tolerance=15)
-                                                    or pyautogui.pixelMatchesColor(805, 730, (27, 116, 228), tolerance=15)):
-                                                # testa se esta visivel o segundo botao azul de remover
-                                                pyautogui.click(853, 730)  # clique no segundo remover
-                                                print('Clicou no segundo remover')
-                                                clicou_no_segundo = True
-                                                break
-                                            elif (pyautogui.pixelMatchesColor(805, 741, (8, 102, 255), tolerance=15)
-                                                  or pyautogui.pixelMatchesColor(805, 741, (8, 94, 242), tolerance=15)
-                                                  or pyautogui.pixelMatchesColor(805, 741, (27, 116, 228), tolerance=15)):
-                                                # testa se esta visivel o segundo botao azul de remover
-                                                pyautogui.click(853, 741)  # clique no segundo remover
-                                                print('Clicou no segundo remover')
-                                                clicou_no_segundo = True
-                                                break
-                                            time.sleep(1)
-                                        break
-                                    if clicou_no_segundo:
-                                        break
-                                    time.sleep(1)
-
-                                if not clicou_no_segundo:
-                                    atualizar_navegador()
-                                    time.sleep(10)
-
-                            if loga_face:
-                                entrou = True
-                                status = "Logou so face"
+                    if '/rallyacespoker' in url_atual or '/pokerbrasil' in url_atual or '/poker_italia' in url_atual:
+                        print('URL padrao correta')
+                        # https://apps.facebook.com/pokerbrasil?vtype&amfmethod=appLinkFanPageAward&SignedParams=JrLALkSch1wuQxrULK6SWLAcpjTOb9Pmi5QvavvikU0.eyJhY3QiOiJmcCIsImZwX2FpZCI6IjU5ODUifQ&fbclid=IwAR252AFFL560939epg6Ki4tzNtLvgQJiZISVIZXFPjjBpBp5TNLBNX6TFXk
+                        time.sleep(1)
+                        lista_face = ['temporariamente', 'não está disponível no momento']
+                        for item in lista_face:  # percorre os textos que tem quando tem conta caida para o face
+                            try:
+                                elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
+                                print(item)
+                                status = 'Bloqueado temporariamente'
+                                entrou = False
                                 return entrou, status
+                            except NoSuchElementException:
+                                continue
 
-                            else:
+                        if verificar_janelas():
 
-                                if status == 'Remover Poker não ok':
-                                    while True:
-                                        print('\n\nOlhar manualmente o poker pode nao ter sido removido\n\n')
-                                        time.sleep(20)
+                            if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
+                                    or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
+                                print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
+                                pyautogui.click(830, 466)
 
-                                print('Terminou de remover')
-                                url_atual = pega_url()
-                                print(url_atual)
+                            if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
+                                    or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
+                                print('Você entrou anteriormente no poker brasil com o facebook')
+                                pyautogui.click(640, 688, )
 
+                        print("A conta está certa.")
+                        entrou = True
+                        status = 'Carregada'
+
+                        return entrou, status
+
+                    elif "pokerbrasil/?ref=bookmarks" in url_atual:
+                        # https://apps.facebook.com/pokerbrasil/?ref=bookmarks&count=0
+                        print("A conta está certa.")
+                        entrou = False
+                        status = 'Bloqueado temporariamente'
+                        return entrou, status
+
+                    elif ("/settings?" in url_atual) and (not loga_pk):
+                        # https://www.facebook.com/settings?tab=applications&ref=settings
+
+                        print("A conta está com a pagina carregada diponivel para remover o poker")
+                        entrou = True
+                        treminou_de_remover = False
+                        status = 'Remover Poker não ok'
+
+                        # Aguarda até que o texto seja visível na página
+                        texto_a_procurar = ["Você não tem nenhum app ou site para analisar", 'Não tens apps ou sites para rever']
+
+                        for i in range(7):
+                            pyautogui.click(914, 368)  # clique bobo, agora na central de contas
+                            print("Tentativa: ", i)
+                            for texto in texto_a_procurar:
+                                try:
+                                    WebDriverWait(navegador, 1).until(
+                                        EC.text_to_be_present_in_element((By.XPATH, '//*[contains(text(), "{}")]'.format(texto)), texto)
+                                    )
+                                    print(f'O texto "{texto_a_procurar}" está visível na página.')
+                                    status = 'Remover Poker ok'
+                                    print('Terminou de remover')
+                                    treminou_de_remover = True
+                                    break
+                                    # return entrou, status
+                                except TimeoutException:
+                                    print(f'O texto "{texto_a_procurar}" não está visível na página.')
+                            if treminou_de_remover:
+                                break
+
+                            clicou_no_segundo = False
+
+                            for _ in range(15):
+                                print('procurando 1')
+                                if (pyautogui.pixelMatchesColor(1207, 574, (235, 245, 255), tolerance=15)
+                                        or pyautogui.pixelMatchesColor(1207, 574, (223, 233, 242), tolerance=15)):
+                                    # testa se esta visivel o segundo botao azul de remover
+                                    pyautogui.click(1207, 574)  # clique no segundo remover
+                                    print('Clicou no primeiro remover')
+
+                                    for _ in range(15):
+                                        print('procurando 2')
+                                        if (pyautogui.pixelMatchesColor(805, 730, (8, 102, 255), tolerance=15)
+                                                or pyautogui.pixelMatchesColor(805, 730, (8, 94, 242), tolerance=15)
+                                                or pyautogui.pixelMatchesColor(805, 730, (27, 116, 228), tolerance=15)):
+                                            # testa se esta visivel o segundo botao azul de remover
+                                            pyautogui.click(853, 730)  # clique no segundo remover
+                                            print('Clicou no segundo remover')
+                                            clicou_no_segundo = True
+                                            break
+                                        elif (pyautogui.pixelMatchesColor(805, 741, (8, 102, 255), tolerance=15)
+                                              or pyautogui.pixelMatchesColor(805, 741, (8, 94, 242), tolerance=15)
+                                              or pyautogui.pixelMatchesColor(805, 741, (27, 116, 228), tolerance=15)):
+                                            # testa se esta visivel o segundo botao azul de remover
+                                            pyautogui.click(853, 741)  # clique no segundo remover
+                                            print('Clicou no segundo remover')
+                                            clicou_no_segundo = True
+                                            break
+                                        time.sleep(1)
+                                    break
+                                if clicou_no_segundo:
+                                    break
                                 time.sleep(1)
-                                urlpkrl = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
-                                url = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
-                                # navegador.get(urlpkrl)
-                                colocar_url(urlpkrl)
-                                print('Loga no RL e espera 5 segundos')
-                                time.sleep(2)
-                                url_atual = pega_url()
-                                print(url_atual)
-                                time.sleep(3)
-                                print('Continua os testes')
-                                # return entrou, status
 
-                        entrou, status = teste_face_ok(url_atual)
-                        if not entrou:
+                            if not clicou_no_segundo:
+                                atualizar_navegador()
+                                time.sleep(10)
+
+                        if loga_face:
+                            entrou = True
+                            status = "Logou so face"
                             return entrou, status
+
+                        else:
+
+                            if status == 'Remover Poker não ok':
+                                while True:
+                                    print('\n\nOlhar manualmente o poker pode nao ter sido removido\n\n')
+                                    time.sleep(20)
+
+                            print('Terminou de remover')
+                            url_atual = pega_url()
+                            print(url_atual)
+
+                            time.sleep(1)
+                            urlpkrl = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
+                            url = "https://apps.facebook.com/rallyacespoker/?fb_source=appcenter&fb_appcenter=1"
+                            # navegador.get(urlpkrl)
+                            colocar_url(urlpkrl)
+                            print('Loga no RL e espera 5 segundos')
+                            time.sleep(2)
+                            url_atual = pega_url()
+                            print(url_atual)
+                            time.sleep(3)
+                            print('Continua os testes')
+                            # return entrou, status
+
+                    entrou, status = teste_face_ok(url_atual)
+                    if not entrou:
+                        return entrou, status
 
                 url_atual = pega_url()
                 if "/login/" in url_atual:
