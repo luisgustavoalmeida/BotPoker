@@ -268,7 +268,7 @@ def teste_face_ok(url_atual):
 
     if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
         print("senha incorreta, manda sai")
-        sair_face(url)
+        sair_face()
         entrou = False
         status = "Senha incorreta"
         return entrou, status
@@ -639,7 +639,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
     while True:
 
         if se_esta_lagado():
-            sair_face(url)
+            sair_face()
 
         print("faz login...")
         IP.tem_internet()
@@ -695,7 +695,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                         conta_cookies_carregado = False
 
                     if "/login/" in url_atual:
-                        sair_face(url)
+                        sair_face()
                         realizar_login_manual(id, senha)
                         conta_cookies_carregado = False
 
@@ -704,7 +704,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 url_atual = pega_url()
 
                 if "/login/" in url_atual:
-                    sair_face(url)
+                    sair_face()
                     print('Reinicia tentativa de login')
                     continue
 
@@ -881,7 +881,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
                 url_atual = pega_url()
                 if "/login/" in url_atual:
-                    sair_face(url)
+                    sair_face()
                     print('Reinicia tentativa de login')
                     continue
 
@@ -898,7 +898,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
                 print("Tempo limite excedido ao procurar o elemento faz_login.")
                 print(e)
-                sair_face(url)
+                sair_face()
                 continue
         else:
             print('Padrao de URL não esperado')
