@@ -50,6 +50,7 @@ def atualizar_navegador():
                 print('clicou no atualizar')
                 time.sleep(0.5)
                 break
+
             time.sleep(1)
 
         for _ in range(50):
