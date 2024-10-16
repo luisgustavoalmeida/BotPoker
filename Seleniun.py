@@ -7,10 +7,10 @@ import pygetwindow as gw
 # from PySimpleGUI import Print
 from seleniumwire import webdriver  # Substitua o 'uc.Chrome' por 'seleniumwire.webdriver'
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver.common.keys import Keys
 
 import IP
 from F5_navegador import atualizar_navegador
@@ -26,7 +26,9 @@ url = None
 id = ''
 senha = ''
 
-url_sair = 'https://www.facebook.com/'
+# url_sair = 'https://www.facebook.com/'
+# url_sair = 'https://pt-br.facebook.com/'
+url_sair = 'https://pt-br.facebook.com/login/'
 
 script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDomain() { var cookies = document.cookie.split("; "); for (var c = 0; c < cookies.length; c++) { var d = window.location.hostname.split("."); while (d.length > 0) { var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path='; var p = location.pathname.split('/'); document.cookie = cookieBase + '/'; while (p.length > 0) { document.cookie = cookieBase + p.join('/'); p.pop(); }; d.shift(); } } } deleteAllCookiesFromCurrentDomain(); location.href = '""" + url_sair + """'; })();"""
 
@@ -47,23 +49,26 @@ def cria_nevegador():
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
             options.add_argument("--referer=https://www.facebook.com/")
-            # options.add_argument("--connection=keep-alive")
+            # options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
-            # options.add_argument("--disable-notifications")  # Desativa as notificações
-            # options.add_argument("--disable-extensions")  # Desativa extensões
-            # options.add_argument("--disable-cache")  # Desativa o cache
+            options.add_argument("--disable-notifications")  # Desativa as notificações
+            options.add_argument("--disable-extensions")  # Desativa extensões
+            options.add_argument("--disable-cache")  # Desativa o cache
             options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            # options.add_argument("--no-sandbox")  # Desativa o sandboxing
+            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de salvamento de senhas
+            options.add_argument("--disable-password-generation")  # Desativa a geração automática de senhas
+            options.add_argument("--disable-autofill")  # Desativa o preenchimento automático
+            options.add_argument("--disable-webrtc")  # Desabilitar WebRTC (Prevenção de Vazamento de IP)
+            options.add_argument("--no-sandbox")  # Desativa o sandboxing
             # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            # options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
-            # options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
-            # options.add_argument("--disable-autofill")  # Desativa preenchimento automático
-            # options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
-            # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
-            # options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
+            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
+            options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument('--disable-web-security')  #
+            # options.add_argument("--disable-webgl")  #  armazenar informações gráficas temporárias
+            # options.add_argument("--disable-plugins")   # Desativar Plugins e Mídia Automática
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
@@ -1012,7 +1017,9 @@ def abrir_fechar_guia(max_tentativas=5):
                             else:
                                 print("O foco está na primeira guia.")
                                 # Aqui você pode carregar a URL desejada
-                                colocar_url(url_sair)
+                                # colocar_url(url_sair)
+                                navegador.execute_script("window.location.href = '{}';".format(url_sair))
+                                # navegador.execute_script("window.location.replace('{}');".format(url_sair))
                                 print('URL colocada com sucesso')
                                 return
         except Exception as e:
@@ -1022,12 +1029,90 @@ def abrir_fechar_guia(max_tentativas=5):
     print(f"Atenção: Todas as {max_tentativas} tentativas falharam. Encerrando.")
     return
 
+def limpar_navegador():
+    try:
+        # Limpar cookies, cache, autenticação e histórico via DevTools
+        print("Limpando dados via DevTools...")
+        navegador.execute_cdp_cmd('Network.clearBrowserCookies', {})
+        navegador.execute_cdp_cmd('Network.clearBrowserCache', {})
+        navegador.execute_cdp_cmd('Performance.disable', {})
+        navegador.execute_cdp_cmd('Page.resetNavigationHistory', {})
+        print("Dados de cache, cookies e histórico limpos via DevTools.")
+    except Exception as e:
+        print(f"Erro ao limpar dados via DevTools: {e}")
+
+    try:
+        # Deletar todos os cookies
+        print("Deletando cookies...")
+        navegador.delete_all_cookies()
+    except Exception as e:
+        print(f"Erro ao deletar cookies: {e}")
+
+    try:
+        # Limpar o localStorage
+        print("Limpando localStorage...")
+        navegador.execute_script("window.localStorage.clear();")
+    except Exception as e:
+        print(f"Erro ao limpar localStorage: {e}")
+
+    try:
+        # Limpar o sessionStorage
+        print("Limpando sessionStorage...")
+        navegador.execute_script("window.sessionStorage.clear();")
+    except Exception as e:
+        print(f"Erro ao limpar sessionStorage: {e}")
+
+    try:
+        # Deletar cookies manualmente com JavaScript
+        print("Deletando cookies manualmente com JavaScript...")
+        navegador.execute_script("""
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            }
+        """)
+    except Exception as e:
+        print(f"Erro ao deletar cookies manualmente: {e}")
+
+    try:
+        # Limpar IndexedDB
+        print("Limpando IndexedDB...")
+        navegador.execute_script("indexedDB.databases().then(dbs => dbs.forEach(db => indexedDB.deleteDatabase(db.name)));")
+    except Exception as e:
+        print(f"Erro ao limpar IndexedDB: {e}")
+
+    try:
+        # Limpar Service Workers
+        print("Limpando Service Workers...")
+        navegador.execute_script("""
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+            }
+        """)
+    except Exception as e:
+        print(f"Erro ao limpar Service Workers: {e}")
+
+    # try:
+    #     navegador.execute_script(script)
+    # except Exception as e:
+    #     print(f"Erro ao limpar script: {e}")
+
+
+
+    print("Limpeza do navegador concluída.\n\n")
+
 
 def sair_face():
     global navegador, proxy_ativo
 
-    navegador.delete_all_cookies()
-    print('Cookies deletados')
+    limpar_navegador()
     if proxy_ativo:
         desativar_proxy()
 
@@ -1035,27 +1120,22 @@ def sair_face():
         print("\n   Sair do facebook    \n")
 
         try:
-            # colocar_url('https://www.facebook.com/')
-            # navegador.switch_to.window(navegador.window_handles[0])
-            # navegador.execute_script(script)
+            navegador.switch_to.window(navegador.window_handles[0])
 
-            # navegador.delete_all_cookies()
+            limpar_navegador()
+
             abrir_fechar_guia()
-            navegador.delete_all_cookies()
-            print('Cookies deletados')
             print("nova guia ok")
 
             url_atual = pega_url()
             print('urla apos sair do facebook', url_atual)
-            if url_atual == url_sair:
+            if url_sair in url_atual:
                 WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
                 print('Pagina pronta, conta NÃO logada')
                 return
-            else:
-                print('Colocando o url correto', url_sair)
-                colocar_url(url_sair)
 
         except Exception as e:
+            print("Erro ao sair...", e)
 
             try:
                 # Esperar até que o elemento "Não é você?" seja clicável
