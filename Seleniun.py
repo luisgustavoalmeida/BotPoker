@@ -47,18 +47,18 @@ def cria_nevegador():
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
             options.add_argument("--referer=https://www.facebook.com/")
-            options.add_argument("--connection=keep-alive")
+            # options.add_argument("--connection=keep-alive")
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
-            options.add_argument("--disable-notifications")  # Desativa as notificações
-            options.add_argument("--disable-extensions")  # Desativa extensões
+            # options.add_argument("--disable-notifications")  # Desativa as notificações
+            # options.add_argument("--disable-extensions")  # Desativa extensões
             # options.add_argument("--disable-cache")  # Desativa o cache
             options.add_argument("--incognito")  # Usa o modo de navegação anônima
             # options.add_argument("--no-sandbox")  # Desativa o sandboxing
-            options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
-            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
-            options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
-            options.add_argument("--disable-autofill")  # Desativa preenchimento automático
-            options.add_argument("--disable-geolocation")  # Desativa a geolocalização
+            # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
+            # options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de diálogo de senhas
+            # options.add_argument("--disable-password-generation")  # Desativa geração automática de senhas
+            # options.add_argument("--disable-autofill")  # Desativa preenchimento automático
+            # options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
             # options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
             # options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
@@ -67,15 +67,16 @@ def cria_nevegador():
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
-                'verify_ssl': True  # Desativa a verificação de SSL
+                'suppress_connection_errors': True,  # Suprime os erros de conexão
+                'verify_ssl': False  # Desativa a verificação de SSL
             }
 
 
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
-            navegador = webdriver.Chrome(options=options)
-            # navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
+            # navegador = webdriver.Chrome(options=options)
+            navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
 
             navegador.set_page_load_timeout(50)
@@ -623,7 +624,7 @@ def desativar_proxy():
 
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False, proxy=None):
     print('fazer_login',proxy)
-    global navegador, url, id, senha
+    global navegador, url, id, senha, proxy_ativo
 
     if url != url_novo and url_novo != '':
         url = url_novo
@@ -643,8 +644,9 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
         print("faz login...")
         IP.tem_internet()
-        desativar_proxy()
-        # print('continua login')
+        if proxy_ativo:
+            desativar_proxy()
+
         url_atual = pega_url()
         facebooke_carregado = False
 
@@ -953,8 +955,8 @@ def parar_carregamento():
     except Exception as e:
         print(f"Erro ao tentar parar o carregamento: {e}")
 
-def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
-    global navegador, url
+def abrir_fechar_guia(max_tentativas=5):
+    global navegador
     print("abrir_fechar_guia")
     tentativas = 0
 
@@ -968,87 +970,90 @@ def abrir_fechar_guia(url_sair='https://www.facebook.com/', max_tentativas=5):
                 # Feche a segunda guia
                 navegador.close()
 
-                # Mude para a primeira guia
-                navegador.switch_to.window(navegador.window_handles[0])
+                # Mude para a primeira guia, se ainda existir
+                if len(navegador.window_handles) > 0:
+                    navegador.switch_to.window(navegador.window_handles[0])
 
-                # Aguarde até que a primeira guia esteja ativa
-                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
+                    # Aguarde até que a primeira guia esteja ativa
+                    WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
             else:
-
-                # # Simular Ctrl + T para abrir uma nova guia
-                # navegador.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + 't')
-                # # Abrir uma nova guia usando o JavaScript window.open()
-                # navegador.execute_script("window.open('about:blank', '_blank');")
-
+                print('mandando abrir uma nova guia')
+                # Abrir uma nova guia com o atalho 'Ctrl + T'
                 pyautogui.hotkey('ctrl', 't')
 
                 # Aguarde até que haja pelo menos duas guias abertas
-                WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) >= 2)
+                WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
 
                 if len(navegador.window_handles) == 2:
-                    print('duas guias aberts')
+                    print('Duas guias abertas')
 
-                    # Mude para a primeira guia
-                    navegador.switch_to.window(navegador.window_handles[0])
-
-                    # Feche a primeira guia
-                    navegador.close()
-
-                    # Aguarde até que haja pelo menos duas guias abertas
-                    WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) == 1)
-
-                    if len(navegador.window_handles) == 1:
-                        print('uma guia aberta')
-
-                        # Mude para a segunda guia
+                    # Mude para a primeira guia, se ainda existir
+                    if len(navegador.window_handles) > 0:
                         navegador.switch_to.window(navegador.window_handles[0])
+                        # Feche a primeira guia
+                        navegador.close()
 
-                        # Aguarde até que a segunda guia esteja ativa
-                        WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
+                        # Aguarde até que haja apenas uma guia aberta
+                        WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) == 1)
 
-                        # Verifique se o foco está na primeira guia
-                        if navegador.current_window_handle != navegador.window_handles[0]:
-                            print("O foco não está na primeira guia.")
-                        else:
-                            print("O foco está na primeira guia.")
-                            atualizar_navegador()
-                            colocar_url('https://www.facebook.com/')
+                        if len(navegador.window_handles) == 1:
+                            print('Uma guia aberta')
+
+                            # Mude para a guia restante
+                            navegador.switch_to.window(navegador.window_handles[0])
                             time.sleep(1)
-                            print('colocado o url sair')
-                            return
+                            # Aguarde até que a guia esteja ativa
+                            WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
+                            # Verifique se o foco está na guia correta
+                            if navegador.current_window_handle != navegador.window_handles[0]:
+                                print("O foco não está na primeira guia.")
+                            else:
+                                print("O foco está na primeira guia.")
+                                # Aqui você pode carregar a URL desejada
+                                colocar_url(url_sair)
+                                print('URL colocada com sucesso')
+                                return
         except Exception as e:
-            print(f"Tentativa {tentativas + 1} falhou. {e}")
+            print(f"Tentativa {tentativas + 1} falhou. Erro: {e}")
             tentativas += 1
 
     print(f"Atenção: Todas as {max_tentativas} tentativas falharam. Encerrando.")
     return
 
 
-def sair_face(url_novo=''):
-    global navegador, url, proxy_ativo
-    if url != url_novo and url_novo != '':
-        url = url_novo
+def sair_face():
+    global navegador, proxy_ativo
 
-    for _ in range(30):
+    navegador.delete_all_cookies()
+    print('Cookies deletados')
+    if proxy_ativo:
+        desativar_proxy()
+
+    while True:
         print("\n   Sair do facebook    \n")
 
         try:
+            # colocar_url('https://www.facebook.com/')
+            # navegador.switch_to.window(navegador.window_handles[0])
+            # navegador.execute_script(script)
 
-            # Exclui todos os cookies
-            navegador.delete_all_cookies()
-            print('Cookies deletados')
-            desativar_proxy()
-            navegador.delete_all_cookies()
-            abrir_fechar_guia(url_sair)
+            # navegador.delete_all_cookies()
+            abrir_fechar_guia()
             navegador.delete_all_cookies()
             print('Cookies deletados')
             print("nova guia ok")
 
-            WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-            print('Pagina pronta, conta NÃO logada')
-            return
+            url_atual = pega_url()
+            print('urla apos sair do facebook', url_atual)
+            if url_atual == url_sair:
+                WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+                print('Pagina pronta, conta NÃO logada')
+                return
+            else:
+                print('Colocando o url correto', url_sair)
+                colocar_url(url_sair)
 
         except Exception as e:
 
@@ -1096,7 +1101,7 @@ def busca_link():
     time.sleep(3)
 
     if se_esta_lagado() is True:
-        sair_face(url)
+        sair_face()
 
     print('faz login')
     email_field = WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))

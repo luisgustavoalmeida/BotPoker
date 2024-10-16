@@ -90,7 +90,7 @@ navegador = Seleniun.cria_nevegador()
 
 # Seleniun.abrir_navegador(url)
 
-Seleniun.sair_face(url)
+Seleniun.sair_face()
 
 # Semaphore para iniciar a tarefa independente
 iniciar_tarefa = threading.Semaphore(0)
@@ -949,7 +949,7 @@ while True:
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
 
-    Seleniun.sair_face(url)
+    Seleniun.sair_face()
 
     if not entrou_corretamente:  # se nao entrou no face
         decrementa_contagem_ip()
