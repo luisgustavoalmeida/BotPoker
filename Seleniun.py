@@ -283,7 +283,9 @@ def teste_face_ok(url_atual):
                     print("Você pressionou '1'. salvando cookies")
                     capturar_cookies_facebook(id)
                     time.sleep(5)
-                    return True, 'Testando'
+                    entrou = False
+                    status = "Corrigido"
+                    return entrou, status
                 elif entrada == '2':
                     print("Você pressionou '2'. Continuando...")
                     break
@@ -323,7 +325,9 @@ def teste_face_ok(url_atual):
                             print("Você pressionou '1'. salvando cookies")
                             capturar_cookies_facebook(id)
                             time.sleep(5)
-                            return True, 'Testando'
+                            entrou = False
+                            status = "Corrigido"
+                            return entrou, status
                         elif entrada == '2':
                             print("Você pressionou '2'. Continuando...")
                             break
@@ -396,7 +400,9 @@ def teste_face_ok(url_atual):
                     print("Você pressionou '1'. salvando cookies")
                     capturar_cookies_facebook(id)
                     time.sleep(5)
-                    return True, 'Testando'
+                    entrou = False
+                    status = "Corrigido"
+                    return entrou, status
                 elif entrada == '2':
                     print("Você pressionou '2'. Continuando...")
                     break
