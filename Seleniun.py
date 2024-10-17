@@ -26,6 +26,7 @@ url = None
 id = ''
 senha = ''
 
+print('Nome completo',nome_completo)
 # url_sair = 'https://www.facebook.com/'
 # url_sair = 'https://pt-br.facebook.com/'
 url_sair = 'https://pt-br.facebook.com/login/'
