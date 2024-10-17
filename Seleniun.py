@@ -993,12 +993,10 @@ def abrir_fechar_guia():
 
                     if len(navegador.window_handles) == 2:
                         print('Duas guias abertas')
-                        time.sleep(1)
 
                         navegador.switch_to.window(navegador.window_handles[0])
                         # Feche a primeira guia
                         navegador.close()
-                        time.sleep(1)
 
                         # Aguarde até que haja apenas uma guia aberta
                         WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) == 1)
@@ -1008,7 +1006,7 @@ def abrir_fechar_guia():
 
                             # Mude para a guia restante
                             navegador.switch_to.window(navegador.window_handles[0])
-                            time.sleep(1)
+
                             # Aguarde até que a guia esteja ativa
                             WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
@@ -1112,6 +1110,7 @@ def limpar_navegador():
 
 def sair_face():
     global navegador, proxy_ativo
+    navegador.set_page_load_timeout(10)
 
     # limpar_navegador()
     # try:
@@ -1151,7 +1150,7 @@ def sair_face():
                 print('Pagina pronta, conta NÃO logada')
                 if proxy_ativo:
                     desativar_proxy()
-
+                navegador.set_page_load_timeout(50)
                 return
 
         except Exception as e:
