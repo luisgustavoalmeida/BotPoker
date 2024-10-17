@@ -51,7 +51,7 @@ def cria_nevegador():
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
             options.add_argument("--referer=https://www.facebook.com/")
-            # options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
+            options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
@@ -1220,6 +1220,9 @@ def sair_face():
 
     while True:
         print("\n   Sair do facebook    \n")
+        cookies = navegador.get_cookies()
+        print(f"Cookies presentes\n\n: {cookies}\n\n")
+        limpar_navegador()
         cookies = navegador.get_cookies()
         print(f"Cookies presentes\n\n: {cookies}\n\n")
 
