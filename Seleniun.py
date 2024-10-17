@@ -777,8 +777,20 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 if proxy:
                     mudar_proxy_dinamico(proxy)
 
-                colocar_url(url)
                 print('Coloca url do jogo', url)
+
+                if len(navegador.window_handles) == 1:
+                    print('mandando abrir uma nova guia')
+                    # Abrir uma nova guia com o atalho 'Ctrl + T'
+                    pyautogui.hotkey('ctrl', 't')
+
+                    # Aguarde até que haja pelo menos duas guias abertas
+                    WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
+
+                    if len(navegador.window_handles) == 2:
+                        navegador.switch_to.window(navegador.window_handles[-1])
+                        colocar_url(url)
+
                 time.sleep(2)
                 url_atual = pega_url()
                 print('url testa logado ', url_atual)
@@ -1136,6 +1148,14 @@ def abrir_fechar_guia():
 
 def limpar_navegador():
     try:
+        # Deletar todos os cookies
+        print("Deletando cookies...")
+        navegador.delete_all_cookies()
+    except Exception as e:
+        print(f"Erro ao deletar cookies: {e}")
+
+
+    try:
         # Limpar cookies, cache, autenticação e histórico via DevTools
         print("Limpando dados via DevTools...")
         navegador.execute_cdp_cmd('Network.clearBrowserCookies', {})
@@ -1146,12 +1166,6 @@ def limpar_navegador():
     except Exception as e:
         print(f"Erro ao limpar dados via DevTools: {e}")
 
-    try:
-        # Deletar todos os cookies
-        print("Deletando cookies...")
-        navegador.delete_all_cookies()
-    except Exception as e:
-        print(f"Erro ao deletar cookies: {e}")
 
     try:
         # Limpar o localStorage
@@ -1223,8 +1237,20 @@ def sair_face():
         cookies = navegador.get_cookies()
         print(f"Cookies presentes\n\n: {cookies}\n\n")
         limpar_navegador()
-        cookies = navegador.get_cookies()
-        print(f"Cookies presentes\n\n: {cookies}\n\n")
+        # Verifique se há mais de uma guia aberta
+        if len(navegador.window_handles) > 1:
+            # Mude para a segunda guia
+            navegador.switch_to.window(navegador.window_handles[-1])
+
+            # Feche a segunda guia
+            navegador.close()
+
+            # Mude para a primeira guia, se ainda existir
+            if len(navegador.window_handles) > 0:
+                navegador.switch_to.window(navegador.window_handles[0])
+
+                # Aguarde até que a primeira guia esteja ativa
+                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
         try:
             while True:
