@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import shutil
 
 import pyautogui
 import pygetwindow as gw
@@ -1012,6 +1013,59 @@ def parar_carregamento():
     except Exception as e:
         print(f"Erro ao tentar parar o carregamento: {e}")
 
+
+
+def apagar_arquivos_individualmente(pasta_cookies):
+    try:
+        if os.path.exists(pasta_cookies):
+            for root, dirs, files in os.walk(pasta_cookies, topdown=False):
+                # Tenta apagar arquivos
+                for name in files:
+                    arquivo = os.path.join(root, name)
+                    try:
+                        os.remove(arquivo)
+                        print(f"Arquivo {arquivo} apagado.")
+                    except PermissionError:
+                        continue
+                        print(f"Arquivo {arquivo} está em uso e não pode ser apagado.")
+                    except Exception as e:
+                        continue
+                        print(f"Erro ao apagar o arquivo {arquivo}: {e}")
+
+                # Tenta apagar diretórios
+                for name in dirs:
+                    diretorio = os.path.join(root, name)
+                    try:
+                        os.rmdir(diretorio)
+                        print(f"Diretório {diretorio} apagado.")
+                    except OSError as e:
+                        continue
+                        print(f"Diretório {diretorio} não pôde ser apagado: {e}")
+        else:
+            print(f"A pasta {pasta_cookies} não existe.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao apagar a pasta {pasta_cookies}: {e}")
+
+def limpar_pasta_cookies(pasta_cookies):
+    try:
+        # Apagar os arquivos e subpastas individualmente, ignorando erros
+        apagar_arquivos_individualmente(pasta_cookies)
+
+        # Tenta apagar a pasta principal
+        try:
+            shutil.rmtree(pasta_cookies)
+            print(f"Pasta {pasta_cookies} foi apagada.")
+        except PermissionError:
+            print(f"A pasta {pasta_cookies} não pôde ser completamente apagada.")
+        except Exception as e:
+            print(f"Erro ao tentar apagar a pasta: {e}")
+
+        # Recriar a pasta
+        os.makedirs(pasta_cookies, exist_ok=True)
+        print(f"Pasta {pasta_cookies} recriada.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao limpar a pasta {pasta_cookies}: {e}")
+
 def abrir_fechar_guia():
     global navegador
     print("abrir_fechar_guia")
@@ -1186,6 +1240,7 @@ def sair_face():
                         if len(cookies) == 0:
                             print("Todos os cookies foram deletados com sucesso.")
                             limpar_navegador()
+                            limpar_pasta_cookies(pasta_cookies)
                             break
                         else:
                             print(f"Alguns cookies ainda permanecem: {cookies}")
