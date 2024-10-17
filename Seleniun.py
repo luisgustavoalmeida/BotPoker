@@ -279,8 +279,12 @@ def teste_face_ok(url_atual):
             while True:
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
-                    print("Você pressionou '1'. Continuando...")
-                    return entrou, status
+                    print("Você pressionou '1'. salvando cookies")
+                    capturar_cookies_facebook(id)
+                    time.sleep(5)
+                    return True, 'Testando'
+                elif entrada == '2':
+                    print("Você pressionou '2'. Continuando...")
                     break
                 else:
                     print("Entrada inválida, tente novamente.")
@@ -292,9 +296,6 @@ def teste_face_ok(url_atual):
 
     elif "/checkpoint/" in url_atual:
         # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
-        print(nome_completo)
-        time.sleep(5)
-
         elemento_clicavel_encontrado = False
         entrou = False
         status = "Anomalia Fecebook"
@@ -317,8 +318,12 @@ def teste_face_ok(url_atual):
                     while True:
                         entrada = input("Pressione '1' para continuar: ")
                         if entrada == '1':
-                            print("Você pressionou '1'. Continuando...")
-                            return entrou, status
+                            print("Você pressionou '1'. salvando cookies")
+                            capturar_cookies_facebook(id)
+                            time.sleep(5)
+                            return True, 'Testando'
+                        elif entrada == '2':
+                            print("Você pressionou '2'. Continuando...")
                             break
                         else:
                             print("Entrada inválida, tente novamente.")
@@ -381,15 +386,16 @@ def teste_face_ok(url_atual):
     elif '/two_step_verification/' in url_atual:
         # https://pt-br.facebook.com/two_step_verification/authentication/?encrypted_context=AWO7TuI-Ec6oHUE5tqJc5abqii1T9IQ7E5tM7gdCC5g7cngxUgsqr1_6_4OCRkMXzX9oYF92onLK74MkFvQWosl76IxDSQf8TK1o5MsrlIN9NKlEqV0VnxVG4ACiOt2HRvw8ImWYbbarY9G8HyvtZrce8FFoeokTxYXQuO-msKULsRY_eW9iqFvEHJxPt80PwtoRrj9xtZb5dwhOz6AcNr-sm25yE9oB_dbagQ4RX_MrxsOPO_gZciSbihsz09pDqK9tM2Dki8b8GNpJHpBqZyt7hVIDBSxU6fNc7puR_5KZdT4HmuLfE1w0bIVpttdtz3ktAM_vZ6-DGGv1OVUuSYrt_02G7FXB3GfO_qz2AELfZ7tOhyYogMG80dEwOEqlpyeuhYcx-ZA1KGj7xLC-pgBH3lZdoW4-nFomTxQdX2I7ED54_BDmIOy4TA&flow=pre_authentication
         print("Insira os caracteres que você vê")
-        print(nome_completo)
-        time.sleep(5)
-
         if nome_completo == 'PC-R5-7600_PokerIP':
             while True:
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
-                    print("Você pressionou '1'. Continuando...")
-                    return entrou, status
+                    print("Você pressionou '1'. salvando cookies")
+                    capturar_cookies_facebook(id)
+                    time.sleep(5)
+                    return True, 'Testando'
+                elif entrada == '2':
+                    print("Você pressionou '2'. Continuando...")
                     break
                 else:
                     print("Entrada inválida, tente novamente.")
