@@ -778,18 +778,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     mudar_proxy_dinamico(proxy)
 
                 print('Coloca url do jogo', url)
-
-                if len(navegador.window_handles) == 1:
-                    print('mandando abrir uma nova guia')
-                    # Abrir uma nova guia com o atalho 'Ctrl + T'
-                    pyautogui.hotkey('ctrl', 't')
-
-                    # Aguarde até que haja pelo menos duas guias abertas
-                    WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
-
-                    if len(navegador.window_handles) == 2:
-                        navegador.switch_to.window(navegador.window_handles[-1])
-                        colocar_url(url)
+                colocar_url(url)
 
                 time.sleep(2)
                 url_atual = pega_url()
@@ -1234,23 +1223,23 @@ def sair_face():
 
     while True:
         print("\n   Sair do facebook    \n")
+        url_atual = pega_url()
+        if 'poker' in url_atual:
+            try:
+                # Localizar o elemento pelo texto e clicar nele
+                elemento = navegador.find_element(By.XPATH, "//*[contains(text(), 'Sair para o Facebook Gaming')]")
+                elemento.click()
+
+                # Se o clique for bem-sucedido
+                print("Elemento encontrado e clicado com sucesso. Sair para o Facebook Gaming")
+
+            except Exception as e:
+                # Captura qualquer outro tipo de erro
+                print(f"Ocorreu um erro: {e}")
+
         cookies = navegador.get_cookies()
         print(f"Cookies presentes\n\n: {cookies}\n\n")
         limpar_navegador()
-        # Verifique se há mais de uma guia aberta
-        if len(navegador.window_handles) > 1:
-            # Mude para a segunda guia
-            navegador.switch_to.window(navegador.window_handles[-1])
-
-            # Feche a segunda guia
-            navegador.close()
-
-            # Mude para a primeira guia, se ainda existir
-            if len(navegador.window_handles) > 0:
-                navegador.switch_to.window(navegador.window_handles[0])
-
-                # Aguarde até que a primeira guia esteja ativa
-                WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
         try:
             while True:
