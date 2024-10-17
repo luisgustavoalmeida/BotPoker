@@ -49,7 +49,7 @@ def carregado_origem():  # navegador
         # pyautogui.click(10, 1020)  # clica bobo para nao hibernar
 
         print("carregado_orige Procurando coodenada 0 x 0...")
-        for i in range(80):
+        for i in range(120):
 
             # Procura a imagem na região definida com 99,5% de tolerância, em escala de cinza e retorna a posição
 
