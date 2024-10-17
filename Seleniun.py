@@ -1132,6 +1132,8 @@ def sair_face():
                 print(f"Erro ao limpar script: {e}")
 
             limpar_navegador()
+            print('Saiu do facebook')
+            time.sleep(60)
             abrir_fechar_guia()
             limpar_navegador()
             print("nova guia ok")
