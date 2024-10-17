@@ -280,6 +280,7 @@ def teste_face_ok(url_atual):
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
                     print("Você pressionou '1'. Continuando...")
+                    return entrou, status
                     break
                 else:
                     print("Entrada inválida, tente novamente.")
@@ -317,6 +318,7 @@ def teste_face_ok(url_atual):
                         entrada = input("Pressione '1' para continuar: ")
                         if entrada == '1':
                             print("Você pressionou '1'. Continuando...")
+                            return entrou, status
                             break
                         else:
                             print("Entrada inválida, tente novamente.")
@@ -387,6 +389,7 @@ def teste_face_ok(url_atual):
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
                     print("Você pressionou '1'. Continuando...")
+                    return entrou, status
                     break
                 else:
                     print("Entrada inválida, tente novamente.")
