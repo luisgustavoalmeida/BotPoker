@@ -275,10 +275,19 @@ def teste_face_ok(url_atual):
 
     if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
         print("senha incorreta, manda sai")
-        sair_face()
-        entrou = False
-        status = "Senha incorreta"
-        return entrou, status
+        if nome_completo == 'PC-R5-7600_PokerIP':
+            while True:
+                entrada = input("Pressione '1' para continuar: ")
+                if entrada == '1':
+                    print("Você pressionou '1'. Continuando...")
+                    break
+                else:
+                    print("Entrada inválida, tente novamente.")
+        else:
+            # sair_face()
+            entrou = False
+            status = "Senha incorreta"
+            return entrou, status
 
     elif "/checkpoint/" in url_atual:
         # https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2F%3Fsk%3Dwelcome
