@@ -702,8 +702,8 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
         print("faz login...")
         IP.tem_internet()
-        if proxy_ativo:
-            desativar_proxy()
+
+        desativar_proxy()
 
         url_atual = pega_url()
         facebooke_carregado = False
@@ -774,13 +774,15 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     status = 'Não carregou'
                     return entrou, status
 
-                if proxy:
-                    mudar_proxy_dinamico(proxy)
+
+                mudar_proxy_dinamico(proxy)
 
                 print('Coloca url do jogo', url)
                 colocar_url(url)
 
-                time.sleep(2)
+
+
+                time.sleep(150)
                 url_atual = pega_url()
                 print('url testa logado ', url_atual)
                 for i in range(20):
