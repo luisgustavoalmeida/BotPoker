@@ -1110,7 +1110,7 @@ def limpar_navegador():
 
 def sair_face():
     global navegador, proxy_ativo
-    navegador.set_page_load_timeout(10)
+    navegador.set_page_load_timeout(5)
 
     # limpar_navegador()
     # try:
