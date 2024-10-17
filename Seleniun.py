@@ -1114,6 +1114,10 @@ def sair_face():
     global navegador, proxy_ativo
 
     limpar_navegador()
+    try:
+        navegador.execute_script(script)
+    except Exception as e:
+        print(f"Erro ao limpar script: {e}")
     if proxy_ativo:
         desativar_proxy()
 
