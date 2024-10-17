@@ -1125,15 +1125,21 @@ def sair_face():
         print("\n   Sair do facebook    \n")
 
         try:
-            navegador.switch_to.window(navegador.window_handles[0])
-            try:
-                navegador.execute_script(script)
-            except Exception as e:
-                print(f"Erro ao limpar script: {e}")
+            while True:
+                navegador.switch_to.window(navegador.window_handles[0])
 
-            limpar_navegador()
-            print('Saiu do facebook')
-            time.sleep(60)
+                try:
+                    navegador.execute_script(script)
+                except Exception as e:
+                    print(f"Erro ao limpar script: {e}")
+
+                limpar_navegador()
+
+                url_atual = pega_url()
+                print('\n\nUrl SAIR , CORRETO', url_atual,'\n\n')
+                if url_sair in url_atual:
+                    break
+
             abrir_fechar_guia()
             limpar_navegador()
             print("nova guia ok")
