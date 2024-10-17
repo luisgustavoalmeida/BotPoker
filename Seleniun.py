@@ -983,19 +983,18 @@ def abrir_fechar_guia():
                     WebDriverWait(navegador, 5).until(EC.number_of_windows_to_be(1))
 
             else:
-                print('mandando abrir uma nova guia')
-                # Abrir uma nova guia com o atalho 'Ctrl + T'
-                pyautogui.hotkey('ctrl', 't')
+                if len(navegador.window_handles) == 1:
+                    print('mandando abrir uma nova guia')
+                    # Abrir uma nova guia com o atalho 'Ctrl + T'
+                    pyautogui.hotkey('ctrl', 't')
 
-                # Aguarde até que haja pelo menos duas guias abertas
-                WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
+                    # Aguarde até que haja pelo menos duas guias abertas
+                    WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
 
-                if len(navegador.window_handles) == 2:
-                    print('Duas guias abertas')
-                    time.sleep(1)
+                    if len(navegador.window_handles) == 2:
+                        print('Duas guias abertas')
+                        time.sleep(1)
 
-                    # Mude para a primeira guia, se ainda existir
-                    if len(navegador.window_handles) > 0:
                         navegador.switch_to.window(navegador.window_handles[0])
                         # Feche a primeira guia
                         navegador.close()
