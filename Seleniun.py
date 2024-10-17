@@ -1113,13 +1113,13 @@ def limpar_navegador():
 def sair_face():
     global navegador, proxy_ativo
 
-    limpar_navegador()
-    try:
-        navegador.execute_script(script)
-    except Exception as e:
-        print(f"Erro ao limpar script: {e}")
-    if proxy_ativo:
-        desativar_proxy()
+    # limpar_navegador()
+    # try:
+    #     navegador.execute_script(script)
+    # except Exception as e:
+    #     print(f"Erro ao limpar script: {e}")
+    # if proxy_ativo:
+    #     desativar_proxy()
 
     while True:
         print("\n   Sair do facebook    \n")
@@ -1137,6 +1137,9 @@ def sair_face():
             if url_sair in url_atual:
                 WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
                 print('Pagina pronta, conta NÃO logada')
+                if proxy_ativo:
+                    desativar_proxy()
+
                 return
 
         except Exception as e:
