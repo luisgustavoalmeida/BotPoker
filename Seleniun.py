@@ -1166,6 +1166,8 @@ def sair_face():
 
     while True:
         print("\n   Sair do facebook    \n")
+        cookies = navegador.get_cookies()
+        print(f"Cookies presentes\n\n: {cookies}\n\n")
 
         try:
             while True:
