@@ -1128,8 +1128,8 @@ def sair_face():
             navegador.switch_to.window(navegador.window_handles[0])
 
             limpar_navegador()
-
             abrir_fechar_guia()
+            limpar_navegador()
             print("nova guia ok")
 
             url_atual = pega_url()
