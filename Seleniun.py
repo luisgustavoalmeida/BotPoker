@@ -276,6 +276,7 @@ def teste_face_ok(url_atual):
     if "/login/?privacy" in url_atual or "/device-based/regular/login/?" in url_atual:
         print("senha incorreta, manda sai")
         if nome_completo == 'PC-R5-7600_PokerIP':
+            print(id, senha)
             while True:
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
@@ -315,6 +316,7 @@ def teste_face_ok(url_atual):
             try:
                 elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
                 if nome_completo == 'PC-R5-7600_PokerIP':
+                    print(id,senha)
                     while True:
                         entrada = input("Pressione '1' para continuar: ")
                         if entrada == '1':
@@ -387,6 +389,7 @@ def teste_face_ok(url_atual):
         # https://pt-br.facebook.com/two_step_verification/authentication/?encrypted_context=AWO7TuI-Ec6oHUE5tqJc5abqii1T9IQ7E5tM7gdCC5g7cngxUgsqr1_6_4OCRkMXzX9oYF92onLK74MkFvQWosl76IxDSQf8TK1o5MsrlIN9NKlEqV0VnxVG4ACiOt2HRvw8ImWYbbarY9G8HyvtZrce8FFoeokTxYXQuO-msKULsRY_eW9iqFvEHJxPt80PwtoRrj9xtZb5dwhOz6AcNr-sm25yE9oB_dbagQ4RX_MrxsOPO_gZciSbihsz09pDqK9tM2Dki8b8GNpJHpBqZyt7hVIDBSxU6fNc7puR_5KZdT4HmuLfE1w0bIVpttdtz3ktAM_vZ6-DGGv1OVUuSYrt_02G7FXB3GfO_qz2AELfZ7tOhyYogMG80dEwOEqlpyeuhYcx-ZA1KGj7xLC-pgBH3lZdoW4-nFomTxQdX2I7ED54_BDmIOy4TA&flow=pre_authentication
         print("Insira os caracteres que você vê")
         if nome_completo == 'PC-R5-7600_PokerIP':
+            print(id, senha)
             while True:
                 entrada = input("Pressione '1' para continuar: ")
                 if entrada == '1':
