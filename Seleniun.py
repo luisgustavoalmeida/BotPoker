@@ -19,8 +19,8 @@ from Requerimentos import nome_usuario, nome_completo
 
 # Desabilitar o fail-safe
 pyautogui.FAILSAFE = False
-
-pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie\{nome_usuario}')
+# pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie\{nome_usuario}')
+pasta_cookies = os.path.join(os.getcwd(), fr'C:\Cookie')
 navegador = None
 proxy_ativo = False
 url = None
