@@ -40,8 +40,10 @@ def get_random_user_agent():
     return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
 
 
-def cria_nevegador():
+def cria_nevegador(id_conta, proxy, url_inicial=None):
     global navegador  # Referenciar a variável global
+    # Concatena o id ao caminho, convertendo o id para string
+    perfil = os.path.join(pasta_cookies, str(id_conta))
     while True:
         try:
             print('Carregando opções do navegador')
@@ -55,8 +57,8 @@ def cria_nevegador():
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
-            options.add_argument("--disable-cache")  # Desativa o cache
-            options.add_argument("--incognito")  # Usa o modo de navegação anônima
+            # options.add_argument("--disable-cache")  # Desativa o cache
+            # options.add_argument("--incognito")  # Usa o modo de navegação anônima
             options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de salvamento de senhas
             options.add_argument("--disable-password-generation")  # Desativa a geração automática de senhas
             options.add_argument("--disable-autofill")  # Desativa o preenchimento automático
@@ -71,12 +73,29 @@ def cria_nevegador():
             # options.add_argument('--disable-web-security')  ##
             # options.add_argument("--disable-webgl")  #  armazenar informações gráficas temporárias
             # options.add_argument("--disable-plugins")   # Desativar Plugins e Mídia Automática##
-            options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
-            seleniumwire_options = {
-                'disable_capture': True,  # Desativa a interceptação de requisições
-                'suppress_connection_errors': True,  # Suprime os erros de conexão
-                'verify_ssl': False  # Desativa a verificação de SSL
-            }
+            options.add_argument(f"--user-data-dir={perfil}")  # Diretório de cookies
+            # options.add_argument("--restore-last-session")  # Restaura as guias da sessão anterior ao iniciar o navegador
+
+            # Definir as opções de proxy, se fornecidas
+            if proxy:
+                proxy_ip, proxy_port, username, password = mudar_proxy_dinamico(proxy)
+                print(proxy_ip, proxy_port, username, password)
+                seleniumwire_options = {
+                    'proxy': {
+                        'http': f'http://{proxy_ip}:{proxy_port}',
+                        'https': f'https://{proxy_ip}:{proxy_port}',
+                        'proxy_auth': f'{username}:{password}'  # Autenticação do proxy
+                    },
+                    'disable_capture': True,  # Desativa a interceptação de requisições
+                    'suppress_connection_errors': True,  # Suprime os erros de conexão
+                    'verify_ssl': False  # Desativa a verificação de SSL
+                }
+            else:
+                seleniumwire_options = {
+                    'disable_capture': True,  # Desativa a interceptação de requisições
+                    'suppress_connection_errors': True,  # Suprime os erros de conexão
+                    'verify_ssl': False  # Desativa a verificação de SSL
+                }
 
 
             print('Criando o navegador')
@@ -92,6 +111,11 @@ def cria_nevegador():
 
             print('Navegador criado com sucesso')
             pyautogui.click(1338, 108)
+
+            # Se uma URL inicial for fornecida, abra-a automaticamente
+            if url_inicial:
+                navegador.get(url_inicial)
+                print(f"Navegador iniciado e carregou a URL: {url_inicial}")
 
             return navegador
         except Exception as e:
@@ -613,12 +637,12 @@ def mudar_proxy_dinamico(proxy_string):
     :raises RuntimeError: Se não conseguir aplicar o proxy corretamente após várias tentativas
     """
     print('mudar_proxy_dinamico')
-    global navegador, proxy_ativo
-    proxy_ativo = False
+    # global navegador, proxy_ativo
+    # proxy_ativo = False
 
-    # Verifica se o navegador está ativo
-    if navegador is None:
-        raise RuntimeError("O navegador não está ativo.")
+    # # Verifica se o navegador está ativo
+    # if navegador is None:
+    #     raise RuntimeError("O navegador não está ativo.")
 
     # Verifica o formato do proxy e separa as partes
     parts = proxy_string.split(':')
@@ -635,37 +659,39 @@ def mudar_proxy_dinamico(proxy_string):
     if not testar_proxy(proxy_ip, proxy_port):
         raise RuntimeError(f"Proxy {proxy_ip}:{proxy_port} está inacessível.")
 
+    return proxy_ip, proxy_port, username, password
+
     # Aplica o proxy dinamicamente
-    while True:
-        try:
-            # Adiciona autenticação se for fornecida
-            if username and password:
-                # Configuração básica de proxy
-                proxy_config = {
-                    'http': f'http://{proxy_ip}:{proxy_port}',
-                    'https': f'https://{proxy_ip}:{proxy_port}',
-                    'proxy_auth': f'{username}:{password}',
-                }
-                print(f"Proxy com autenticação configurado: {proxy_ip}:{proxy_port} com usuário {username}")
-            else:
-                # Configuração básica de proxy
-                proxy_config = {
-                    'http': f'http://{proxy_ip}:{proxy_port}',
-                    'https': f'https://{proxy_ip}:{proxy_port}',
-                    # 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
-                }
-                print(f"Proxy sem autenticação configurado: {proxy_ip}:{proxy_port}")
-
-            # Atualiza a configuração do proxy no navegador
-            navegador.proxy = proxy_config
-
-            print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
-            proxy_ativo = True
-            return True
-
-        except Exception as e:
-            print(f"Erro ao tentar aplicar o proxy: {e}")
-            raise RuntimeError(f"Falha ao configurar o proxy: {proxy_ip}:{proxy_port}")
+    # while True:
+    #     try:
+    #         # Adiciona autenticação se for fornecida
+    #         if username and password:
+    #             # Configuração básica de proxy
+    #             proxy_config = {
+    #                 'http': f'http://{proxy_ip}:{proxy_port}',
+    #                 'https': f'https://{proxy_ip}:{proxy_port}',
+    #                 'proxy_auth': f'{username}:{password}',
+    #             }
+    #             print(f"Proxy com autenticação configurado: {proxy_ip}:{proxy_port} com usuário {username}")
+    #         else:
+    #             # Configuração básica de proxy
+    #             proxy_config = {
+    #                 'http': f'http://{proxy_ip}:{proxy_port}',
+    #                 'https': f'https://{proxy_ip}:{proxy_port}',
+    #                 # 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
+    #             }
+    #             print(f"Proxy sem autenticação configurado: {proxy_ip}:{proxy_port}")
+    #
+    #         # Atualiza a configuração do proxy no navegador
+    #         navegador.proxy = proxy_config
+    #
+    #         print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
+    #         proxy_ativo = True
+    #         return True
+    #
+    #     except Exception as e:
+    #         print(f"Erro ao tentar aplicar o proxy: {e}")
+    #         raise RuntimeError(f"Falha ao configurar o proxy: {proxy_ip}:{proxy_port}")
 
 
 def desativar_proxy():
@@ -697,104 +723,105 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
     while True:
 
-        if se_esta_lagado():
-            sair_face()
-
         print("faz login...")
         IP.tem_internet()
-
-        desativar_proxy()
 
         url_atual = pega_url()
         facebooke_carregado = False
 
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL facebook')
-            try:
-                conta_cookies_carregado = carregar_ou_logar_facebook(id, senha)
-                # time.sleep(1)
-                print('Testando se carregou')
-                for _ in range(200):
-                    elementos = navegador.find_elements(By.CLASS_NAME, "xe3v8dz")
-                    if len(elementos) > 0:
-                        facebooke_carregado = True
-                        print('\n\nFacebook carregado\n\n')
-                        if conta_cookies_carregado:
-                            novos_cookies = navegador.get_cookies()
-                            if novos_cookies:
-                                novos_cookies_expiry = novos_cookies[0].get('expiry', 0) if novos_cookies else 0
-                                velhos_cookies = cookies_data[id]
-                                velhos_cookies_expiry = velhos_cookies[0].get('expiry', 0) if velhos_cookies else 0
-                                if novos_cookies_expiry and velhos_cookies_expiry:
-                                    if (novos_cookies_expiry - velhos_cookies_expiry) > 5184000:
-                                        print(
-                                            "A data de expiração dos novos cookies é superior ha 2 meses em relação aos cookies atuais,.")
-                                        capturar_cookies_facebook(id)
+            if not se_esta_lagado():
+                try:
+                    navegador.switch_to.window(navegador.window_handles[0])
+                    conta_cookies_carregado = carregar_ou_logar_facebook(id, senha)
+                    # time.sleep(1)
+                    print('Testando se carregou')
+                    for _ in range(200):
+                        elementos = navegador.find_elements(By.CLASS_NAME, "xe3v8dz")
+                        if len(elementos) > 0:
+                            facebooke_carregado = True
+                            print('\n\nFacebook carregado\n\n')
+                            if conta_cookies_carregado:
+                                novos_cookies = navegador.get_cookies()
+                                if novos_cookies:
+                                    novos_cookies_expiry = novos_cookies[0].get('expiry', 0) if novos_cookies else 0
+                                    velhos_cookies = cookies_data[id]
+                                    velhos_cookies_expiry = velhos_cookies[0].get('expiry', 0) if velhos_cookies else 0
+                                    if novos_cookies_expiry and velhos_cookies_expiry:
+                                        if (novos_cookies_expiry - velhos_cookies_expiry) > 5184000:
+                                            print(
+                                                "A data de expiração dos novos cookies é superior ha 2 meses em relação aos cookies atuais,.")
+                                            capturar_cookies_facebook(id)
+                                        else:
+                                            print(
+                                                "A data de expiração dos novos cookies não tem uma diferença superior a 2 meses em relação aos cookies atuais.")
                                     else:
-                                        print(
-                                            "A data de expiração dos novos cookies não tem uma diferença superior a 2 meses em relação aos cookies atuais.")
-                                else:
-                                    print("Algum dos cookies não possui data de expiração.")
-                                    capturar_cookies_facebook(id)
-                        else:
-                            capturar_cookies_facebook(id)
-                        break
+                                        print("Algum dos cookies não possui data de expiração.")
+                                        capturar_cookies_facebook(id)
+                            else:
+                                capturar_cookies_facebook(id)
+                            break
+
+                        url_atual = pega_url()
+                        print(url_atual)
+
+                        entrou, status = teste_face_ok(url_atual)
+                        if not entrou:
+                            print('Falha ao entrar no Facebook.', status)
+                            return entrou, status
+
+                        elementos = navegador.find_elements(By.NAME, "email")
+                        if len(elementos) > 0:
+                            print('botao de login ativo')
+                            realizar_login_manual(id, senha)
+                            conta_cookies_carregado = False
+
+                        if "/login/" in url_atual:
+                            sair_face()
+                            realizar_login_manual(id, senha)
+                            conta_cookies_carregado = False
+
+                        time.sleep(0.05)
 
                     url_atual = pega_url()
-                    print(url_atual)
-
-                    entrou, status = teste_face_ok(url_atual)
-                    if not entrou:
-                        print('Falha ao entrar no Facebook.', status)
-                        return entrou, status
-
-                    elementos = navegador.find_elements(By.NAME, "email")
-                    if len(elementos) > 0:
-                        print('botao de login ativo')
-                        realizar_login_manual(id, senha)
-                        conta_cookies_carregado = False
 
                     if "/login/" in url_atual:
                         sair_face()
-                        realizar_login_manual(id, senha)
-                        conta_cookies_carregado = False
+                        print('Reinicia tentativa de login')
+                        continue
 
-                    time.sleep(0.05)
+                    if not facebooke_carregado:
+                        print('Falha ao entrar no Facebook.')
+                        entrou = False
+                        status = 'Não carregou'
+                        return entrou, status
+                except Exception as e:
+                    print('Erro ao logar no face:', e)
+
+            try:    # mudar_proxy_dinamico(proxy)
+
+                # Verificar se apenas uma guia está aberta
+                if len(navegador.window_handles) == 1:
+
+                    # Criar e abrir a segunda guia
+                    pyautogui.hotkey('ctrl', 't')
+
+                    # Aguardar até que a segunda guia seja aberta
+                    WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
+
+
+                navegador.switch_to.window(navegador.window_handles[-1])
 
                 url_atual = pega_url()
-
-                if "/login/" in url_atual:
-                    sair_face()
-                    print('Reinicia tentativa de login')
-                    continue
-
-                if not facebooke_carregado:
-                    print('Falha ao entrar no Facebook.')
-                    entrou = False
-                    status = 'Não carregou'
-                    return entrou, status
-
-                mudar_proxy_dinamico(proxy)
-
-                print('Coloca url do jogo', url)
-                colocar_url(url)
+                if not('/poker' in url_atual):
+                    print('Coloca url do jogo', url)
+                    colocar_url(url)
 
                 time.sleep(2)
                 url_atual = pega_url()
                 print('url testa logado ', url_atual)
                 for i in range(20):
-
-                    # for _ in range(100):
-                    #     url_atual = pega_url()
-                    #     if "/login/" not in url_atual:
-                    #         print('Entrando no jogo, url esta dentro do padrão')
-                    #         break
-                    #     time.sleep(0.02)
-                    #
-                    # if "/login/" in url_atual:
-                    #     break
-                    #
-                    # if "/login/" not in url_atual:
 
                     print('url: ', url_atual)
 
@@ -1215,35 +1242,90 @@ def limpar_navegador():
 
     print("Limpeza do navegador concluída.\n\n")
 
+def iniciar_pefil(id_conta, proxy, link_guia=None):
+    global navegador, proxy_ativo
+    while True:
+        try:
+            # Fechar o navegador existente, se necessário
+            if navegador:
+                navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
+
+            # Iniciar o navegador com o perfil e proxy fornecidos
+            navegador = cria_nevegador(id_conta, proxy, url_sair)
+
+            # Verificar se apenas uma guia está aberta
+            if len(navegador.window_handles) == 1:
+                navegador.switch_to.window(navegador.window_handles[0])
+                # Aguardar até que a primeira guia esteja ativa
+                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(1))
+                url_atual = pega_url()
+                print('\nUrl guia 1: ', url_atual, '\n')
+
+                # Se a URL da primeira guia não for a esperada, alterar
+                if not (url_sair in url_atual):
+                    colocar_url(url_sair)
+
+                # Criar e abrir a segunda guia
+                pyautogui.hotkey('ctrl', 't')
+
+                # Aguardar até que a segunda guia seja aberta
+                WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
+
+                # Colocar o link na segunda guia, se fornecido
+                if link_guia:
+                    navegador.switch_to.window(navegador.window_handles[1])
+                    colocar_url(link_guia)
+
+            # Se já existirem duas guias abertas
+            elif len(navegador.window_handles) == 2:
+                navegador.switch_to.window(navegador.window_handles[0])
+                # Aguardar até que a primeira guia esteja ativa
+                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(2))
+                url_atual = pega_url()
+                print('\nUrl guia 1: ', url_atual, '\n')
+
+                # Se a URL da primeira guia não for a esperada, alterar
+                if not (url_sair in url_atual):
+                    colocar_url(url_sair)
+
+                # Gerenciar a segunda guia
+                if link_guia:
+                    navegador.switch_to.window(navegador.window_handles[1])
+                    colocar_url(link_guia)
+
+
+            # Se houver mais de duas guias abertas
+            elif len(navegador.window_handles) > 2:
+                # Fechar todas as guias extras, mantendo apenas as duas primeiras
+                for guia in navegador.window_handles[2:]:
+                    navegador.switch_to.window(guia)
+                    navegador.close()
+
+                # Alternar para a primeira guia
+                navegador.switch_to.window(navegador.window_handles[0])
+                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(2))
+                url_atual = pega_url()
+                print('\nUrl guia 1: ', url_atual, '\n')
+
+                # Se a URL da primeira guia não for a esperada, alterar
+                if not (url_sair in url_atual):
+                    colocar_url(url_sair)
+
+                # Gerenciar a segunda guia
+                if link_guia:
+                    navegador.switch_to.window(navegador.window_handles[1])
+                    colocar_url(link_guia)
+            return True
+
+        except Exception as e:
+            print(f"Erro ao iniciar o perfil: {e}")
+
+
 
 def sair_face():
-    global navegador, proxy_ativo
-    # Fechar a guia ativa
-    # desativar_proxy()
-    if navegador:
-        navegador.close()
-    navegador = cria_nevegador()
-    colocar_url(url_sair)
-    return
-
-
-    navegador.set_page_load_timeout(5)
 
     while True:
         print("\n   Sair do facebook    \n")
-        url_atual = pega_url()
-        if 'poker' in url_atual:
-            try:
-                # Localizar o elemento pelo texto e clicar nele
-                elemento = navegador.find_element(By.XPATH, "//*[contains(text(), 'Sair para o Facebook Gaming')]")
-                elemento.click()
-
-                # Se o clique for bem-sucedido
-                print("Elemento encontrado e clicado com sucesso. Sair para o Facebook Gaming")
-
-            except Exception as e:
-                # Captura qualquer outro tipo de erro
-                print(f"Ocorreu um erro: {e}")
 
         cookies = navegador.get_cookies()
         print(f"Cookies presentes\n\n: {cookies}\n\n")
@@ -1266,7 +1348,6 @@ def sair_face():
                         if len(cookies) == 0:
                             print("Todos os cookies foram deletados com sucesso.")
                             limpar_navegador()
-                            limpar_pasta_cookies(pasta_cookies)
                             break
                         else:
                             print(f"Alguns cookies ainda permanecem: {cookies}")

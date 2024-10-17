@@ -90,7 +90,7 @@ Firebase.sincronizar_cookies_com_firebase()
 
 # Seleniun.abrir_navegador(url)
 
-Seleniun.sair_face()
+# Seleniun.sair_face()
 
 # Semaphore para iniciar a tarefa independente
 iniciar_tarefa = threading.Semaphore(0)
@@ -161,6 +161,8 @@ def logar_carregar():
         testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
         incrementa_contagem_ip()
 
+
+
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
     iniciar_tarefa.release()
@@ -176,17 +178,21 @@ def logar_carregar():
         print("logar_carregar", link_url)
 
         # loga nomamente no jogo
+        Seleniun.iniciar_pefil(id, proxy, link_url)
         entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False, proxy)
     elif confg_funcao in ('Recolher_automatico', 'Recolher', 'T1',):
         # loga nomamente no jogo
+        Seleniun.iniciar_pefil(id, proxy)
         entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False, proxy)
     elif confg_funcao in ('Remover', 'Face'):
         url_remove_app = 'https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Fsettings%3Ftab%3Dapplications%26ref%3Dsettings'
         if confg_funcao == 'Face':
             print('\n Loga apenas o Fecebook \n')
+            Seleniun.iniciar_pefil(id, proxy)
             entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, True, proxy)
         elif confg_funcao == 'Remover':
             print('\n Inicia o remover poker Brasil \n')
+            Seleniun.iniciar_pefil(id, proxy)
             entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, False, proxy)
             if stataus_facebook == 'Remover Poker não ok':
                 while True:
@@ -864,6 +870,7 @@ while True:
     hora_fim_tarefa = False
 
     # ################################################################################################################################################
+
     if logar_carregar():
 
         if confg_funcao == 'roleta_auto':
@@ -949,7 +956,7 @@ while True:
     valores = [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
 
-    Seleniun.sair_face()
+    # Seleniun.sair_face()
 
     if not entrou_corretamente:  # se nao entrou no face
         decrementa_contagem_ip()
