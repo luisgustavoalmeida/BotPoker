@@ -1126,6 +1126,10 @@ def sair_face():
 
         try:
             navegador.switch_to.window(navegador.window_handles[0])
+            try:
+                navegador.execute_script(script)
+            except Exception as e:
+                print(f"Erro ao limpar script: {e}")
 
             limpar_navegador()
             abrir_fechar_guia()
