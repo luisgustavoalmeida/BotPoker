@@ -1219,6 +1219,14 @@ def limpar_navegador():
 
 def sair_face():
     global navegador, proxy_ativo
+    # Fechar a guia ativa
+    desativar_proxy()
+    navegador.close()
+    navegador = cria_nevegador()
+    colocar_url(url_sair)
+    return
+
+
     navegador.set_page_load_timeout(5)
 
     while True:
