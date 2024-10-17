@@ -1045,7 +1045,7 @@ def abrir_fechar_guia():
 
                     if len(navegador.window_handles) == 2:
                         print('Duas guias abertas')
-
+                        time.sleep(1)
                         navegador.switch_to.window(navegador.window_handles[0])
                         # Feche a primeira guia
                         navegador.close()
@@ -1055,7 +1055,7 @@ def abrir_fechar_guia():
 
                         if len(navegador.window_handles) == 1:
                             print('Uma guia aberta')
-
+                            time.sleep(1)
                             # Mude para a guia restante
                             navegador.switch_to.window(navegador.window_handles[0])
 
@@ -1172,6 +1172,7 @@ def sair_face():
                 navegador.switch_to.window(navegador.window_handles[0])
 
                 try:
+
                     navegador.execute_script(script)
 
                     limpar_navegador()
@@ -1179,7 +1180,14 @@ def sair_face():
                     url_atual = pega_url()
                     print('\n\nUrl SAIR , CORRETO', url_atual, '\n\n')
                     if url_sair in url_atual:
-                        break
+                        cookies = navegador.get_cookies()
+                        if len(cookies) == 0:
+                            print("Todos os cookies foram deletados com sucesso.")
+                            limpar_navegador()
+                            break
+                        else:
+                            print(f"Alguns cookies ainda permanecem: {cookies}")
+
                 except Exception as e:
                     print(f"Erro ao limpar script: {e}")
 
@@ -1193,12 +1201,17 @@ def sair_face():
             url_atual = pega_url()
             print('urla apos sair do facebook', url_atual)
             if url_sair in url_atual:
-                WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-                print('Pagina pronta, conta NÃO logada')
-                if proxy_ativo:
-                    desativar_proxy()
-                navegador.set_page_load_timeout(50)
-                return
+                cookies = navegador.get_cookies()
+                if len(cookies) == 0:
+                    print("Todos os cookies foram deletados com sucesso.")
+                    WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+                    print('Pagina pronta, conta NÃO logada')
+                    if proxy_ativo:
+                        desativar_proxy()
+                    navegador.set_page_load_timeout(50)
+                    return
+                else:
+                    print(f"Alguns cookies ainda permanecem: {cookies}")
 
         except Exception as e:
             print("Erro ao sair...", e)
