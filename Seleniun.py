@@ -1167,15 +1167,18 @@ def sair_face():
 
                 try:
                     navegador.execute_script(script)
+
+                    limpar_navegador()
+
+                    url_atual = pega_url()
+                    print('\n\nUrl SAIR , CORRETO', url_atual, '\n\n')
+                    if url_sair in url_atual:
+                        break
                 except Exception as e:
                     print(f"Erro ao limpar script: {e}")
 
                 limpar_navegador()
 
-                url_atual = pega_url()
-                print('\n\nUrl SAIR , CORRETO', url_atual,'\n\n')
-                if url_sair in url_atual:
-                    break
 
             abrir_fechar_guia()
             limpar_navegador()
