@@ -774,15 +774,12 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                     status = 'Não carregou'
                     return entrou, status
 
-
                 mudar_proxy_dinamico(proxy)
 
                 print('Coloca url do jogo', url)
                 colocar_url(url)
 
-
-
-                time.sleep(150)
+                time.sleep(2)
                 url_atual = pega_url()
                 print('url testa logado ', url_atual)
                 for i in range(20):
