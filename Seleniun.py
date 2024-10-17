@@ -56,12 +56,12 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
-            options.add_argument("--disable-extensions")  # Desativa extensões
+            # options.add_argument("--disable-extensions")  # Desativa extensões
             # options.add_argument("--disable-cache")  # Desativa o cache
             # options.add_argument("--incognito")  # Usa o modo de navegação anônima
-            options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de salvamento de senhas
-            options.add_argument("--disable-password-generation")  # Desativa a geração automática de senhas
-            options.add_argument("--disable-autofill")  # Desativa o preenchimento automático
+            # options.add_argument("--disable-save-password-bubble")  # Desativa a caixa de salvamento de senhas
+            # options.add_argument("--disable-password-generation")  # Desativa a geração automática de senhas
+            # options.add_argument("--disable-autofill")  # Desativa o preenchimento automático
             options.add_argument("--disable-webrtc")  # Desabilitar WebRTC (Prevenção de Vazamento de IP)
             options.add_argument("--no-sandbox")  # Desativa o sandboxing
             # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
@@ -71,10 +71,8 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
             options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument('--disable-web-security')  ##
-            # options.add_argument("--disable-webgl")  #  armazenar informações gráficas temporárias
-            # options.add_argument("--disable-plugins")   # Desativar Plugins e Mídia Automática##
             options.add_argument(f"--user-data-dir={perfil}")  # Diretório de cookies
-            # options.add_argument("--restore-last-session")  # Restaura as guias da sessão anterior ao iniciar o navegador
+            options.add_argument("--restore-last-session")  # Restaura as guias da sessão anterior ao iniciar o navegador
 
             # Definir as opções de proxy, se fornecidas
             if proxy:
@@ -124,6 +122,46 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             fechar_janelas_chrome()
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
+
+
+
+
+def configurar_perfil_para_restaurar_sessao(id_conta):
+    # Caminho para o perfil do usuário no Chrome
+    pasta_cookies = r'C:\Cookie'
+    perfil = os.path.join(pasta_cookies, str(id_conta))
+
+    # Caminho do arquivo Preferences dentro do perfil
+    preferences_file = os.path.join(perfil, 'Default', 'Preferences')
+
+    # Caminho do arquivo Preferences dentro do perfil
+    preferences_file = os.path.join(perfil, 'Default', 'Preferences')
+
+    # Verifica se o arquivo Preferences existe
+    if not os.path.exists(preferences_file):
+        print(f"O arquivo Preferences não foi encontrado no caminho {preferences_file}")
+        return
+
+    # Ler o arquivo Preferences
+    with open(preferences_file, 'r', encoding='utf-8') as file:
+        try:
+            preferences_content = json.load(file)
+        except json.JSONDecodeError:
+            print("Erro ao carregar o arquivo Preferences. O arquivo pode estar corrompido.")
+            return
+
+    # Modificar o valor da chave "restore_on_startup"
+    if "session" not in preferences_content:
+        preferences_content["session"] = {}
+
+    preferences_content["session"]["restore_on_startup"] = 1  # 1 para "Continuar de onde você parou"
+
+    # Salvar as modificações no arquivo Preferences
+    with open(preferences_file, 'w', encoding='utf-8') as file:
+        json.dump(preferences_content, file, indent=4)
+
+    print(f"Configuração de 'Continuar de onde parou' habilitada no perfil {perfil}.")
+
 
 
 def remover_mensagem_atualizacao():
@@ -729,11 +767,12 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
         url_atual = pega_url()
         facebooke_carregado = False
 
+
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL facebook')
             if not se_esta_lagado():
                 try:
-                    navegador.switch_to.window(navegador.window_handles[0])
+                    colocar_url(url_sair)
                     conta_cookies_carregado = carregar_ou_logar_facebook(id, senha)
                     # time.sleep(1)
                     print('Testando se carregou')
@@ -801,18 +840,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
             try:    # mudar_proxy_dinamico(proxy)
 
-                # Verificar se apenas uma guia está aberta
-                if len(navegador.window_handles) == 1:
-
-                    # Criar e abrir a segunda guia
-                    pyautogui.hotkey('ctrl', 't')
-
-                    # Aguardar até que a segunda guia seja aberta
-                    WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
-
-
-                navegador.switch_to.window(navegador.window_handles[-1])
-
                 url_atual = pega_url()
                 if not('/poker' in url_atual):
                     print('Coloca url do jogo', url)
@@ -840,17 +867,17 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                             except NoSuchElementException:
                                 continue
 
-                        if verificar_janelas():
+                        # if verificar_janelas():
 
-                            if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
-                                    or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
-                                print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
-                                pyautogui.click(830, 466)
+                        if (pyautogui.pixelMatchesColor(830, 466, (27, 116, 228), tolerance=5)
+                                or pyautogui.pixelMatchesColor(830, 466, (26, 110, 216), tolerance=5)):
+                            print('Permitir que o Facebook use cookies e tecnologias semelhantes inseridos em outros apps e sites?')
+                            pyautogui.click(830, 466)
 
-                            if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
-                                    or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
-                                print('Você entrou anteriormente no poker brasil com o facebook')
-                                pyautogui.click(640, 688, )
+                        if (pyautogui.pixelMatchesColor(640, 688, (27, 116, 228), tolerance=5)
+                                or pyautogui.pixelMatchesColor(640, 688, (26, 110, 216), tolerance=5)):
+                            print('Você entrou anteriormente no poker brasil com o facebook')
+                            pyautogui.click(640, 688, )
 
                         print("A conta está certa.")
                         entrou = True
@@ -1189,12 +1216,12 @@ def limpar_navegador():
     except Exception as e:
         print(f"Erro ao limpar localStorage: {e}")
 
-    try:
-        # Limpar o sessionStorage
-        print("Limpando sessionStorage...")
-        navegador.execute_script("window.sessionStorage.clear();")
-    except Exception as e:
-        print(f"Erro ao limpar sessionStorage: {e}")
+    # try:
+    #     # Limpar o sessionStorage
+    #     print("Limpando sessionStorage...")
+    #     navegador.execute_script("window.sessionStorage.clear();")
+    # except Exception as e:
+    #     print(f"Erro ao limpar sessionStorage: {e}")
 
     try:
         # Deletar cookies manualmente com JavaScript
@@ -1243,79 +1270,47 @@ def limpar_navegador():
     print("Limpeza do navegador concluída.\n\n")
 
 def iniciar_pefil(id_conta, proxy, link_guia=None):
+    print('iniciar_pefil', link_guia)
     global navegador, proxy_ativo
     while True:
         try:
             # Fechar o navegador existente, se necessário
             if navegador:
+                configurar_perfil_para_restaurar_sessao(id_conta)
                 navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
 
             # Iniciar o navegador com o perfil e proxy fornecidos
-            navegador = cria_nevegador(id_conta, proxy, url_sair)
+            navegador = cria_nevegador(id_conta, proxy, link_guia)
+
+
+            if len(navegador.window_handles) > 1:
+                # Mantenha a primeira guia
+                primeira_guia = navegador.window_handles[0]
+
+                # Feche todas as outras guias
+                for handle in navegador.window_handles[1:]:
+                    navegador.switch_to.window(handle)
+                    navegador.close()
+
+                # Volte para a primeira guia
+                navegador.switch_to.window(primeira_guia)
+                print(f"Agora apenas a guia {primeira_guia} está aberta.")
 
             # Verificar se apenas uma guia está aberta
             if len(navegador.window_handles) == 1:
-                navegador.switch_to.window(navegador.window_handles[0])
-                # Aguardar até que a primeira guia esteja ativa
-                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(1))
+                primeira_guia = navegador.window_handles[0]
+                navegador.switch_to.window(primeira_guia)
                 url_atual = pega_url()
                 print('\nUrl guia 1: ', url_atual, '\n')
-
                 # Se a URL da primeira guia não for a esperada, alterar
-                if not (url_sair in url_atual):
+                print('Testa url guia 1')
+                if ('facebook.com' in url_atual) or ('/poke' in url_atual):
+                    return True
+
+                else:
+                    print('url correto para guia 1')
+                    print('Corrigie guia 1')
                     colocar_url(url_sair)
-
-                # Criar e abrir a segunda guia
-                pyautogui.hotkey('ctrl', 't')
-
-                # Aguardar até que a segunda guia seja aberta
-                WebDriverWait(navegador, 10).until(lambda x: len(x.window_handles) >= 2)
-
-                # Colocar o link na segunda guia, se fornecido
-                if link_guia:
-                    navegador.switch_to.window(navegador.window_handles[1])
-                    colocar_url(link_guia)
-
-            # Se já existirem duas guias abertas
-            elif len(navegador.window_handles) == 2:
-                navegador.switch_to.window(navegador.window_handles[0])
-                # Aguardar até que a primeira guia esteja ativa
-                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(2))
-                url_atual = pega_url()
-                print('\nUrl guia 1: ', url_atual, '\n')
-
-                # Se a URL da primeira guia não for a esperada, alterar
-                if not (url_sair in url_atual):
-                    colocar_url(url_sair)
-
-                # Gerenciar a segunda guia
-                if link_guia:
-                    navegador.switch_to.window(navegador.window_handles[1])
-                    colocar_url(link_guia)
-
-
-            # Se houver mais de duas guias abertas
-            elif len(navegador.window_handles) > 2:
-                # Fechar todas as guias extras, mantendo apenas as duas primeiras
-                for guia in navegador.window_handles[2:]:
-                    navegador.switch_to.window(guia)
-                    navegador.close()
-
-                # Alternar para a primeira guia
-                navegador.switch_to.window(navegador.window_handles[0])
-                WebDriverWait(navegador, 15).until(EC.number_of_windows_to_be(2))
-                url_atual = pega_url()
-                print('\nUrl guia 1: ', url_atual, '\n')
-
-                # Se a URL da primeira guia não for a esperada, alterar
-                if not (url_sair in url_atual):
-                    colocar_url(url_sair)
-
-                # Gerenciar a segunda guia
-                if link_guia:
-                    navegador.switch_to.window(navegador.window_handles[1])
-                    colocar_url(link_guia)
-            return True
 
         except Exception as e:
             print(f"Erro ao iniciar o perfil: {e}")
@@ -1327,55 +1322,28 @@ def sair_face():
     while True:
         print("\n   Sair do facebook    \n")
 
-        cookies = navegador.get_cookies()
-        print(f"Cookies presentes\n\n: {cookies}\n\n")
-        limpar_navegador()
-
         try:
-            while True:
-                navegador.switch_to.window(navegador.window_handles[0])
 
-                try:
+            colocar_url(url_sair)
 
-                    navegador.execute_script(script)
+            navegador.execute_script(script)
 
-                    limpar_navegador()
-
-                    url_atual = pega_url()
-                    print('\n\nUrl SAIR , CORRETO', url_atual, '\n\n')
-                    if url_sair in url_atual:
-                        cookies = navegador.get_cookies()
-                        if len(cookies) == 0:
-                            print("Todos os cookies foram deletados com sucesso.")
-                            limpar_navegador()
-                            break
-                        else:
-                            print(f"Alguns cookies ainda permanecem: {cookies}")
-
-                except Exception as e:
-                    print(f"Erro ao limpar script: {e}")
-
-                limpar_navegador()
+            limpar_navegador()
 
 
             abrir_fechar_guia()
-            limpar_navegador()
+
             print("nova guia ok")
 
             url_atual = pega_url()
             print('urla apos sair do facebook', url_atual)
             if url_sair in url_atual:
-                cookies = navegador.get_cookies()
-                if len(cookies) == 0:
-                    print("Todos os cookies foram deletados com sucesso.")
-                    WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-                    print('Pagina pronta, conta NÃO logada')
-                    if proxy_ativo:
-                        desativar_proxy()
-                    navegador.set_page_load_timeout(50)
-                    return
-                else:
-                    print(f"Alguns cookies ainda permanecem: {cookies}")
+
+                WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+                print('Pagina pronta, conta NÃO logada')
+                navegador.set_page_load_timeout(50)
+                return
+
 
         except Exception as e:
             print("Erro ao sair...", e)
