@@ -49,7 +49,7 @@ def cria_nevegador():
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
             options.add_argument("--referer=https://www.facebook.com/")
-            # options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)
+            # options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             options.add_argument("--disable-extensions")  # Desativa extensões
@@ -66,9 +66,9 @@ def cria_nevegador():
             options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
             options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
             options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
-            # options.add_argument('--disable-web-security')  #
+            # options.add_argument('--disable-web-security')  ##
             # options.add_argument("--disable-webgl")  #  armazenar informações gráficas temporárias
-            # options.add_argument("--disable-plugins")   # Desativar Plugins e Mídia Automática
+            # options.add_argument("--disable-plugins")   # Desativar Plugins e Mídia Automática##
             options.add_argument(f"--user-data-dir={pasta_cookies}")  # Diretório de cookies
             seleniumwire_options = {
                 'disable_capture': True,  # Desativa a interceptação de requisições
@@ -960,12 +960,12 @@ def parar_carregamento():
     except Exception as e:
         print(f"Erro ao tentar parar o carregamento: {e}")
 
-def abrir_fechar_guia(max_tentativas=5):
+def abrir_fechar_guia():
     global navegador
     print("abrir_fechar_guia")
     tentativas = 0
 
-    while tentativas < max_tentativas:
+    while True:
         try:
             # Verifique se há mais de uma guia aberta
             if len(navegador.window_handles) > 1:
@@ -992,12 +992,14 @@ def abrir_fechar_guia(max_tentativas=5):
 
                 if len(navegador.window_handles) == 2:
                     print('Duas guias abertas')
+                    time.sleep(1)
 
                     # Mude para a primeira guia, se ainda existir
                     if len(navegador.window_handles) > 0:
                         navegador.switch_to.window(navegador.window_handles[0])
                         # Feche a primeira guia
                         navegador.close()
+                        time.sleep(1)
 
                         # Aguarde até que haja apenas uma guia aberta
                         WebDriverWait(navegador, 5).until(lambda x: len(x.window_handles) == 1)
