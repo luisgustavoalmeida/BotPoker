@@ -28,6 +28,7 @@ import Telegran
 import Tratar_url
 # from Firebase import ler_configuracao
 from UparAuto import upar
+from add_ip_proxy import criar_autorizacao_ip
 
 from Requerimentos import nome_computador, nome_usuario, tipo_conexao
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
@@ -83,6 +84,8 @@ ip_fim = ''
 linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
+
+criar_autorizacao_ip()
 
 Firebase.sincronizar_cookies_com_firebase()
 

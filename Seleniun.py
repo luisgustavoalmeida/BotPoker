@@ -80,9 +80,11 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                 print(proxy_ip, proxy_port, username, password)
                 seleniumwire_options = {
                     'proxy': {
-                        'http': f'http://{proxy_ip}:{proxy_port}',
-                        'https': f'https://{proxy_ip}:{proxy_port}',
-                        'proxy_auth': f'{username}:{password}'  # Autenticação do proxy
+                        # 'http': f'http://{proxy_ip}:{proxy_port}',
+                        # 'https': f'https://{proxy_ip}:{proxy_port}',
+                        'http': f'http://{username}:{password}@{proxy_ip}:{proxy_port}',
+                        'https': f'https://{username}:{password}@{proxy_ip}:{proxy_port}',
+                        'no_proxy': 'localhost,127.0.0.1,remotedesktop.google.com,www.google.com,www.facebook.com'  # Ignorar o proxy para estas URLs
                     },
                     'disable_capture': True,  # Desativa a interceptação de requisições
                     'suppress_connection_errors': True,  # Suprime os erros de conexão
