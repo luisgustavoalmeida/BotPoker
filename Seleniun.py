@@ -27,13 +27,12 @@ url = None
 id = ''
 senha = ''
 
-print('Nome completo',nome_completo)
+print('Nome completo', nome_completo)
 # url_sair = 'https://www.facebook.com/'
 # url_sair = 'https://pt-br.facebook.com/'
 url_sair = 'https://pt-br.facebook.com/login/'
 
 script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDomain() { var cookies = document.cookie.split("; "); for (var c = 0; c < cookies.length; c++) { var d = window.location.hostname.split("."); while (d.length > 0) { var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path='; var p = location.pathname.split('/'); document.cookie = cookieBase + '/'; while (p.length > 0) { document.cookie = cookieBase + p.join('/'); p.pop(); }; d.shift(); } } } deleteAllCookiesFromCurrentDomain(); location.href = '""" + url_sair + """'; })();"""
-
 
 
 def get_random_user_agent():
@@ -53,7 +52,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             options.add_argument("--accept-language=pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
             options.add_argument("--accept-encoding=gzip, deflate, br")
             options.add_argument("--referer=https://www.facebook.com/")
-            options.add_argument("--connection=keep-alive") # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
+            options.add_argument("--connection=keep-alive")  # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
             # options.add_argument("--disable-extensions")  # Desativa extensões
@@ -67,7 +66,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             # options.add_argument("--disable-dev-shm-usage")  # Desativa o uso do compartilhamento de memória
             options.add_argument("--disable-geolocation")  # Desativa a geolocalização
             options.add_argument("--mute-audio")  # Desativa o áudio
-            options.add_argument("--ignore-certificate-errors")   # Ignorar erros de certificados no Chrome
+            options.add_argument("--ignore-certificate-errors")  # Ignorar erros de certificados no Chrome
             options.add_argument('--allow-insecure-localhost')  # Permitir certificados inválidos para localhost
             options.add_argument('--allow-running-insecure-content')  # Permitir conteúdo inseguro
             # options.add_argument('--disable-web-security')  ##
@@ -84,7 +83,31 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                         # 'https': f'https://{proxy_ip}:{proxy_port}',
                         'http': f'http://{username}:{password}@{proxy_ip}:{proxy_port}',
                         'https': f'https://{username}:{password}@{proxy_ip}:{proxy_port}',
-                        'no_proxy': 'localhost,127.0.0.1,remotedesktop.google.com,www.google.com,www.facebook.com'  # Ignorar o proxy para estas URLs
+                        'no_proxy': (
+                            'localhost,127.0.0.1,'
+                            'remotedesktop.google.com,'
+                            'www.google.com,'
+                            'google.com,'
+                            'ogads-pa.googleapis.com,'
+                            'apis.google.com,'
+                            'update.googleapis.com,'
+                            'www.facebook.com,'
+                            'facebook.com,'
+                            'gateway.facebook.com,'
+                            'graph.facebook.com,'
+                            'optimizationguide-pa.googleapis.com,'
+                            'pt-br.facebook.com,'
+                            'play.google.com,'
+                            'edge-chat.facebook.com,'
+                            'accounts.google.com,'
+                            'www.googleadservices.com,'
+                            'www.gstatic.com,'
+                            'connect.facebook.net,'
+                            'www.fbsbx.com,'
+                            'static.xx.fbcdn.net,'
+                            'scontent.xx.fbcdn.net,'
+                            'web-chat-e2ee.facebook.com'
+                        )  # Ignorar o proxy para estas URLs
                     },
                     'disable_capture': True,  # Desativa a interceptação de requisições
                     'suppress_connection_errors': True,  # Suprime os erros de conexão
@@ -97,13 +120,11 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                     'verify_ssl': False  # Desativa a verificação de SSL
                 }
 
-
             print('Criando o navegador')
 
             # Inicializa o driver do navegador com selenium-wire
             # navegador = webdriver.Chrome(options=options)
             navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
-
 
             navegador.set_page_load_timeout(50)
             navegador.set_window_size(1380, 1060)
@@ -124,8 +145,6 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             fechar_janelas_chrome()
             print('Iniciando nova tentativa para criar o navegador')
             time.sleep(3)
-
-
 
 
 def configurar_perfil_para_restaurar_sessao(id_conta):
@@ -163,7 +182,6 @@ def configurar_perfil_para_restaurar_sessao(id_conta):
         json.dump(preferences_content, file, indent=4)
 
     print(f"Configuração de 'Continuar de onde parou' habilitada no perfil {perfil}.")
-
 
 
 def remover_mensagem_atualizacao():
@@ -318,6 +336,7 @@ def colocar_url(url_colocar):
             atualizar_navegador()
         # IP.tem_internet()
 
+
 def colocar_url_link(url_colocar):
     global navegador
     tentativa = 0
@@ -383,7 +402,7 @@ def teste_face_ok(url_atual):
             try:
                 elemento = navegador.find_element(By.XPATH, f"//span[contains(text(), '{item}')]")
                 if nome_completo == 'PC-R5-7600_PokerIP':
-                    print(id,senha)
+                    print(id, senha)
                     while True:
                         entrada = input("Pressione '1' para continuar: ")
                         if entrada == '1':
@@ -747,7 +766,7 @@ def desativar_proxy():
 
 
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False, proxy=None):
-    print('fazer_login',proxy)
+    print('fazer_login', proxy)
     global navegador, url, id, senha, proxy_ativo
 
     if url != url_novo and url_novo != '':
@@ -768,7 +787,6 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
 
         url_atual = pega_url()
         facebooke_carregado = False
-
 
         if ("pt-br.facebook.com" in url_atual) or (("facebook.com" in url_atual) and loga_pk) or (not loga_pk and ("facebook.com" in url_atual)):
             print('Padrao de URL facebook')
@@ -840,10 +858,10 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 except Exception as e:
                     print('Erro ao logar no face:', e)
 
-            try:    # mudar_proxy_dinamico(proxy)
+            try:  # mudar_proxy_dinamico(proxy)
 
                 url_atual = pega_url()
-                if not('/poker' in url_atual):
+                if not ('/poker' in url_atual):
                     print('Coloca url do jogo', url)
                     colocar_url(url)
 
@@ -1070,7 +1088,6 @@ def parar_carregamento():
         print(f"Erro ao tentar parar o carregamento: {e}")
 
 
-
 def apagar_arquivos_individualmente(pasta_cookies):
     try:
         if os.path.exists(pasta_cookies):
@@ -1102,6 +1119,7 @@ def apagar_arquivos_individualmente(pasta_cookies):
     except Exception as e:
         print(f"Ocorreu um erro ao apagar a pasta {pasta_cookies}: {e}")
 
+
 def limpar_pasta_cookies(pasta_cookies):
     try:
         # Apagar os arquivos e subpastas individualmente, ignorando erros
@@ -1121,6 +1139,7 @@ def limpar_pasta_cookies(pasta_cookies):
         print(f"Pasta {pasta_cookies} recriada.")
     except Exception as e:
         print(f"Ocorreu um erro ao limpar a pasta {pasta_cookies}: {e}")
+
 
 def abrir_fechar_guia():
     global navegador
@@ -1190,6 +1209,7 @@ def abrir_fechar_guia():
     print(f"Atenção: Todas as {max_tentativas} tentativas falharam. Encerrando.")
     return
 
+
 def limpar_navegador():
     try:
         # Deletar todos os cookies
@@ -1197,7 +1217,6 @@ def limpar_navegador():
         navegador.delete_all_cookies()
     except Exception as e:
         print(f"Erro ao deletar cookies: {e}")
-
 
     try:
         # Limpar cookies, cache, autenticação e histórico via DevTools
@@ -1209,7 +1228,6 @@ def limpar_navegador():
         print("Dados de cache, cookies e histórico limpos via DevTools.")
     except Exception as e:
         print(f"Erro ao limpar dados via DevTools: {e}")
-
 
     try:
         # Limpar o localStorage
@@ -1267,9 +1285,8 @@ def limpar_navegador():
     # except Exception as e:
     #     print(f"Erro ao limpar script: {e}")
 
-
-
     print("Limpeza do navegador concluída.\n\n")
+
 
 def iniciar_pefil(id_conta, proxy, link_guia=None):
     print('iniciar_pefil', link_guia)
@@ -1283,7 +1300,6 @@ def iniciar_pefil(id_conta, proxy, link_guia=None):
 
             # Iniciar o navegador com o perfil e proxy fornecidos
             navegador = cria_nevegador(id_conta, proxy, link_guia)
-
 
             if len(navegador.window_handles) > 1:
                 # Mantenha a primeira guia
@@ -1318,9 +1334,7 @@ def iniciar_pefil(id_conta, proxy, link_guia=None):
             print(f"Erro ao iniciar o perfil: {e}")
 
 
-
 def sair_face():
-
     while True:
         print("\n   Sair do facebook    \n")
 
@@ -1332,7 +1346,6 @@ def sair_face():
 
             limpar_navegador()
 
-
             abrir_fechar_guia()
 
             print("nova guia ok")
@@ -1340,7 +1353,6 @@ def sair_face():
             url_atual = pega_url()
             print('urla apos sair do facebook', url_atual)
             if url_sair in url_atual:
-
                 WebDriverWait(navegador, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
                 print('Pagina pronta, conta NÃO logada')
                 navegador.set_page_load_timeout(50)
@@ -1363,9 +1375,6 @@ def sair_face():
             except Exception as e:
                 print("Elemento não encontrado na página.", e)
                 atualizar_navegador()
-
-
-
 
 
 def busca_link():
@@ -1527,7 +1536,6 @@ def link_segunda_guia():
     else:
         print("link fanpag fora do padrão")
     return False, "link fanpag fora do padrão"
-
 
 ######################################################################################################################
 # # # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
