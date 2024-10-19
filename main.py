@@ -29,6 +29,7 @@ import Tratar_url
 # from Firebase import ler_configuracao
 from UparAuto import upar
 from add_ip_proxy import criar_autorizacao_ip
+from apagar_dados_navegador import limpar_todos_perfis
 
 from Requerimentos import nome_computador, nome_usuario, tipo_conexao
 from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
@@ -85,21 +86,16 @@ linha_fim = ''
 linha_novo_fim = ''
 valores_fim = ['']
 
+limpar_todos_perfis()
+
 criar_autorizacao_ip()
 
 Firebase.sincronizar_cookies_com_firebase()
-
-# navegador = Seleniun.cria_nevegador()
-
-# Seleniun.abrir_navegador(url)
-
-# Seleniun.sair_face()
 
 # Semaphore para iniciar a tarefa independente
 iniciar_tarefa = threading.Semaphore(0)
 # Semaphore para a tarefa independente indicar que terminou e aguardar novo comando
 tarefa_concluida = threading.Semaphore(0)
-
 
 # Função que será executada na tarefa independente
 def tarefa_independente():
@@ -163,8 +159,6 @@ def logar_carregar():
     else:
         testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
         incrementa_contagem_ip()
-
-
 
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
@@ -960,6 +954,7 @@ while True:
     print('Valores [valor_fichas, pontuacao_tarefas, hora_que_rodou, ip, level_conta]: ', valores)
 
     # Seleniun.sair_face()
+    Seleniun.fechar_navegador(id)
 
     if not entrou_corretamente:  # se nao entrou no face
         decrementa_contagem_ip()

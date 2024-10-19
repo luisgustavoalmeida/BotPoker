@@ -36,7 +36,7 @@ script = """javascript:void(function(){ function deleteAllCookiesFromCurrentDoma
 
 
 def get_random_user_agent():
-    return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.84 Safari/537.36"
+    return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.6668.101 Safari/537.36"
 
 
 def cria_nevegador(id_conta, proxy, url_inicial=None):
@@ -55,6 +55,8 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             options.add_argument("--connection=keep-alive")  # usada para manter as conexões HTTP abertas entre o cliente (navegador)##
             options.add_argument("--disable-blink-features=AutomationControlled")  # Desativa a detecção de automação
             options.add_argument("--disable-notifications")  # Desativa as notificações
+            options.add_argument("--disk-cache-size=0")
+            options.add_argument("--media-cache-size=0")
             # options.add_argument("--disable-extensions")  # Desativa extensões
             # options.add_argument("--disable-cache")  # Desativa o cache
             # options.add_argument("--incognito")  # Usa o modo de navegação anônima
@@ -103,10 +105,11 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                             'www.googleadservices.com,'
                             'www.gstatic.com,'
                             'connect.facebook.net,'
+                            'content-autofill.googleapis.com,'
                             'www.fbsbx.com,'
                             'static.xx.fbcdn.net,'
                             'scontent.xx.fbcdn.net,'
-                            'web-chat-e2ee.facebook.com'
+                            'web-chat-e2ee.facebook.com,'
                         )  # Ignorar o proxy para estas URLs
                     },
                     'disable_capture': True,  # Desativa a interceptação de requisições
@@ -121,23 +124,20 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                 }
 
             print('Criando o navegador')
-
-            # Inicializa o driver do navegador com selenium-wire
-            # navegador = webdriver.Chrome(options=options)
             navegador = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options)
 
             navegador.set_page_load_timeout(50)
             navegador.set_window_size(1380, 1060)
             navegador.set_window_position(-8, -5)
 
-            print('Navegador criado com sucesso')
-            pyautogui.click(1338, 108)
+            pyautogui.click(1338, 108)  # clique para fechar barra que indica automação
 
             # Se uma URL inicial for fornecida, abra-a automaticamente
             if url_inicial:
                 navegador.get(url_inicial)
                 print(f"Navegador iniciado e carregou a URL: {url_inicial}")
 
+            print('Navegador criado com sucesso')
             return navegador
         except Exception as e:
             print("Erro ao criar o navegador:", e)
@@ -147,13 +147,11 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             time.sleep(3)
 
 
-def configurar_perfil_para_restaurar_sessao(id_conta):
+def configurar_perfil_para_restaurar_sessao(id_conta=''):
+    if id_conta == '':
+        return
     # Caminho para o perfil do usuário no Chrome
-    pasta_cookies = r'C:\Cookie'
     perfil = os.path.join(pasta_cookies, str(id_conta))
-
-    # Caminho do arquivo Preferences dentro do perfil
-    preferences_file = os.path.join(perfil, 'Default', 'Preferences')
 
     # Caminho do arquivo Preferences dentro do perfil
     preferences_file = os.path.join(perfil, 'Default', 'Preferences')
@@ -1288,47 +1286,103 @@ def limpar_navegador():
     print("Limpeza do navegador concluída.\n\n")
 
 
+def limpar_dados_desnecessarios(id_conta=''):
+    print('limpar_dados_desnecessarios')
+    if id_conta == '':
+        return
+
+    perfil_path = os.path.join(pasta_cookies, str(id_conta))
+    # Pastas principais para remover
+    pastas_para_remover = [
+        'GrShaderCache', 'ShaderCache', 'component_cnx_cache',
+        'Crashpad', 'BrowserMetrics', 'CrashpadMetrics-active',
+        'MediaFoundationWidevineCdm', 'OnDeviceHeadSuggestModel',
+        'Subresource Filter', 'ThirdPartyModuleList64', 'OptimizationHints',
+        'Crowd Deny', 'FileTypePolicies', 'FirstPartySetsPreloaded',
+        'GraphiteDawnCache', 'hyphen-data', 'optimization_guide_model_store',
+        'component_crx_cache',
+    ]
+    """ pasta que não podem ser apagadas
+    Network
+    """
+    # Pastas internas da pasta Default que podem ser removidas
+    pastas_default_para_remover = [
+        'Cache', 'Code Cache', 'GPUCache', 'DawnWebGPUCache',
+        'ShaderCache', 'DawnGraphiteCache', 'Download Service',
+        'Feature Engagement Tracker', 'Safe Browsing Network',
+        'Extension Rules', 'Extension State', 'Extension Scripts',
+        'File System', 'blob_storage', 'WebStorage'
+    ]
+
+    # Remover pastas principais
+    for pasta in pastas_para_remover:
+        caminho_completo = os.path.join(perfil_path, pasta)
+        if os.path.exists(caminho_completo):
+            try:
+                shutil.rmtree(caminho_completo)
+                print(f"Pasta '{pasta}' removida.")
+            except Exception as e:
+                print(f"Erro ao remover '{pasta}': {e}")
+
+    # Remover pastas dentro de 'Default'
+    default_path = os.path.join(perfil_path, 'Default')
+    for pasta in pastas_default_para_remover:
+        caminho_completo = os.path.join(default_path, pasta)
+        if os.path.exists(caminho_completo):
+            try:
+                shutil.rmtree(caminho_completo)
+                print(f"Pasta '{pasta}' dentro de 'Default' removida.")
+            except Exception as e:
+                print(f"Erro ao remover '{pasta}' dentro de 'Default': {e}")
+
+
 def iniciar_pefil(id_conta, proxy, link_guia=None):
     print('iniciar_pefil', link_guia)
     global navegador, proxy_ativo
+
     while True:
+
         try:
             # Fechar o navegador existente, se necessário
             if navegador:
+
                 configurar_perfil_para_restaurar_sessao(id_conta)
                 navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
+                limpar_dados_desnecessarios(id_conta)
+                navegador = None
+            else:
+                # Iniciar o navegador com o perfil e proxy fornecidos
+                limpar_dados_desnecessarios(id_conta)
+                navegador = cria_nevegador(id_conta, proxy, link_guia)
 
-            # Iniciar o navegador com o perfil e proxy fornecidos
-            navegador = cria_nevegador(id_conta, proxy, link_guia)
+                if len(navegador.window_handles) > 1:
+                    # Mantenha a primeira guia
+                    primeira_guia = navegador.window_handles[0]
 
-            if len(navegador.window_handles) > 1:
-                # Mantenha a primeira guia
-                primeira_guia = navegador.window_handles[0]
+                    # Feche todas as outras guias
+                    for handle in navegador.window_handles[1:]:
+                        navegador.switch_to.window(handle)
+                        navegador.close()
 
-                # Feche todas as outras guias
-                for handle in navegador.window_handles[1:]:
-                    navegador.switch_to.window(handle)
-                    navegador.close()
+                    # Volte para a primeira guia
+                    navegador.switch_to.window(primeira_guia)
+                    print(f"Agora apenas a guia {primeira_guia} está aberta.")
 
-                # Volte para a primeira guia
-                navegador.switch_to.window(primeira_guia)
-                print(f"Agora apenas a guia {primeira_guia} está aberta.")
+                # Verificar se apenas uma guia está aberta
+                elif len(navegador.window_handles) == 1:
+                    primeira_guia = navegador.window_handles[0]
+                    navegador.switch_to.window(primeira_guia)
+                    url_atual = pega_url()
+                    print('\nUrl guia 1: ', url_atual, '\n')
+                    # Se a URL da primeira guia não for a esperada, alterar
+                    print('Testa url guia 1')
+                    if ('facebook.com' in url_atual) or ('/poke' in url_atual):
+                        return True
 
-            # Verificar se apenas uma guia está aberta
-            if len(navegador.window_handles) == 1:
-                primeira_guia = navegador.window_handles[0]
-                navegador.switch_to.window(primeira_guia)
-                url_atual = pega_url()
-                print('\nUrl guia 1: ', url_atual, '\n')
-                # Se a URL da primeira guia não for a esperada, alterar
-                print('Testa url guia 1')
-                if ('facebook.com' in url_atual) or ('/poke' in url_atual):
-                    return True
-
-                else:
-                    print('url correto para guia 1')
-                    print('Corrigie guia 1')
-                    colocar_url(url_sair)
+                    else:
+                        print('url correto para guia 1')
+                        print('Corrigie guia 1')
+                        colocar_url(url_sair)
 
         except Exception as e:
             print(f"Erro ao iniciar o perfil: {e}")
@@ -1537,6 +1591,19 @@ def link_segunda_guia():
         print("link fanpag fora do padrão")
     return False, "link fanpag fora do padrão"
 
+
+def fechar_navegador(id_conta=''):
+    print('fechar_navegador')
+    global navegador
+
+    if id_conta:
+        configurar_perfil_para_restaurar_sessao(id_conta)
+    if navegador:
+        navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
+        if id_conta:
+            limpar_dados_desnecessarios(id_conta)
+    return
+
 ######################################################################################################################
 # # # # para abrir o navegador e deixar abero. Descomentar as duas linhas abaixo
 # cria_nevegador()
@@ -1546,3 +1613,7 @@ def link_segunda_guia():
 # time.sleep(6000)
 # desativar_proxy()
 # time.sleep(120)
+
+
+# navegador = cria_nevegador('teste', '91.123.10.59:6601:sybzonhv:t096lck1sung', 'https://www.facebook.com/')
+# time.sleep(600)
