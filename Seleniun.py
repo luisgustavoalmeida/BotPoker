@@ -40,6 +40,7 @@ def get_random_user_agent():
 
 
 def cria_nevegador(id_conta, proxy, url_inicial=None):
+    print('cria_nevegador')
     global navegador  # Referenciar a variável global
     # Concatena o id ao caminho, convertendo o id para string
     perfil = os.path.join(pasta_cookies, str(id_conta))
@@ -74,6 +75,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             # options.add_argument('--disable-web-security')  ##
             options.add_argument(f"--user-data-dir={perfil}")  # Diretório de cookies
             options.add_argument("--restore-last-session")  # Restaura as guias da sessão anterior ao iniciar o navegador
+            options.add_argument("--log-level=3")
 
             # Definir as opções de proxy, se fornecidas
             if proxy:
@@ -120,7 +122,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                 seleniumwire_options = {
                     'disable_capture': True,  # Desativa a interceptação de requisições
                     'suppress_connection_errors': True,  # Suprime os erros de conexão
-                    'verify_ssl': False  # Desativa a verificação de SSL
+                    'verify_ssl': False,  # Desativa a verificação de SSL
                 }
 
             print('Criando o navegador')
@@ -1343,16 +1345,15 @@ def iniciar_pefil(id_conta, proxy, link_guia=None):
     while True:
 
         try:
+            # limpar_dados_desnecessarios(id_conta)
             # Fechar o navegador existente, se necessário
             if navegador:
 
                 configurar_perfil_para_restaurar_sessao(id_conta)
                 navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
-                limpar_dados_desnecessarios(id_conta)
                 navegador = None
             else:
                 # Iniciar o navegador com o perfil e proxy fornecidos
-                limpar_dados_desnecessarios(id_conta)
                 navegador = cria_nevegador(id_conta, proxy, link_guia)
 
                 if len(navegador.window_handles) > 1:

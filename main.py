@@ -101,6 +101,7 @@ tarefa_concluida = threading.Semaphore(0)
 def tarefa_independente():
     global continuar_tarefa, guia, id_novo, senha_novo, fichas_planilha_novo, linha_novo, level_novo, time_id
     global status_fim, guia_fim, linha_fim, hora_fim_tarefa_fim, linha_novo_fim, valores_fim, entrou_corretamente_fim, ip_fim
+    print(Fore.BLUE + "Executando tarefa independente... inicio" + Fore.RESET)
 
     while True:
         # Aguardar o comando para iniciar a execução
@@ -134,9 +135,18 @@ def tarefa_independente():
             tarefa_concluida.release()
 
 
-# Iniciar a execução da tarefa independente
-tarefa = threading.Thread(target=tarefa_independente)
-tarefa.start()
+# # Iniciar a execução da tarefa independente
+# tarefa = threading.Thread(target=tarefa_independente)
+# tarefa.start()
+
+# Função para iniciar a execução da tarefa independente em uma thread separada
+def iniciar_tarefa_em_thread():
+    thread = threading.Thread(target=tarefa_independente)
+    thread.daemon = True  # Permite que a thread termine quando o programa principal terminar
+    thread.start()
+
+
+iniciar_tarefa_em_thread()
 
 
 def logar_carregar():
@@ -144,6 +154,9 @@ def logar_carregar():
     global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker  # , confg_funcao, guia, url,
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
+
+
+
     proxy = None
     if tipo_conexao == 'proxy':
         print('Conexão tipo Proxy', id)
@@ -161,8 +174,8 @@ def logar_carregar():
         incrementa_contagem_ip()
 
     # Comando para iniciar a tarefa independente
-    continuar_tarefa = True
-    iniciar_tarefa.release()
+    # continuar_tarefa = True
+    # iniciar_tarefa.release()
 
     if confg_funcao in ('roleta_auto', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if guia in ('R1', 'R2', 'R3', 'R4', 'R5'):
@@ -867,6 +880,10 @@ while True:
     hora_fim_tarefa = False
 
     # ################################################################################################################################################
+
+    # Comando para iniciar a tarefa independente
+    continuar_tarefa = True
+    iniciar_tarefa.release()
 
     if logar_carregar():
 
