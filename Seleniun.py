@@ -111,7 +111,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                             'www.fbsbx.com,'
                             'static.xx.fbcdn.net,'
                             'scontent.xx.fbcdn.net,'
-                            'web-chat-e2ee.facebook.com,'
+                            'web-chat-e2ee.facebook.com'
                         )  # Ignorar o proxy para estas URLs
                     },
                     'disable_capture': True,  # Desativa a interceptação de requisições

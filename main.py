@@ -155,8 +155,6 @@ def logar_carregar():
 
     print(Fore.GREEN + f'Entando em uma nova conta...' + Fore.RESET)
 
-
-
     proxy = None
     if tipo_conexao == 'proxy':
         print('Conexão tipo Proxy', id)
