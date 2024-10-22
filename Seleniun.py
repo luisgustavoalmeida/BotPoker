@@ -765,8 +765,8 @@ def desativar_proxy():
     print("Proxy desativado.")
 
 
-def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False, proxy=None):
-    print('fazer_login', proxy)
+def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
+    print('fazer_login')
     global navegador, url, id, senha, proxy_ativo
 
     if url != url_novo and url_novo != '':
@@ -858,8 +858,7 @@ def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=
                 except Exception as e:
                     print('Erro ao logar no face:', e)
 
-            try:  # mudar_proxy_dinamico(proxy)
-
+            try:
                 url_atual = pega_url()
                 if not ('/poker' in url_atual):
                     print('Coloca url do jogo', url)

@@ -148,7 +148,6 @@ def iniciar_tarefa_em_thread():
 
 iniciar_tarefa_em_thread()
 
-
 def logar_carregar():
     print('logar_carregar')
     global entrou_corretamente, stataus_facebook, continuar_tarefa, x_origem, y_origem, status_poker  # , confg_funcao, guia, url,
@@ -171,9 +170,6 @@ def logar_carregar():
         testa_contagem_ip(LIMITE_IP, confg_funcao)  # testa se o numero de contas esta dentro do limite antes de trocar ip
         incrementa_contagem_ip()
 
-    # Comando para iniciar a tarefa independente
-    # continuar_tarefa = True
-    # iniciar_tarefa.release()
 
     if confg_funcao in ('roleta_auto', 'R1', 'R2', 'R3', 'R4', 'R5'):
         if guia in ('R1', 'R2', 'R3', 'R4', 'R5'):
@@ -187,21 +183,21 @@ def logar_carregar():
 
         # loga nomamente no jogo
         Seleniun.iniciar_pefil(id, proxy, link_url)
-        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False, proxy)
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, link_url, True, False,)
     elif confg_funcao in ('Recolher_automatico', 'Recolher', 'T1',):
         # loga nomamente no jogo
         Seleniun.iniciar_pefil(id, proxy)
-        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False, proxy)
+        entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url, True, False)
     elif confg_funcao in ('Remover', 'Face'):
         url_remove_app = 'https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Fsettings%3Ftab%3Dapplications%26ref%3Dsettings'
         if confg_funcao == 'Face':
             print('\n Loga apenas o Fecebook \n')
             Seleniun.iniciar_pefil(id, proxy)
-            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, True, proxy)
+            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, True)
         elif confg_funcao == 'Remover':
             print('\n Inicia o remover poker Brasil \n')
             Seleniun.iniciar_pefil(id, proxy)
-            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, False, proxy)
+            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, Falsey)
             if stataus_facebook == 'Remover Poker não ok':
                 while True:
                     print('Olhar manualmente')
@@ -878,7 +874,6 @@ while True:
     hora_fim_tarefa = False
 
     # ################################################################################################################################################
-
     # Comando para iniciar a tarefa independente
     continuar_tarefa = True
     iniciar_tarefa.release()

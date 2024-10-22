@@ -566,5 +566,27 @@ def sincronizar_cookies_com_firebase():
 
     print("Sincronização de cookies com o Firebase e o arquivo local concluída!\n\n")
 
+
+def apagar_cookies_firebase():
+    if nome_computador == 'PC-I7-9700KF' or nome_usuario == 'PokerIP':
+        print('PC liberado para apagar Cookies do Firebase')
+    else:
+        print('PC NÃO liberado')
+        return
+
+    print("\n\nIniciando a exclusão dos cookies no Firebase...")
+
+    global firebase, db
+    # Referência ao local de cookies no Realtime Database
+    ref = db.child('cookies_facebook')
+
+    try:
+        # Remover todos os cookies
+        ref.remove()
+        print("Todos os cookies foram apagados com sucesso do Firebase.")
+    except Exception as e:
+        print(f"Erro ao tentar apagar os cookies do Firebase: {e}")
+
 # escreve_configuracao(dados_config)
 # sincronizar_cookies_com_firebase()
+# apagar_cookies_firebase()
