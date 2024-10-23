@@ -1321,7 +1321,7 @@ def limpar_dados_desnecessarios(id_conta=''):
         if os.path.exists(caminho_completo):
             try:
                 shutil.rmtree(caminho_completo)
-                print(f"Pasta '{pasta}' removida.")
+                # print(f"Pasta '{pasta}' removida.")
             except Exception as e:
                 print(f"Erro ao remover '{pasta}': {e}")
 
@@ -1332,7 +1332,7 @@ def limpar_dados_desnecessarios(id_conta=''):
         if os.path.exists(caminho_completo):
             try:
                 shutil.rmtree(caminho_completo)
-                print(f"Pasta '{pasta}' dentro de 'Default' removida.")
+                # print(f"Pasta '{pasta}' dentro de 'Default' removida.")
             except Exception as e:
                 print(f"Erro ao remover '{pasta}' dentro de 'Default': {e}")
 
@@ -1347,7 +1347,6 @@ def iniciar_pefil(id_conta, proxy, link_guia=None):
             # limpar_dados_desnecessarios(id_conta)
             # Fechar o navegador existente, se necessário
             if navegador:
-
                 configurar_perfil_para_restaurar_sessao(id_conta)
                 navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
                 navegador = None
@@ -1600,6 +1599,7 @@ def fechar_navegador(id_conta=''):
         configurar_perfil_para_restaurar_sessao(id_conta)
     if navegador:
         navegador.quit()  # Fechar todas as janelas e reiniciar o navegador
+        navegador = None
         if id_conta:
             limpar_dados_desnecessarios(id_conta)
     return
