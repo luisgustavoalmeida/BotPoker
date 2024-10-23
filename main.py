@@ -13,6 +13,7 @@ import Aneis
 import Cartas
 import Cofre
 import Firebase
+import Firebase_cookies
 import Genius
 import HoraT
 import Limpa
@@ -90,7 +91,7 @@ limpar_todos_perfis()
 
 criar_autorizacao_ip()
 
-Firebase.sincronizar_cookies_com_firebase()
+Firebase_cookies.sincronizar_cookies_com_firebase()
 
 # Semaphore para iniciar a tarefa independente
 iniciar_tarefa = threading.Semaphore(0)
