@@ -197,7 +197,7 @@ def logar_carregar():
         elif confg_funcao == 'Remover':
             print('\n Inicia o remover poker Brasil \n')
             Seleniun.iniciar_pefil(id, proxy)
-            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, Falsey)
+            entrou_corretamente, stataus_facebook = Seleniun.fazer_login(id, senha, url_remove_app, False, False)
             if stataus_facebook == 'Remover Poker não ok':
                 while True:
                     print('Olhar manualmente')
@@ -856,7 +856,7 @@ print(Fore.GREEN + f'Novos dados...'
                    f'\nFichas planilha: {fichas_planilha},'
                    f'\nLevel da conta {level_conta},' + Fore.RESET)
 
-indicar_pc_desativo()
+# indicar_pc_desativo()
 
 while True:
     ip = ""

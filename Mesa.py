@@ -16,7 +16,7 @@ from F5_navegador import atualizar_navegador
 from Firebase import contar_pessoas_mesa, atualizar_estatos_mesa, ler_configuracao
 from Requerimentos import nome_computador
 from UparAuto import upar
-from BancoDadosIP import indicar_pc_desativo, indicar_pc_ativo
+# from BancoDadosIP import indicar_pc_desativo, indicar_pc_ativo
 
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
@@ -1371,7 +1371,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
             print('reiniciando as variaveis')
             if recolher:
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-                indicar_pc_desativo()
+                # indicar_pc_desativo()
             Limpa.limpa_total(x_origem, y_origem)
             Limpa.limpa_jogando(x_origem, y_origem)
             jogou_uma_vez = False
@@ -1417,7 +1417,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
             if (not sentou) and recolher:
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-                indicar_pc_desativo()
+                # indicar_pc_desativo()
 
             # Cálculo do tempo decorrido desde que o jogador entrou no jogo
             tempo_decorrido = time.perf_counter() - time_comecou
@@ -1610,7 +1610,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
             if not humano:
                 if recolher:
                     atualizar_estatos_mesa(num_mesa)
-                    indicar_pc_ativo()
+                    # indicar_pc_ativo()
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
@@ -1635,8 +1635,8 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
             humano = False
             reinicia_variaveis = False
             print("ainda nao esta sentado")
-            if recolher:
-                indicar_pc_desativo()
+            # if recolher:
+                # indicar_pc_desativo()
             for i in range(3):
                 print('indice_inicial', indice_inicial)
                 if not indice_inicial:
@@ -1678,7 +1678,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
                         if sentou and aposta and auto10 and ficha_suficiente:
                             if recolher:
                                 atualizar_estatos_mesa(num_mesa)
-                                indicar_pc_ativo()
+                                # indicar_pc_ativo()
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, 5)
 
                             time_encher_mesa = time_fazer_jogada = time.perf_counter()
@@ -1724,7 +1724,7 @@ def mesa_upar_jogar(x_origem, y_origem, numero_jogadas=40, upar=False, blind_mes
 
     if recolher:
         atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
-        indicar_pc_desativo()
+        # indicar_pc_desativo()
 
     if indice_atual:
         indice_inicial = indice_atual
@@ -1878,7 +1878,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
 
             if 'recolher' in funcoes:
                 atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-                indicar_pc_desativo()
+                # indicar_pc_desativo()
 
                 blind_recolher_auto = ler_configuracao()[2]
                 if (blind_recolher_auto != blind_mesa) and blind_recolher_auto:
@@ -1904,12 +1904,6 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                 Limpa.limpa_jogando(x_origem, y_origem)
                 Limpa.limpa_promocao(x_origem, y_origem)
 
-            # dentro_mesa, sentado = testa_sentado(x_origem, y_origem)
-            # if not sentado:
-            #     print('Não esta sentado')
-            #     reinicia_variaveis = True
-            #     continue
-
             sentou, ficha_suficiente = sentar_mesa(x_origem, y_origem, senta_com_maximo, blind_mesa, True)
             print('linha1896', sentou, ficha_suficiente)
 
@@ -1934,7 +1928,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             if funcoes in 'recolher':
                 if not sentou:
                     atualizar_estatos_mesa('Ainda não sentado ' + num_mesa)
-                    indicar_pc_desativo()
+                    # indicar_pc_desativo()
                 if ((time.perf_counter() - time_encher_mesa) > 150) and (not mesa_completa):
                     print('\nLimite de tempo esperando a mesa ficar completa durante o recolhimento, muda de mesa\n')
                     reinicia_variaveis = True
@@ -2075,7 +2069,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             if not humano:
                 if funcoes in 'recolher':
                     atualizar_estatos_mesa(num_mesa)
-                    indicar_pc_ativo()
+                    # indicar_pc_ativo()
                     if mesa_completa:
                         jogou = apostar_pagar(x_origem, y_origem)
                         if jogou:
@@ -2100,8 +2094,8 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
             humano = False
             reinicia_variaveis = False
             print("ainda nao esta sentado")
-            if funcoes in 'recolher':
-                indicar_pc_desativo()
+            # if funcoes in 'recolher':
+            #     indicar_pc_desativo()
             for i in range(3):
                 print('indice_inicial', indice_inicial)
 
@@ -2154,7 +2148,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
                         if sentou and aposta and auto10 and ficha_suficiente:
                             if funcoes in 'recolher':
                                 atualizar_estatos_mesa(num_mesa)
-                                indicar_pc_ativo()
+                                # indicar_pc_ativo()
                                 mesa_completa = testa_mesa_completa(x_origem, y_origem, lugares)
 
                             time_encher_mesa = time_fazer_jogada = time.perf_counter()
@@ -2210,7 +2204,7 @@ def mesa_upar_jogar_recolher_slote(x_origem, y_origem, funcoes='', apostar=False
 
     if funcoes in 'recolher':
         atualizar_estatos_mesa('retornará na mesa ' + num_mesa)
-        indicar_pc_desativo()
+        # indicar_pc_desativo()
 
     if indice_atual:
         indice_inicial = indice_atual

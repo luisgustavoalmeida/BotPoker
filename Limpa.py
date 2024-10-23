@@ -304,19 +304,6 @@ def limpa_tarefas(x_origem, y_origem):  # fecha todas as tarefas que sao feitas
             mensagen, coodenada_x, coodenada_y = teste_aviso_sistema
             pyautogui.click((x_origem + coodenada_x), (y_origem + coodenada_y))  # fecha aviso do sistema
 
-        # if pyautogui.pixelMatchesColor((x_origem + 455), (y_origem + 417), (25, 116, 184), tolerance=19):
-        #     # aviso do sistema "tem certesa de que quer sair da mesa?"
-        #     pyautogui.click(641 + x_origem, 278 + y_origem)  # clica no x do aviso do sistema "tem certesa de que quer sair da mesa?"
-        #     print("aviso do sistema")
-        #     time.sleep(0.3)
-        #     pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
-        #     time.sleep(0.3)
-        #     pyautogui.click(925 + x_origem, 204 + y_origem)  # Levantar
-        #     time.sleep(0.2)
-        #     pyautogui.click(947 + x_origem, 78 + y_origem)  # setinha
-        #     time.sleep(0.2)
-        #     pyautogui.click(925 + x_origem, 111 + y_origem)  # Lobby
-
         print("Sai da Mesa")
 
     # Casino Genius
