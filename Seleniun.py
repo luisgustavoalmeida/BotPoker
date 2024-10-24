@@ -1340,10 +1340,10 @@ def iniciar_pefil(id_conta, proxy, link_guia=None):
                     # Se a URL da primeira guia não for a esperada, alterar
                     print('Testa url guia 1')
                     if ('facebook.com' in url_atual) or ('/poke' in url_atual):
+                        print('url correto para guia 1')
                         return True
 
                     else:
-                        print('url correto para guia 1')
                         print('Corrigie guia 1')
                         colocar_url(url_sair)
 

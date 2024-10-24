@@ -176,10 +176,10 @@ def limpa_pequeno(x_origem, y_origem):
         if (pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 415), (25, 118, 188), tolerance=15)
                 or pyautogui.pixelMatchesColor((x_origem + 490), (y_origem + 415), (29, 139, 200), tolerance=15)):
             # Genius Muito tempo desde a sua unlima aposta
-            pyautogui.mouseDown(x_origem + 490, y_origem + 415, button='left')
+            pyautogui.mouseDown(x_origem + 490, y_origem + 415)
             print("Genius Muito tempo desde a sua unlima apostar")
             time.sleep(1)
-            pyautogui.mouseUp()
+            pyautogui.mouseUp(x_origem + 490, y_origem + 415)
 
     # testa se o torneino semanal esta no loob
     elif pyautogui.pixelMatchesColor((x_origem + 154), (y_origem + 105), (70, 70, 71), tolerance=15):
@@ -197,7 +197,7 @@ def limpa_pequeno(x_origem, y_origem):
                 time.sleep(25)
     # encontre o martelo para o goblin
     elif pyautogui.pixelMatchesColor((x_origem + 378), (y_origem + 197), (10, 126, 120), tolerance=15):
-        pyautogui.mouseDown(x_origem + 490, y_origem + 520)
+        pyautogui.click(x_origem + 490, y_origem + 520)
         print("encontre o martelo para o goblin")
 
     # voce esta convidado a participar de uma festa em las vegasuma surpresa esta esperando por vc
