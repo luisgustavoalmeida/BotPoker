@@ -195,6 +195,10 @@ def limpa_pequeno(x_origem, y_origem):
                 # clica no atualizar
                 atualizar_navegador()
                 time.sleep(25)
+    # encontre o martelo para o goblin
+    elif pyautogui.pixelMatchesColor((x_origem + 378), (y_origem + 197), (10, 126, 120), tolerance=15):
+        pyautogui.mouseDown(x_origem + 490, y_origem + 520)
+        print("encontre o martelo para o goblin")
 
     # voce esta convidado a participar de uma festa em las vegasuma surpresa esta esperando por vc
     elif pyautogui.pixelMatchesColor((x_origem + 520), (y_origem + 480), (64, 37, 165), tolerance=15):

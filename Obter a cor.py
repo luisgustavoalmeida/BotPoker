@@ -44,7 +44,7 @@ x_origem, y_origem = x_y()
 
 print(x_origem, y_origem)
 
-a, b = 470, 530
+a, b = 378, 197
 
 x = (x_origem + a)
 y = (y_origem + b)
