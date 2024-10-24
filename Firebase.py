@@ -476,5 +476,6 @@ def contar_pessoas_mesa(sala):
         print(e)
     return int(contagem_repeticoes)
 
+
 # escreve_configuracao(dados_config)
 

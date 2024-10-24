@@ -77,6 +77,9 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             options.add_argument("--restore-last-session")  # Restaura as guias da sessão anterior ao iniciar o navegador
             options.add_argument("--log-level=3")
 
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])   # Remove a configuração padrão que mostra a mensagem de automação.
+            options.add_experimental_option('useAutomationExtension', False)    # Desativa a extensão de automação que o Selenium adiciona
+
             # Definir as opções de proxy, se fornecidas
             if proxy:
                 proxy_ip, proxy_port, username, password = mudar_proxy_dinamico(proxy)
@@ -111,7 +114,10 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
                             'www.fbsbx.com,'
                             'static.xx.fbcdn.net,'
                             'scontent.xx.fbcdn.net,'
-                            'web-chat-e2ee.facebook.com'
+                            'web-chat-e2ee.facebook.com,'
+                            'platform-lookaside.fbsbx.com,'
+                            'scontent.fjdf2-2.fna.fbcdn.net,'
+                            'beacons.gcp.gvt2.com'
                         )  # Ignorar o proxy para estas URLs
                     },
                     'disable_capture': True,  # Desativa a interceptação de requisições
@@ -132,7 +138,7 @@ def cria_nevegador(id_conta, proxy, url_inicial=None):
             navegador.set_window_size(1380, 1060)
             navegador.set_window_position(-8, -5)
 
-            pyautogui.click(1338, 108)  # clique para fechar barra que indica automação
+            # pyautogui.click(1338, 108)  # clique para fechar barra que indica automação
 
             # Se uma URL inicial for fornecida, abra-a automaticamente
             if url_inicial:
@@ -696,14 +702,7 @@ def mudar_proxy_dinamico(proxy_string):
     :raises RuntimeError: Se não conseguir aplicar o proxy corretamente após várias tentativas
     """
     print('mudar_proxy_dinamico')
-    # global navegador, proxy_ativo
-    # proxy_ativo = False
 
-    # # Verifica se o navegador está ativo
-    # if navegador is None:
-    #     raise RuntimeError("O navegador não está ativo.")
-
-    # Verifica o formato do proxy e separa as partes
     parts = proxy_string.split(':')
     if len(parts) == 2:
         proxy_ip, proxy_port = parts
@@ -720,38 +719,6 @@ def mudar_proxy_dinamico(proxy_string):
 
     return proxy_ip, proxy_port, username, password
 
-    # Aplica o proxy dinamicamente
-    # while True:
-    #     try:
-    #         # Adiciona autenticação se for fornecida
-    #         if username and password:
-    #             # Configuração básica de proxy
-    #             proxy_config = {
-    #                 'http': f'http://{proxy_ip}:{proxy_port}',
-    #                 'https': f'https://{proxy_ip}:{proxy_port}',
-    #                 'proxy_auth': f'{username}:{password}',
-    #             }
-    #             print(f"Proxy com autenticação configurado: {proxy_ip}:{proxy_port} com usuário {username}")
-    #         else:
-    #             # Configuração básica de proxy
-    #             proxy_config = {
-    #                 'http': f'http://{proxy_ip}:{proxy_port}',
-    #                 'https': f'https://{proxy_ip}:{proxy_port}',
-    #                 # 'no_proxy': 'facebook.com,www.facebook.com'  # Domínios que não passam pelo proxy
-    #             }
-    #             print(f"Proxy sem autenticação configurado: {proxy_ip}:{proxy_port}")
-    #
-    #         # Atualiza a configuração do proxy no navegador
-    #         navegador.proxy = proxy_config
-    #
-    #         print(f"Proxy alterado dinamicamente para: {proxy_ip}:{proxy_port}")
-    #         proxy_ativo = True
-    #         return True
-    #
-    #     except Exception as e:
-    #         print(f"Erro ao tentar aplicar o proxy: {e}")
-    #         raise RuntimeError(f"Falha ao configurar o proxy: {proxy_ip}:{proxy_port}")
-
 
 def desativar_proxy():
     """
@@ -767,7 +734,7 @@ def desativar_proxy():
 
 def fazer_login(id_novo='', senha_novo='', url_novo='', loga_pk=True, loga_face=False):
     print('fazer_login')
-    global navegador, url, id, senha, proxy_ativo
+    global navegador, url, id, senha
 
     if url != url_novo and url_novo != '':
         url = url_novo
@@ -1303,9 +1270,7 @@ def limpar_dados_desnecessarios(id_conta=''):
         'GraphiteDawnCache', 'hyphen-data', 'optimization_guide_model_store',
         'component_crx_cache',
     ]
-    """ pasta que não podem ser apagadas
-    Network
-    """
+
     # Pastas internas da pasta Default que podem ser removidas
     pastas_default_para_remover = [
         'Cache', 'Code Cache', 'GPUCache', 'DawnWebGPUCache',
@@ -1339,12 +1304,11 @@ def limpar_dados_desnecessarios(id_conta=''):
 
 def iniciar_pefil(id_conta, proxy, link_guia=None):
     print('iniciar_pefil', link_guia)
-    global navegador, proxy_ativo
+    global navegador
 
     while True:
 
         try:
-            # limpar_dados_desnecessarios(id_conta)
             # Fechar o navegador existente, se necessário
             if navegador:
                 configurar_perfil_para_restaurar_sessao(id_conta)
