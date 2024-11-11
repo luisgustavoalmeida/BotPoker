@@ -29,7 +29,7 @@ import Telegran
 import Tratar_url
 # from Firebase import ler_configuracao
 from UparAuto import upar
-from add_ip_proxy import criar_autorizacao_ip
+
 from apagar_dados_navegador import limpar_todos_perfis
 
 from Requerimentos import nome_computador, nome_usuario, tipo_conexao
@@ -37,6 +37,10 @@ from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
+from webshare_proxy import adicionar_ip_ao_servidor_proxy
+
+adicionar_ip_ao_servidor_proxy()
+
 
 
 print('\n\n         I N I C I A N D O \n\n')
@@ -46,7 +50,7 @@ escolher_configuracao_e_db()
 url = str(pega_valor_endereco('Dados!F1'))
 url_link = str(pega_valor_endereco('Dados!F2'))
 dic_links = Tratar_url.rodar_links(url_link)
-dic_id_proxy = obter_id_proxy()
+
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
 
@@ -89,7 +93,7 @@ valores_fim = ['']
 
 limpar_todos_perfis()
 
-criar_autorizacao_ip()
+adicionar_ip_ao_servidor_proxy()
 
 Firebase_cookies.sincronizar_cookies_com_firebase()
 
