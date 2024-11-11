@@ -2,6 +2,7 @@ import requests
 from collections import defaultdict
 import logging
 from typing import List, Dict
+from datetime import datetime, timedelta, timezone
 
 # Configuração da sessão e cabeçalhos de API
 API_TOKEN = "5xsyt45sa0nsiwv2sr5vagjtptw8agk7ld18fx6z"
@@ -137,6 +138,39 @@ def remover_ips_duplicados(dry_run: bool = False):
     logging.info("Processo de remoção de IPs duplicados concluído.")
 
 
-if __name__ == "__main__":
-    remover_ips_duplicados(dry_run=False)  # Modo "dry_run=True" para simular
-    adicionar_ip_ao_servidor_proxy()
+def remover_ips_inativos(dias_inatividade: int = 10, dry_run: bool = False):
+    """
+    Remove autorizações de IP que não foram usadas por mais de `dias_inatividade` dias.
+
+    :param dias_inatividade: Número de dias de inatividade para considerar um IP como inativo.
+    :param dry_run: Se True, apenas simula a remoção sem realmente excluir os IPs.
+    """
+    autorizacoes = obter_ips_autorizados()
+    if not autorizacoes:
+        logging.info("Nenhuma autorização de IP encontrada.")
+        return
+
+    # Define a data limite com timezone UTC
+    limite_inatividade = datetime.now(timezone.utc) - timedelta(days=dias_inatividade)
+
+    for entry in autorizacoes:
+        ip_id = entry.get('id')
+        ip_address = entry.get('ip_address')
+        last_used_str = entry.get('last_used_at')
+
+        if last_used_str:
+            last_used_date = datetime.fromisoformat(last_used_str.replace("Z", "+00:00"))
+            if last_used_date < limite_inatividade:
+                logging.info(f"O IP {ip_address} está inativo desde {last_used_date} e será removido.")
+                excluir_ip_por_id(ip_id, dry_run=dry_run)
+        else:
+            logging.info(f"O IP {ip_address} nunca foi usado e será removido.")
+            excluir_ip_por_id(ip_id, dry_run=dry_run)
+
+    logging.info("Processo de remoção de IPs inativos concluído.")
+
+
+# if __name__ == "__main__":
+    # remover_ips_duplicados(dry_run=False)  # Modo "dry_run=True" para simular
+    # remover_ips_inativos(dias_inatividade=5, dry_run=False)  # `dry_run=True` para simulação
+    # adicionar_ip_ao_servidor_proxy()
