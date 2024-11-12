@@ -41,8 +41,6 @@ from webshare_proxy import adicionar_ip_ao_servidor_proxy
 
 adicionar_ip_ao_servidor_proxy()
 
-
-
 print('\n\n         I N I C I A N D O \n\n')
 iniciando_testando_conexao_internet()
 escolher_configuracao_e_db()
@@ -50,6 +48,7 @@ escolher_configuracao_e_db()
 url = str(pega_valor_endereco('Dados!F1'))
 url_link = str(pega_valor_endereco('Dados!F2'))
 dic_links = Tratar_url.rodar_links(url_link)
+dic_id_proxy = obter_id_proxy()
 
 
 Telegran.monta_mensagem(f'inicializando o codigo.  ⚡🤑', False)
