@@ -170,6 +170,12 @@ def remover_ips_inativos(dias_inatividade: int = 10, dry_run: bool = False):
     logging.info("Processo de remoção de IPs inativos concluído.")
 
 
+def finalizar_sessao():
+    session.close()
+    logging.info("Sessão HTTP encerrada.")
+
+
+
 # if __name__ == "__main__":
     # remover_ips_duplicados(dry_run=False)  # Modo "dry_run=True" para simular
     # remover_ips_inativos(dias_inatividade=5, dry_run=False)  # `dry_run=True` para simulação

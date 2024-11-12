@@ -37,9 +37,10 @@ from Sub_processo import fecha_cmd_atualisa_codigo, fecha_cmd_subistitui_codigo
 from BancoDadosIP import incrementa_contagem_ip, decrementa_contagem_ip, indicar_pc_desativo
 from Horario_atual import horario, dia_semana
 from ListaIpFirebase import escolher_configuracao_e_db
-from webshare_proxy import adicionar_ip_ao_servidor_proxy
+from webshare_proxy import adicionar_ip_ao_servidor_proxy, finalizar_sessao
 
 adicionar_ip_ao_servidor_proxy()
+finalizar_sessao()
 
 print('\n\n         I N I C I A N D O \n\n')
 iniciando_testando_conexao_internet()
