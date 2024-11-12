@@ -1,6 +1,5 @@
 import requests
 from collections import defaultdict
-import logging
 from typing import List, Dict
 from datetime import datetime, timedelta, timezone
 
@@ -11,9 +10,6 @@ HEADERS = {
     "Authorization": f"Token {API_TOKEN}",
     "Content-Type": "application/json"
 }
-
-# Configuração de logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Sessão global para ser usada em todas as requisições HTTP
 session = requests.Session()
@@ -27,7 +23,7 @@ def requisicao_http(method: str, url: str, **kwargs):
         response.raise_for_status()
         return response
     except requests.RequestException as e:
-        logging.error(f"Erro ao fazer a requisição {method} para {url}: {e}")
+        print(f"[ERRO] Erro ao fazer a requisição {method} para {url}: {e}")
         return None
 
 
@@ -36,7 +32,7 @@ def obter_ip_publico_via_webshare() -> str:
     response = requisicao_http("GET", f"{BASE_URL}whatsmyip/")
     if response:
         ip_address = response.json().get("ip_address", "")
-        logging.info(f"Seu IP público é: {ip_address}")
+        print(f"[INFO] Seu IP público é: {ip_address}")
         return ip_address
     return ""
 
@@ -55,12 +51,12 @@ def verificar_ip_autorizado(ip_publico: str) -> bool:
         ip_list = data.get('results', [])
         autorizado = any(ip_entry.get('ip_address') == ip_publico for ip_entry in ip_list)
         if autorizado:
-            logging.info(f"O IP {ip_publico} já está autorizado.")
+            print(f"[INFO] O IP {ip_publico} já está autorizado.")
             return True
 
         next_url = data.get('next')
 
-    logging.info(f"O IP {ip_publico} não está na lista de IPs autorizados.")
+    print(f"[INFO] O IP {ip_publico} não está na lista de IPs autorizados.")
     return False
 
 
@@ -69,14 +65,14 @@ def criar_autorizacao_ip(ip_publico: str) -> bool:
     data = {"ip_address": ip_publico}
     response = requisicao_http("POST", BASE_URL, json=data)
     if response and response.status_code in [200, 201]:
-        logging.info(f"IP {ip_publico} autorizado com sucesso.")
+        print(f"[INFO] IP {ip_publico} autorizado com sucesso.")
         return True
     elif response and response.status_code == 400:
         response_data = response.json()
         if "ip_address" in response_data and response_data["ip_address"][0].get("code") == "invalid":
-            logging.info(f"O IP {ip_publico} já está autorizado.")
+            print(f"[INFO] O IP {ip_publico} já está autorizado.")
         else:
-            logging.error(f"Erro ao autorizar IP: {response_data}")
+            print(f"[ERRO] Erro ao autorizar IP: {response_data}")
     return False
 
 
@@ -105,21 +101,21 @@ def obter_ips_autorizados() -> List[Dict[str, str]]:
 def excluir_ip_por_id(ip_id: str, dry_run: bool = False):
     """Exclui uma autorização de IP usando o ID fornecido. Permite modo 'dry-run'."""
     if dry_run:
-        logging.info(f"[SIMULAÇÃO] IP com ID {ip_id} seria removido.")
+        print(f"[SIMULAÇÃO] IP com ID {ip_id} seria removido.")
         return
     delete_url = f"{BASE_URL}{ip_id}/"
     response = requisicao_http("DELETE", delete_url)
     if response and response.status_code == 204:
-        logging.info(f"IP com ID {ip_id} removido com sucesso.")
+        print(f"[INFO] IP com ID {ip_id} removido com sucesso.")
     else:
-        logging.error(f"Erro ao excluir IP com ID {ip_id}.")
+        print(f"[ERRO] Erro ao excluir IP com ID {ip_id}.")
 
 
 def remover_ips_duplicados(dry_run: bool = False):
     """Remove autorizações de IP duplicadas, mantendo apenas uma entrada para cada endereço IP."""
     autorizacoes = obter_ips_autorizados()
     if not autorizacoes:
-        logging.info("Nenhuma autorização de IP encontrada.")
+        print("[INFO] Nenhuma autorização de IP encontrada.")
         return
 
     ip_map = defaultdict(list)
@@ -131,11 +127,11 @@ def remover_ips_duplicados(dry_run: bool = False):
 
     for ip_address, ids in ip_map.items():
         if len(ids) > 1:
-            logging.info(f"Removendo duplicatas para o IP {ip_address}. Mantendo o ID {ids[0]} e removendo {ids[1:]}")
+            print(f"[INFO] Removendo duplicatas para o IP {ip_address}. Mantendo o ID {ids[0]} e removendo {ids[1:]}")
             for ip_id in ids[1:]:
                 excluir_ip_por_id(ip_id, dry_run=dry_run)
 
-    logging.info("Processo de remoção de IPs duplicados concluído.")
+    print("[INFO] Processo de remoção de IPs duplicados concluído.")
 
 
 def remover_ips_inativos(dias_inatividade: int = 10, dry_run: bool = False):
@@ -147,7 +143,7 @@ def remover_ips_inativos(dias_inatividade: int = 10, dry_run: bool = False):
     """
     autorizacoes = obter_ips_autorizados()
     if not autorizacoes:
-        logging.info("Nenhuma autorização de IP encontrada.")
+        print("[INFO] Nenhuma autorização de IP encontrada.")
         return
 
     # Define a data limite com timezone UTC
@@ -161,19 +157,18 @@ def remover_ips_inativos(dias_inatividade: int = 10, dry_run: bool = False):
         if last_used_str:
             last_used_date = datetime.fromisoformat(last_used_str.replace("Z", "+00:00"))
             if last_used_date < limite_inatividade:
-                logging.info(f"O IP {ip_address} está inativo desde {last_used_date} e será removido.")
+                print(f"[INFO] O IP {ip_address} está inativo desde {last_used_date} e será removido.")
                 excluir_ip_por_id(ip_id, dry_run=dry_run)
         else:
-            logging.info(f"O IP {ip_address} nunca foi usado e será removido.")
+            print(f"[INFO] O IP {ip_address} nunca foi usado e será removido.")
             excluir_ip_por_id(ip_id, dry_run=dry_run)
 
-    logging.info("Processo de remoção de IPs inativos concluído.")
+    print("[INFO] Processo de remoção de IPs inativos concluído.")
 
 
 def finalizar_sessao():
     session.close()
-    logging.info("Sessão HTTP encerrada.")
-
+    print("[INFO] Sessão HTTP encerrada.")
 
 
 # if __name__ == "__main__":
